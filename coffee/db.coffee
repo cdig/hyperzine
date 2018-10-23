@@ -1,0 +1,2 @@
+Take ["Globals"], ()->
+  Make "DB", {}
