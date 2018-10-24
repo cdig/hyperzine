@@ -1,4 +1,4 @@
-Take ["DB", "Globals"], (DB)->
+Take ["Search", "Globals"], (Search)->
 
   moreResultsRequested = false
 
@@ -11,8 +11,8 @@ Take ["DB", "Globals"], (DB)->
 
   moreResults = ()->
     moreResultsRequested = false
-    if DB.filteredAssets.length > DB.assetListLimit
-      DB.assetListLimit += 50
+    if Search.filteredAssets.length > Search.assetListLimit
+      Search.assetListLimit += 50
       Pub "Render"
       requestMoreResults()
 

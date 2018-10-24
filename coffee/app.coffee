@@ -1,3 +1,6 @@
-Take ["LoadAssets", "Globals"], (LoadAssets)->
+Take ["DB", "LoadAssets", "Globals"], (DB, LoadAssets)->
   LoadAssets ()->
-    StateMachine "Search"
+    if DB.activeAssetId?
+      StateMachine "Asset"
+    else
+      StateMachine "Search"

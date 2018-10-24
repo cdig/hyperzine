@@ -1,7 +1,7 @@
 Take ["Asset", "ResultCount", "Globals"], (Asset, ResultCount, NavView)->
   Make "NavView", ()->
 
-    backToSearch = unless StateMachine "Search"
+    backToSearch = unless StateMachine() is "Search"
       Preact.h "button", {onclick: ()-> Asset.edit null}, "Back to Search"
 
     Preact.h "nav", null,

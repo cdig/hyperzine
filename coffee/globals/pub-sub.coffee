@@ -21,5 +21,5 @@ Take ["Util"], (Util)->
     dirty = SyncPub name, args...
     Take("Engine")?.start() if dirty
 
-  
+
   Make "PubSub", {Pub, Sub, SyncPub, Unsub}

@@ -14,6 +14,8 @@ Take ["Asset", "Settings", "Globals"], (Asset, Settings)->
         asset.errors.push "readAssetDataFolder #{folderName}": err
       else
         cb fileNames
+        Pub "Search"
+        Pub "Render"
 
 
   buildAssetList = (asset, folderName)->

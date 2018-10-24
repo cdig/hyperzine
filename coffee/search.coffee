@@ -1,5 +1,8 @@
 Take ["Asset", "DB", "SearchTermCleaner", "Globals"], (Asset, DB, SearchTermCleaner)->
-  DB.filteredAssets = []
+  Make "Search", Search =
+    filteredAssets: filteredAssets = []
+    assetListLimit: 50
+    resultCount: 0
 
   searchRequested = false
 
@@ -13,8 +16,8 @@ Take ["Asset", "DB", "SearchTermCleaner", "Globals"], (Asset, DB, SearchTermClea
     searchRequested = false
     queryTokens = SearchTermCleaner(DB.searchInput).split " "
 
-    DB.assetListLimit = 50
-    DB.filteredAssets = []
+    Search.assetListLimit = 50
+    Search.filteredAssets = []
 
     if queryTokens[0] isnt "" or queryTokens.length > 1
       for id, asset of Asset.all()
@@ -36,12 +39,12 @@ Take ["Asset", "DB", "SearchTermCleaner", "Globals"], (Asset, DB, SearchTermClea
 
           matchesAllTokens = false unless matchesThisToken
 
-        DB.filteredAssets.push asset if matchesAllTokens
+        Search.filteredAssets.push asset if matchesAllTokens
 
-    DB.resultCount = if DB.filteredAssets.length > 0
-      DB.filteredAssets.length
+    Search.resultCount = if Search.filteredAssets.length > 0
+      Search.filteredAssets.length
     else
-      DB.assetCount
+      Asset.assetCount()
 
     Pub "Search Updated"
 

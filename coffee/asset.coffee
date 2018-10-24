@@ -1,24 +1,28 @@
 Take ["DB", "SearchTermCleaner", "Globals"], (DB, SearchTermCleaner)->
 
-  DB.assets = {}
-  DB.assetCount = 0
+  assets = {}
+  assetCount = 0
 
   Make "Asset",
-    all: ()-> DB.assets
+    all: ()-> assets
+    assetCount: ()-> assetCount
 
     new: (id)->
-      DB.assetCount++
+      assetCount++
       [creator, ...] = id.split " "
       asset = {id, creator, search: {}, errors: [], tags: [], files: [], name: null, shot: null}
-      DB.assets[id] = asset
+      assets[id] = asset
 
     displayName: (asset)->
       (asset.name or asset.id).replace /[-_]/g, " "
 
     edit: (asset)->
-      DB.activeAsset = asset
+      DB.activeAssetId = asset?.id
       if asset? then StateMachine("Asset") else StateMachine("Search")
       Pub "Render"
+
+    activeAsset: ()->
+      assets[DB.activeAssetId]
 
     setValue: (asset, key, value)->
       asset[key] = value

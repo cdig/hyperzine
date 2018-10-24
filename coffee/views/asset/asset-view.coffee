@@ -1,7 +1,7 @@
 Take ["Asset", "DB"], (Asset, DB)->
 
   Make "AssetView", ()->
-    asset = DB.activeAsset
+    asset = Asset.activeAsset()
     Preact.h "asset-view", null,
       Preact.h "asset-editor", null,
         Preact.h "h1", {"asset-name":""}, Asset.displayName asset

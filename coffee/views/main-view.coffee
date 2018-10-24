@@ -1,5 +1,6 @@
 Take ["AssetView", "SearchView", "Globals"], (AssetView, SearchView)->
   Make "MainView", ()->
+    
     Preact.h "main", null,
 
       switch StateMachine()
