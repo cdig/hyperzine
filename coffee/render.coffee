@@ -1,9 +1,8 @@
-Take ["DB", "Main", "Globals"], (DB, Main)->
+Take ["DB", "RootView", "Globals"], (DB, RootView)->
 
-  mainElm = document.body.querySelector "main"
   root = null
-
   renderRequested = false
+
   requestRender = ()->
     unless renderRequested
       renderRequested = true
@@ -12,13 +11,7 @@ Take ["DB", "Main", "Globals"], (DB, Main)->
 
   render = ()->
     renderRequested = false
-
-    root = Preact.render Main(), mainElm, root
-
-    # DOOM.empty mainElm
-    # DOOM.append mainElm, RenderTemplate Main()
+    root = Preact.render RootView(), document.body, root
 
   Make "Render", requestRender
   Sub "Render", requestRender
-  Sub "Asset Updated", requestRender
-  StateMachine "*", "*", requestRender

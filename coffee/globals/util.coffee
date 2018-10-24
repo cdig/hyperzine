@@ -15,6 +15,11 @@ Take [], ()->
       isObject: (obj)-> "[object Object]" is Object.prototype.toString.call obj
       clone: (obj)-> JSON.parse JSON.stringify obj
 
+    String:
+      pluralize: (count, string, suffix = "s")->
+        suffix = "" if count is 1
+        (string + suffix).replace("%%", count)
+
 
   window.Util = Util
   Make "Util", Util

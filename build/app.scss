@@ -1,67 +1,177 @@
 html {
-  background: #f7f7f7;
+  background: #eee;
   font-family: Lato;
+  text-align: center;
 }
 
 body {
   margin: 0;
+  overflow-y: scroll; // This avoids flickering when searching
+}
+
+img {
+  vertical-align: middle;
+}
+
+input, button {
+  padding: .6em .8em;
+  border: 3px solid #777;
+  outline: none;
+  border-radius: 8px;
+  vertical-align: middle;
+  font-weight: 600;
+  color: #333;
 }
 
 input {
   display: block;
   width: 100%; // Necessary
-  padding: .6em .8em;
-  border: 3px solid #ddd;
-  outline: none;
-  border-radius: 8px;
-  vertical-align: middle;
-  color: #333;
+  text-align: left;
+  background-color: transparent;
+}
+
+button {
+  cursor: pointer;
   background-color: white;
 }
 
-search-bar {
+
+root-view {
+  display: block;
+}
+
+nav {
   display: flex;
   justify-content: center;
-  margin: 0 auto;
-  padding: 1em;
-  appearance: none;
+  align-items: stretch;
 
-  input {
-    font-size: 1.4em;
-    max-width: 15em;
+  padding: .3em;
+  background: #333;
+
+  & > div {
+    flex: 1 1 33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  [left] { justify-content: flex-start; }
+  [right] { justify-content: flex-end; }
+
+  result-count {
+    display: inline-block;
+    border-bottom: 3px solid #aaa;
+    font-weight: 900;
+    color: #aaa;
   }
 }
 
-asset-list {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: flex-end;
-  margin: 2em;
-}
 
-asset-card {
-  display: inline-block;
-  width: 250px;
-  margin: 1.2em .4em;
-  padding: .8em;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  font-size: 1.2em;
-  box-shadow: 0 0 24px -6px #ddd;
-  background: white;
-  cursor: pointer;
+search-view {
+  display: block;
 
-  img {
-    width: 100%;
-    margin-bottom: .8em;
-    object-fit: contain;
-    object-position: bottom;
+  search-bar {
+    display: flex;
+    justify-content: center;
+    margin: 1em auto 0;
+    appearance: none;
+
+    input {
+      font-size: 1.4em;
+      max-width: 15em;
+    }
   }
 
-  asset-name {
+  asset-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 1.2em;
+    margin: .5em;
+
+    asset-card {
+      flex: 1 0 12em;
+      max-width: 16em;
+      display: inline-block;
+      margin: 1.5em .5em;
+      border: 1px solid #eee;
+      border-radius: .2em;
+      box-shadow: 0 0 24px -6px #ddd;
+      background: white;
+      cursor: pointer;
+      overflow: hidden;
+
+      asset-name {
+        display: block;
+        margin: .4em;
+        font-weight: 600;
+        word-wrap: break-word;
+      }
+
+      img {
+        width: 100%;
+        object-fit: contain;
+        object-position: bottom;
+      }
+
+      tag-list {
+        position: relative;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: flex-start;
+        max-height: 2.1em;
+        padding: .2em 0;
+        overflow: hidden;
+
+        div {
+          flex: 0 0 auto;
+          margin: .1em .2em;
+          padding: .2em .5em;
+          border-radius: 2em;
+          line-height: 1em;
+          font-size: .7em;
+          font-weight: 500;
+          color: #333;
+          background: #eee;
+        }
+      }
+    }
+  }
+
+  load-more {
+    flex: 1 1 100%;
+    margin: 2em 0 0;
+    button {
+      font-size: 1.4em;
+    }
+  }
+}
+
+asset-view {
+  display: block;
+
+  asset-editor {
     display: block;
-    width: 100%;
-    word-wrap: break-word;
+
+    asset-details {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+
+      detail-list {
+        display: block;
+        margin: 0 2em;
+
+        h2 {
+          margin: 0;
+        }
+
+        div {
+
+        }
+      }
+    }
   }
 }
