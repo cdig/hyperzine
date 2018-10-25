@@ -1,13 +1,13 @@
-Take ["Asset", "ResultCount", "Globals"], (Asset, ResultCount, NavView)->
+Take ["Asset", "GearView", "NewAssetButton", "ResultCount", "SearchBar", "Globals"], (Asset, GearView, NewAssetButton, ResultCount, SearchBar)->
   Make "NavView", ()->
 
-    backToSearch = unless StateMachine() is "Search"
-      Preact.h "button", {onclick: ()-> Asset.edit null}, "Back to Search"
-
-    Preact.h "nav", null,
-      Preact.h "div", {left:""},
-        backToSearch
-      Preact.h "div", {center:""},
-        ResultCount()
-      Preact.h "div", {right:""},
-        Preact.h "button", {settings:"", onclick: ()-> Asset.edit null}, "Settings"
+      Preact.h "nav", null,
+        Preact.h "div", {left:""},
+          Preact.h "h2", null, "Hyperzine"
+          GearView()
+        Preact.h "div", {center:""},
+          NewAssetButton()
+          SearchBar()
+          ResultCount()
+        Preact.h "div", {right:""},
+          Preact.h "button", {settings:"", onclick: ()-> Asset.edit null}, "Settings"

@@ -1,7 +1,5 @@
-Take ["AssetList", "ResultCount", "SearchBar"], (AssetList, ResultCount, SearchBar)->
+Take ["AssetList"], (AssetList)->
 
   Make "SearchView", ()->
-
     Preact.h "search-view", null,
-      SearchBar()
       AssetList()

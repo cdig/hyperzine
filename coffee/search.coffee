@@ -19,7 +19,10 @@ Take ["Asset", "DB", "SearchTermCleaner", "Globals"], (Asset, DB, SearchTermClea
     Search.assetListLimit = 50
     Search.filteredAssets = []
 
-    if queryTokens[0] isnt "" or queryTokens.length > 1
+    if queryTokens[0] is "" and queryTokens.length is 1
+      # Search.filteredAssets = (asset for id, asset of Asset.all())
+
+    else
       for id, asset of Asset.all()
         matchesAllTokens = true
 

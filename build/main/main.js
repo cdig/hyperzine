@@ -14,6 +14,7 @@ const createWindow = () => {
     height: 960,
     x: 427,
     y: 240,
+    titleBarStyle: "hidden",
     backgroundColor: "#FFF"
   });
 

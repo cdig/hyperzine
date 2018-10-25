@@ -18,7 +18,11 @@ Take ["DB", "SearchTermCleaner", "Globals"], (DB, SearchTermCleaner)->
 
     edit: (asset)->
       DB.activeAssetId = asset?.id
-      if asset? then StateMachine("Asset") else StateMachine("Search")
+      if asset?
+        StateMachine("Asset")
+      else
+        StateMachine("Search")
+        Pub "Search"
       Pub "Render"
 
     activeAsset: ()->

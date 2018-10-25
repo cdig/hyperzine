@@ -1,5 +1,8 @@
-Take ["DB"], (DB)->
+Take ["Asset", "DB", "Globals"], (Asset, DB)->
   DB.searchInput ?= ""
+
+  focus = ()->
+    Asset.edit()
 
   change = (e)->
     DB.searchInput = e.target.value
@@ -7,6 +10,5 @@ Take ["DB"], (DB)->
     Pub "Render"
 
   Make "SearchBar", ()->
-
     Preact.h "search-bar", null,
-      Preact.h "input", type: "search", placeholder: "Search Assets", value: DB.searchInput, onchange: change, oninput: change
+      Preact.h "input", type: "search", placeholder: "Search Assets", value: DB.searchInput, onfocus: focus, onchange: change, oninput: change
