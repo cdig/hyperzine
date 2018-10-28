@@ -1,6 +1,3 @@
 Take ["Globals"], ()->
-  newAsset = ()->
-    StateMachine "New Asset"
-
   Make "NewAssetButton", ()->
-    Preact.h "button", {"new-asset":"", onclick: newAsset}, "New Asset"
+    Preact.h "button", {"new-asset":"", onclick: ()-> Pub "New Asset"}, "New Asset"

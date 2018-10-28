@@ -1,4 +1,5 @@
 Take [
+  "Debounced"
   "Preact"
   "PubSub"
   "StateMachine"

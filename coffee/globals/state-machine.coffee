@@ -1,9 +1,10 @@
 Take [], ()->
   state = "Default"
+  history = []
   transitions = "*": "*": []
 
 
-  transition = (to)->
+  transition = (to, addToHistory = true)->
     transitionsToRun = [] if not transitions[state]?[to]?
     transitionsToRun = transitionsToRun.concat transitions["*"][to] if transitions["*"][to]?
     transitionsToRun = transitionsToRun.concat transitions[state]["*"] if transitions[state]?
@@ -15,7 +16,9 @@ Take [], ()->
       if result? and typeof result isnt "boolean" then throw "#{state}->#{to} transition must return a boolean or null:\n #{transition}"
       allowedToTransition &&= result
 
-    state = to if allowedToTransition
+    if allowedToTransition
+      history.push state if addToHistory
+      state = to
 
     return allowedToTransition
 
@@ -32,6 +35,11 @@ Take [], ()->
     throw "Invalid StateMachine Call" unless c?  # 2 arity
     addTransition a, b, c                        # 3 arity
 
+
+  StateMachine.back = ()->
+    if history.length > 1
+      history.pop()
+      transition history[history.length - 1], false
 
   window.StateMachine = StateMachine
   Make "StateMachine", StateMachine

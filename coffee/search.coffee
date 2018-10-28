@@ -1,19 +1,7 @@
 Take ["Asset", "DB", "SearchTermCleaner", "Globals"], (Asset, DB, SearchTermCleaner)->
-  Make "Search", Search =
-    filteredAssets: filteredAssets = []
-    assetListLimit: 50
-    resultCount: 0
+  filteredAssets = []
 
-  searchRequested = false
-
-  requestSearch = ()->
-    unless searchRequested
-      searchRequested = true
-      requestAnimationFrame search
-    return false
-
-  search = ()->
-    searchRequested = false
+  update = Debounced ()->
     queryTokens = SearchTermCleaner(DB.searchInput).split " "
 
     Search.assetListLimit = 50
@@ -54,4 +42,16 @@ Take ["Asset", "DB", "SearchTermCleaner", "Globals"], (Asset, DB, SearchTermClea
     true
 
 
-  Sub "Search", requestSearch
+  moreResults = Debounced 100, ()->
+    if Search.filteredAssets.length > Search.assetListLimit
+      Search.assetListLimit += 50
+      Pub "Render"
+      moreResults()
+
+
+  Make "Search", Search =
+    update: update
+    moreResults: moreResults
+    filteredAssets: filteredAssets
+    assetListLimit: 50
+    resultCount: 0

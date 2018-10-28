@@ -1,13 +1,8 @@
 Take ["Asset", "DB", "Globals"], (Asset, DB)->
   DB.searchInput ?= ""
 
-  focus = ()->
-    Asset.edit()
-
-  change = (e)->
-    DB.searchInput = e.target.value
-    Pub "Search"
-    Pub "Render"
+  focus = ()-> Pub "To Search View"
+  change = (e)-> Pub "Set Search Input", e.target.value
 
   Make "SearchBar", ()->
     Preact.h "search-bar", null,

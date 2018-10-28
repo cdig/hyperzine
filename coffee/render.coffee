@@ -14,4 +14,3 @@ Take ["DB", "RootView", "Globals"], (DB, RootView)->
     root = Preact.render RootView(), document.body, root
 
   Make "Render", requestRender
-  Sub "Render", requestRender
