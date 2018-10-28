@@ -4,7 +4,7 @@
 }
 
 html {
-  background: #bbb;
+  background: #ddd;
   font-family: Lato;
   text-align: center;
   height: 100%;
@@ -12,7 +12,7 @@ html {
 }
 
 body {
-  padding-top: 5em; // Leave room for nav
+  padding-top: 4.9em; // Leave room for nav
   margin: 0;
   height: 100%;
   overflow: hidden;
@@ -22,13 +22,14 @@ root-view {
   display: block;
   height: 100%;
   overflow: scroll;
+  padding-bottom: 3em;
 }
 
 img {
   vertical-align: middle;
 }
 
-input, button {
+input:not([type="checkbox"]), button {
   padding: .6em .8em;
   outline: none;
   border-radius: .4em;
@@ -37,7 +38,7 @@ input, button {
   cursor: pointer;
 }
 
-input {
+input:not([type="checkbox"]) {
   display: block;
   width: 100%; // Necessary
   border: 3px solid #666;
@@ -58,6 +59,18 @@ input {
   }
 }
 
+input[type="checkbox"] {
+  font-size: 1em;
+  margin: 0;
+  margin-right: .2em;
+}
+
+label {
+  display: block;
+  cursor: pointer;
+  & > * { vertical-align: middle; }
+}
+
 button {
   border: none;
   color: white;
@@ -65,7 +78,6 @@ button {
   &:hover { background-color: #444; }
   &:active { background-color: #222; }
 }
-
 
 nav {
   position: fixed;
@@ -93,7 +105,7 @@ nav {
 
   [left] {
     justify-content: flex-start;
-    padding: 0rem 1rem 0;
+    padding: 0rem 1.2rem 0;
   }
 
   [center] {
@@ -149,7 +161,7 @@ search-view {
       display: inline-block;
       margin: 1.5em .5em;
       border-radius: .2em;
-      box-shadow: 0 8px 24px -12px rgba(black, .5);
+      box-shadow: 0 4px 16px -4px rgba(black, .4);
       background: white;
       cursor: pointer;
       overflow-x: hidden;
@@ -191,7 +203,7 @@ search-view {
           font-size: .7em;
           font-weight: 500;
           color: #444;
-          background: #f2f2f2;
+          background: #eaeaea;
         }
       }
     }
@@ -200,6 +212,7 @@ search-view {
 
 asset-view {
   display: block;
+  padding-top: .5em;
 
   asset-editor {
     display: block;
@@ -211,13 +224,51 @@ asset-view {
 
       detail-list {
         display: block;
-        margin: 0 2em;
+        margin: 0 4em;
+        text-align: left;
 
-        h2 {
-          margin: 0;
+        h2, h3, h4 {
+          margin: .2em 0;
         }
 
-        div {
+        &[info] {
+          img {
+            max-width: 20em;
+            max-height: 20em;
+            object-fit: contain;
+            object-position: top;
+          }
+        }
+
+        &[files] {
+          & > div {
+            font-size: 1.2em;
+            margin: .5em 0;
+
+            span {
+              display: inline-block;
+              vertical-align: middle;
+
+              &[text] {
+                margin-left: .3rem;
+              }
+
+              &[icon] {
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                width: 2em;
+                height: 2em;
+                border-radius: 2em;
+                &:hover {
+                  background: #fff;
+                }
+              }
+            }
+          }
+        }
+
+        &[tags] {
 
         }
       }
@@ -228,8 +279,8 @@ asset-view {
 gear-view {
   display: inline-block;
   position: relative;
-  width: 4.5em;
-  height: 4.5em;
+  width: 4em;
+  height: 4em;
   margin-left: .4em;
 
   div {

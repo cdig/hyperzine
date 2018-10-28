@@ -8,7 +8,7 @@ Take [], ()->
       Preact.h "img", src: src
       recurse count if --count > 0
 
-  gears = recurse 40
+  gears = recurse 30
 
   Make "GearView", ()->
     Preact.h "gear-view", null, gears

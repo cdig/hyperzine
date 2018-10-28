@@ -1,4 +1,4 @@
-Take ["DB", "SearchTermCleaner", "Globals"], (DB, SearchTermCleaner)->
+Take ["DB", "SearchTermCleaner", "Tag", "Globals"], (DB, SearchTermCleaner, Tag)->
 
   assets = {}
   assetCount = 0
@@ -35,3 +35,11 @@ Take ["DB", "SearchTermCleaner", "Globals"], (DB, SearchTermCleaner)->
     setList: (asset, key, list)->
       asset[key] = list
       asset.search[key] = SearchTermCleaner list.join " "
+      if key is "tags"
+        list.map Tag.add
+
+    toggleTag: (asset, tag)->
+      if tag in asset.tags
+        Util.Array.pull asset.tags, tag
+      else
+        asset.tags.push tag

@@ -11,4 +11,4 @@ Take ["Asset", "DB", "Globals"], (Asset, DB)->
 
   Make "SearchBar", ()->
     Preact.h "search-bar", null,
-      Preact.h "input", type: "search", placeholder: "Search Assets", value: DB.searchInput, onfocus: focus, onchange: change, oninput: change
+      Preact.h "input", type: "search", placeholder: "Search", value: DB.searchInput, onfocus: focus, onchange: change, oninput: change
