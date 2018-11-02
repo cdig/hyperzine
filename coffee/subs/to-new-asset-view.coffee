@@ -1,3 +1,3 @@
 Take ["Globals"], ()->
-  Sub "New Asset", ()->
+  Sub "To New Asset View", ()->
     StateMachine "New Asset"

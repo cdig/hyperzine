@@ -13,4 +13,6 @@ Take ["DB", "RootView", "Globals"], (DB, RootView)->
     renderRequested = false
     root = Preact.render RootView(), document.body, root
 
+    Pub "After Render"
+
   Make "Render", requestRender

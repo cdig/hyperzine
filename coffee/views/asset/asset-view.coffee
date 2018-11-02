@@ -1,5 +1,10 @@
 Take ["Asset", "DB", "Tag", "TagView", "Settings"], (Asset, DB, Tag, TagView, Settings)->
 
+  clickSave = (asset, filename)-> (e)->
+    Pub "Save File", asset, filename
+
+
+
   Make "AssetView", ()->
     asset = Asset.activeAsset()
     Preact.h "asset-view", null,
@@ -17,7 +22,7 @@ Take ["Asset", "DB", "Tag", "TagView", "Settings"], (Asset, DB, Tag, TagView, Se
             for v in asset.files
               Preact.h "div", null,
                 Preact.h "span", {icon:""}, "👁"
-                Preact.h "span", {icon:""}, "💾"
+                Preact.h "span", {icon:"", onclick: clickSave(asset, v)}, "💾"
                 Preact.h "span", {text:""}, v
           Preact.h "detail-list", {tags:""},
             Preact.h "h2", null, "Tags"

@@ -1,20 +1,16 @@
-Take ["AssetView", "SearchView", "Globals"], (AssetView, SearchView)->
+Take ["AssetView", "NewAssetView", "SearchView", "SettingsView", "Globals"], (AssetView, NewAssetView, SearchView, SettingsView)->
   Make "MainView", ()->
-    
+    state = StateMachine()
+
     Preact.h "main", null,
+      switch state
+        when "Default" then null
 
-      switch StateMachine()
-        when "LoadAssets Error"
-          Preact.h "h1", null, "LoadAssets Error"
+        when "Asset"     then AssetView()
+        when "New Asset" then NewAssetView()
+        when "Search"    then SearchView()
+        when "Settings"  then SettingsView()
 
-        when "Search"
-          SearchView()
+        when "LoadAssets Error" then Preact.h "h1", null, "LoadAssets Error"
 
-        when "Asset"
-          AssetView()
-
-        when "Default"
-          Preact.h "h1", null, "Loading"
-
-        else
-          Preact.h "h1", null, "Unknown State: #{StateMachine()}"
+        else Preact.h "h1", null, "Unknown State: #{StateMachine()}"

@@ -1,3 +1,4 @@
-Take ["Asset", "Globals"], (Asset)->
+Take ["DB", "Globals"], (DB)->
   Sub "Edit Asset", (asset)->
-    Asset.edit asset
+    DB.activeAssetId = asset?.id
+    StateMachine "Asset"

@@ -1,7 +1,7 @@
 Take ["Asset", "GearView", "NewAssetButton", "ResultCount", "SearchBar", "Globals"], (Asset, GearView, NewAssetButton, ResultCount, SearchBar)->
 
   settingsClick = ()->
-    Pub "Toggle Settings View"
+    Pub "To Settings View"
 
   Make "NavView", ()->
     Preact.h "nav", null,

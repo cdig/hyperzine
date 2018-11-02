@@ -16,11 +16,6 @@ Take ["DB", "SearchTermCleaner", "Tag", "Globals"], (DB, SearchTermCleaner, Tag)
     displayName: (asset)->
       (asset.name or asset.id).replace /[-_]/g, " "
 
-    edit: (asset)->
-      DB.activeAssetId = asset?.id
-      StateMachine "Asset"
-      Pub "Render"
-
     activeAsset: ()->
       assets[DB.activeAssetId]
 

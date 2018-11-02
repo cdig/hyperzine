@@ -1,3 +1,6 @@
 Take ["Globals"], ()->
+  click = ()->
+    Pub "To New Asset View"
+
   Make "NewAssetButton", ()->
-    Preact.h "button", {"new-asset":"", onclick: ()-> Pub "New Asset"}, "New Asset"
+    Preact.h "button", {"new-asset":"", onclick: click}, "New Asset"
