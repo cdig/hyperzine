@@ -11,6 +11,8 @@
     "doom": "ivanreese/doom",
     "electron-compile": "^6.4.3",
     "preact": "latest",
+    "preact-compat": "^3.18.4",
+    "react-select": "^2.1.1",
     "take-and-make": "cdig/take-and-make"
   },
   "devDependencies": {

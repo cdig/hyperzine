@@ -1,5 +1,7 @@
 Take ["AssetList"], (AssetList)->
 
   Make "SearchView", ()->
-    Preact.h "search-view", null,
+    display = if StateMachine() is "Search" then "block" else "none"
+    
+    Preact.h "search-view", {style: "display: #{display}"},
       AssetList()

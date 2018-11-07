@@ -1,4 +1,6 @@
 Take ["Globals"], (DB)->
 
   Make "SettingsView", ()->
-    Preact.h "settings-view", null, "Settings"
+    display = if StateMachine() is "Settings" then "block" else "none"
+
+    Preact.h "settings-view", {style: "display: #{display}"}, "Settings"
