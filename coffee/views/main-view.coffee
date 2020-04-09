@@ -1,10 +1,3 @@
-# React = preactCompat
-# ReactDOM = preactCompat
-
-console.log require "preact-compat"
-
-# console.log require "react-select"
-
 Take ["AssetView", "NewAssetView", "SearchView", "SettingsView", "Globals"], (AssetView, NewAssetView, SearchView, SettingsView)->
   Make "MainView", ()->
     state = StateMachine()
