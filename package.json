@@ -2,34 +2,28 @@
   "name": "Hyperzine",
   "version": "0.0.0",
   "license": "UNLICENSED",
-  "main": "build/main/main.js",
+  "main": "build/main.js",
   "scripts": {
-    "build": "coffee --bare --inline-map --join build/app.js --watch --compile node_modules/take-and-make/source/take-and-make.coffee node_modules/doom/doom.coffee coffee/",
-    "start": "electron-forge start -i"
+    "coffee:assemble": "fd . -e coffee coffee | xargs awk '(FNR==1){print \"\\n\\n# \" FILENAME}1' node_modules/take-and-make/source/*.coffee node_modules/doom/*.coffee > build/app.coffee",
+    "coffee:build": "coffee --bare --inline-map --output build/app.js --compile build/app.coffee",
+    "coffee:compile": "run-s coffee:assemble coffee:build",
+    "coffee:watch": "onchange 'coffee/**/*.coffee' -- npm run coffee:compile",
+    "scss:assemble": "fd . -e scss scss | xargs awk '(FNR==1){print \"\\n\\n// \" FILENAME}1' > build/app.scss",
+    "scss:build": "sass build/app.scss build/app.css --no-source-map",
+    "scss:compile": "run-s scss:assemble scss:build",
+    "scss:watch": "onchange 'scss/**/*.scss' -- npm run scss:compile",
+    "electron": "electron .",
+    "start": "npm-run-all *:compile --parallel *:watch electron"
   },
   "dependencies": {
     "doom": "ivanreese/doom",
-    "electron-compile": "^6.4.3",
-    "module-alias": "^2.1.0",
     "preact": "latest",
-    "preact-compat": "^3.18.4",
-    "react-select": "^2.1.1",
     "take-and-make": "cdig/take-and-make"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.7.0",
-    "electron-forge": "^5.2.2",
-    "electron-prebuilt-compile": "2.0.7"
-  },
-  "_moduleAliases": {
-    "react": "preact-compat",
-    "react-dom": "preact-compat"
-  },
-  "config": {
-    "forge": {
-      "electronPackagerConfig": {
-        "packageManager": "yarn"
-      }
-    }
+    "electron": "12.0.0-beta.14",
+    "electron-reload": "^1.5.0",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^7.1.0"
   }
 }

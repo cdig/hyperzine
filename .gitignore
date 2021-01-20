@@ -1,5 +1,6 @@
-node_modules
-out
-public
+build/app.coffee
+build/app.css
 build/app.js
+build/app.scss
+node_modules
 yarn.lock

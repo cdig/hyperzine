@@ -1,7 +1,3 @@
-require "module-alias/register"
-
-require "react-select"
-
 Take [
   "Debounced"
   "Preact"
