@@ -1,0 +1,3 @@
+[submodule "submodule/house-style"]
+	path = submodule/house-style
+	url = https://github.com/cdig/house-style

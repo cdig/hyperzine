@@ -1,0 +1,64 @@
+nav {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 1px solid #e2e2e2;
+  background: #eee;
+  z-index: 2;
+  -webkit-app-region: drag;
+
+  & > div {
+    flex: 1 1 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    * {
+      -webkit-app-region: no-drag;
+    }
+  }
+
+  [left] {
+    justify-content: flex-start;
+    padding: 0rem 1.2rem 0;
+  }
+
+  [center] {
+    flex: 1 1 100%;
+    padding: .8rem 1.5rem;
+  }
+
+  [right] {
+    justify-content: flex-end;
+    padding: .8rem 1.5rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-weight: 900;
+    color: #666;
+  }
+
+  search-bar {
+    display: inline-block;
+    margin: 0 2em;
+
+    input {
+      font-size: 1.2em;
+      max-width: 15em;
+    }
+  }
+
+  result-count {
+    display: inline-block;
+    width: 7em;
+    text-align: left;
+    font-weight: 900;
+    color: #666;
+    cursor: default;
+  }
+}

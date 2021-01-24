@@ -6,6 +6,13 @@ Take ["Asset", "Settings", "Globals"], (Asset, Settings)->
     StateMachine err
     Pub "Render"
 
+  
+  exclusionFilter = (v)->
+    # Exclude dotfiles
+    return false if v.indexOf(".") is 0
+    # Everything else is good
+    return true
+
 
   readAssetDataFolder = (asset, folderName, cb)->
     path = [Settings.pathToAssetsFolder, asset.id, folderName].join "/"
@@ -13,7 +20,7 @@ Take ["Asset", "Settings", "Globals"], (Asset, Settings)->
       if err
         asset.errors.push "readAssetDataFolder #{folderName}": err
       else
-        cb fileNames
+        cb fileNames.filter exclusionFilter
         Pub "Search"
         Pub "Render"
 

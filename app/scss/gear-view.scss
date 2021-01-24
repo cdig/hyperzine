@@ -1,0 +1,31 @@
+gear-view {
+  display: inline-block;
+  position: relative;
+  width: 4em;
+  height: 4em;
+  margin-left: .4em;
+
+  div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: spin 10s infinite linear;
+    animation-play-state: paused;
+  }
+
+  &:hover {
+    div {
+      animation-play-state: running;
+    }
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@keyframes spin {
+  from { transform: translate(-2.5%) scale(.95) rotate(0deg) }
+  to { transform: translate(-2.5%) scale(.95) rotate(360deg) }
+}

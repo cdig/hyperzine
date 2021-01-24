@@ -1,0 +1,68 @@
+asset-view {
+  padding-top: .5em;
+
+  asset-editor {
+    display: block;
+
+    asset-details {
+      display: flex;
+      margin-left: 20em;
+      justify-content: center;
+      align-items: flex-start;
+
+      detail-list {
+        display: block;
+        margin: 0 4em;
+        text-align: left;
+
+        h2, h3, h4 {
+          margin: .2em 0;
+        }
+
+        &[info] {
+          position: fixed;
+          top: 10em;
+
+          img {
+            max-width: 20em;
+            max-height: 20em;
+            object-fit: contain;
+            object-position: top;
+          }
+        }
+
+        &[files] {
+          & > div {
+            font-size: 1.2em;
+            margin: .5em 0;
+
+            span {
+              display: inline-block;
+              vertical-align: middle;
+
+              &[text] {
+                margin-left: .3rem;
+              }
+
+              &[icon] {
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                width: 2em;
+                height: 2em;
+                border-radius: 2em;
+                &:hover {
+                  background: #fff;
+                }
+              }
+            }
+          }
+        }
+
+        &[tags] {
+
+        }
+      }
+    }
+  }
+}
