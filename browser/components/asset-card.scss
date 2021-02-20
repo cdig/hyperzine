@@ -1,0 +1,22 @@
+asset-card {
+  flex: 1 0 12em;
+  max-width: 16em;
+  display: inline-block;
+  margin: 1.5em .5em;
+  border-radius: .2em;
+  box-shadow: 0 4px 16px -4px rgba(black, .4);
+  background: white;
+  cursor: pointer;
+  overflow-x: hidden;
+
+  * {
+    pointer-events: none;
+  }
+
+  img {
+    width: calc(100% + 1px); // Avoid pixel cracks
+    max-height: 12em;
+    object-fit: contain;
+    object-position: top;
+  }
+}

@@ -1,3 +1,6 @@
 [submodule "submodule/house-style"]
 	path = submodule/house-style
 	url = https://github.com/cdig/house-style
+[submodule "submodule/bucket"]
+	path = submodule/bucket
+	url = git@github.com:ivanreese/bucket.git

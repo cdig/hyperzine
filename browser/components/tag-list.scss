@@ -1,0 +1,23 @@
+tag-list {
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+  max-height: 3em;
+  padding: .4em .2em 0;
+  border-bottom: .4em solid white;
+  overflow: hidden;
+
+  div { // TODO: Rename as tag-item
+    flex: 0 0 auto;
+    margin: .1em .2em;
+    padding: .2em .5em;
+    border-radius: 2em;
+    line-height: 1em;
+    font-size: .7em;
+    font-weight: 500;
+    color: #444;
+    background: #eaeaea;
+  }
+}

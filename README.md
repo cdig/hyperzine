@@ -2,11 +2,27 @@
 
 An asset management system.
 
+### Building
+
+```
+# Deps:
+brew install node sass/sass/sass yarn
+npm install -g coffeescript
+
+# Run:
+npm start
+
+# And after that's done and begins watching, in another tab run:
+npm run electron
+```
+
 ### Feature Requests
 
 https://docs.google.com/document/d/1U1t5ws2_DjsdBBRG5bPBsRgXeyZvx7GDxpZ8oTvNvPc/edit
 
 ### Idea Bucket
+
+https://news.ycombinator.com/item?id=26194990
 
 Multiple windows
 * Library windows, which let you run searches

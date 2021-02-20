@@ -1,0 +1,12 @@
+asset-list {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 1.2em;
+  margin-top: 38px;
+  padding: 0;
+  height: calc(100% - 38px);
+  overflow: auto;
+  overscroll-behaviour: contain;
+}
