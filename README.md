@@ -8,12 +8,13 @@ An asset management system.
 # Deps:
 brew install node sass/sass/sass yarn
 npm install -g coffeescript
+git submodule update --init --recursive
 
 # Run:
-npm start
+yarn start
 
 # And after that's done and begins watching, in another tab run:
-npm run electron
+yarn electron
 ```
 
 ### Feature Requests
