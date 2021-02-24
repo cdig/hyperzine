@@ -1,23 +1,17 @@
 tag-list {
+  display: block;
   position: relative;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  align-items: flex-start;
-  max-height: 3em;
-  padding: .4em .2em 0;
-  border-bottom: .4em solid white;
-  overflow: hidden;
+  text-align: center;
 
   div { // TODO: Rename as tag-item
-    flex: 0 0 auto;
-    margin: .1em .2em;
-    padding: .2em .5em;
-    border-radius: 2em;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 .1em;
+    padding: .3em .6em;
+    border-radius: 8px;
     line-height: 1em;
-    font-size: .7em;
-    font-weight: 500;
-    color: #444;
-    background: #eaeaea;
+    font-size: .75em;
+    color: #ccc;
+    background: #262626;
   }
 }

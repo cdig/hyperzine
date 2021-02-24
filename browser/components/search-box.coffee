@@ -5,6 +5,6 @@ Take ["PubSub", "State", "DOMContentLoaded"], ({Pub}, State)->
       State.search = e.target.value
       Pub "Render"
 
-  elm = document.querySelector "[search-box]"
+  elm = document.querySelector "search-box input"
   elm.addEventListener "change", change
   elm.addEventListener "input", change

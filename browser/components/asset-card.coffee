@@ -1,4 +1,4 @@
-Take ["DOOM", "Paths"], (DOOM, Paths)->
+Take ["DOOM", "Frustration", "Paths"], (DOOM, Frustration, Paths)->
 
   displayName = (asset)->
     (asset.name or asset.id).replace /[-_]/g, " "
@@ -9,11 +9,15 @@ Take ["DOOM", "Paths"], (DOOM, Paths)->
 
     card._asset = asset
 
-    name = DOOM.create "asset-name", card,
-      textContent: displayName asset
+    assetImage = DOOM.create "asset-image", card
 
     if asset.shot?
-      DOOM.create "img", card, src: Paths.shot asset
+      DOOM.create "img", assetImage, src: Paths.shot asset
+    else
+      noImg = DOOM.create "no-img", assetImage, textContent: Frustration()
+
+    name = DOOM.create "asset-name", card,
+      textContent: displayName asset
 
     taglist = DOOM.create "tag-list", card
     card._points = DOOM.create "div", taglist, textContent: 0

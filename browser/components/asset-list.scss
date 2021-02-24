@@ -2,11 +2,11 @@ asset-list {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+  align-content: flex-start;
   align-items: flex-start;
   font-size: 1.2em;
-  margin-top: 38px;
-  padding: 0;
-  height: calc(100% - 38px);
+  padding-top: 82px;
+  height: 100%;
   overflow: auto;
-  overscroll-behaviour: contain;
+  overscroll-behavior: contain;
 }
