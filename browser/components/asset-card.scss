@@ -5,21 +5,7 @@ asset-card {
   margin: 1.5em .5em;
   // background: white;
   color: white;
-  cursor: pointer;
   overflow-x: hidden;
-
-  * {
-    pointer-events: none;
-  }
-
-  &:hover asset-image {
-    img, no-img {
-      border-color: #444;
-      transition: border-color .1s cubic-bezier(0, .5, .5, 1);
-    }
-    opacity: .8;
-    transition: opacity .1s cubic-bezier(0, .5, .5, 1);
-  }
 
   asset-image {
     display: flex;
@@ -27,6 +13,8 @@ asset-card {
     align-items: flex-end;
     height: 12em;
     transition: opacity .2s cubic-bezier(0, .5, .5, 1);
+    cursor: pointer;
+    pointer-events: auto;
 
     img, no-img {
       border-radius: 8px;
@@ -34,6 +22,7 @@ asset-card {
       background: #262626;
       border: 4px solid transparent;
       transition: border-color .2s cubic-bezier(0, .5, .5, 1);
+      pointer-events: none;
     }
 
     img {
@@ -45,8 +34,20 @@ asset-card {
 
     no-img {
       display: block;
+      width: 100%;
       text-align: center;
       line-height: 5em;
+      white-space: nowrap;
+    }
+
+    &:hover {
+      opacity: .8;
+      transition: opacity .1s cubic-bezier(0, .5, .5, 1);
+
+      img, no-img {
+        border-color: #444;
+        transition: border-color .1s cubic-bezier(0, .5, .5, 1);
+      }
     }
   }
 }

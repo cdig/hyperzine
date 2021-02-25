@@ -17,7 +17,6 @@ Take ["Assets", "AssetCard", "PubSub", "Search", "State"], (Assets, AssetCard, {
       asset._card ?= AssetCard asset
       DOOM.append elm, asset._card
       DOOM asset._card, display: "block"
-      DOOM asset._card._points, textContent: asset._points or 0
 
     Pub "Results", filteredAssets
 

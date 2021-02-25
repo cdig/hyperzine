@@ -7,7 +7,6 @@ path = require "path"
 # electronReload "out"#, electron: path.join process.cwd(), "node_modules", ".bin", "electron"
 
 defaultWindow =
-  acceptFirstMouse: true
   backgroundColor: "#FFF"
   title: "Hyperzine"
   titleBarStyle: "hiddenInset"
