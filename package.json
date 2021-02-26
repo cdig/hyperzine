@@ -1,6 +1,6 @@
 {
   "name": "Hyperzine",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "UNLICENSED",
   "main": "out/main.js",
   "scripts": {
@@ -39,17 +39,17 @@
     "clean": "rm -r out temp",
     "init": "mkdir -p out temp",
     "electron": "electron .",
+    "package": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --ignore=\"(asset|browser|build|common|db|extracted|main|node_modules|old-hyperzine|resources|submodule|temp)/\"",
     "watch": "npm-run-all --parallel *:observer",
     "start": "npm-run-all init *:generate watch"
   },
-  "dependencies": {
-    "doom": "ivanreese/doom",
-    "preact": "latest",
-    "take-and-make": "cdig/take-and-make"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "electron": "11.2.3",
+    "doom": "ivanreese/doom",
+    "electron": "latest",
+    "electron-packager": "latest",
     "npm-run-all": "latest",
-    "onchange": "latest"
+    "onchange": "latest",
+    "take-and-make": "cdig/take-and-make"
   }
 }
