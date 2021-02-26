@@ -4,7 +4,7 @@ Take ["DOOM", "Frustration", "Paths"], (DOOM, Frustration, Paths)->
 
   displayName = (asset)->
     (asset.name or asset.id).replace /[-_]/g, " "
-
+  console.log "YO"
   Make "AssetCard", AssetCard = (asset)->
     card = DOOM.create "asset-card"
 
@@ -13,14 +13,14 @@ Take ["DOOM", "Frustration", "Paths"], (DOOM, Frustration, Paths)->
     assetImage = DOOM.create "asset-image", card
 
     if asset.shot?
-      DOOM.create "img", assetImage, src: Paths.shot asset
+      img = DOOM.create "img", assetImage, src: Paths.shot asset
     else
-      noImg = DOOM.create "no-img", assetImage, textContent: Frustration()
+      img = DOOM.create "no-img", assetImage, textContent: Frustration()
 
-    assetImage.addEventListener "click", ()->
-        # Pub "Edit Asset", asset
-        # throw "WA"
-        shell.showItemInFolder Paths.asset asset
+    img.addEventListener "click", ()->
+      console.log "YO"
+      # Pub "Edit Asset", asset
+      shell.showItemInFolder Paths.asset asset
 
     name = DOOM.create "asset-name", card,
       textContent: displayName asset

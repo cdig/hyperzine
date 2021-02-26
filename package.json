@@ -36,10 +36,12 @@
     "main-coffee:compiler": "coffee --bare --inline-map --output out/main.js --compile temp/main.coffee",
     "main-coffee:generate": "run-s main-coffee:assemble main-coffee:compiler",
     "main-coffee:observer": "onchange 'main/**/*.coffee' -- npm run main-coffee:generate",
+    "package:build": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|extracted|main|node_modules|resources|submodule|temp)/\"",
+    "package:open": "open ./Hyperzine-darwin-arm64/Hyperzine.app",
+    "package": "yarn package:build && sleep 0.5 && yarn package:open",
     "clean": "rm -r out temp",
     "init": "mkdir -p out temp",
     "electron": "electron .",
-    "package": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --ignore=\"(asset|browser|build|common|db|extracted|main|node_modules|old-hyperzine|resources|submodule|temp)/\"",
     "watch": "npm-run-all --parallel *:observer",
     "start": "npm-run-all init *:generate watch"
   },
