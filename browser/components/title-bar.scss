@@ -1,4 +1,4 @@
-top-bar {
+title-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -6,10 +6,10 @@ top-bar {
   font-weight: 700;
   padding-left: 80px;
   padding-right: 10px;
-  border-bottom: 1px solid #111;
+  border-bottom: 1px solid var(--title-bar-border);
   // border-radius: 0 0 10px 10px;
-  background: #fff1;
-  color: #eaeaea;
+  background: var(--title-bar-bg);
+  color: var(--title-bar-text);
   -webkit-app-region: drag;
 
   div {

@@ -4,7 +4,7 @@ Take ["Assets", "AssetCard", "PubSub", "Search", "State"], (Assets, AssetCard, {
 
 
   Make "Render", Render = ()->
-    start = performance.now()
+    # start = performance.now()
 
     assets = Object.values Assets()
     filteredAssets = Search assets, State.search
@@ -20,4 +20,4 @@ Take ["Assets", "AssetCard", "PubSub", "Search", "State"], (Assets, AssetCard, {
 
     Pub "Results", filteredAssets
 
-    console.log performance.now() - start
+    # console.log performance.now() - start

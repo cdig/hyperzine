@@ -1,0 +1,10 @@
+window-top {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  font-size: 14px;
+  backdrop-filter: var(--window-top-filter);
+  z-index: 2;
+}

@@ -1,10 +1,11 @@
 input {
   display: block;
-  padding: .6em .8em;
-  border: none;
-  border-radius: 4px;
+  padding: .4em .8em;
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
   outline: none;
-  cursor: text;
+  background: var(--input-bg);
+  color: var(--input-text);
   pointer-events: auto;
   user-select: contain;
 }

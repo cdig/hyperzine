@@ -38,7 +38,7 @@
     "main-coffee:observer": "onchange 'main/**/*.coffee' -- npm run main-coffee:generate",
     "package:build": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|extracted|main|node_modules|resources|submodule|temp)/\"",
     "package:open": "open ./Hyperzine-darwin-arm64/Hyperzine.app",
-    "package": "yarn package:build && sleep 0.5 && yarn package:open",
+    "package": "yarn package:build && sleep 0.7 && yarn package:open",
     "clean": "rm -r out temp",
     "init": "mkdir -p out temp",
     "electron": "electron .",

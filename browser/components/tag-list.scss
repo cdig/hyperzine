@@ -8,10 +8,10 @@ tag-list {
     vertical-align: middle;
     margin: 0 .1em;
     padding: .3em .6em;
-    border-radius: 8px;
+    border-radius: 4px;
     line-height: 1em;
-    font-size: .75em;
-    color: #ccc;
-    background: #262626;
+    font-size: .6em;
+    color: var(--tag-text);
+    background: var(--tag-bg);
   }
 }

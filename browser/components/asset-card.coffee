@@ -4,7 +4,7 @@ Take ["DOOM", "Frustration", "Paths"], (DOOM, Frustration, Paths)->
 
   displayName = (asset)->
     (asset.name or asset.id).replace /[-_]/g, " "
-  console.log "YO"
+
   Make "AssetCard", AssetCard = (asset)->
     card = DOOM.create "asset-card"
 
@@ -18,9 +18,8 @@ Take ["DOOM", "Frustration", "Paths"], (DOOM, Frustration, Paths)->
       img = DOOM.create "no-img", assetImage, textContent: Frustration()
 
     img.addEventListener "click", ()->
-      console.log "YO"
       # Pub "Edit Asset", asset
-      shell.showItemInFolder Paths.asset asset
+      shell.showItemInFolder Paths.files asset
 
     name = DOOM.create "asset-name", card,
       textContent: displayName asset

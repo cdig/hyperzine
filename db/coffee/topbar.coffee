@@ -9,3 +9,5 @@ Take ["DOOM"], (DOOM)->
       nAssets = Object.keys(assets).length
       loadTime = Math.round performance.now() - startTime
       DOOM statusText, textContent: "#{nAssets} assets in #{loadTime}ms"
+    err: (msg)->
+      DOOM statusText, textContent: msg

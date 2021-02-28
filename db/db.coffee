@@ -1,5 +1,10 @@
-Take ["LoadAssets", "IPC", "Settings", "TopBar", "DOMContentLoaded"], (LoadAssets, IPC, Settings, TopBar)->
+Take ["LoadAssets", "IPC", "TopBar", "DOMContentLoaded"], (LoadAssets, IPC, TopBar)->
   requestIdleCallback ()->
-    assets = LoadAssets Settings.pathToAssetsFolder
-    IPC.assets assets
-    TopBar.init assets
+
+    IPC.getConfig (configData)->
+      if configData.pathToAssetsFolder
+        assets = LoadAssets configData.pathToAssetsFolder
+        IPC.assets assets
+        TopBar.init assets
+      else
+        TopBar.err "Config data didn't specify path to Assets folder"

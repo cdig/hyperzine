@@ -1,12 +1,12 @@
-{ ipcRenderer } = require "electron"
+Take ["Assets", "IPC", "Paths", "PubSub", "Render", "DOMContentLoaded"], (Assets, IPC, Paths, {Sub}, Render)->
 
-Take ["Assets", "PubSub", "Render", "DOMContentLoaded"], (Assets, {Sub}, Render)->
+  requestIdleCallback ()->
 
-  update = (assets)->
-    Assets assets
-    Render()
+    IPC.getConfig (configData)->
+      Paths.setConfig configData
 
-  Sub "Render", Render
+      Sub "Render", Render
 
-  ipcRenderer.invoke("browser-assets").then update
-  ipcRenderer.on "assets", (event, assets)-> update assets
+      IPC.onAssets (assets)->
+        Assets assets
+        Render()
