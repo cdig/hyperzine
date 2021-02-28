@@ -7,12 +7,12 @@ html.blur {
 
 @media (prefers-color-scheme: dark) {
   html {
-    --asset-card-image-bg: #0000;
+    --asset-card-image-bg: #fff;
+    --asset-card-image-hover-bg: #f2f2f2;
     --asset-card-image-hover-border: #444;
-    --asset-card-image-hover: #222;
-    --asset-card-no-image-bg: #222;
-    --asset-card-no-image-text: #777;
-    --asset-card-no-image-hover: #272727;
+    --asset-card-no-image-bg: #333;
+    --asset-card-no-image-text: #aaa;
+    --asset-card-no-image-hover: #3a3a3a;
     --asset-card-text: #fff;
     --input-bg: #0004;
     --input-border: #fff1;
@@ -36,9 +36,9 @@ html.blur {
 
 @media (prefers-color-scheme: light) {
   html {
-    --asset-card-image-bg: #0000;
+    --asset-card-image-bg: #fff;
+    --asset-card-image-hover-bg: #f2f2f2;
     --asset-card-image-hover-border: #fff;
-    --asset-card-image-hover: #f7f7f7;
     --asset-card-no-image-bg: #f7f7f7;
     --asset-card-no-image-text: #777;
     --asset-card-no-image-hover: #fafafa;

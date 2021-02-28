@@ -29,7 +29,7 @@ asset-card {
       object-position: bottom;
       background: var(--asset-card-image-bg);
       &:hover {
-        background: var(--asset-card-image-hover);
+        background: var(--asset-card-image-hover-bg);
       }
     }
 
@@ -39,6 +39,7 @@ asset-card {
       height: 8em;
       line-height: 7em;
       text-align: center;
+      font-weight: 700;
       white-space: nowrap;
       color: var(--asset-card-no-image-text);
       background: var(--asset-card-no-image-bg);
