@@ -1,6 +1,6 @@
 {
   "name": "Hyperzine",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "UNLICENSED",
   "main": "out/main.js",
   "scripts": {
@@ -37,6 +37,7 @@
     "main-coffee:generate": "run-s main-coffee:assemble main-coffee:compiler",
     "main-coffee:observer": "onchange 'main/**/*.coffee' -- npm run main-coffee:generate",
     "package": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|extracted|main|node_modules|resources|submodule|temp)/\"",
+    "build": "yarn version --patch --no-git-tag-version && yarn package",
     "open": "open ./Hyperzine-darwin-arm64/Hyperzine.app",
     "clean": "rm -r out temp",
     "init": "mkdir -p out temp",
