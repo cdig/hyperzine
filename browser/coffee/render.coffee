@@ -1,8 +1,6 @@
 Take ["Assets", "AssetCard", "PubSub", "Search", "State"], (Assets, AssetCard, {Pub}, Search, State)->
   root = null
   elm = document.querySelector "asset-list"
-  cards = []
-
 
   Render = ()->
     # start = performance.now()
@@ -11,8 +9,8 @@ Take ["Assets", "AssetCard", "PubSub", "Search", "State"], (Assets, AssetCard, {
     filteredAssets = Search assets, State.search
     filteredAssets = filteredAssets[0...50]
 
-    for card in cards
-      DOOM card, display: "none"
+    for asset in assets when asset._card?
+      DOOM asset._card, display: "none"
 
     for asset in filteredAssets
       asset._card ?= AssetCard asset
