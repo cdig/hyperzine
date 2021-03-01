@@ -6,7 +6,10 @@ Take ["Assets", "AssetCard", "PubSub", "Search", "State"], (Assets, AssetCard, {
     # start = performance.now()
 
     assets = Object.values Assets()
+
     filteredAssets = Search assets, State.search
+    Pub "ResultsCount", filteredAssets.length
+
     filteredAssets = filteredAssets[0...50]
 
     for asset in assets when asset._card?
@@ -16,8 +19,6 @@ Take ["Assets", "AssetCard", "PubSub", "Search", "State"], (Assets, AssetCard, {
       asset._card ?= AssetCard asset
       DOOM.append elm, asset._card
       DOOM asset._card, display: "block"
-
-    Pub "Results", filteredAssets
 
     # console.log performance.now() - start
 
