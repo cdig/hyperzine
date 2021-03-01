@@ -124,11 +124,21 @@ ipcMain.on "db-assets", (e, a)->
   for wc in webContents.getAllWebContents()
     wc.send "assets", assets
 
+ipcMain.on "db-asset-changed", (e, asset)->
+  assets[asset.id] = asset
+  for wc in webContents.getAllWebContents()
+    wc.send "asset-changed", asset
+
+ipcMain.on "db-asset-deleted", (e, assetId)->
+  delete assets[assetId]
+  for wc in webContents.getAllWebContents()
+    wc.send "asset-deleted", assetId
+
 ipcMain.handle "browser-assets", ()-> assets
 ipcMain.handle "config-data", ()-> configData
 
 app.on "ready", ()->
-  newWindow "db", true, position(...winRes.db), title: "DB", show: false
+  newWindow "db", true, position(...winRes.db), title: "DB", show: true
   initBrowser()
   Menu.setApplicationMenu Menu.buildFromTemplate template
 
