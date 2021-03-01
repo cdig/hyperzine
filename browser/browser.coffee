@@ -7,6 +7,14 @@ Take ["Assets", "IPC", "Paths", "PubSub", "Render", "DOMContentLoaded"], (Assets
 
       Sub "Render", Render
 
-      IPC.onAssets (assets)->
-        Assets assets
-        Render()
+      IPC.init
+        init: (assets)->
+          Assets assets
+          Render()
+
+        assetChanged: (asset)->
+          Render.deleteAssetCard Assets.update asset
+          Render()
+
+        assetDeleted: (assetId)->
+          Render.deleteAssetCard Assets.delete assetId

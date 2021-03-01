@@ -99,8 +99,8 @@ template.push
     { label: "All Open Issues", click: ()-> shell.openExternal "https://github.com/cdig/hyperzine/issues" }
   ]
 
-winRes = w: 2560, h: 1440, db: [2/12, 1/12, 8/12, 1/12], browser: [2/12, 2/12, 8/12, 8/12] # Cinema Display
-# winRes = w: 1440, h: 900, db: [0, 0, 1, 1/6], browser: [0, 1/6, 1, 5/6] # MacBook Air
+# winRes = w: 2560, h: 1440, db: [2/12, 1/12, 8/12, 1/12], browser: [2/12, 2/12, 8/12, 8/12] # Cinema Display
+winRes = w: 1440, h: 900, db: [1/6, 1/6, 4/6, 4/6], browser: [0, 0, 1, 1] # MacBook Air
 
 position = (x, y, w, h)->
   if app.isPackaged then center:true, width:1200, height:800 else x: Math.ceil(x*winRes.w), y: y*winRes.h|0, width: w*winRes.w|0, height: h*winRes.h|0
@@ -121,6 +121,7 @@ initBrowser = ()->
 assets = {}
 ipcMain.on "db-assets", (e, a)->
   assets = a
+  # When the DB first finishes loading assets, update any existing windows
   for wc in webContents.getAllWebContents()
     wc.send "assets", assets
 
@@ -134,11 +135,14 @@ ipcMain.on "db-asset-deleted", (e, assetId)->
   for wc in webContents.getAllWebContents()
     wc.send "asset-deleted", assetId
 
-ipcMain.handle "browser-assets", ()-> assets
+ipcMain.on "browser-init", ({sender})->
+  # a new window was just opened, so feed it the list of assets (if that exists yet)
+  sender.send "assets", assets if Object.keys(assets).length > 0
+
 ipcMain.handle "config-data", ()-> configData
 
 app.on "ready", ()->
-  newWindow "db", true, position(...winRes.db), title: "DB", show: true
+  newWindow "db", true, position(...winRes.db), title: "DB", backgroundThrottling: false, show: false
   initBrowser()
   Menu.setApplicationMenu Menu.buildFromTemplate template
 
