@@ -8,7 +8,10 @@ Take ["Assets", "IPC", "Paths", "PubSub", "Render", "DOMContentLoaded"], (Assets
       Sub "Render", Render
 
       IPC.init
-        init: (assets)->
+        loadInfo: (info)->
+          Make "Info", info
+
+        loadAssets: (assets)->
           Assets assets
           Render()
 
