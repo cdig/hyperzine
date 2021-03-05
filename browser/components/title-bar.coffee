@@ -6,7 +6,6 @@ Take ["DOOM", "Info", "PubSub"], (DOOM, Info, {Sub})->
   results = document.querySelector "[search-results]"
 
   DOOM name, textContent: "Hyperzine #{Info.version}"
-  DOOM info, textContent: "Rosetta: #{Info.rosetta}"
 
   Sub "ResultsCount", (count)->
     DOOM results, textContent: count

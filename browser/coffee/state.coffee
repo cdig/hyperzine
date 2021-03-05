@@ -1,2 +1,2 @@
 Take [], ()->
-  Make "State", State = {}
+  Make "State", BrowserState = {}

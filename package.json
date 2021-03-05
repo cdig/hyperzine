@@ -1,6 +1,6 @@
 {
   "name": "Hyperzine",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "license": "UNLICENSED",
   "main": "out/main.js",
   "scripts": {
@@ -32,12 +32,13 @@
     "db-scss:compiler": "sass temp/db.scss out/db.css --no-source-map",
     "db-scss:generate": "run-s db-scss:assemble db-scss:compiler",
     "db-scss:observer": "onchange 'db/**/*.scss' -- npm run db-scss:generate",
-    "main-coffee:assemble": "fd . -e coffee main | xargs awk '(FNR==1){print \"\\n\\n# \" FILENAME}1' node_modules/take-and-make/**/*.coffee submodule/bucket/{debounced,monkey-patch}.coffee > temp/main.coffee",
+    "main-coffee:assemble": "fd . -e coffee {common,main} | xargs awk '(FNR==1){print \"\\n\\n# \" FILENAME}1' node_modules/take-and-make/**/*.coffee submodule/bucket/{debounced,monkey-patch}.coffee > temp/main.coffee",
     "main-coffee:compiler": "coffee --bare --inline-map --output out/main.js --compile temp/main.coffee",
     "main-coffee:generate": "run-s main-coffee:assemble main-coffee:compiler",
     "main-coffee:observer": "onchange 'main/**/*.coffee' -- npm run main-coffee:generate",
     "package": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|extracted|main|node_modules|resources|submodule|temp)/\"",
-    "build": "yarn version --patch --no-git-tag-version && yarn package",
+    "bump": "yarn version --patch --no-git-tag-version",
+    "build": "yarn bump && yarn package",
     "open": "open ./Hyperzine-darwin-arm64/Hyperzine.app",
     "clean": "rm -r out temp",
     "init": "mkdir -p out temp",
