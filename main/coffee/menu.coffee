@@ -1,6 +1,6 @@
 { app, Menu, shell } = require "electron"
 
-Take ["State", "Window"], (Window)->
+Take ["AppFolder", "State", "Window"], (AppFolder, State, Window)->
 
   template = []
 
@@ -83,6 +83,5 @@ Take ["State", "Window"], (Window)->
       { label: "Beep for Good Luck", click: ()-> shell.beep() }
     ]
 
-
-  app.on "ready", ()->
+  Make "Menu", setup: ()->
     Menu.setApplicationMenu Menu.buildFromTemplate template

@@ -19,6 +19,13 @@ Take ["State"], (State)->
 
 
   Make "Window", Window =
+    browser: ()->
+      unless BrowserWindow.getAllWindows().length > 1
+        Window.new "browser", true, title: "Hyperzine"
+
+    db: ()->
+      Window.new "db", true, title: "DB", backgroundThrottling: false, show: false
+
     new: (filename, openDevTools = false, props = {})->
       position = if winRes[filename] then makePosition ...winRes[filename] else {}
       unless props.show is false
