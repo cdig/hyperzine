@@ -3,11 +3,35 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data:">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline'">
   <link href="common.css" rel="stylesheet">
   <link href="asset.css" rel="stylesheet">
   <script src="common.js" defer></script>
   <script src="asset.js" defer></script>
 </head>
-<body></body>
+<body>
+  <window-top>
+    <title-bar>
+      <div asset-name></div>
+    </title-bar>
+    <tool-bar>
+      <button show-in-finder>Show In Finder</button>
+    </tool-bar>
+  </window-top>
+  <files-pane>
+    <files-toolbar>
+      <div file-count>0 Files</div>
+      <search-box>
+        <input type="search" placeholder="Search" autofocus>
+      </search-box>
+    </files-toolbar>
+    <file-list></file-list>
+  </files-pane>
+  <meta-pane>
+    <div asset-name>Asset Name</div>
+    <asset-metadata>Metadata</asset-metadata>
+    <add-note>Add Note...</add-note>
+    <asset-history></asset-history>
+  </meta-pane>
+</body>
 </html>

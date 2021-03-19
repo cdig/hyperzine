@@ -14,3 +14,6 @@ Take [], ()->
     name: (asset)->        path.join Paths.asset(asset), "Name", asset.name
     tags: (asset)->        path.join Paths.asset(asset), "Tags"
     tag: (asset, tag)->    path.join Paths.tags(asset), tag
+
+    # This is temporarily here until we have a better home
+    displayName: (asset)-> (asset.name or asset.id).replace /[-_]/g, " "

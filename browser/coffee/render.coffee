@@ -1,5 +1,4 @@
-Take ["Assets", "AssetCard", "PubSub", "Search", "State"], (Assets, AssetCard, {Pub}, Search, State)->
-  root = null
+Take ["Assets", "AssetCard", "DOOM", "PubSub", "Search", "State"], (Assets, AssetCard, DOOM, {Pub}, Search, State)->
   elm = document.querySelector "asset-list"
 
   Render = ()->

@@ -11,12 +11,11 @@ Take [], ()->
     getConfig: (cb)->
       ipcRenderer.invoke("config-data").then cb
 
-    init: ({loadInfo, loadAssets, assetChanged, assetDeleted})->
-      ipcRenderer.once "info", (event, info)-> loadInfo info
-      ipcRenderer.once "assets", (event, assets)-> loadAssets assets
+    init: ({load, assetChanged, assetDeleted})->
+      ipcRenderer.once "info", (event, asset, info)-> load asset, info
       ipcRenderer.on "asset-changed", (event, asset)-> assetChanged asset
       ipcRenderer.on "asset-deleted", (event, assetId)-> assetDeleted assetId
-      ipcRenderer.send "browser-init"
+      ipcRenderer.send "asset-init"
 
-    openAsset: (assetId)->
-      ipcRenderer.send "browser-open-asset", assetId
+    closeWindow: ()->
+      ipcRenderer.send "close-window"

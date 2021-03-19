@@ -1,6 +1,6 @@
 {app} = require "electron"
 
-Take ["DOOM", "Info", "PubSub"], (DOOM, Info, {Sub})->
+Take ["DOOM", "Info", "PubSub", "DOMContentLoaded"], (DOOM, Info, {Sub})->
   name = document.querySelector "[app-name]"
   info = document.querySelector "[app-info]"
   results = document.querySelector "[search-results]"

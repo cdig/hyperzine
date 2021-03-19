@@ -1,9 +1,6 @@
 { shell } = require "electron"
 
-Take ["DOOM", "Frustration", "Paths"], (DOOM, Frustration, Paths)->
-
-  displayName = (asset)->
-    (asset.name or asset.id).replace /[-_]/g, " "
+Take ["DOOM", "Frustration", "IPC", "Paths"], (DOOM, Frustration, IPC, Paths)->
 
   Make "AssetCard", AssetCard = (asset)->
     card = DOOM.create "asset-card"
@@ -18,11 +15,11 @@ Take ["DOOM", "Frustration", "Paths"], (DOOM, Frustration, Paths)->
       img = DOOM.create "no-img", assetImage, textContent: Frustration()
 
     img.addEventListener "click", ()->
-      # Pub "Edit Asset", asset
-      shell.showItemInFolder Paths.files asset
+      # shell.showItemInFolder Paths.files asset
+      IPC.openAsset asset.id
 
     name = DOOM.create "asset-name", card,
-      textContent: displayName asset
+      textContent: Paths.displayName asset
 
     taglist = DOOM.create "tag-list", card
     for v in asset.tags

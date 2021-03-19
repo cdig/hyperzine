@@ -1,12 +1,20 @@
 { ipcMain, webContents } = require "electron"
 
-Take ["Config", "State"], (Config, State)->
+Take ["Config", "State", "Window"], (Config, State, Window)->
+
+  info =
+    isDev: State.isDev
+    isMac: State.isMac
+    version: State.version
 
   Make "IPC", IPC =
     setup: ()->
 
       ipcMain.handle "config-data", ()->
         Config.get()
+
+      ipcMain.on "close-window", ({sender})->
+        BrowserWindow.fromWebContents(sender)?.close()
 
       ipcMain.on "db-assets", (e, assets)->
         State.assets = assets
@@ -24,11 +32,17 @@ Take ["Config", "State"], (Config, State)->
         for wc in webContents.getAllWebContents()
           wc.send "asset-deleted", assetId
 
-      ipcMain.on "browser-init", ({sender})->
-        # a new window was just opened, so feed it the list of assets (if that exists yet)
-        sender.send "info",
-          isDev: State.isDev
-          isMac: State.isMac
-          version: State.version
+      ipcMain.on "browser-init", ({reply})->
+        # a new browser window was just opened, so feed it the list of assets (if that exists yet)
+        reply "info", info
         if Object.keys(State.assets).length > 0
-          sender.send "assets", State.assets
+          reply "assets", State.assets
+
+      ipcMain.on "browser-open-asset", (e, assetId)->
+        Window.asset assetId
+
+      ipcMain.on "asset-init", ({reply, sender}, assetId)->
+        # We're assuming that the assets have already been loaded
+        # This might not be true if we eventually save and restore window state on launch
+        assetId = BrowserWindow.fromWebContents(sender).title
+        reply "info", State.assets[assetId], info
