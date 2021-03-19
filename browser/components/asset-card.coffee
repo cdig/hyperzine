@@ -18,11 +18,15 @@ Take ["DOOM", "Frustration", "IPC", "Paths"], (DOOM, Frustration, IPC, Paths)->
       # shell.showItemInFolder Paths.files asset
       IPC.openAsset asset.id
 
-    name = DOOM.create "asset-name", card,
+    assetName = DOOM.create "asset-name", card,
       textContent: Paths.displayName asset
 
-    taglist = DOOM.create "tag-list", card
+    metaList = DOOM.create "meta-list", card
+
+    fileCount = DOOM.create "file-count", metaList,
+      textContent: asset.files.length
+
     for v in asset.tags
-      DOOM.create "div", taglist, textContent: v
+      DOOM.create "tag-item", metaList, textContent: v
 
     card

@@ -1,17 +1,19 @@
-tag-list {
+meta-list {
   display: block;
   position: relative;
   text-align: center;
+  font-size: .6em;
+  color: var(--tag-text);
 
-  div { // TODO: Rename as tag-item
+  & > * {
     display: inline-block;
     vertical-align: middle;
     margin: 0 .1em;
     padding: .3em .6em;
     border-radius: 4px;
     line-height: 1em;
-    font-size: .6em;
-    color: var(--tag-text);
-    background: var(--tag-bg);
   }
+
+  file-count { border: 1px solid var(--meta-bg); }
+  tag-item { background: var(--meta-bg); }
 }

@@ -20,14 +20,14 @@ Take ["State"], (State)->
 
   Make "Window", Window =
     asset: (assetId)->
-      Window.new "asset", true, title: assetId
+      Window.new "asset", false, title: assetId
 
     browser: ()->
       unless BrowserWindow.getAllWindows().length > 1
-        Window.new "browser", true, title: "Hyperzine Browser"
+        Window.new "browser", false, title: "Hyperzine Browser"
 
     db: ()->
-      Window.new "db", true, title: "DB", backgroundThrottling: false, show: false
+      Window.new "db", false, title: "DB", backgroundThrottling: false, show: false
 
     new: (filename, openDevTools = false, props = {})->
       position = if winRes[filename] then makePosition ...winRes[filename] else {}
