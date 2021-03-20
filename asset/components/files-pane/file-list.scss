@@ -1,3 +1,27 @@
 file-list {
   display: block;
+  overflow-y: auto;
+  max-height: calc(100% - 52px);
+
+  .file {
+    display: flex;
+    align-items: center;
+
+    img {
+      flex: 0 0 auto;
+      width: 10em;
+      height: 10em;
+      object-fit: contain;
+      background: #222;
+    }
+
+    .info {
+      flex: 1 1 auto;
+      margin-left: 1em;
+
+      .name {
+
+      }
+    }
+  }
 }
