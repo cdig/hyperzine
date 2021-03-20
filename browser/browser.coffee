@@ -1,4 +1,4 @@
-Take ["Assets", "IPC", "Paths", "PubSub", "Render", "DOMContentLoaded"], (Assets, IPC, Paths, {Sub}, Render)->
+Take ["Assets", "IPC", "Paths", "PubSub", "Render", "DOMContentLoaded"], (Assets, IPC, Paths, {Pub, Sub}, Render)->
 
   requestIdleCallback ()->
 
@@ -21,3 +21,5 @@ Take ["Assets", "IPC", "Paths", "PubSub", "Render", "DOMContentLoaded"], (Assets
 
         assetDeleted: (assetId)->
           Render.deleteAssetCard Assets.delete assetId
+
+        find: ()-> Pub "Find"

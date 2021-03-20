@@ -1,6 +1,6 @@
 { app, Menu, shell } = require "electron"
 
-Take ["AppFolder", "IPC", "State", "Window"], (AppFolder, IPC, State, Window)->
+Take ["AppFolder", "Config", "IPC", "State", "Window"], (AppFolder, Config, IPC, State, Window)->
 
   template = []
 
@@ -25,9 +25,9 @@ Take ["AppFolder", "IPC", "State", "Window"], (AppFolder, IPC, State, Window)->
       { label: "New Browser Window", accelerator: "CmdOrCtrl+Shift+N", click: ()-> Window.new "browser"}
       { type: "separator" }
       ...(if State.isDev
-        [{ label: "Export App Folder…", click: AppFolder.export }]
+        [{ label: "Export App Folder", click: AppFolder.export }]
       else
-        [{ label: "Open App Update", click: AppFolder.import }]
+        [{ label: "Open App Update…", click: AppFolder.import }]
       )
       { label: "Show Config File", click: ()-> shell.showItemInFolder Config.path() }
       { type: "separator" }

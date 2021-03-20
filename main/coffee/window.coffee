@@ -15,7 +15,7 @@ Take ["State"], (State)->
   winRes = w: 1440, h: 900, db: [1/6, 1/6, 4/6, 1/6], browser: [0, 0, 1, 1], asset: [1/6, 1/6, 4/6, 4/6] # MacBook Air
 
   makePosition = (x, y, w, h)->
-    if app.isPackaged then center:true, width:1200, height:800 else x: Math.ceil(x*winRes.w), y: y*winRes.h|0, width: w*winRes.w|0, height: h*winRes.h|0
+    x: Math.ceil(x*winRes.w), y: y*winRes.h|0, width: w*winRes.w|0, height: h*winRes.h|0
 
 
   Make "Window", Window =
