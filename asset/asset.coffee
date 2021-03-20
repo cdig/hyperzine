@@ -1,4 +1,4 @@
-Take ["IPC", "Paths", "PubSub", "Render", "State", "DOMContentLoaded"], (IPC, Paths, {Sub}, Render, State)->
+Take ["IPC", "Paths", "PubSub", "Render", "State", "DOMContentLoaded"], (IPC, Paths, {Pub, Sub}, Render, State)->
 
   requestIdleCallback ()->
 
@@ -21,3 +21,5 @@ Take ["IPC", "Paths", "PubSub", "Render", "State", "DOMContentLoaded"], (IPC, Pa
         assetDeleted: (assetId)->
           if assetId is State.asset.id
             IPC.closeWindow()
+
+        find: ()-> Pub "Find"

@@ -13,25 +13,27 @@
   <window-top>
     <title-bar>
       <div asset-name></div>
+      <div class="ui">
+        <button show-in-finder>Show In Finder</button>
+      </div>
     </title-bar>
-    <tool-bar>
-      <button show-in-finder>Show In Finder</button>
-    </tool-bar>
   </window-top>
   <files-pane>
     <files-toolbar>
       <div file-count>0 Files</div>
       <search-box>
-        <input type="search" placeholder="Search" autofocus>
+        <input type="search" placeholder="Search">
       </search-box>
     </files-toolbar>
     <file-list></file-list>
   </files-pane>
   <meta-pane>
-    <div asset-name>Asset Name</div>
-    <asset-metadata>Metadata</asset-metadata>
-    <add-note>Add Note...</add-note>
-    <asset-history></asset-history>
+    <div asset-name></div>
+    <asset-metadata class="bubbles">
+      <div asset-id class="bubble">ID <span></span></div>
+    </asset-metadata>
+    <!-- <add-note>Add Note...</add-note> -->
+    <!-- <asset-history></asset-history> -->
   </meta-pane>
 </body>
 </html>

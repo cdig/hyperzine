@@ -1,4 +1,4 @@
-Take ["PubSub", "State", "DOMContentLoaded"], ({Pub}, State)->
+Take ["PubSub", "State", "DOMContentLoaded"], ({Pub, Sub}, State)->
 
   change = (e)->
     if e.target.value isnt State.search
@@ -8,3 +8,6 @@ Take ["PubSub", "State", "DOMContentLoaded"], ({Pub}, State)->
   elm = document.querySelector "search-box input"
   elm.addEventListener "change", change
   elm.addEventListener "input", change
+
+  Sub "Find", ()->
+    elm.focus()

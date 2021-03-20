@@ -1,6 +1,6 @@
 { shell } = require "electron"
 
-Take ["Asset", "PubSub"], (Asset, {Sub})->
+Take ["PubSub", "Paths", "State"], ({Sub}, Paths, State)->
 
   Sub "Show In Finder", ()->
-    shell.showItemInFolder Asset.folder
+    shell.showItemInFolder Paths.files State.asset

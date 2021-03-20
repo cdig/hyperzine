@@ -46,3 +46,10 @@ Take ["Config", "State", "Window"], (Config, State, Window)->
         # This might not be true if we eventually save and restore window state on launch
         assetId = BrowserWindow.fromWebContents(sender).title
         reply "info", State.assets[assetId], info
+
+
+    find: ()->
+      win = BrowserWindow.getFocusedWindow()
+      win ?= BrowserWindow.getAllWindows()[0] # No window was focussed, so get any window
+      win ?= Window.browser() # No windows, so open a new window
+      win.webContents.send "find"

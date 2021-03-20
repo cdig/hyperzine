@@ -15,4 +15,8 @@ title-bar {
   div {
     flex: 0 0 auto;
   }
+
+  .ui {
+    -webkit-app-region: no-drag;
+  }
 }

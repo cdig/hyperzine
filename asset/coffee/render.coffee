@@ -1,19 +1,16 @@
-{ shell } = require "electron"
-
-Take ["DOOM", "FilesPane", "MetaPane", "Paths", "State", "DOMContentLoaded"], (DOOM, FilesPane, MetaPane, Paths, State)->
+Take ["DOOM", "FilesPane", "MetaPane", "Paths", "PubSub", "State", "DOMContentLoaded"], (DOOM, FilesPane, MetaPane, Paths, {Pub}, State)->
 
   windowTop = document.querySelector "window-top"
   titleBar = windowTop.querySelector "title-bar"
   assetName = titleBar.querySelector "[asset-name]"
-  toolBar = windowTop.querySelector "tool-bar"
-  showInFinder = toolBar.querySelector "[show-in-finder]"
+  showInFinder = document.querySelector "[show-in-finder]"
 
   showInFinder.addEventListener "click", ()->
-    shell.showItemInFolder Paths.files State.asset
+    Pub "Show In Finder"
 
   Render = ()->
     # start = performance.now()
-    DOOM assetName, textContent: Paths.displayName State.asset
+    DOOM assetName, textContent: State.asset.id + " • " + Paths.displayName State.asset
     FilesPane.render()
     MetaPane.render()
     # console.log performance.now() - start
