@@ -15,7 +15,6 @@ Take ["DOOM", "Frustration", "IPC", "Paths"], (DOOM, Frustration, IPC, Paths)->
       img = DOOM.create "no-img", assetImage, textContent: Frustration()
 
     img.addEventListener "click", ()->
-      # shell.showItemInFolder Paths.files asset
       IPC.openAsset asset.id
 
     assetName = DOOM.create "asset-name", card,

@@ -19,6 +19,7 @@ Take ["Assets", "AssetCard", "DOOM", "PubSub", "Search", "State"], (Assets, Asse
       DOOM.append elm, asset._card
       DOOM asset._card, display: "block"
 
+    elm.scroll(0,0)
     # console.log performance.now() - start
 
 

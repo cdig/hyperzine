@@ -1,13 +1,16 @@
 file-list {
   display: block;
+  height: 100%;
+  padding: 90px 0 0;
   overflow-y: auto;
-  max-height: calc(100% - 52px);
+  overscroll-behavior: contain;
 
   .file {
+    margin: 1em;
     display: flex;
     align-items: center;
 
-    img {
+    img, video, .loading {
       flex: 0 0 auto;
       width: 10em;
       height: 10em;
@@ -20,7 +23,13 @@ file-list {
       margin-left: 1em;
 
       .name {
+        font-size: 1.2em;
+        font-weight: 600;
+        margin-left: .2rem;
+      }
 
+      .meta {
+        margin-top: 1em;
       }
     }
   }

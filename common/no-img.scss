@@ -1,0 +1,10 @@
+no-img {
+  text-align: center;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--asset-card-no-image-text);
+  background: var(--asset-card-no-image-bg);
+  &:hover {
+    background: var(--asset-card-no-image-hover);
+  }
+}

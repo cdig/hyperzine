@@ -12,7 +12,7 @@ Take ["DOOM", "FilesPane", "MetaPane", "Paths", "PubSub", "State", "DOMContentLo
     # start = performance.now()
     DOOM assetName, textContent: State.asset.id + " • " + Paths.displayName State.asset
     FilesPane.render()
-    MetaPane.render()
+    # MetaPane.render()
     # console.log performance.now() - start
 
   Make "Render", Render
