@@ -10,10 +10,15 @@ file-list {
     display: flex;
     align-items: center;
 
-    img, video, .loading {
+    no-img {
+      display: block;
+      line-height: 4em;
+    }
+
+    img, no-img, video, .loading {
       flex: 0 0 auto;
       width: 10em;
-      height: 10em;
+      max-height: 10em;
       object-fit: contain;
       background: #222;
     }

@@ -37,14 +37,14 @@ Take ["DOOM", "Paths", "State", "DOMContentLoaded"], (DOOM, Paths, State)->
         src: Paths.file State.asset, file
     else
       loading = DOOM.create "div", elm, class: "loading"
-      try
-        nativeImage.createThumbnailFromPath Paths.file(State.asset, file), {width: 320, height: 320}
-          .then (image)->
-            img = DOOM.create "img", null, src: image.toDataURL()
-            DOOM.remove loading
-            DOOM.prepend elm, img
-      catch
-        img = DOOM.create "no-img", assetImage, textContent: Frustration()
+      nativeImage.createThumbnailFromPath Paths.file(State.asset, file), {width: 320, height: 320}
+        .then (image)->
+          img = DOOM.create "img", null, src: image.toDataURL()
+        .catch ()->
+          img = DOOM.create "no-img", null, textContent: Array.last file.toUpperCase().split(".")
+        .finally ()->
+          DOOM.remove loading
+          DOOM.prepend elm, img
 
     info = DOOM.create "div", elm, class: "info"
 
