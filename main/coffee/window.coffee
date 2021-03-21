@@ -1,6 +1,6 @@
 { BrowserWindow } = require "electron"
 
-Take ["State"], (State)->
+Take ["Config", "State"], (Config, State)->
 
   defaultWindow =
     backgroundColor: "#FFF"
@@ -11,14 +11,58 @@ Take ["State"], (State)->
       nodeIntegration: true
       scrollBounce: true
 
-  # winRes = w: 2560, h: 1440, db: [2/12, 1/12, 8/12, 1/12], browser: [2/12, 2/12, 8/12, 8/12], asset: [1/5, 1/5, 3/5, 3/5] # Cinema Display
-  winRes = w: 1440, h: 900, db: [1/6, 1/6, 4/6, 1/6], browser: [0, 0, 1, 1], asset: [1/6, 1/6, 4/6, 4/6] # MacBook Air
+  windowIndexes = {}
+  windowBounds = null
 
-  makePosition = (x, y, w, h)->
-    x: Math.ceil(x*winRes.w), y: y*winRes.h|0, width: w*winRes.w|0, height: h*winRes.h|0
+  # We want to track whether this window is the 1st, 2nd, 3rd (etc) instance of its type.
+  # That way, whenever we open a new window, we can assign it to the most recently used
+  # position for that instance of that type of window. Closing a window will leave a null
+  # in the list of windows, which will be filled next time that type of window is opened.
+  # Here, "index" means the 1st, 2nd, 3rd (etc) instance
+  getNextIndex = (type)->
+    indexes = windowIndexes[type] ?= []
+    index = indexes.indexOf null # Find the position of the first null, if any
+    index = indexes.length if index < 0 # No nulls, so add to the end of the list
+    windowIndexes[type][index] = true # Save that this index is now being used
+    return index
+
+  clearIndex = (type, index)->
+    windowIndexes[type][index] = null
+
+
+  # Any properties that aren't specified will just be defaulted by electron
+  defaultBounds =
+    asset: width: 800, height: 600
+    browser: width:1440, height:900
+    db: y: 0, width: 800, height: 200
+
+  getBounds = (type, index)->
+    bounds = windowBounds[type][index] or defaultBounds[type]
+
+  checkBounds = (win)->
+    bounds = win.getBounds()
+    for otherWindow in BrowserWindow.getAllWindows() when otherWindow isnt win
+      otherBounds = otherWindow.getBounds()
+      if bounds.x is otherBounds.x and bounds.y is otherBounds.y
+        bounds.x += 22
+        bounds.y += 22
+    win.setBounds bounds
+
+  updateBounds = (type, index, win)->
+    windowBounds[type][index] = win.getBounds()
+
+  saveBounds = ()->
+    Config "windowBounds", windowBounds
 
 
   Make "Window", Window =
+    setup: ()->
+      windowBounds = Config "windowBounds"
+      windowBounds ?=
+        asset: []
+        browser: []
+        db: []
+
     asset: (assetId)->
       Window.new "asset", false, title: assetId
 
@@ -29,13 +73,20 @@ Take ["State"], (State)->
     db: ()->
       Window.new "db", false, title: "DB", backgroundThrottling: false, show: false
 
-    new: (filename, openDevTools = false, props = {})->
-      position = if winRes[filename] then makePosition ...winRes[filename] else {}
+    new: (type, openDevTools = false, props = {})->
       unless props.show is false
         deferPaint = true
         props.show = false
-      win = new BrowserWindow Object.assign {}, defaultWindow, position, props
-      win.loadFile "out/#{filename}.html"
+      index = getNextIndex type
+      bounds = getBounds type, index
+      win = new BrowserWindow Object.assign {}, defaultWindow, bounds, props
+      checkBounds win
+      win.loadFile "out/#{type}.html"
       win.webContents.openDevTools() if openDevTools and State.isDev
       win.once "ready-to-show", win.show if deferPaint
+      win.on "move", (e)-> updateBounds type, index, win
+      win.on "resize", (e)-> updateBounds type, index, win
+      win.on "closed", (e)->
+        saveBounds()
+        clearIndex type, index
       win

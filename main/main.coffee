@@ -9,6 +9,7 @@ Take ["AboutPanel", "Config", "IPC", "Menu", "Window"], (AboutPanel, Config, IPC
     Menu.setup()
 
     if Config.setup()
+      Window.setup()
       Window.db()
       Window.browser()
       app.on "activate", Window.browser
