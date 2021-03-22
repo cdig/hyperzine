@@ -1,5 +1,6 @@
-Take ["Assets", "AssetCard", "DOOM", "PubSub", "Search", "State"], (Assets, AssetCard, DOOM, {Pub}, Search, State)->
+Take ["Assets", "AssetCard", "DOOM", "Search", "State"], (Assets, AssetCard, DOOM, Search, State)->
   elm = document.querySelector "asset-list"
+  assetCount = document.querySelector "[asset-count]"
 
   Render = ()->
     # start = performance.now()
@@ -7,7 +8,7 @@ Take ["Assets", "AssetCard", "DOOM", "PubSub", "Search", "State"], (Assets, Asse
     assets = Object.values Assets()
 
     filteredAssets = Search assets, State.search
-    Pub "ResultsCount", filteredAssets.length
+    DOOM assetCount, textContent: filteredAssets.length + " Assets"
 
     filteredAssets = filteredAssets[0...50]
 

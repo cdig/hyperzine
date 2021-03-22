@@ -6,6 +6,8 @@ Take ["Config", "State"], (Config, State)->
     backgroundColor: "#FFF"
     title: "Hyperzine"
     titleBarStyle: "hiddenInset"
+    minWidth: 340
+    minHeight: 340
     webPreferences:
       contextIsolation: false
       nodeIntegration: true
