@@ -10,17 +10,22 @@ file-list {
     display: flex;
     align-items: center;
 
-    no-img {
-      display: block;
-      line-height: 4em;
-    }
-
     img, no-img, video, .loading {
       flex: 0 0 auto;
       width: 10em;
       max-height: 10em;
       object-fit: contain;
-      background: #222;
+      background: var(--card-image-bg);
+    }
+
+    no-img, .loading {
+      display: block;
+      line-height: 4em;
+      background: var(--card-no-image-bg);
+    }
+
+    &:hover {
+      .info { color: #777; }
     }
 
     .info {

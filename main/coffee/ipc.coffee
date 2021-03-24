@@ -47,6 +47,16 @@ Take ["Config", "State", "Window"], (Config, State, Window)->
         assetId = BrowserWindow.fromWebContents(sender).title
         reply "info", State.assets[assetId], info
 
+      # ipcMain.on "asset-pin", (e, assetId, isPinned)->
+      #   pinned = Config("pinned") or {}
+      #   if isPinned
+      #     pinned[assetId] = true
+      #   else
+      #     delete pinned[assetId]
+      #   Config "pinned", pinned
+      #   for wc in webContents.getAllWebContents()
+      #     wc.send "config-changed", Config.get()
+
 
     find: ()->
       win = BrowserWindow.getFocusedWindow()

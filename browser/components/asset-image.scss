@@ -10,7 +10,7 @@ asset-image {
     pointer-events: auto;
 
     &:hover {
-      border-color: var(--asset-card-image-hover-border);
+      border-color: var(--card-image-hover-border);
     }
   }
 
@@ -19,9 +19,9 @@ asset-image {
     max-height: 100%;
     object-fit: contain;
     object-position: bottom;
-    background: var(--asset-card-image-bg);
+    background: var(--card-image-bg);
     &:hover {
-      background: var(--asset-card-image-hover-bg);
+      background: var(--card-image-hover-bg);
     }
   }
 

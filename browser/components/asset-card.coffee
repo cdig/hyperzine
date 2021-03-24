@@ -23,7 +23,7 @@ Take ["DOOM", "Frustration", "IPC", "Paths"], (DOOM, Frustration, IPC, Paths)->
     metaList = DOOM.create "meta-list", card
 
     fileCount = DOOM.create "file-count", metaList,
-      textContent: asset.files.length
+      textContent: asset.files.count
 
     for v in asset.tags
       DOOM.create "tag-item", metaList, textContent: v

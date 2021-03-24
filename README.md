@@ -26,5 +26,3 @@ https://docs.google.com/document/d/1U1t5ws2_DjsdBBRG5bPBsRgXeyZvx7GDxpZ8oTvNvPc/
 Automatically check for "conflicted copy"
 
 When adding an asset, check for node_modules and other excluded files
-
-A way to flag assets as "favourite" — local to each user (computer)
