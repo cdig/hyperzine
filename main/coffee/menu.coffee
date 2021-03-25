@@ -62,20 +62,20 @@ Take ["AppFolder", "Config", "IPC", "State", "Window"], (AppFolder, Config, IPC,
       { role: "togglefullscreen" }
     ]
 
-  template.push { role: "windowMenu" }
-    # label: "Window"
-    # submenu: [
-    #   { role: "minimize" }
-    #   { role: "zoom" }
-    #   ...(if State.isMac then [
-    #     { type: "separator" }
-    #     { role: "front" }
-    #     { type: "separator" }
-    #     { role: "window" }
-    #   ] else [
-    #     { role: "close" }
-    #   ])
-    # ]
+  template.push
+    role: "windowMenu"
+    submenu: [
+      { role: "minimize" }
+      { role: "zoom" }
+      ...(if State.isMac then [
+        { type: "separator" }
+        { role: "front" }
+      ] else [
+        { role: "close" }
+      ])
+      { type: "separator" }
+      { label: "Show DB Window", accelerator: "CmdOrCtrl+Shift+D", click: ()-> Window.db() }
+    ]
 
   template.push
     role: "help"

@@ -1,4 +1,4 @@
-{ BrowserWindow } = require "electron"
+{ app, BrowserWindow } = require "electron"
 
 Take ["Config", "State"], (Config, State)->
 
@@ -15,6 +15,12 @@ Take ["Config", "State"], (Config, State)->
 
   windowIndexes = {}
   windowBounds = null
+
+  # We only want a single instance of the DB window
+  db = null
+  aboutToQuit = false
+
+  app.on "before-quit", ()-> aboutToQuit = true
 
   # We want to track whether this window is the 1st, 2nd, 3rd (etc) instance of its type.
   # That way, whenever we open a new window, we can assign it to the most recently used
@@ -73,7 +79,16 @@ Take ["Config", "State"], (Config, State)->
         Window.new "browser", false, title: "Hyperzine Browser"
 
     db: ()->
-      Window.new "db", false, title: "DB", backgroundThrottling: false, show: false
+      if db?
+        db.show()
+      else
+        db = Window.new "db", false, title: "DB", backgroundThrottling: false#, show: false
+        db.on "close", (e)->
+          unless aboutToQuit
+            e.preventDefault()
+            db.hide()
+        db
+
 
     new: (type, openDevTools = false, props = {})->
       unless props.show is false
