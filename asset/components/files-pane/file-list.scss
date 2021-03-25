@@ -12,15 +12,15 @@ file-list {
 
     img, no-img, video, .loading {
       flex: 0 0 auto;
-      width: 10em;
-      max-height: 10em;
+      width: 10rem;
+      max-height: 10rem;
       object-fit: contain;
       background: var(--card-image-bg);
     }
 
     no-img, .loading {
       display: block;
-      line-height: 4em;
+      line-height: 4rem;
       background: var(--card-no-image-bg);
     }
 

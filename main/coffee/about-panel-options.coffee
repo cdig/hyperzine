@@ -4,4 +4,4 @@ Take [], ()->
   Make "AboutPanel", AboutPanel =
     setup: ()->
       app.setAboutPanelOptions
-        copyright: "© Should Be Abolished :)"
+        copyright: "© Should Be Abolished"

@@ -1,7 +1,8 @@
 no-img {
   text-align: center;
   font-weight: 700;
-  white-space: nowrap;
+  font-size: 1.4em;
+  white-space: pre;
   color: var(--card-no-image-text);
   background: var(--card-no-image-bg);
   &:hover {
