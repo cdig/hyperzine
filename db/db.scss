@@ -1,27 +1,13 @@
-html {
-  font-family: var(--system-fonts);
-}
-
-body {
-  overflow: hidden;
-}
-
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 38px;
-  padding-left: 80px;
-  padding-right: 10px;
-  border-bottom: 1px solid black;
-  font-size: 14px;
-  color: white;
-  background: #222;
-
-  div { flex: 0 0 auto; }
-}
-
 main {
-  padding: 10px 20px;
-  overflow-y: scroll;
+  height: 100%;
+  padding: calc(37px + 1em) 1em 1em;
+  line-height: 1.3;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  font-family: Inconsolata, monospace;
+  white-space: pre;
+}
+
+::-webkit-scrollbar-track {
+  margin-top: 37px;
 }
