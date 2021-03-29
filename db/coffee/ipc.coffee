@@ -1,9 +1,11 @@
 { ipcRenderer } = require "electron"
 
-Take [], ()->
+Take ["Log"], (Log)->
 
   ipcRenderer.on "focus", ()-> document.documentElement.classList.remove "blur"
   ipcRenderer.on "blur", ()-> document.documentElement.classList.add "blur"
+
+  ipcRenderer.on "Log", (e, msg, attrs)-> Log msg, attrs
 
   Make "IPC", IPC =
 
