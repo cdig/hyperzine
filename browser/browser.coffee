@@ -1,4 +1,4 @@
-Take ["Assets", "IPC", "Paths", "PubSub", "Render", "DOMContentLoaded"], (Assets, IPC, Paths, {Pub, Sub}, Render)->
+Take ["Assets", "IPC", "Log", "Paths", "PubSub", "Render", "DOMContentLoaded"], (Assets, IPC, Log, Paths, {Pub, Sub}, Render)->
 
   requestIdleCallback ()->
 
@@ -12,8 +12,8 @@ Take ["Assets", "IPC", "Paths", "PubSub", "Render", "DOMContentLoaded"], (Assets
           Make "Info", info
 
         loadAssets: (assets)->
-          Assets assets
-          Render()
+          Log.time "Build assets", ()-> Assets assets
+          Log.time "Initial render", Render
 
         assetChanged: (asset)->
           Render.deleteAssetCard Assets.update asset

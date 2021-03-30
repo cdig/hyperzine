@@ -1,4 +1,4 @@
-Take ["IPC", "Paths", "PubSub", "Render", "State", "DOMContentLoaded"], (IPC, Paths, {Pub, Sub}, Render, State)->
+Take ["IPC", "Log", "Paths", "PubSub", "Render", "State", "DOMContentLoaded"], (IPC, Log, Paths, {Pub, Sub}, Render, State)->
 
   requestIdleCallback ()->
 

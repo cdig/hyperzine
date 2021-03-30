@@ -11,7 +11,9 @@ Take ["Config", "State", "Window"], (Config, State, Window)->
     setup: ()->
 
       ipcMain.handle "config-data", ()->
-        Config.get()
+        cfg = Config.get()
+        cfg.dbID = Window.getDB()?.webContents?.id # Putting this on config is a temporary hack
+        return cfg
 
       ipcMain.on "close-window", ({sender})->
         BrowserWindow.fromWebContents(sender)?.close()

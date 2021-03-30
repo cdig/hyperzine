@@ -64,6 +64,8 @@ Take ["Config", "State"], (Config, State)->
 
 
   Make "Window", Window =
+    getDB: ()-> db
+
     setup: ()->
       windowBounds = Config "windowBounds"
       windowBounds ?=
@@ -76,13 +78,13 @@ Take ["Config", "State"], (Config, State)->
 
     browser: ()->
       unless BrowserWindow.getAllWindows().length > 1
-        Window.new "browser", false, title: "Hyperzine Browser"
+        Window.new "browser", true, title: "Hyperzine Browser"
 
     db: ()->
       if db?
         db.show()
       else
-        db = Window.new "db", false, title: "DB", backgroundThrottling: false#, show: false
+        db = Window.new "db", true, title: "DB", backgroundThrottling: false, show: State.isDev
         db.on "close", (e)->
           unless aboutToQuit
             e.preventDefault()

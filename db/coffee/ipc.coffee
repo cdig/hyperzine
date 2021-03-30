@@ -1,13 +1,14 @@
 { ipcRenderer } = require "electron"
 
-Take ["Log"], (Log)->
+Take ["Printer"], (Printer)->
 
   ipcRenderer.on "focus", ()-> document.documentElement.classList.remove "blur"
   ipcRenderer.on "blur", ()-> document.documentElement.classList.add "blur"
 
-  ipcRenderer.on "Log", (e, msg, attrs)-> Log msg, attrs
+  ipcRenderer.on "log", (e, msg, attrs)-> Printer msg, attrs
 
   Make "IPC", IPC =
+    log: (msg, attrs)-> Printer msg, attrs
 
     getConfig: (cb)->
       ipcRenderer.invoke("config-data").then cb
