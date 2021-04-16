@@ -3,15 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval'">
   <link href="common.css" rel="stylesheet">
-  <link href="db.css" rel="stylesheet">
+  <link href="setup-assistant.css" rel="stylesheet">
   <script src="common.js" defer></script>
-  <script src="db.js" defer></script>
+  <script src="setup-assistant.js" defer></script>
 </head>
 <body>
 
   <div id="welcome">
+    <div><gear-view></gear-view></div>
     <h1>Welcome to Hyperzine</h1>
     <div class="buttons">
       <button quit-button>Quit</button>

@@ -20,6 +20,8 @@ Take ["Printer"], (Printer)->
     promise:
       once: (channel)-> new Promise (resolve)-> ipcRenderer.once channel, resolve
 
+    fatal: (...args)-> ipcRenderer.send "fatal", ...args
+
     needSetup: ()-> ipcRenderer.send Printer "db-need-setup"
     ready: ()-> ipcRenderer.send "db-ready"
 

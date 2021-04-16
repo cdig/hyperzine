@@ -5,5 +5,5 @@ Take ["Config", "LoadAssets", "Log", "WatchAssets", "DOMContentLoaded"], (Config
   Log "DB Window Open", null, time
 
   await Config.init()
-  await LoadAssets()
-  WatchAssets()
+  # await LoadAssets()
+  # WatchAssets()

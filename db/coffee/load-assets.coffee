@@ -17,7 +17,7 @@ Take ["Asset", "Config", "Log", "Read"], (Asset, Config, Log, Read)->
     load = (k)->
       new Promise loadPromise = (resolve)->
         requestAnimationFrame loadRaf = ()->
-          await Log.time.async "Load #{k}", loadLog = ()->
+          await Log.time.async "Build #{k}", loadLog = ()->
             for id, asset of assets
               asset[name] = Asset.build[name] asset
             for id, asset of assets
@@ -28,7 +28,7 @@ Take ["Asset", "Config", "Log", "Read"], (Asset, Config, Log, Read)->
     for name in ["name", "shot", "tags", "files"]
       await load name
 
-    Log.time "search", searchlog = ()->
+    Log.time "Build Search", searchlog = ()->
       for id, asset of assets
         asset.search = Asset.build.search asset
 

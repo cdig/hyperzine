@@ -28,7 +28,7 @@ Take ["IPC", "Menu", "Window"], (IPC, Menu, Window)->
   await dbReady
 
   # The last setup step is to open a browser window.
-  # Window.open.browser()
+  Window.open.browser()
 
   # Now, whenever we switch to the app, let the window manager know.
-  # app.on "activate", Window.activate
+  app.on "activate", Window.activate

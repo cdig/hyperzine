@@ -10,12 +10,13 @@ Take ["Asset", "Config", "Debounced", "Log", "IPC", "Read"], (Asset, Config, Deb
   changed = {}
 
   update = Debounced ()->
-    for assetId, assetPath of changed
-      if Read assetPath
-        asset = Asset assetPath
-        IPC.assetChanged asset
-      else
-        IPC.assetDeleted assetId
+    Log "TODO: Implement port-based asset update IPC"
+    # for assetId, assetPath of changed
+    #   if Read assetPath
+    #     asset = Asset assetPath
+    #     IPC.assetChanged asset
+    #   else
+    #     IPC.assetDeleted assetId
     null
 
 

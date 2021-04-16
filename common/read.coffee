@@ -43,6 +43,12 @@ Take [], ()->
       fs.access folderPath, (err)->
         resolve not err?
 
+  Read.file = (filePath)->
+    try
+      file = fs.readFileSync filePath
+    catch
+      null
+
   Read.path = (...segs)->
     segs.join path.sep
 

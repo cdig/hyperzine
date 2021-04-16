@@ -45,6 +45,8 @@ html.blur {
     --bubble-bg: #e9e9e9;
     --bubble-text-a: hsl(210, 0%, 50%);
     --bubble-text-b: hsl(240, 0%, 50%);
+    --button-bg: #555;
+    --button-active-bg: hsl(204, 86%, 53%);
     --card-image-bg: #fff;
     --card-image-hover-bg: #f2f2f2;
     --card-image-hover-border: #fff;
@@ -52,7 +54,6 @@ html.blur {
     --card-no-image-text: #777;
     --card-no-image-hover: #fafafa;
     --input-bg: #fff0;
-    --input-border-focus: #86acf3;
     --input-border: #0002;
     --input-text: #000;
     --input-focus-after-border: hsl(219, 82%, 74%);

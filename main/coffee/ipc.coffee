@@ -1,10 +1,16 @@
-{ BrowserWindow, ipcMain, MessageChannelMain } = require "electron"
+{ app, BrowserWindow, dialog, ipcMain, MessageChannelMain } = require "electron"
 
 Take ["Env", "Window"], (Env, Window)->
 
   ipcMain.handle "env", ()-> Env
 
   ipcMain.on "close-window", ({sender})-> BrowserWindow.fromWebContents(sender)?.close()
+
+  ipcMain.on "quit", ({sender}, msg)-> app.quit()
+
+  ipcMain.on "fatal", ({sender}, msg)->
+    dialog.showErrorBox "Fatal Error", msg
+    app.quit()
 
   ipcMain.on "bind-db", ({processId, sender})->
     db = Window.getDB()

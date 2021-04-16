@@ -1,5 +1,3 @@
-path = require "path"
-
 Take ["FileTree", "Read"], (FileTree, Read)->
 
   first = (v)-> v?[0]

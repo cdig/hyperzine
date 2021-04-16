@@ -18,6 +18,7 @@ Take ["Env"], (Env)->
     asset: []
     browser: []
     db: []
+    "setup-assistant": []
 
   # We only want a single instance of the DB window
   db = null
@@ -46,6 +47,7 @@ Take ["Env"], (Env)->
     asset: width: 1000, height: 600
     browser: x: 1000, y: 0, width: 440, height:600
     db: x: 0, y: 0, width: 400, height: 300
+    "setup-assistant": width: 420, height: 360
 
   getBounds = (type, index)->
     bounds = windowBounds[type][index] or defaultBounds[type]
@@ -76,7 +78,7 @@ Take ["Env"], (Env)->
     win = new BrowserWindow Object.assign {}, defaultWindow, bounds, props
     checkBounds win
     win.loadFile "out/#{type}.html"
-    win.webContents.openDevTools() if openDevTools and Env.isDev and true
+    win.webContents.openDevTools() if openDevTools and Env.isDev
     win.once "ready-to-show", win.show if deferPaint
     win.on "move", (e)-> updateBounds type, index, win
     win.on "resize", (e)-> updateBounds type, index, win
@@ -106,7 +108,8 @@ Take ["Env"], (Env)->
       asset: (assetId)-> newWindow "asset", false, title: assetId
       browser: ()-> newWindow "browser", false, title: "Browser"
       db: ()-> openDb()
-      setupAssistant: ()-> newWindow "setup", true, title: "Setup Assistant"
+      setupAssistant: ()->
+        win = newWindow "setup-assistant", false, title: "Setup Assistant", resizable: false, fullscreenable: false, frame: false, titleBarStyle: "default"
 
     activate: ()->
       unless BrowserWindow.getAllWindows().length > 1
