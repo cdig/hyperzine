@@ -1,10 +1,10 @@
 { app, Menu, shell } = require "electron"
 
-Take ["AppFolder", "Config", "IPC", "State", "Window"], (AppFolder, Config, IPC, State, Window)->
+Take ["AppFolder", "IPC", "Env", "Window"], (AppFolder, IPC, Env, Window)->
 
   template = []
 
-  if State.isMac then template.push
+  if Env.isMac then template.push
     label: app.name
     submenu: [
       { role: "about" }
@@ -22,16 +22,16 @@ Take ["AppFolder", "Config", "IPC", "State", "Window"], (AppFolder, Config, IPC,
     label: "File"
     submenu: [
       { label: "New Asset", enabled: false, accelerator: "CmdOrCtrl+N" }
-      { label: "New Browser Window", accelerator: "CmdOrCtrl+Shift+N", click: ()-> Window.new "browser"}
+      { label: "New Browser Window", accelerator: "CmdOrCtrl+Shift+N", click: Window.open.browser }
       { type: "separator" }
-      ...(if State.isDev
+      ...(if Env.isDev
         [{ label: "Export App Folder", click: AppFolder.export }]
       else
         [{ label: "Open App Update…", click: AppFolder.import }]
       )
-      { label: "Show Config File", click: ()-> shell.showItemInFolder Config.path() }
+      { label: "Show Config File", click: ()-> }#shell.showItemInFolder Config.path() }
       { type: "separator" }
-      { role: if State.isMac then "close" else "quit" }
+      { role: if Env.isMac then "close" else "quit" }
     ]
 
   template.push
@@ -46,14 +46,14 @@ Take ["AppFolder", "Config", "IPC", "State", "Window"], (AppFolder, Config, IPC,
       { role: "delete" }
       { role: "selectAll" }
       { type: "separator" }
-      { label: "Find", accelerator: "CmdOrCtrl+F", click: ()-> IPC.find() }
+      { label: "Find", accelerator: "CmdOrCtrl+F", click: ()-> IPC.toFocusedWindow "find" }
       { type: "separator" }
     ]
 
   template.push
     label: "View"
     submenu: [
-      ...(if State.isDev then [
+      ...(if Env.isDev then [
         { role: "reload" }
         { role: "forceReload" }
         { role: "toggleDevTools" }
@@ -67,14 +67,14 @@ Take ["AppFolder", "Config", "IPC", "State", "Window"], (AppFolder, Config, IPC,
     submenu: [
       { role: "minimize" }
       { role: "zoom" }
-      ...(if State.isMac then [
+      ...(if Env.isMac then [
         { type: "separator" }
         { role: "front" }
       ] else [
         { role: "close" }
       ])
       { type: "separator" }
-      { label: "Show DB Window", accelerator: "CmdOrCtrl+Shift+D", click: ()-> Window.db() }
+      { label: "Show DB Window", accelerator: "CmdOrCtrl+Shift+D", click: Window.open.db }
     ]
 
   template.push

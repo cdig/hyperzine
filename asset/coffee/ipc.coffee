@@ -2,16 +2,15 @@
 
 Take [], ()->
 
-  ipcRenderer.on "focus", ()-> document.documentElement.classList.remove "blur"
-  ipcRenderer.on "blur", ()-> document.documentElement.classList.add "blur"
-
-  dbID = null
+  db = null
+  id = null
 
   Make "IPC", IPC =
 
     getConfig: (cb)->
-      ipcRenderer.invoke("config-data").then (configData)->
-        dbID = configData.dbID
+      ipcRenderer.invoke("init").then (configData)->
+        db = configData.db
+        id = configData.id
         cb configData
 
     init: ({load, assetChanged, assetDeleted, find})->
@@ -21,10 +20,8 @@ Take [], ()->
       ipcRenderer.on "find", (event)-> find()
       ipcRenderer.send "asset-init"
 
-    log: (msg, attrs)->
-      if dbID?
-        sender = "Asset #{webFrame.routingId}"
-        ipcRenderer.sendTo dbID, "log", "#{sender}  #{msg}", attrs
+    log: (...args)->
+      db.postMessage ["log", ...args]
 
     closeWindow: ()->
       ipcRenderer.send "close-window"

@@ -1,16 +1,18 @@
 { ipcRenderer, webFrame } = require "electron"
 
 Take [], ()->
+  bind = new Promise (resolve)->
+    ipcRenderer.on "port", ({ports}, data)->
+      resolve [ports[0], data.id]
 
-  ipcRenderer.on "focus", ()-> document.documentElement.classList.remove "blur"
-  ipcRenderer.on "blur", ()-> document.documentElement.classList.add "blur"
+  ipcRenderer.send "bind-db"
 
-  dbID = null
+  [db, id] = await bind
 
   Make "IPC", IPC =
 
     getConfig: (cb)->
-      ipcRenderer.invoke("config-data").then (configData)->
+      ipcRenderer.invoke("init").then (configData)->
         dbID = configData.dbID
         cb configData
 
@@ -22,10 +24,8 @@ Take [], ()->
       ipcRenderer.on "find", (event)-> find()
       ipcRenderer.send "browser-init"
 
-    log: (msg, attrs)->
-      if dbID?
-        sender = "Browser #{webFrame.routingId}"
-        ipcRenderer.sendTo dbID, "log", "#{sender}  #{msg}", attrs
+    log: (...args)->
+      db.postMessage ["log", ...args]
 
     openAsset: (assetId)->
       ipcRenderer.send "browser-open-asset", assetId

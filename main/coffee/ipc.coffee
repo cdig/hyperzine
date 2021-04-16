@@ -1,67 +1,32 @@
-{ ipcMain, webContents } = require "electron"
+{ BrowserWindow, ipcMain, MessageChannelMain } = require "electron"
 
-Take ["Config", "State", "Window"], (Config, State, Window)->
+Take ["Env", "Window"], (Env, Window)->
 
-  info =
-    isDev: State.isDev
-    isMac: State.isMac
-    version: State.version
+  ipcMain.handle "env", ()-> Env
+
+  ipcMain.on "close-window", ({sender})-> BrowserWindow.fromWebContents(sender)?.close()
+
+  ipcMain.on "bind-db", ({processId, sender})->
+    db = Window.getDB()
+    { port1, port2 } = new MessageChannelMain()
+    sender.postMessage "port", {id:processId}, [port1]
+    db.webContents.postMessage "port", {id:processId}, [port2]
+
 
   Make "IPC", IPC =
-    setup: ()->
 
-      ipcMain.handle "config-data", ()->
-        cfg = Config.get()
-        cfg.dbID = Window.getDB()?.webContents?.id # Putting this on config is a temporary hack
-        return cfg
+    on:     (channel, cb)-> ipcMain.on     channel, cb
+    once:   (channel, cb)-> ipcMain.on     channel, cb
+    handle: (channel, cb)-> ipcMain.handle channel, cb
 
-      ipcMain.on "close-window", ({sender})->
-        BrowserWindow.fromWebContents(sender)?.close()
+    # Promise-based handlers, optimized for use with await
+    promise:
+      once: (channel)-> new Promise (resolve)-> ipcMain.once channel, resolve
+      handle: (channel)-> new Promise (resolve)-> ipcMain.handle channel, (e, ...args)-> resolve ...args
 
-      ipcMain.on "db-assets", (e, assets)->
-        State.assets = assets
-        # When the DB first finishes loading assets, update any existing windows
-        for wc in webContents.getAllWebContents()
-          wc.send "assets", assets
-
-      ipcMain.on "db-asset-changed", (e, asset)->
-        State.assets[asset.id] = asset
-        for wc in webContents.getAllWebContents()
-          wc.send "asset-changed", asset
-
-      ipcMain.on "db-asset-deleted", (e, assetId)->
-        delete State.assets[assetId]
-        for wc in webContents.getAllWebContents()
-          wc.send "asset-deleted", assetId
-
-      ipcMain.on "browser-init", ({reply})->
-        # a new browser window was just opened, so feed it the list of assets (if that exists yet)
-        reply "info", info
-        if Object.keys(State.assets).length > 0
-          reply "assets", State.assets
-
-      ipcMain.on "browser-open-asset", (e, assetId)->
-        Window.asset assetId
-
-      ipcMain.on "asset-init", ({reply, sender}, assetId)->
-        # We're assuming that the assets have already been loaded
-        # This might not be true if we eventually save and restore window state on launch
-        assetId = BrowserWindow.fromWebContents(sender).title
-        reply "info", State.assets[assetId], info
-
-      # ipcMain.on "asset-pin", (e, assetId, isPinned)->
-      #   pinned = Config("pinned") or {}
-      #   if isPinned
-      #     pinned[assetId] = true
-      #   else
-      #     delete pinned[assetId]
-      #   Config "pinned", pinned
-      #   for wc in webContents.getAllWebContents()
-      #     wc.send "config-changed", Config.get()
-
-
-    find: ()->
+    # Send a message to the frontmost window
+    toFocusedWindow: (msg)->
       win = BrowserWindow.getFocusedWindow()
       win ?= BrowserWindow.getAllWindows()[0] # No window was focussed, so get any window
-      win ?= Window.browser() # No windows, so open a new window
-      win.webContents.send "find"
+      win ?= Window.open.browser() # No windows, so open a new window
+      win.webContents.send msg

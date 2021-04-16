@@ -1,19 +1,35 @@
-Take ["Asset", "Log", "Read"], (Asset, Log, Read)->
+Take ["Asset", "Config", "Log", "Read"], (Asset, Config, Log, Read)->
 
-  Make "LoadAssets", LoadAssets = (assetsFolderPath)->
+  Make "LoadAssets", LoadAssets = ()->
     assets = {}
+    assetsFolderPath = Config "pathToAssetsFolder"
+    logAssetLoadTime = Log.time.custom "Loading Assets"
 
-    if assetFolders = Read.folder assetsFolderPath
-      Log.time "Read assetsFolderPath", ()->
-        for assetFolder in assetFolders
-          assetPath = path.join assetsFolderPath, assetFolder
-          asset = Asset assetPath
-          assets[asset.id] = asset
+    return Log("No Assets Found") unless assetFolders = Read assetsFolderPath
 
-      Log.time "makeName", ()-> Asset.makeName asset for id, asset of assets
-      Log.time "makeShot", ()-> Asset.makeShot asset for id, asset of assets
-      Log.time "makeTags", ()-> Asset.makeTags asset for id, asset of assets
-      Log.time "makeFiles", ()-> Asset.makeFiles asset for id, asset of assets
-      Log.time "makeSearch", ()-> Asset.makeSearch asset for id, asset of assets
+    Log.time "Scan Asset Folders", scanAssetFolders = ()->
+      for assetFolder in assetFolders
+        assetPath = Read.path assetsFolderPath, assetFolder
+        asset = Asset assetPath
+        assets[asset.id] = asset
+      null
 
-    assets
+    load = (k)->
+      new Promise loadPromise = (resolve)->
+        requestAnimationFrame loadRaf = ()->
+          await Log.time.async "Load #{k}", loadLog = ()->
+            for id, asset of assets
+              asset[name] = Asset.build[name] asset
+            for id, asset of assets
+              asset[k] = await asset[k]
+            null
+          resolve()
+
+    for name in ["name", "shot", "tags", "files"]
+      await load name
+
+    Log.time "search", searchlog = ()->
+      for id, asset of assets
+        asset.search = Asset.build.search asset
+
+    logAssetLoadTime "Spent Loading #{Object.keys(assets).length} Assets"

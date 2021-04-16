@@ -1,28 +1,26 @@
-fs = require "fs"
-path = require "path"
-
 Take ["Read"], (Read)->
-
-  isFolder = (folderPath)->
-    fs.existsSync(folderPath) and fs.lstatSync(folderPath).isDirectory()
-
 
   Make "FileTree", FileTree =
     build: (parentPath, name)->
       tree =
         name: name
-        path: path.join parentPath, name
-      if isFolder tree.path
-        tree.children = Read.folder(tree.path) or []
-        tree.count = tree.children.length
-        for childName, i in tree.children
-          tree.children[i] = FileTree.build tree.path, childName
-          tree.count += tree.children[i].count or 0
+        path: Read.path parentPath, name
+        count: 0
+      dirents = await Read.withFileTypes tree.path
+      tree.children = await Promise.all dirents.map filetreedirentmap = (dirent)->
+        if dirent.isDirectory()
+          child = await FileTree.build tree.path, dirent.name
+          tree.count += child.count if child.count?
+          child
+        else
+          tree.count += 1
+          child =
+            name: dirent.name
+            path: Read.path tree.path, dirent.name
       return tree
 
-    flatNames: (tree)->
-      out = [tree.name]
-      if tree.children?
-        for child in tree.children
-          out = out.concat FileTree.flatNames child
-      out
+    flatNames: (tree, into = [])->
+      for child in tree.children
+        into.push child.name
+        FileTree.flatNames child, into if child.children
+      into

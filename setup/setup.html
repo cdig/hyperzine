@@ -3,16 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline'">
   <link href="common.css" rel="stylesheet">
   <link href="db.css" rel="stylesheet">
   <script src="common.js" defer></script>
   <script src="db.js" defer></script>
 </head>
 <body>
-  <window-top>
-    <title-bar>Hyperzine DB</title-bar>
-  </window-top>
-  <log-printer></log-printer>
+
+  <div id="welcome">
+    <h1>Welcome to Hyperzine</h1>
+    <div class="buttons">
+      <button quit-button>Quit</button>
+      <button begin-button>Begin Setup</button>
+    </div>
+  </div>
+
 </body>
 </html>

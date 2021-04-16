@@ -1,8 +1,8 @@
 { app } = require "electron"
 
 Take [], ()->
-  Make "State", MainState =
-    assets: []
+  Make "Env", Env =
     isDev: not app.isPackaged
     isMac: process.platform is "darwin"
+    userData: app.getPath("userData")
     version: app.getVersion()

@@ -1,6 +1,6 @@
 { app, BrowserWindow } = require "electron"
 
-Take ["Config", "State"], (Config, State)->
+Take ["Env"], (Env)->
 
   defaultWindow =
     backgroundColor: "#FFF"
@@ -14,12 +14,15 @@ Take ["Config", "State"], (Config, State)->
       scrollBounce: true
 
   windowIndexes = {}
-  windowBounds = null
+  windowBounds =
+    asset: []
+    browser: []
+    db: []
 
   # We only want a single instance of the DB window
   db = null
-  aboutToQuit = false
 
+  aboutToQuit = false
   app.on "before-quit", ()-> aboutToQuit = true
 
   # We want to track whether this window is the 1st, 2nd, 3rd (etc) instance of its type.
@@ -38,11 +41,11 @@ Take ["Config", "State"], (Config, State)->
     windowIndexes[type][index] = null
 
 
-  # Any properties that aren't specified will just be defaulted by electron
+  # Any properties that aren't specified will just be defaulted by Electron
   defaultBounds =
-    asset: width: 800, height: 600
-    browser: width:1440, height:900
-    db: y: 0, width: 800, height: 200
+    asset: width: 1000, height: 600
+    browser: x: 1000, y: 0, width: 440, height:600
+    db: x: 0, y: 0, width: 400, height: 300
 
   getBounds = (type, index)->
     bounds = windowBounds[type][index] or defaultBounds[type]
@@ -60,52 +63,51 @@ Take ["Config", "State"], (Config, State)->
     windowBounds[type][index] = win.getBounds()
 
   saveBounds = ()->
-    Config "windowBounds", windowBounds
+    # Disabled until we figure out app initialization
+    # Config "windowBounds", windowBounds
+    null
+
+  newWindow = (type, openDevTools = false, props = {})->
+    unless props.show is false
+      deferPaint = true
+      props.show = false
+    index = getNextIndex type
+    bounds = getBounds type, index
+    win = new BrowserWindow Object.assign {}, defaultWindow, bounds, props
+    checkBounds win
+    win.loadFile "out/#{type}.html"
+    win.webContents.openDevTools() if openDevTools and Env.isDev and true
+    win.once "ready-to-show", win.show if deferPaint
+    win.on "move", (e)-> updateBounds type, index, win
+    win.on "resize", (e)-> updateBounds type, index, win
+    win.on "closed", (e)->
+      saveBounds()
+      clearIndex type, index
+    win
+
+  openDb = ()->
+    if db?
+      db.show()
+    else
+      db = newWindow "db", false, title: "DB", backgroundThrottling: false, show: Env.isDev
+      db.on "close", (e)->
+        unless aboutToQuit
+          e.preventDefault()
+          db.hide()
+    return db
 
 
   Make "Window", Window =
-    getDB: ()-> db
+    getDB: ()->
+      throw "DB window doesn't exist" unless db?
+      db
 
-    setup: ()->
-      windowBounds = Config "windowBounds"
-      windowBounds ?=
-        asset: []
-        browser: []
-        db: []
+    open:
+      asset: (assetId)-> newWindow "asset", false, title: assetId
+      browser: ()-> newWindow "browser", false, title: "Browser"
+      db: ()-> openDb()
+      setupAssistant: ()-> newWindow "setup", true, title: "Setup Assistant"
 
-    asset: (assetId)->
-      Window.new "asset", false, title: assetId
-
-    browser: ()->
+    activate: ()->
       unless BrowserWindow.getAllWindows().length > 1
-        Window.new "browser", true, title: "Hyperzine Browser"
-
-    db: ()->
-      if db?
-        db.show()
-      else
-        db = Window.new "db", true, title: "DB", backgroundThrottling: false, show: State.isDev
-        db.on "close", (e)->
-          unless aboutToQuit
-            e.preventDefault()
-            db.hide()
-        db
-
-
-    new: (type, openDevTools = false, props = {})->
-      unless props.show is false
-        deferPaint = true
-        props.show = false
-      index = getNextIndex type
-      bounds = getBounds type, index
-      win = new BrowserWindow Object.assign {}, defaultWindow, bounds, props
-      checkBounds win
-      win.loadFile "out/#{type}.html"
-      win.webContents.openDevTools() if openDevTools and State.isDev
-      win.once "ready-to-show", win.show if deferPaint
-      win.on "move", (e)-> updateBounds type, index, win
-      win.on "resize", (e)-> updateBounds type, index, win
-      win.on "closed", (e)->
-        saveBounds()
-        clearIndex type, index
-      win
+        Window.open.browser()

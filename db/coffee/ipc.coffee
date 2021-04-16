@@ -1,23 +1,38 @@
 { ipcRenderer } = require "electron"
 
 Take ["Printer"], (Printer)->
+  ports = {}
 
-  ipcRenderer.on "focus", ()-> document.documentElement.classList.remove "blur"
-  ipcRenderer.on "blur", ()-> document.documentElement.classList.add "blur"
-
-  ipcRenderer.on "log", (e, msg, attrs)-> Printer msg, attrs
+  ipcRenderer.on "port", (e, {id})->
+    port = ports[id] = e.ports[0]
+    port.onmessage = ({data: [name, ...args]})->
+      if fn = IPC[name]
+        fn ...args
+      else
+        Printer "Unexpected port message: #{name}", color: "#F00"
 
   Make "IPC", IPC =
-    log: (msg, attrs)-> Printer msg, attrs
 
-    getConfig: (cb)->
-      ipcRenderer.invoke("config-data").then cb
+    on:     (channel, cb)-> ipcRenderer.on     channel, cb
+    once:   (channel, cb)-> ipcRenderer.on     channel, cb
 
-    assets: (assets)->
-      ipcRenderer.send "db-assets", assets
+    # Promise-based handlers, optimized for use with await
+    promise:
+      once: (channel)-> new Promise (resolve)-> ipcRenderer.once channel, resolve
 
-    assetChanged: (asset)->
-      ipcRenderer.send "db-asset-changed", asset
+    needSetup: ()-> ipcRenderer.send Printer "db-need-setup"
+    ready: ()-> ipcRenderer.send "db-ready"
 
-    assetDeleted: (assetId)->
-      ipcRenderer.send "db-asset-deleted", assetId
+    # assets: (assets)-> # send to all ports
+    # assetChanged: (asset)-> # send to all ports
+    # assetDeleted: (assetId)-> # send to all ports
+
+    # Requests via ports
+
+    log: Printer
+
+    retryLoad: ()->
+
+    # close: (id)->
+    #   ports[id].close()
+    #   delete ports[id]

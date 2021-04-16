@@ -6,7 +6,7 @@ Take [], ()->
   Make "Search", Search = (assets, input)->
     return assets unless input?
     input = input.join " " if input instanceof Array
-    queryTokens = input.toLowerCase().replace(/-_/g, " ").split " "
+    queryTokens = input.toLowerCase().replace(/[-_]+/g, " ").split " "
 
     queryTokens = queryTokens.filter (t)-> t isnt ""
 
@@ -19,9 +19,9 @@ Take [], ()->
 
       for token in queryTokens
         tokenPoints = 0
-        tokenPoints++ if asset.search.name.indexOf(token) isnt -1
-        tokenPoints++ if asset.search.tags.indexOf(token) isnt -1
-        tokenPoints++ if asset.search.files.indexOf(token) isnt -1
+        tokenPoints += 2 if asset.search.name.indexOf(token) isnt -1
+        tokenPoints += 1 if asset.search.tags.indexOf(token) isnt -1
+        tokenPoints += 1/asset.search.files.length for file in asset.search.files when file.indexOf(token) isnt -1
 
         if tokenPoints > 0 # asset did match this token
           points += tokenPoints

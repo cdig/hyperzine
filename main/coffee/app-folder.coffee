@@ -13,7 +13,7 @@ Take ["Read"], (Read)->
       destOut = path.join destApp, "out"
       fs.mkdirSync destOut, recursive: true
       fs.copyFileSync path.join(sourceApp, "package.json"), path.join(destApp, "package.json")
-      if files = Read.folder sourceOut
+      if files = Read sourceOut
         for file in files
           fs.copyFileSync path.join(sourceOut, file), path.join(destOut, file)
       null
@@ -32,7 +32,7 @@ Take ["Read"], (Read)->
         destOut = path.join destApp, "out"
         fs.mkdirSync destOut, recursive: true
         fs.copyFileSync path.join(sourceApp, "package.json"), path.join(destApp, "package.json")
-        if files = Read.folder sourceOut
+        if files = Read sourceOut
           for file in files
             fs.copyFileSync path.join(sourceOut, file), path.join(destOut, file)
         else
