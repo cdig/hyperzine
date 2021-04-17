@@ -17,12 +17,19 @@ body {
   justify-content: center;
   flex-flow: column;
   text-align: center;
+
+  h1 {
+    font-size: 3em;
+    opacity: .6;
+    font-weight: 900;
+  }
 }
 
 gear-view {
   width: 12em;
   height: 12em;
   div { animation: spin 60s infinite linear; }
+  // outline: 1px solid red;
 }
 
 p {
@@ -30,10 +37,11 @@ p {
 }
 
 .buttons {
-  margin-top: 1em;
+  margin-top: 2.5em;
 }
 
 button {
-  margin: .4em;
+  font-size: 1.2em;
+  margin: 0 .6em;
   padding: .4em .6em;
 }

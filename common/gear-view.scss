@@ -4,6 +4,7 @@ gear-view {
   width: 4em;
   height: 4em;
   pointer-events: none; // This blocks image dragging
+  transform: rotate(180deg);
 
   div {
     position: absolute;
@@ -23,5 +24,6 @@ gear-view {
 
 @keyframes spin {
   from { transform: translate(-2.5%) scale(.95) rotate(0deg) }
+  50% { transform: translate(-2.5%) scale(.9) rotate(180deg) }
   to { transform: translate(-2.5%) scale(.95) rotate(360deg) }
 }
