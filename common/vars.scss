@@ -1,8 +1,44 @@
+// For both light and dark mode
 html {
   --window-top-filter: blur(24px) saturate(500%);
 }
 html.blur {
   --window-top-filter: none;
+}
+
+// Default: light mode
+html {
+  --bubble-bg: #e9e9e9;
+  --bubble-text-a: hsl(210, 0%, 50%);
+  --bubble-text-b: hsl(240, 0%, 50%);
+  --button-bg: #ddd;
+  --button-text: #000;
+  --button-active-bg: hsl(204, 0%, 53%);
+  --card-image-bg: #fff;
+  --card-image-hover-bg: #f2f2f2;
+  --card-image-hover-border: #fff;
+  --card-no-image-bg: #f7f7f7;
+  --card-no-image-text: #777;
+  --card-no-image-hover: #fafafa;
+  --input-bg: #fff0;
+  --input-border: #0002;
+  --input-text: #000;
+  --input-focus-after-border: hsl(219, 82%, 74%);
+  --meta-bg: #e7e7e7;
+  --meta-text: #fff;
+  --page-bg: #f2f2f2;
+  --scroll-thumb: #ccc;
+  --text-color: #272727;
+  --title-bar-bg: #f0f0f0e6;
+  --title-bar-border: #0002;
+  --title-bar-text: #171717;
+  --tool-bar-bg: #eeec;
+  --tool-bar-border: #0002;
+}
+html.blur {
+  --title-bar-bg: #e4e4e4;
+  --title-bar-text: #a4a4a4;
+  --tool-bar-bg: #e4e4e4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -12,7 +48,7 @@ html.blur {
     --bubble-text-b: hsl(34, 0%, 50%);
     --button-bg: #555;
     --button-text: #fff;
-    --button-active-bg: hsl(204, 86%, 53%);
+    --button-active-bg: hsl(204, 0%, 53%);
     --card-image-bg: #fff;
     --card-image-hover-bg: #f2f2f2;
     --card-image-hover-border: #444;
@@ -38,41 +74,5 @@ html.blur {
     --title-bar-bg: #242424;
     --title-bar-text: #666;
     --tool-bar-bg: #242424;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  html {
-    --bubble-bg: #e9e9e9;
-    --bubble-text-a: hsl(210, 0%, 50%);
-    --bubble-text-b: hsl(240, 0%, 50%);
-    --button-bg: #ddd;
-    --button-text: #000;
-    --button-active-bg: hsl(204, 86%, 53%);
-    --card-image-bg: #fff;
-    --card-image-hover-bg: #f2f2f2;
-    --card-image-hover-border: #fff;
-    --card-no-image-bg: #f7f7f7;
-    --card-no-image-text: #777;
-    --card-no-image-hover: #fafafa;
-    --input-bg: #fff0;
-    --input-border: #0002;
-    --input-text: #000;
-    --input-focus-after-border: hsl(219, 82%, 74%);
-    --meta-bg: #e7e7e7;
-    --meta-text: #fff;
-    --page-bg: #f2f2f2;
-    --scroll-thumb: #ccc;
-    --text-color: #272727;
-    --title-bar-bg: #f0f0f0e6;
-    --title-bar-border: #0002;
-    --title-bar-text: #171717;
-    --tool-bar-bg: #eeec;
-    --tool-bar-border: #0002;
-  }
-  html.blur {
-    --title-bar-bg: #e4e4e4;
-    --title-bar-text: #a4a4a4;
-    --tool-bar-bg: #e4e4e4;
   }
 }

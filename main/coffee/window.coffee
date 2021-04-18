@@ -47,7 +47,7 @@ Take ["Env"], (Env)->
     asset: width: 1000, height: 600
     browser: x: 1000, y: 0, width: 440, height:600
     db: x: 0, y: 0, width: 400, height: 300
-    "setup-assistant": width: 420, height: 460
+    "setup-assistant": width: 420, height: 480
 
   getBounds = (type, index)->
     bounds = windowBounds[type][index] or defaultBounds[type]

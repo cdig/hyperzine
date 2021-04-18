@@ -1,6 +1,6 @@
 Take ["GearView", "IPC", "Log"], (GearView, IPC, Log)->
 
-  gearsElm = GearView 50, .5
+  gearsElm = GearView 60, -99
   gearsElm.className = "spin"
 
   document.querySelector("[quit-button]").onclick = ()->
