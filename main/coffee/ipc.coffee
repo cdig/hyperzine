@@ -8,6 +8,8 @@ Take ["Env", "Window"], (Env, Window)->
 
   ipcMain.on "quit", ({sender}, msg)-> app.quit()
 
+  ipcMain.handle "showOpenDialog", ({sender}, opts)-> dialog.showOpenDialog BrowserWindow.fromWebContents(sender), opts
+
   ipcMain.on "fatal", ({sender}, msg)->
     dialog.showErrorBox "Fatal Error", msg
     app.quit()

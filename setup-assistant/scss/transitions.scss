@@ -1,0 +1,28 @@
+:root { --time: 3.5s; }
+
+#bg g   { transition: transform calc(var(--time) + 2s) cubic-bezier(.23,0,.19,.99), fill calc(var(--time) - 1s) linear; }
+#bg svg { transition: transform calc(var(--time) + 2s) cubic-bezier(.65,0,.69,.99); }
+
+.screen {
+  gear-view span {        transition: transform 2.4s 0.0s cubic-bezier(.5, 0, 1, 0); }
+  gear-view { opacity: 0; transition: opacity   1.2s 0.8s linear; }
+  h1        { opacity: 0; transition: opacity   0.6s 0.8s linear, color .4s linear; }
+  p         { opacity: 0; transition: opacity   0.8s 0.0s linear; }
+  .field    { opacity: 0; transition: opacity   0.6s 0.0s linear; }
+  button    { opacity: 0; transition: opacity   0.4s 0.0s linear; }
+  a         { opacity: 0; transition: opacity   0.3s 0.0s linear; }
+  a[back-button] {        transition: opacity   0.2s 0.0s linear; }
+  h1 { color: var(--page-bg); }
+}
+
+.screen[is-showing] {
+  gear-view span {        transition: transform 3.2s calc(var(--time) - 2.0s) cubic-bezier(0, 1, 0.5, 1); }
+  gear-view { opacity: 1; transition: opacity   2.8s calc(var(--time) - 1.6s) linear; }
+  h1        { opacity: 1; transition: opacity   1.4s calc(var(--time) - 0.8s) linear; }
+  p         { opacity: 1; transition: opacity   1.2s calc(var(--time) - 0.5s) linear; }
+  .field    { opacity: 1; transition: opacity   1.0s calc(var(--time) - 0.3s) linear; }
+  button    { opacity: 1; transition: opacity   0.8s calc(var(--time) - 0.2s) linear; }
+  a         { opacity: 1; transition: opacity   0.6s calc(var(--time) - 0.1s) linear; }
+  a[back-button] {        transition: opacity   0.6s calc(var(--time) - 0.0s) linear; }
+  h1 { color: #eee; }
+}

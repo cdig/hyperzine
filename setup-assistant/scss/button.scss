@@ -1,0 +1,8 @@
+button {
+  margin: 0 .4em;
+  padding: .4em .6em;
+  mix-blend-mode: overlay;
+  border: 1px solid currentColor;
+  background: var(--page-bg);
+  opacity: 0;
+}

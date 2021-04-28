@@ -1,0 +1,12 @@
+html {
+  text-align: center;
+
+  -webkit-app-region: drag;
+  .ui, button, a, input { -webkit-app-region: no-drag; }
+
+  --page-bg: #fff;
+
+  @media (prefers-color-scheme: dark) {
+    --page-bg: #1a1a1a;
+  }
+}

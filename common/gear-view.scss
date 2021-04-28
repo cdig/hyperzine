@@ -5,11 +5,12 @@ gear-view {
   height: 4em;
   pointer-events: none; // This blocks image dragging
 
+  span {
+    display: block;
+    height: 100%;
+  }
+
   div {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
     height: 100%;
     animation: spin 10s infinite linear;
     // animation-play-state: paused;

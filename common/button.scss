@@ -5,4 +5,7 @@ button {
   color: var(--button-text);
   background-color: var(--button-bg);
   &:active:hover { background-color: var(--button-active-bg); }
+
+  user-select: none;
+  cursor: default;
 }

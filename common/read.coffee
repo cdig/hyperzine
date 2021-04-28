@@ -49,6 +49,8 @@ Take [], ()->
     catch
       null
 
+  Read.sep = path.sep
+
   Read.path = (...segs)->
     segs.join path.sep
 

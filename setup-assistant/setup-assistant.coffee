@@ -1,83 +1,75 @@
-Take ["GearView", "IPC", "Log"], (GearView, IPC, Log)->
+Take ["DOOM", "Env", "IPC", "Log", "Read", "DOMContentLoaded"], (DOOM, Env, IPC, Log, Read)->
 
-  gearsElm = GearView 60, -99
-  gearsElm.className = "spin"
+  assetPath = Read.path(Env.home, "Dropbox", "System", "Hyperzine")
+  localName = Env.computerName
 
-  document.querySelector("[quit-button]").onclick = ()->
-    IPC.send "quit"
+  time = parseInt getComputedStyle(document.documentElement).getPropertyValue "--time"
 
-  # initConfig = ()->
-  #   response = dialog.showMessageBoxSync
-  #     message: "Welcome to Hyperzine"
-  #     buttons: ["Begin Setup", "Quit"]
-  #     defaultId: 0
-  #
-  #   if response is 0
-  #     Config.init()
-  #   else
-  #     app.quit()
-  #
-  #
-  # damagedConfig = ()->
-  #   dialog.showMessageBoxSync
-  #     message: "A Hyperzine config file exists, but is damaged. To avoid losing your preferences, please ask Ivan for help. Hyperzine will now quit."
-  #     buttons: ["Okay"]
-  #     # defaultId: 0 # Test if we need this, or if the default is automatic when there's only one button
-  #   app.quit()
-  #
-  #
-  # pathToAssetsFolder = ()->
-  #   dialog.showMessageBoxSync
-  #     message: "On the next screen, please select your Dropbox folder and click Open."
-  #     buttons: ["Will Do"]
-  #     defaultId: 0
-  #
-  #   filePaths = dialog.showOpenDialogSync
-  #     defaultPath: path.join app.getPath("home")
-  #     properties: ["openDirectory"]
-  #
-  #   unless filePaths
-  #     return app.quit()
-  #
-  #   unless folder = filePaths[0]
-  #     dialog.showErrorBox "Failed to Generate Config File", "Nothing was selected."
-  #     return app.quit()
-  #
-  #   unless Array.last(folder.split(path.sep)).toLowerCase().indexOf("dropbox") is 0
-  #     dialog.showErrorBox "Failed to Generate Config File", "You didn't select a Dropbox folder."
-  #     return app.quit()
-  #
-  #   Config "pathToAssetsFolder", path.join folder, "System", "Hyperzine", "Assets"
-  #
-  #
-  # user = ()->
-  #   dialog.showMessageBoxSync
-  #     message: "Please enter a user name. It should be unique to this computer."
-  #     buttons: ["Will Do"]
-  #     defaultId: 0
-  #
-  #   filePaths = dialog.showOpenDialogSync
-  #     defaultPath: path.join app.getPath("home")
-  #     properties: ["openDirectory"]
-  #
-  #   unless filePaths
-  #     return app.quit()
-  #
-  #   unless folder = filePaths[0]
-  #     dialog.showErrorBox "Failed to Generate Config File", "Nothing was selected."
-  #     return app.quit()
-  #
-  #   unless Array.last(folder.split(path.sep)).toLowerCase().indexOf("dropbox") is 0
-  #     dialog.showErrorBox "Failed to Generate Config File", "You didn't select a Dropbox folder."
-  #     return app.quit()
-  #
-  #   Config "pathToAssetsFolder", path.join folder, "System", "Hyperzine", "Assets"
+  click = (n, fn)->
+    document.querySelector(n).onclick = fn
 
-  Log "Setup Assistant"
+  wait = (s)->
+    new Promise (resolve)->
+      setTimeout resolve, time * 1000
 
-  # db = await IPC.bindDB
-  # initConfig() unless Config.read()
-  # damagedConfig() unless Config.parse()
-  # pathToAssetsFolder() unless Config "pathToAssetsFolder"
-  # user() unless Config "user"
-  # cb()
+  to = (n)-> ()->
+    document.body.className = n
+    if elm = document.querySelector("[is-showing]")
+      DOOM elm, isShowing: null, pointerEvents: null
+    elm = document.getElementById n
+    DOOM elm, isShowing: ""
+    await wait() unless Env.isDev
+    DOOM elm, pointerEvents: "auto"
+
+  updateDisplayedAssetPath = ()->
+    displayPath = assetPath
+    displayPath = displayPath.replace Env.home, "" unless displayPath is Env.home
+    displayPath = displayPath.slice 1 if displayPath.charAt(0) is Read.sep
+    document.querySelector("[asset-path]").textContent = displayPath
+
+  updateDisplayedLocalName = ()->
+    document.querySelector("[local-name]").textContent = localName
+
+  # Screens #######################################################################################
+
+  # Init
+  updateDisplayedAssetPath()
+  updateDisplayedLocalName()
+  do to "welcome"
+
+  # Welcome
+  click "[quit-button]", ()-> IPC.send "quit"
+  click "#welcome [next-button]", to "data-folder"
+
+  # Asset Storage
+  click "#data-folder [back-button]", to "welcome"
+
+  click "#data-folder [select-folder]", ()->
+    res = await IPC.invoke "showOpenDialog",
+      defaultPath: Env.home
+      properties: ["openDirectory", "createDirectory"]
+    unless res.cancelled
+      assetPath = res.filePaths[0]
+      updateDisplayedAssetPath()
+      document.querySelector("[path-reason]").textContent = "This is the folder you selected:"
+      IPC.send "set-storage-path"
+
+  click "#data-folder [next-button]", ()->
+    do to if await Read.isFolder assetPath then "existing-assets" else "path-error"
+
+  # Path Error
+  click "#path-error [back-button]", to "data-folder"
+
+  # Existing Assets
+  click "#existing-assets [back-button]", to "data-folder"
+  click "#existing-assets [next-button]", to "local-name"
+
+  # Local Name
+  click "#local-name [back-button]", to "existing-assets"
+  click "#local-name [next-button]", ()->
+    # check whether any assets already exist using the local name. If so, show a warning. Otherwise...
+    do to "setup-done"
+
+  # Setup Done
+  click "#setup-done [back-button]", to "local-name"
+  click "#setup-done [next-button]", ()-> # DONE

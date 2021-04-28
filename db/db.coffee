@@ -5,5 +5,8 @@ Take ["Config", "LoadAssets", "Log", "WatchAssets", "DOMContentLoaded"], (Config
   Log "DB Window Open", null, time
 
   await Config.init()
+
+  console.log "INIT DONE"
+
   # await LoadAssets()
   # WatchAssets()

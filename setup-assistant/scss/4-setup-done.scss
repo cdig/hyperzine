@@ -1,0 +1,19 @@
+body.setup-done {
+  #bg svg {
+    transform: rotate(0deg) translate(0, 0px);
+    g { transform: translate(0, 200px) scale(1, 8); }
+  }
+}
+
+#setup-done {
+  h1 {
+    margin: -2rem 0 0;
+    font-size: 12em;
+    mix-blend-mode: overlay;
+  }
+
+  p {
+    font-size: 1.2em;
+    margin: 4em 0 .5em
+  }
+}
