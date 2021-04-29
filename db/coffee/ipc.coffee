@@ -23,7 +23,6 @@ Take ["Printer"], (Printer)->
     fatal: (...args)-> ipcRenderer.send "fatal", ...args
 
     needSetup: ()-> ipcRenderer.send Printer "db-need-setup"
-    ready: ()-> ipcRenderer.send "db-ready"
 
     # assets: (assets)-> # send to all ports
     # assetChanged: (asset)-> # send to all ports
@@ -32,8 +31,9 @@ Take ["Printer"], (Printer)->
     # Requests via ports
 
     log: Printer
-
-    retryLoad: ()->
+    config: Config
+    configSetupAssetPath: Config.setupAssetPath
+    configSetupComplete: Config.setupComplete
 
     # close: (id)->
     #   ports[id].close()

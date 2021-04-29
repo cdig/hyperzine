@@ -13,5 +13,5 @@ Take [], ()->
     send: (...args)-> ipcRenderer.send ...args
     invoke: (...args)-> ipcRenderer.invoke ...args
 
-    log: (...args)->
-      db.postMessage ["log", ...args]
+    log: (...args)-> db.postMessage ["log", ...args]
+    config: (...args)-> db.postMessage ["config", ...args]

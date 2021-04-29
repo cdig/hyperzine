@@ -1,6 +1,6 @@
 { shell } = require "electron"
 
-Take ["DOOM", "Frustration", "IPC", "Paths"], (DOOM, Frustration, IPC, Paths)->
+Take ["DOOM", "Frustration", "IPC", "Paths", "DOMContentLoaded"], (DOOM, Frustration, IPC, Paths)->
 
   Make "AssetCard", AssetCard = (asset)->
     card = DOOM.create "asset-card"

@@ -1,4 +1,4 @@
-Take ["Assets", "AssetCard", "DOOM", "Search", "State"], (Assets, AssetCard, DOOM, Search, State)->
+Take ["Assets", "AssetCard", "DOOM", "Search", "State", "DOMContentLoaded"], (Assets, AssetCard, DOOM, Search, State)->
   elm = document.querySelector "asset-list"
   assetCount = document.querySelector "[asset-count]"
 

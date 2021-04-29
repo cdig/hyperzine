@@ -21,10 +21,9 @@ Take ["Asset", "Config", "Debounced", "Log", "IPC", "Read"], (Asset, Config, Deb
 
 
   Make "WatchAssets", WatchAssets = ()->
-    Log "Watching Assets"
-    assetsFolderPath = Config "pathToAssetsFolder"
-    fs.watch assetsFolderPath, {recursive: true, persistent: false}, (eventType, filename)->
-      assetId = filename.replace(assetsFolderPath, "").split(path.sep)[0]
-      assetPath = Read.path assetsFolderPath, assetId
-      changed[assetId] = assetPath
-      update()
+    if assetsFolderPath = Config "pathToAssetsFolder"
+      fs.watch assetsFolderPath, {recursive: true, persistent: false}, (eventType, filename)->
+        assetId = filename.replace(assetsFolderPath, "").split(path.sep)[0]
+        assetPath = Read.path assetsFolderPath, assetId
+        changed[assetId] = assetPath
+        update()

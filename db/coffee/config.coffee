@@ -1,13 +1,9 @@
 Take ["Env", "IPC", "Log", "Read"], (Env, IPC, Log, Read)->
 
   configPath = Read.path Env.userData, "config.json"
-  configData = null
+  configData = {}
 
-  load = ()->
-      return false # Config file doesn't exist, so Setup Assistant will run
-    configData?
-
-  save = ()->
+  save = Debounced ()->
     fs.writeFileSync configPath, JSON.stringify configData
 
   Config = (k, v)->
@@ -21,24 +17,19 @@ Take ["Env", "IPC", "Log", "Read"], (Env, IPC, Log, Read)->
 
   Config.path = ()-> configPath
 
-
-  Config.init = ()->
+  Config.setup = ()->
     Log "Loading Config"
 
     configFile = Read.file configPath
 
-    # If the config file wasn't found, so we need to run the Setup Assistant
-    unless configFile?
+    if configFile?
+      try
+        configData = JSON.parse configFile
+        IPC.dbReady()
+      catch
+        IPC.fatal "Hyperzine failed to load your saved preferences. To avoid damaging the preferences file, Hyperzine will now close. Please ask Ivan for help."
+
+    else
       IPC.needSetup()
-      await IPC.promise.once("db-setup").then (data)-> # TODO: this IPC.promise.once("db-setup") should be revised once we know how the Setup Assistant works
-        configData = config
-        save()
-
-    try
-      configData = JSON.parse configFile
-      IPC.ready()
-    catch
-      IPC.fatal "Hyperzine failed to load your saved preferences. To avoid damaging the preferences file, Hyperzine will now close. Please ask Ivan for help."
-
 
   Make "Config", Config
