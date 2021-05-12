@@ -20,8 +20,9 @@ Take ["Env"], (Env)->
     db: []
     "setup-assistant": []
 
-  # We only want a single instance of the DB window
+  # Single instance windows
   db = null
+  setupAssistant = null
 
   aboutToQuit = false
   app.on "before-quit", ()-> aboutToQuit = true
@@ -91,12 +92,21 @@ Take ["Env"], (Env)->
     if db?
       db.show()
     else
-      db = newWindow "db", false, title: "DB", backgroundThrottling: false, show: Env.isDev
+      db = newWindow "db", true, title: "DB", backgroundThrottling: false, show: Env.isDev
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()
           db.hide()
     return db
+
+  openSetupAssistant = ()->
+    if setupAssistant?
+      setupAssistant.show()
+    else
+      setupAssistant = newWindow "setup-assistant", true, title: "Setup Assistant", resizable: false, fullscreenable: false, frame: false, titleBarStyle: "default"
+      setupAssistant.on "close", (e)-> setupAssistant = null
+    return setupAssistant
+
 
 
   Make "Window", Window =
@@ -107,9 +117,8 @@ Take ["Env"], (Env)->
     open:
       asset: (assetId)-> newWindow "asset", false, title: assetId
       browser: ()-> newWindow "browser", false, title: "Browser"
-      db: ()-> openDb()
-      setupAssistant: ()->
-        win = newWindow "setup-assistant", false, title: "Setup Assistant", resizable: false, fullscreenable: false, frame: false, titleBarStyle: "default"
+      db: openDb
+      setupAssistant: openSetupAssistant
 
     activate: ()->
       unless BrowserWindow.getAllWindows().length > 1

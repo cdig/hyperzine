@@ -14,4 +14,9 @@
   word-wrap: break-word;
   background: var(--page-bg);
   opacity: 0;
+
+  &[contenteditable] {
+    border: 2px solid #7771;
+    &.invalid { border-color: red; }
+  }
 }

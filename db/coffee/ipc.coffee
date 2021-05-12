@@ -1,17 +1,39 @@
 { ipcRenderer } = require "electron"
 
-Take ["Printer"], (Printer)->
+Take ["Config", "MemoryCore", "Printer"], (Config, MemoryCore, Printer)->
   ports = {}
+
+  ipcRenderer.on "main-db-invoke", (e, returnID, name, ...args)->
+    ipcRenderer.send "main-db-invoke-#{returnID}", invokables[name] ...args
 
   ipcRenderer.on "port", (e, {id})->
     port = ports[id] = e.ports[0]
-    port.onmessage = ({data: [name, ...args]})->
-      if fn = IPC[name]
-        fn ...args
-      else
-        Printer "Unexpected port message: #{name}", color: "#F00"
+    port.onmessage = ({data: [fn, ...args]})->
+      console.log "message received: #{fn}"
+      if fn is "invoke" then invoke port, ...args else call fn, ...args
+
+  invoke = (port, returnID, name, ...args)->
+    if fn = invokables[name]
+      v = fn ...args
+      port.postMessage ["return", returnID, v]
+    else
+      Printer "Unknown db invokable: #{name}", color: "#F00"
+
+  call = (name, ...args)->
+    if fn = IPC[name]
+      fn ...args
+    else
+      Printer "Unknown db callable: #{name}", color: "#F00"
+
+  invokables =
+    config: Config
+    memoryInit: ()-> MemoryCore.memory
 
   Make "IPC", IPC =
+    send: (...args)-> ipcRenderer.send ...args
+    invoke: (...args)-> ipcRenderer.invoke ...args
+    log: Printer
+    memory: MemoryCore
 
     on:     (channel, cb)-> ipcRenderer.on     channel, cb
     once:   (channel, cb)-> ipcRenderer.on     channel, cb
@@ -22,7 +44,14 @@ Take ["Printer"], (Printer)->
 
     fatal: (...args)-> ipcRenderer.send "fatal", ...args
 
-    needSetup: ()-> ipcRenderer.send Printer "db-need-setup"
+    needSetup: ()-> ipcRenderer.send Printer "open-setup-assistant"
+    configReady: ()-> ipcRenderer.send Printer "config-ready"
+
+    memoryCommitted: (k, v)->
+      for id, port of ports
+        port.postMessage ["memoryCommitted", k, v]
+      null
+
 
     # assets: (assets)-> # send to all ports
     # assetChanged: (asset)-> # send to all ports
@@ -30,10 +59,6 @@ Take ["Printer"], (Printer)->
 
     # Requests via ports
 
-    log: Printer
-    config: Config
-    configSetupAssetPath: Config.setupAssetPath
-    configSetupComplete: Config.setupComplete
 
     # close: (id)->
     #   ports[id].close()

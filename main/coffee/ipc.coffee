@@ -24,13 +24,11 @@ Take ["Env", "Window"], (Env, Window)->
   Make "IPC", IPC =
 
     on:     (channel, cb)-> ipcMain.on     channel, cb
-    once:   (channel, cb)-> ipcMain.on     channel, cb
+    once:   (channel, cb)-> ipcMain.once   channel, cb
     handle: (channel, cb)-> ipcMain.handle channel, cb
-
-    # Promise-based handlers, optimized for use with await
     promise:
-      once: (channel)-> new Promise (resolve)-> ipcMain.once channel, resolve
-      handle: (channel)-> new Promise (resolve)-> ipcMain.handle channel, (e, ...args)-> resolve ...args
+      once: (channel)-> new Promise (resolve)-> ipcMain.once channel, (e, arg)-> resolve arg
+      handle: (channel)-> new Promise (resolve)-> ipcMain.handle channel, (e, arg)-> resolve arg
 
     # Send a message to the frontmost window
     toFocusedWindow: (msg)->
@@ -38,3 +36,12 @@ Take ["Env", "Window"], (Env, Window)->
       win ?= BrowserWindow.getAllWindows()[0] # No window was focussed, so get any window
       win ?= Window.open.browser() # No windows, so open a new window
       win.webContents.send msg
+
+    db:
+      invoke: (fn, ...args)->
+        returnID = Math.random().toString()
+        response = IPC.promise.once "main-db-invoke-#{returnID}"
+        Window.getDB().webContents.send "main-db-invoke", returnID, fn, ...args
+        response
+
+    config: (...args)-> IPC.db.invoke "config", ...args

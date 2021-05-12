@@ -9,6 +9,8 @@ Take ["AppFolder", "IPC", "Env", "Window"], (AppFolder, IPC, Env, Window)->
     submenu: [
       { role: "about" }
       { type: "separator" }
+      { label: "Preferences", accelerator: "CmdOrCtrl+,", click: Window.open.setupAssistant }
+      { type: "separator" }
       { role: "services" }
       { type: "separator" }
       { role: "hide" }
@@ -29,7 +31,7 @@ Take ["AppFolder", "IPC", "Env", "Window"], (AppFolder, IPC, Env, Window)->
       else
         [{ label: "Open App Update…", click: AppFolder.import }]
       )
-      { label: "Show Config File", click: ()-> }#shell.showItemInFolder Config.path() }
+      { label: "Show Config File", click: ()-> shell.showItemInFolder await IPC.config "configPath" }
       { type: "separator" }
       { role: if Env.isMac then "close" else "quit" }
     ]

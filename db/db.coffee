@@ -1,13 +1,26 @@
 time = performance.now()
 
-Take ["Config", "LoadAssets", "Log", "WatchAssets"], (Config, LoadAssets, Log, WatchAssets)->
+Take ["Config", "Env", "IPC", "LoadAssets", "Log", "Read", "WatchAssets"], (Config, Env, IPC, LoadAssets, Log, Read, WatchAssets)->
 
   Log "DB Window Open", null, time
 
-  Config.watch "pathToAssetsFolder", (p)->
-    Log "New pathToAssetsFolder: #{p}"
-    LoadAssets()
-    # Need to unwatch any existing watches
-    WatchAssets()
+  # Memory.subscribe "dataFolder", (p)->
+  #   Log "New dataFolder: #{p}"
+  #   LoadAssets()
+  #   WatchAssets()
 
-  Config.setup()
+  Log "Loading Config"
+
+  Config "configPath", configPath = Read.path Env.userData, "config.json"
+  configFile = Read.file configPath
+
+  if configFile?
+    try
+      configData = JSON.parse configFile
+      Config k, v for k, v of configData
+      Config "configPath", configPath # Don't trust the value that was saved
+      IPC.configReady()
+    catch
+      IPC.fatal "Hyperzine failed to load your saved preferences. To avoid damaging the preferences file, Hyperzine will now close. Please ask Ivan for help."
+  else
+    IPC.needSetup()
