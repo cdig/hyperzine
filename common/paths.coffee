@@ -1,12 +1,8 @@
-Take ["Read"], (Read)->
+Take ["Read", "Memory"], (Read, Memory)->
 
-  pathToAssetsFolder = null
 
   Make "Paths", Paths =
-    # TODO: This needs to be replaced
-    setConfig: (configData)-> pathToAssetsFolder = configData.pathToAssetsFolder
-
-    asset: (asset)->    Read.path pathToAssetsFolder, asset.id
+    asset: (asset)->    Read.path Memory("assetsFolderPath"), asset.id
     files: (asset)->    Read.path Paths.asset(asset), "Files"
     shot: (asset)->     Read.path Paths.asset(asset), "Shot", asset.shot
     name: (asset)->     Read.path Paths.asset(asset), "Name", asset.name

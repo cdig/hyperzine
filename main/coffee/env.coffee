@@ -10,6 +10,7 @@ Take [], ()->
     userData: app.getPath "userData"
     home: home = app.getPath "home"
     version: app.getVersion()
+    versions: process.versions
     computerName: if isMac then childProcess.execSync("scutil --get ComputerName").toString().replace("\n","") else os.hostname()
 
     # Hard-coded config values

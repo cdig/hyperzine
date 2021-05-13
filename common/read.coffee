@@ -34,13 +34,15 @@ Take [], ()->
     .then filterValidDirentName
 
   Read.isFolder = (folderPath)->
+    return false unless folderPath?.length
     new Promise (resolve)->
       fs.stat folderPath, (err, stat)->
         resolve stat?.isDirectory()
 
-  Read.exists = (folderPath)->
+  Read.exists = (filePath)->
+    return false unless filePath?.length
     new Promise (resolve)->
-      fs.access folderPath, (err)->
+      fs.access filePath, (err)->
         resolve not err?
 
   Read.file = (filePath)->
@@ -50,6 +52,7 @@ Take [], ()->
       null
 
   Read.sep = path.sep
+  Read.watch = fs.watch
 
   Read.path = (...segs)->
     segs.join path.sep

@@ -1,6 +1,6 @@
 { app } = require "electron"
 
-Take ["IPC", "Menu", "Window"], (IPC, Menu, Window)->
+Take ["Env", "IPC", "Menu", "Window"], (Env, IPC, Menu, Window)->
 
   # Wait for ready before doing anything substantial.
   await app.whenReady()
@@ -31,3 +31,13 @@ Take ["IPC", "Menu", "Window"], (IPC, Menu, Window)->
 
   # Whenever we switch to the app, let the window manager know.
   # app.on "activate", Window.activate
+
+
+  app.setAboutPanelOptions
+    applicationName: "Hyperzine\nAlpha\n#{Env.version.replace /(\d\.\d)\.0/, "$1"}"
+    applicationVersion: [
+      "Electron #{Env.versions.electron}"
+      "Chrome #{Env.versions.chrome}"
+    ].join "\n"
+    version: ""
+    copyright: "© 2021 CD Industrial Group Inc."

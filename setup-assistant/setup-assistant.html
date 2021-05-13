@@ -31,11 +31,9 @@
 
   <div class="screen" id="data-folder">
     <h1>Data Folder</h1>
-    <div>
-      <p>Hyperzine needs a place to store assets & metadata.</p>
+      <p>Hyperzine needs a place to store data.</p>
       <p path-reason></p>
       <div class="field" data-folder></div>
-    </div>
     <button next-button>Looks Good To Me</button>
     <a select-folder>Select a different folder?</a>
     <div class="buttons">
@@ -45,10 +43,8 @@
 
   <div class="screen" id="path-error">
     <h1>Error</h1>
-    <div>
-      <p>The selected folder does not exist.</p>
+      <h3>The selected folder does not exist.</h3>
       <p>Please go back and select a different folder.</p>
-    </div>
     <div class="buttons">
       <a back-button>Back</a>
     </div>
@@ -56,10 +52,10 @@
 
   <div class="screen" id="existing-assets">
     <h1>Existing Assets</h1>
-    <div>
-      <p existing-assets></p>
+      <p>Hyperzine will scan your selected folder for assets.</p>
+      <p>If everything looks good, you can proceed.</p>
+      <h3 existing-assets></h3>
       <button next-button>Continue</button>
-    </div>
     <div class="buttons">
       <a back-button>Back</a>
     </div>
@@ -67,11 +63,9 @@
 
   <div class="screen" id="local-name">
     <h1>Local Name</h1>
-    <div>
       <p>Hyperzine needs a unique name for every computer it's installed on. If the same name is used on two or more computers, this can lead to sync conflicts.</p>
       <p>Enter a unique name for this computer:</p>
       <div class="field" local-name contenteditable autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
-    </div>
     <button next-button>Looks Good To Me</button>
     <div class="buttons">
       <a back-button>Back</a>
@@ -80,10 +74,8 @@
 
   <div class="screen" id="setup-done">
     <h1>🍰</h1>
-    <div>
-      <p>Hyperzine is now ready.</p>
-    </div>
-    <button next-button>Have & Eat Cake</button>
+    <h3>Hyperzine is Ready</h3>
+    <button next-button>Piece of Cake!</button>
     <div class="buttons">
       <a back-button>Back</a>
     </div>

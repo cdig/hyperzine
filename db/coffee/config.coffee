@@ -1,7 +1,7 @@
-Take ["Debounced"], (Debounced)->
+Take ["Debounced", "Write"], (Debounced, Write)->
 
   save = Debounced ()->
-    fs.writeFileSync configData.configPath, JSON.stringify configData
+    Write.sync.json configData.configPath, configData
 
   Config = ()->
     # Not sure what this is gonna be, but this is here just so it compiles

@@ -55,12 +55,12 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
     display = display.slice 1 if display.charAt(0) is Read.sep
     elms.dataFolder.textContent = display
     elms.pathReason.textContent = if v is Env.defaultDataFolder
-      "This folder is the default:"
+      "This Dropbox folder is the default:"
     else
       "This is the folder you selected:"
+    elms.existingAssets.textContent = "Scanning asset folder…"
 
   click "#data-folder [next-button]", ()->
-    elms.existingAssets.textContent = "Scanning asset folder…"
     do to if await Read.isFolder Memory "dataFolder" then "existing-assets" else "path-error"
 
   # Path Error
@@ -72,7 +72,7 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
   Memory.subscribe "assets", (v)->
     return unless v?
     count = Object.keys(v).length
-    elms.existingAssets.textContent = String.pluralize "Found %% Asset"
+    elms.existingAssets.textContent = String.pluralize count, "Found %% Asset"
 
   click "#existing-assets [next-button]", to "local-name"
 

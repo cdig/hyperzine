@@ -1,7 +1,4 @@
-fs = require "fs"
-path = require "path"
-
-Take ["Asset", "Config", "Debounced", "Log", "IPC", "Read"], (Asset, Config, Debounced, Log, IPC, Read)->
+Take ["Asset", "Config", "Debounced", "Log", "IPC", "Memory", "Read"], (Asset, Config, Debounced, Log, IPC, Memory, Read)->
 
   watcher = null
 
@@ -22,12 +19,12 @@ Take ["Asset", "Config", "Debounced", "Log", "IPC", "Read"], (Asset, Config, Deb
     null
 
   change = (eventType, filename)->
-    assetId = filename.replace(assetsFolderPath, "").split(path.sep)[0]
+    assetId = filename.replace(assetsFolderPath, "").split(Read.sep)[0]
     assetPath = Read.path assetsFolderPath, assetId
     changed[assetId] = assetPath
     update()
 
   Make "WatchAssets", WatchAssets = ()->
-    if assetsFolderPath = Config "pathToAssetsFolder"
-      watcher?.close()
-      watcher = fs.watch assetsFolderPath, {recursive: true, persistent: false}, change
+    assetsFolderPath = Memory "assetsFolderPath"
+    watcher?.close()
+    watcher = Read.watch assetsFolderPath, {recursive: true, persistent: false}, change
