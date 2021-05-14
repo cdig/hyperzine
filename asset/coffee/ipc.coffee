@@ -14,7 +14,7 @@ Take [], ()->
         cb configData
 
     init: ({load, assetChanged, assetDeleted, find})->
-      ipcRenderer.once "info", (event, asset, info)-> load asset, info
+      ipcRenderer.once "info", (event, asset)-> load asset
       ipcRenderer.on "asset-changed", (event, asset)-> assetChanged asset
       ipcRenderer.on "asset-deleted", (event, assetId)-> assetDeleted assetId
       ipcRenderer.on "find", (event)-> find()

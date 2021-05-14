@@ -1,6 +1,5 @@
 Take ["Read", "Memory"], (Read, Memory)->
 
-
   Make "Paths", Paths =
     asset: (asset)->    Read.path Memory("assetsFolderPath"), asset.id
     files: (asset)->    Read.path Paths.asset(asset), "Files"

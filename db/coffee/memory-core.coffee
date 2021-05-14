@@ -12,7 +12,7 @@ Take [], ()->
     if v? then memory[k] = v else delete memory[k]
 
     # IPC and MemoryCore have a circular reference, so we cut that knot here
-    IPC.memoryCommitted k, v if IPC ?= Take "IPC"
+    IPC.broadcast "memoryCommitted", k, v if IPC ?= Take "IPC"
 
     # The local instance of Memory doesn't go through IPC, so we just give it a hook
     MemoryCore.localUpdate? k, v, old

@@ -1,4 +1,2 @@
-{ ipcRenderer } = require "electron"
-
-Take [], ()->
-  Make "Env", await ipcRenderer.invoke "env"
+Take ["IPC"], (IPC)->
+  Make "Env", await IPC.invoke "env"

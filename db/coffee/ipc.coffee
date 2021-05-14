@@ -40,23 +40,10 @@ Take ["MemoryCore", "Printer"], (MemoryCore, Printer)->
     promise:
       once: (channel)-> new Promise (resolve)-> ipcRenderer.once channel, resolve
 
-    fatal: (...args)-> ipcRenderer.send "fatal", ...args
-
-    needSetup: ()-> ipcRenderer.send Printer "open-setup-assistant"
-    configReady: ()-> ipcRenderer.send Printer "config-ready"
-
-    memoryCommitted: (k, v)->
+    broadcast: (msg, ...args)->
       for id, port of ports
-        port.postMessage ["memoryCommitted", k, v]
+        port.postMessage [msg, ...args]
       null
-
-
-    # assets: (assets)-> # send to all ports
-    # assetChanged: (asset)-> # send to all ports
-    # assetDeleted: (assetId)-> # send to all ports
-
-    # Requests via ports
-
 
     # close: (id)->
     #   ports[id].close()

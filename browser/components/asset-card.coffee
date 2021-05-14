@@ -1,5 +1,3 @@
-{ shell } = require "electron"
-
 Take ["DOOM", "Frustration", "IPC", "Paths", "DOMContentLoaded"], (DOOM, Frustration, IPC, Paths)->
 
   Make "AssetCard", AssetCard = (asset)->
@@ -15,7 +13,7 @@ Take ["DOOM", "Frustration", "IPC", "Paths", "DOMContentLoaded"], (DOOM, Frustra
       img = DOOM.create "no-img", assetImage, textContent: Frustration()
 
     img.addEventListener "click", ()->
-      IPC.openAsset asset.id
+      IPC.send "browser-open-asset", assetId
 
     assetName = DOOM.create "asset-name", card,
       textContent: Paths.displayName asset

@@ -8,9 +8,8 @@ Take ["IPC", "Log", "Paths", "PubSub", "Render", "State", "DOMContentLoaded"], (
       Sub "Render", Render
 
       IPC.init
-        load: (asset, info)->
+        load: (asset)->
           State.asset = asset
-          Make "Info", info
           Render()
 
         assetChanged: (asset)->

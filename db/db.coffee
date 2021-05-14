@@ -15,8 +15,8 @@ Take ["Config", "Env", "IPC", "LoadAssets", "Log", "Memory", "Read", "WatchAsset
 
   switch Config()
     when true
-      IPC.configReady()
+      IPC.send Log "config-ready"
     when false
-      IPC.needSetup()
+      IPC.send Log "open-setup-assistant"
     else
-      IPC.fatal "Hyperzine failed to load your saved preferences. To avoid damaging the preferences file, Hyperzine will now close. Please ask Ivan for help."
+      IPC.send "fatal", "Hyperzine failed to load your saved preferences. To avoid damaging the preferences file, Hyperzine will now close. Please ask Ivan for help."
