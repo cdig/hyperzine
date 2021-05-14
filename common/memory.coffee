@@ -19,9 +19,11 @@ Take ["IPC"], (IPC)->
   # Subscriptions
   subscriptions = {}
 
-  Memory.subscribe = (k, ...[dontRunNow], cb)->
+  Memory.subscribe = (k, runNow, cb)->
     (subscriptions[k] ?= []).push cb
-    cb Memory k unless dontRunNow
+    if runNow
+      v = Memory(k)
+      cb v, v, k
 
   Memory.unsubscribe = (k, cb)->
     Array.pull subscriptions[k], cb
@@ -29,7 +31,7 @@ Take ["IPC"], (IPC)->
   notify = (k, v, old)->
     if subscriptions[k]?
       for cb in subscriptions[k]
-        cb v, old
+        cb v, old, k
     null
 
   # Note — in the time between the cache loading and now, there might have been
@@ -42,9 +44,6 @@ Take ["IPC"], (IPC)->
       notify k, v, old
   else # DB window
     MemoryCore.localUpdate = (k, v, old)->
-      console.log "Here's yo dog"
-      console.log cache[k]
-      console.log v
       notify k, v, old
 
 

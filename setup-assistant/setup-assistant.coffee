@@ -1,9 +1,5 @@
 Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM, Env, IPC, Log, Memory, Read)->
 
-  Memory.default "dataFolder", Env.defaultDataFolder
-  Memory.default "localName", Env.computerName
-  Memory.default "assets", {}
-
   elms =
     pathReason: document.querySelector "[path-reason]"
     dataFolder: document.querySelector "[data-folder]"
@@ -48,7 +44,7 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
       newFolder = res.filePaths[0]
       Memory.change "dataFolder", newFolder
 
-  Memory.subscribe "dataFolder", (v)->
+  Memory.subscribe "dataFolder", true, (v)->
     return unless v?
     display = v
     display = display.replace Env.home, "" unless display is Env.home
@@ -69,7 +65,7 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
   # Existing Assets
   click "#existing-assets [back-button]", to "data-folder"
 
-  Memory.subscribe "assets", (v)->
+  Memory.subscribe "assets", true, (v)->
     return unless v?
     count = Object.keys(v).length
     elms.existingAssets.textContent = String.pluralize count, "Found %% Asset"
@@ -79,7 +75,7 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
   # Local Name
   click "#local-name [back-button]", to "existing-assets"
 
-  Memory.subscribe "localName", (v)->
+  Memory.subscribe "localName", true, (v)->
     elms.localName.textContent = v
 
   localNameValid = ()->
@@ -105,5 +101,6 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
   # Setup Done
   click "#setup-done [back-button]", to "local-name"
   click "#setup-done [next-button]", ()->
-    IPC.configReady()
-    # TODO — close the window
+    Memory "setupDone", true
+    IPC.send "config-ready"
+    IPC.send "close-window"

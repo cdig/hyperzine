@@ -4,14 +4,18 @@ os = require "os"
 path = require "path"
 
 Take [], ()->
-  Make "Env", Env =
+  Env =
     isDev: not app.isPackaged
-    isMac: isMac = process.platform is "darwin"
+    isMac: process.platform is "darwin"
     userData: app.getPath "userData"
-    home: home = app.getPath "home"
+    home: app.getPath "home"
     version: app.getVersion()
     versions: process.versions
-    computerName: if isMac then childProcess.execSync("scutil --get ComputerName").toString().replace("\n","") else os.hostname()
 
-    # Hard-coded config values
-    defaultDataFolder: path.join home, "Dropbox", "System", "Hyperzine"
+  Env.computerName = if Env.isMac then childProcess.execSync("scutil --get ComputerName").toString().replace("\n","") else os.hostname()
+
+  Env.configPath = path.join Env.userData, "config.json"
+
+  Env.defaultDataFolder = path.join Env.home, "Dropbox", "System", "Hyperzine"
+
+  Make "Env", Env

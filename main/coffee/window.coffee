@@ -92,7 +92,7 @@ Take ["Env"], (Env)->
     if db?
       db.show()
     else
-      db = newWindow "db", false, title: "DB", backgroundThrottling: false, show: false #Env.isDev
+      db = newWindow "db", true, title: "DB", backgroundThrottling: false, show: Env.isDev
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()
@@ -103,7 +103,7 @@ Take ["Env"], (Env)->
     if setupAssistant?
       setupAssistant.show()
     else
-      setupAssistant = newWindow "setup-assistant", false, title: "Setup Assistant", resizable: false, fullscreenable: false, frame: false, titleBarStyle: "default"
+      setupAssistant = newWindow "setup-assistant", true, title: "Setup Assistant", resizable: false, fullscreenable: false, frame: false, titleBarStyle: "default"
       setupAssistant.on "close", (e)-> setupAssistant = null
     return setupAssistant
 

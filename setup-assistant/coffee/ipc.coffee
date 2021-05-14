@@ -37,7 +37,3 @@ Take [], ()->
         response = new Promise (resolve)-> invokes[returnID] = resolve
         db.postMessage ["invoke", returnID, fn, ...args]
         response
-
-    config: (...args)-> IPC.db.invoke "config", ...args
-
-    configReady: ()-> ipcRenderer.send "config-ready"

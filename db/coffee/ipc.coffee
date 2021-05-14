@@ -1,6 +1,6 @@
 { ipcRenderer } = require "electron"
 
-Take ["Config", "MemoryCore", "Printer"], (Config, MemoryCore, Printer)->
+Take ["MemoryCore", "Printer"], (MemoryCore, Printer)->
   ports = {}
 
   ipcRenderer.on "main-db-invoke", (e, returnID, name, ...args)->
@@ -9,7 +9,6 @@ Take ["Config", "MemoryCore", "Printer"], (Config, MemoryCore, Printer)->
   ipcRenderer.on "port", (e, {id})->
     port = ports[id] = e.ports[0]
     port.onmessage = ({data: [fn, ...args]})->
-      console.log "message received: #{fn}"
       if fn is "invoke" then invoke port, ...args else call fn, ...args
 
   invoke = (port, returnID, name, ...args)->
@@ -26,7 +25,6 @@ Take ["Config", "MemoryCore", "Printer"], (Config, MemoryCore, Printer)->
       Printer "Unknown db callable: #{name}", color: "#F00"
 
   invokables =
-    config: Config
     memoryInit: ()-> MemoryCore.memory
 
   Make "IPC", IPC =

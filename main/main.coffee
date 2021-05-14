@@ -2,6 +2,16 @@
 
 Take ["Env", "IPC", "Menu", "Window"], (Env, IPC, Menu, Window)->
 
+  # Here's our custom config for the About box
+  app.setAboutPanelOptions
+    applicationName: "Hyperzine\nAlpha\n#{Env.version.replace /(\d\.\d)\.0/, "$1"}"
+    applicationVersion: [
+      "Electron #{Env.versions.electron}"
+      "Chrome #{Env.versions.chrome}"
+    ].join "\n"
+    version: ""
+    copyright: "© 2021 CD Industrial Group Inc."
+
   # Wait for ready before doing anything substantial.
   await app.whenReady()
 
@@ -27,17 +37,7 @@ Take ["Env", "IPC", "Menu", "Window"], (Env, IPC, Menu, Window)->
 
   # Everything is ready — open a browser window.
   # Eventually, we might want to restore whichever windows were open when we last quit
-  # Window.open.browser() # DISABLED FOR TESTING DB
+  Window.open.browser()
 
   # Whenever we switch to the app, let the window manager know.
-  # app.on "activate", Window.activate
-
-
-  app.setAboutPanelOptions
-    applicationName: "Hyperzine\nAlpha\n#{Env.version.replace /(\d\.\d)\.0/, "$1"}"
-    applicationVersion: [
-      "Electron #{Env.versions.electron}"
-      "Chrome #{Env.versions.chrome}"
-    ].join "\n"
-    version: ""
-    copyright: "© 2021 CD Industrial Group Inc."
+  app.on "activate", Window.activate

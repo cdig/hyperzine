@@ -1,6 +1,6 @@
 { app, Menu, shell } = require "electron"
 
-Take ["AppFolder", "IPC", "Env", "Window"], (AppFolder, IPC, Env, Window)->
+Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
 
   template = []
 
@@ -31,7 +31,7 @@ Take ["AppFolder", "IPC", "Env", "Window"], (AppFolder, IPC, Env, Window)->
       else
         [{ label: "Open App Update…", click: AppFolder.import }]
       )
-      { label: "Show Config File", click: ()-> shell.showItemInFolder await IPC.config "configPath" }
+      { label: "Show Config File", click: ()-> shell.showItemInFolder Env.configPath }
       { type: "separator" }
       { role: if Env.isMac then "close" else "quit" }
     ]

@@ -44,4 +44,4 @@ Take ["Env", "Window"], (Env, Window)->
         Window.getDB().webContents.send "main-db-invoke", returnID, fn, ...args
         response
 
-    config: (...args)-> IPC.db.invoke "config", ...args
+    # memory: (...args)-> IPC.db.invoke "memory", ...args

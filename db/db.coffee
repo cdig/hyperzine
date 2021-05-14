@@ -4,10 +4,8 @@ Take ["Config", "Env", "IPC", "LoadAssets", "Log", "Memory", "Read", "WatchAsset
 
   Log "DB Window Open", null, time
 
-  Memory.subscribe "dataFolder", (v)->
+  Memory.subscribe "dataFolder", true, (v)->
     return unless await Read.isFolder v
-    Log "v dataFolder: #{v}"
-    Log "M dataFolder: #{Memory("dataFolder")}"
     Memory "assetsFolderPath", assetsFolderPath = Read.path v, "Assets"
     Write.sync.mkdir assetsFolderPath unless await Read.isFolder assetsFolderPath
     LoadAssets()
@@ -15,16 +13,10 @@ Take ["Config", "Env", "IPC", "LoadAssets", "Log", "Memory", "Read", "WatchAsset
 
   Log "Loading Config"
 
-  configPath = Read.path Env.userData, "config.json"
-  configFile = Read.file configPath
-
-  if configFile?
-    try
-      configData = JSON.parse configFile
-      # Config k, v for k, v of configData
-      # Config "configPath", configPath # Don't trust the value that was saved
+  switch Config()
+    when true
       IPC.configReady()
-    catch
+    when false
+      IPC.needSetup()
+    else
       IPC.fatal "Hyperzine failed to load your saved preferences. To avoid damaging the preferences file, Hyperzine will now close. Please ask Ivan for help."
-  else
-    IPC.needSetup()
