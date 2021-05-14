@@ -1,11 +1,11 @@
 Take ["PubSub", "State", "DOMContentLoaded"], ({Pub, Sub}, State)->
 
-  change = (e)->
-    if e.target.value isnt State.search
-      State.search = e.target.value
-      Pub "Render"
-
   elm = document.querySelector "search-box input"
+  return unless elm?
+
+  change = (e)->
+    Pub "Render" if State.change "search", e.target.value
+
   elm.addEventListener "change", change
   elm.addEventListener "input", change
 

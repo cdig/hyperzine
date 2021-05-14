@@ -1,4 +1,5 @@
 { app, BrowserWindow, dialog, ipcMain, MessageChannelMain } = require "electron"
+{ performance } = require "perf_hooks"
 
 Take ["Env", "Window"], (Env, Window)->
 
@@ -7,6 +8,10 @@ Take ["Env", "Window"], (Env, Window)->
   ipcMain.on "close-window", ({sender})-> BrowserWindow.fromWebContents(sender)?.close()
 
   ipcMain.on "quit", ({sender}, msg)-> app.quit()
+
+  ipcMain.on "log", (e, msg)->
+    time = (time or performance.now()).toFixed(0).padStart(5)
+    console.log time + "  " + msg
 
   ipcMain.handle "showOpenDialog", ({sender}, opts)-> dialog.showOpenDialog BrowserWindow.fromWebContents(sender), opts
 

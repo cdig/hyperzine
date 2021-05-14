@@ -116,7 +116,7 @@ Take ["Env"], (Env)->
 
     open:
       asset: (assetId)-> newWindow "asset", false, title: assetId
-      browser: ()-> newWindow "browser", true, title: "Browser"
+      browser: ()-> newWindow "browser", false, title: "Browser"
       db: openDb
       setupAssistant: openSetupAssistant
 

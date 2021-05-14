@@ -1,2 +1,0 @@
-Take [], ()->
-  Make "State", BrowserState = {}

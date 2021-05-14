@@ -2,8 +2,6 @@ Take ["Env", "IPC", "Log", "Memory", "PubSub", "Render", "DOMContentLoaded"], (E
 
   # Sub "Render", Render
 
-  IPC.on "find", ()-> Pub "find"
-
   Memory.subscribe "assets", true, (assets)->
     console.log "assets!"
 

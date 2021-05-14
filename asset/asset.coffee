@@ -20,5 +20,3 @@ Take ["IPC", "Log", "Paths", "PubSub", "Render", "State", "DOMContentLoaded"], (
         assetDeleted: (assetId)->
           if assetId is State.asset.id
             IPC.closeWindow()
-
-        find: ()-> Pub "Find"

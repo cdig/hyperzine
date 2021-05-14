@@ -11,9 +11,10 @@ Take ["Config", "Env", "IPC", "LoadAssets", "Log", "Memory", "Read", "WatchAsset
     LoadAssets()
     WatchAssets()
 
-  Log "Loading Config"
+  config = Config()
+  Log "Loading Config: #{config}"
 
-  switch Config()
+  switch config
     when true
       IPC.send Log "config-ready"
     when false

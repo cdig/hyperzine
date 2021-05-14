@@ -1,4 +1,5 @@
 Take [], ()->
+  subscriptions = {}
 
   if window.isDB
     MemoryCore = await new Promise (resolve)-> Take "MemoryCore", (MemoryCore)-> resolve MemoryCore
@@ -9,17 +10,17 @@ Take [], ()->
     cache = await DB.invoke "memoryInit"
     commit = (k, v)-> DB.send "memory", k, v
 
-
   Memory = (k, v)->
     return cache[k] if v is undefined
     commit k, v
 
-  # Convenience
-  Memory.change = (k, v)-> Memory k, v if v isnt cache[k]
-  Memory.default = (k, v)-> Memory k, v unless cache[k]?
+  Memory.change = (k, v)->
+    Memory k, v if set = v isnt cache[k]
+    return set
 
-  # Subscriptions
-  subscriptions = {}
+  Memory.default = (k, v)->
+    Memory k, v if set = not cache[k]?
+    return set
 
   Memory.subscribe = (k, runNow, cb)->
     (subscriptions[k] ?= []).push cb
@@ -47,6 +48,5 @@ Take [], ()->
       old = cache[k]
       cache[k] = v
       notify k, v, old
-
 
   Make "Memory", Memory

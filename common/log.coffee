@@ -1,7 +1,26 @@
-Take ["IPC"], (IPC)->
+Take [], ()->
+
+  # We can't Take pretty much anything right off the bat, ugh
+  DB = null # Depends on IPC, only exists in non-DB windows
+  Env = null # Depends on IPC
+  IPC = null # Depends on Log
+  Printer = null # Only exists in DB
 
   Log = (msg, ...args)->
-    IPC.log msg, ...args
+    Env ?= Take "Env"
+
+    # If we're in dev, send logs to Main
+    if Env?.isDev and IPC ?= Take "IPC"
+      IPC.send "log", msg, ...args
+
+    # If we're in DB, send logs to the Printer
+    if window.isDB and Printer ?= Take "Printer"
+      Printer msg, ...args
+
+    # If we're not in DB, send logs to DB
+    if !window.isDB and DB ?= Take "DB"
+      DB.send "log", msg, ...args
+
     return msg
 
   Log.time = (msg, fn)->

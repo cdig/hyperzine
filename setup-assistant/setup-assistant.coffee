@@ -1,13 +1,15 @@
 Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM, Env, IPC, Log, Memory, Read)->
 
+  q = (k)-> document.querySelector k # Ugh so repetitive
+
   elms =
-    pathReason: document.querySelector "[path-reason]"
-    dataFolder: document.querySelector "[data-folder]"
-    localName: document.querySelector "[local-name]"
-    existingAssets: document.querySelector "[existing-assets]"
+    pathReason: q "[path-reason]"
+    dataFolder: q "[data-folder]"
+    localName: q "[local-name]"
+    existingAssets: q "[existing-assets]"
 
   click = (n, fn)->
-    document.querySelector(n).onclick = fn
+    q(n).onclick = fn
 
   wait = ()->
     new Promise (resolve)->
@@ -16,12 +18,18 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
 
   to = (n)-> ()->
     document.body.className = n
-    if elm = document.querySelector("[is-showing]")
+    if elm = q("[is-showing]")
       DOOM elm, isShowing: null, pointerEvents: null
     elm = document.getElementById n
     DOOM elm, isShowing: ""
     await wait() unless Env.isDev
     DOOM elm, pointerEvents: "auto"
+
+  # Block newlines in typable fields (needs to be keydown to avoid flicker)
+  window.addEventListener "keydown", (e)-> e.preventDefault() if e.keyCode is 13
+
+  # Alternative to clicking buttons (needs to be keyup to avoid inadvertant key repeat)
+  window.addEventListener "keydown", (e)-> q("[is-showing] [next-button]")?.click() if e.keyCode is 13
 
 
   # Screens #######################################################################################
@@ -90,11 +98,6 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
 
   elms.localName.addEventListener "input", (e)->
     elms.localName.className = if localNameValid() then "field" else "field invalid"
-
-  elms.localName.addEventListener "keydown", (e)->
-    if e.keyCode is 13 # return
-      e.preventDefault()
-      setLocalName()
 
   click "#local-name [next-button]", setLocalName
 

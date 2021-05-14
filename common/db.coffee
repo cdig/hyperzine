@@ -32,5 +32,3 @@ Take ["IPC"], (IPC)->
       response = new Promise (resolve)-> invokes[returnID] = resolve
       db.postMessage ["invoke", returnID, fn, ...args]
       response
-
-    log: (...args)-> db.postMessage ["log", ...args]

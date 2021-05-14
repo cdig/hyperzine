@@ -1,6 +1,6 @@
 { ipcRenderer } = require "electron"
 
-Take ["MemoryCore", "Printer"], (MemoryCore, Printer)->
+Take ["MemoryCore", "Log", "Printer"], (MemoryCore, Log, Printer)->
   ports = {}
 
   ipcRenderer.on "main-db-invoke", (e, returnID, name, ...args)->
@@ -16,21 +16,23 @@ Take ["MemoryCore", "Printer"], (MemoryCore, Printer)->
       v = fn ...args
       port.postMessage ["return", returnID, v]
     else
-      Printer "Unknown db invokable: #{name}", color: "#F00"
+      Log "Unknown db invokable: #{name}", color: "#F00"
 
   call = (name, ...args)->
-    if fn = IPC[name]
+    if fn = callables[name] or IPC[name]
       fn ...args
     else
-      Printer "Unknown db callable: #{name}", color: "#F00"
+      Log "Unknown db callable: #{name}", color: "#F00"
 
   invokables =
     memoryInit: ()-> MemoryCore.memory
 
+  callables =
+    log: Printer
+
   Make "IPC", IPC =
     send: (...args)-> ipcRenderer.send ...args
     invoke: (...args)-> ipcRenderer.invoke ...args
-    log: Printer
     memory: MemoryCore
 
     on:     (channel, cb)-> ipcRenderer.on     channel, cb
