@@ -1,12 +1,9 @@
-Take ["Env", "IPC", "Log", "Memory", "PubSub", "Render", "DOMContentLoaded"], (Env, IPC, Log, Memory, {Pub, Sub}, Render)->
+Take ["Log", "Memory", "PubSub", "Render"], (Log, Memory, {Pub, Sub}, Render)->
 
-  # Sub "Render", Render
+  Sub "Render", Render
 
   Memory.subscribe "assets", true, (assets)->
-    console.log "assets!"
-
-    # Log.time "Build assets", ()-> Assets assets
-    # Log.time "Initial render", Render
+    Log.time "Initial render", Render
 
   # IPC.on "asset-changed", (event, asset)->
   #   Render.deleteAssetCard Assets.update asset
@@ -14,6 +11,3 @@ Take ["Env", "IPC", "Log", "Memory", "PubSub", "Render", "DOMContentLoaded"], (E
   #
   # IPC.on "asset-deleted", (event, assetId)->
   #   Render.deleteAssetCard Assets.delete assetId
-  #
-  #
-  # IPC.send "browser-init"

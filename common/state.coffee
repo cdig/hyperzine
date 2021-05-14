@@ -25,7 +25,7 @@ Take [], ()->
   State.unsubscribe = (k, cb)->
     Array.pull subscriptions[k], cb
 
-  commit = ()->
+  commit = (k, v)->
     old = state[k]
     if v? then state[k] = v else delete state[k]
     notify k, v, old

@@ -1,5 +1,5 @@
-Take ["DOOM", "Env", "DOMContentLoaded"], (DOOM, Env)->
+Take ["DOOM", "Memory", "DOMContentLoaded"], (DOOM, Memory)->
   name = document.querySelector "[app-name]"
   info = document.querySelector "[app-info]"
 
-  DOOM name, textContent: "Hyperzine #{Env.version}"
+  DOOM name, textContent: "Hyperzine • #{Memory "localName"}"
