@@ -92,7 +92,7 @@ Take ["Env"], (Env)->
     if db?
       db.show()
     else
-      db = newWindow "db", false, title: "DB", backgroundThrottling: false, show: Env.isDev
+      db = newWindow "db", true, title: "DB", backgroundThrottling: false, show: Env.isDev
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()

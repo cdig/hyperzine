@@ -1,4 +1,8 @@
+time = performance.now()
+
 Take ["Log", "Memory", "PubSub", "Render"], (Log, Memory, {Pub, Sub}, Render)->
+
+  Log.time.formatted "Browser Window Open", time
 
   Sub "Render", Render
 

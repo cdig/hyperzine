@@ -2,11 +2,10 @@ Take [], ()->
 
   Util = {}
 
-  Util.getIn = (k, root)->
-    node = root
-    parts = k.split "."
+  Util.getIn = (node, path)->
+    parts = path.split "."
     lastPart = parts.pop()
     node = node[part] ?= {} for part in parts
-    [node, lastPart]
+    [node, lastPart, parts]
 
   Make "Util", Util

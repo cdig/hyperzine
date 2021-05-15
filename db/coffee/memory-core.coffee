@@ -1,24 +1,27 @@
-Take [], ()->
+Take ["Util"], ({getIn})->
+  IPC = null
 
   memory = {}
 
-  IPC = null
-  Memory = null
+  MemoryCore = (path, v)->
+    # return unless path?.length # Not sure that we want / need this
 
-  MemoryCore = (k, v)->
-    return memory[k] if v is undefined
+    [node, k] = getIn memory, path
 
-    old = memory[k]
-    if v? then memory[k] = v else delete memory[k]
+    if v isnt undefined
 
-    # IPC and MemoryCore have a circular reference, so we cut that knot here
-    IPC.broadcast "memoryCommitted", k, v if IPC ?= Take "IPC"
+      old = node[k]
+      if v? then node[k] = v else delete node[k]
 
-    # The local instance of Memory doesn't go through IPC, so we just give it a hook
-    MemoryCore.localUpdate? k, v, old
+      # IPC and MemoryCore have a circular reference, so we cut that knot here
+      IPC.broadcast "memoryCommitted", path, v if IPC ?= Take "IPC"
+
+      # The instance of Memory here in the DB doesn't go through IPC, so we call it directly
+      MemoryCore.localUpdate? path, v, old
+
+    return node[k]
 
   MemoryCore.memory = memory
-
   MemoryCore.localUpdate = null # Set by the Memory instance running here in the DB
 
   Make "MemoryCore", MemoryCore

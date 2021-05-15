@@ -26,14 +26,15 @@ Take ["MemoryCore", "Log", "Printer"], (MemoryCore, Log, Printer)->
 
   invokables =
     memoryInit: ()-> MemoryCore.memory
+    memory: MemoryCore
 
   callables =
     log: Printer
+    memory: MemoryCore
 
   Make "IPC", IPC =
     send: (...args)-> ipcRenderer.send ...args
     invoke: (...args)-> ipcRenderer.invoke ...args
-    memory: MemoryCore
 
     on:     (channel, cb)-> ipcRenderer.on     channel, cb
     once:   (channel, cb)-> ipcRenderer.on     channel, cb
