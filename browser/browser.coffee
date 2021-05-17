@@ -1,13 +1,8 @@
-time = performance.now()
-
-Take ["Log", "Memory", "PubSub", "Render"], (Log, Memory, {Pub, Sub}, Render)->
-
-  Log.time.formatted "Browser Window Open", time
+Take ["Memory", "PubSub", "Render"], (Memory, {Pub, Sub}, Render)->
 
   Sub "Render", Render
 
-  Memory.subscribe "assets", true, (assets)->
-    Log.time "Initial render", Render
+  Memory.subscribe "assets", true, Render
 
   # IPC.on "asset-changed", (event, asset)->
   #   Render.deleteAssetCard Assets.update asset

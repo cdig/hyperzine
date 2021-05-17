@@ -15,6 +15,8 @@ Take ["Env", "Window"], (Env, Window)->
 
   ipcMain.handle "showOpenDialog", ({sender}, opts)-> dialog.showOpenDialog BrowserWindow.fromWebContents(sender), opts
 
+  ipcMain.handle "whats-my-asset", ({sender})-> BrowserWindow.fromWebContents(sender).title
+
   ipcMain.on "fatal", ({sender}, msg)->
     dialog.showErrorBox "Fatal Error", msg
     app.quit()
@@ -48,5 +50,3 @@ Take ["Env", "Window"], (Env, Window)->
         response = IPC.promise.once "main-db-invoke-#{returnID}"
         Window.getDB().webContents.send "main-db-invoke", returnID, fn, ...args
         response
-
-    # memory: (...args)-> IPC.db.invoke "memory", ...args

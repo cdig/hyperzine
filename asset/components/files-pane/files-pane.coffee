@@ -101,6 +101,6 @@ Take ["DOOM", "Paths", "State", "DOMContentLoaded"], (DOOM, Paths, State)->
   Make "FilesPane", FilesPane =
     render: ()->
 
-      DOOM fileCount, textContent: String.pluralize State.asset.files.count, "%% File"
+      DOOM fileCount, textContent: String.pluralize State("asset").files.count, "%% File"
 
-      makeFileElms State.asset.files
+      makeFileElms State("asset").files

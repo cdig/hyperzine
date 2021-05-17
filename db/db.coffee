@@ -1,8 +1,4 @@
-time = performance.now()
-
-Take ["Config", "Env", "IPC", "LoadAssets", "Log", "Memory", "Read", "WatchAssets", "Write"], (Config, Env, IPC, LoadAssets, Log, Memory, Read, WatchAssets, Write)->
-
-  Log "DB Window Open", null, time
+Take ["Config", "IPC", "LoadAssets", "Log", "Memory", "Read", "WatchAssets", "Write"], (Config, IPC, LoadAssets, Log, Memory, Read, WatchAssets, Write)->
 
   Memory.subscribe "dataFolder", true, (v)->
     return unless await Read.isFolder v

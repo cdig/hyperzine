@@ -8,6 +8,7 @@ Take ["Env", "IPC", "Menu", "Window"], (Env, IPC, Menu, Window)->
     applicationVersion: [
       "Electron #{Env.versions.electron}"
       "Chrome #{Env.versions.chrome}"
+      "Node #{Env.versions.node}"
     ].join "\n"
     version: ""
     copyright: "© 2021 CD Industrial Group Inc."
@@ -41,3 +42,8 @@ Take ["Env", "IPC", "Menu", "Window"], (Env, IPC, Menu, Window)->
 
   # Whenever we switch to the app, let the window manager know.
   app.on "activate", Window.activate
+
+  # Now, we'll add handlers for various window events that need main's help
+  IPC.on "open-asset", (e, assetId)->
+    console.log assetId
+    Window.open.asset assetId

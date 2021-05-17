@@ -13,7 +13,7 @@ Take ["DOOM", "Frustration", "IPC", "Paths", "DOMContentLoaded"], (DOOM, Frustra
       img = DOOM.create "no-img", assetImage, textContent: Frustration()
 
     img.addEventListener "click", ()->
-      IPC.send "browser-open-asset", assetId
+      IPC.send "open-asset", asset.id
 
     assetName = DOOM.create "asset-name", card,
       textContent: Paths.displayName asset

@@ -3,7 +3,10 @@ Take ["AssetCard", "DOOM", "Log", "Memory", "Search", "State", "DOMContentLoaded
   assetCount = document.querySelector "[asset-count]"
 
   Render = ()->
-    assets = Object.values Memory "assets"
+    assets = Memory "assets"
+    return unless assets?
+
+    assets = Object.values assets
 
     filteredAssets = Search assets, State "search"
     DOOM assetCount, textContent: filteredAssets.length + " Assets"

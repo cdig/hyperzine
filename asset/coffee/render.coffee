@@ -8,15 +8,14 @@ Take ["DOOM", "FilesPane", "MetaPane", "Paths", "State", "DOMContentLoaded"], (D
   showInFinder = document.querySelector "[show-in-finder]"
 
   showInFinder.addEventListener "click", ()->
-    shell.showItemInFolder Paths.files State.asset
+    shell.showItemInFolder Paths.files State "asset"
 
   Render = ()->
-    # start = performance.now()
+    asset = State "asset"
 
-    # DOOM pinUnpin, textContent: if State.asset.pinned then "Unpin" else "Pin"
-    DOOM assetName, textContent: State.asset.id + " • " + Paths.displayName State.asset
+    DOOM pinUnpin, textContent: if asset.pinned then "Unpin" else "Pin"
+    DOOM assetName, textContent: asset.id + " • " + Paths.displayName asset
     FilesPane.render()
-    # MetaPane.render()
-    # console.log performance.now() - start
+    MetaPane.render()
 
   Make "Render", Render
