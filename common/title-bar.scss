@@ -1,11 +1,12 @@
 title-bar {
   display: flex;
-  position: relative; // Render our shadow on top of the tool-bar
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   height: 38px;
+  line-height: 38px;
   padding-left: 80px;
-  padding-right: 10px;
+  // padding-top: 4px;
+  padding-right: 4px;
   font-weight: 700;
 
   div {

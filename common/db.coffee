@@ -17,7 +17,7 @@ Take ["IPC"], (IPC)->
     else if l = listeners[message]
       cb ...data for cb in l
     else
-      throw "not sure what to do about this"
+      console.log "message dropped: #{message}"
 
   returned = (returnID, resp)->
     resolve = invokes[returnID]

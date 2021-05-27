@@ -1,10 +1,7 @@
-Take ["DOOM", "Frustration", "IPC", "Paths", "DOMContentLoaded"], (DOOM, Frustration, IPC, Paths)->
+Take ["DOOM", "Frustration", "IPC", "OnScreen", "Paths", "DOMContentLoaded"], (DOOM, Frustration, IPC, OnScreen, Paths)->
 
-  Make "AssetCard", AssetCard = (asset)->
-    card = DOOM.create "asset-card"
 
-    card._asset = asset
-
+  build = (card, asset)->
     assetImage = DOOM.create "asset-image", card
 
     if asset.shot?
@@ -26,4 +23,15 @@ Take ["DOOM", "Frustration", "IPC", "Paths", "DOMContentLoaded"], (DOOM, Frustra
     for v in asset.tags
       DOOM.create "tag-item", metaList, textContent: v
 
+
+  onScreen = (card, visible)->
+    if visible and not card._built
+      card._built = true
+      build card, card._asset
+
+
+  Make "AssetCard", AssetCard = (asset)->
+    card = DOOM.create "asset-card"
+    card._asset = asset
+    OnScreen card, onScreen
     card

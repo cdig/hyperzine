@@ -22,9 +22,9 @@ Take [], ()->
         tokenPoints += 2 if asset.search.name.indexOf(token) isnt -1
         tokenPoints += 1 if asset.search.tags.indexOf(token) isnt -1
 
-        if nFiles = asset.search.files?.length
-          for file in asset.search.files
-            tokenPoints += 1/nFiles if file.indexOf(token) isnt -1
+        nFiles = asset.search.files.length
+        for file in asset.search.files
+          tokenPoints += 1/nFiles if file.indexOf(token) isnt -1
 
         if tokenPoints > 0 # asset did match this token
           points += tokenPoints

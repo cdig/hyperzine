@@ -1,6 +1,6 @@
 Take ["AssetCard", "DOOM", "Log", "Memory", "Search", "State", "DOMContentLoaded"], (AssetCard, DOOM, Log, Memory, Search, State)->
   elm = document.querySelector "asset-list"
-  assetCount = document.querySelector "[asset-count]"
+  assetCount = document.querySelector "asset-count"
 
   Render = ()->
     assets = Memory "assets"
@@ -9,20 +9,17 @@ Take ["AssetCard", "DOOM", "Log", "Memory", "Search", "State", "DOMContentLoaded
     assets = Object.values assets
 
     filteredAssets = Search assets, State "search"
-    DOOM assetCount, textContent: filteredAssets.length + " Assets"
+    DOOM assetCount, textContent: String.pluralize filteredAssets.length, "%% Asset"
 
-    filteredAssets = filteredAssets[0...50]
-
-    for asset in assets when asset._card?
-      DOOM asset._card, display: "none"
+    elm.replaceChildren() # Empty the asset list
+    frag = new DocumentFragment() # Build a frag to hold all the assets we want to show
 
     for asset in filteredAssets
       asset._card ?= AssetCard asset
-      DOOM.append elm, asset._card
-      DOOM asset._card, display: "block"
+      DOOM.append frag, asset._card
 
-    elm.scroll(0,0)
-
+    DOOM.append elm, frag
+    # elm.scroll(0,0)
 
   # Render.deleteAssetCard = (asset)->
   #   if asset?._card?

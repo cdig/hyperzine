@@ -1,9 +1,9 @@
-Take ["PubSub", "State", "DOMContentLoaded"], ({Pub, Sub}, State)->
+Take ["Debounced", "PubSub", "State", "DOMContentLoaded"], (Debounced, {Pub, Sub}, State)->
 
   elm = document.querySelector "search-box input"
   return unless elm?
 
-  change = (e)->
+  change = Debounced 100, (e)->
     Pub "Render" if State.change "search", e.target.value
 
   elm.addEventListener "change", change
