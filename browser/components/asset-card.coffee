@@ -16,7 +16,7 @@ Take ["DOOM", "Frustration", "IPC", "Paths", "DOMContentLoaded"], (DOOM, Frustra
       IPC.send "open-asset", asset.id
 
     assetName = DOOM.create "asset-name", card,
-      textContent: Paths.displayName asset
+      textContent: asset.name or asset.id
 
     metaList = DOOM.create "meta-list", card
 

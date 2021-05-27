@@ -11,6 +11,7 @@
 </head>
 <body>
   <window-top>
+    <window-top-rainbow></window-top-rainbow>
     <title-bar>
       <div asset-name></div>
       <div class="ui">
@@ -20,21 +21,23 @@
     </title-bar>
     <tool-bar>
       <div file-count></div>
-      <search-box>
+      <search-box class="ui">
         <input type="search" placeholder="Search (Not Yet Implemented)">
       </search-box>
     </tool-bar>
+  </window-top>
+  <main>
+    <files-pane>
+      <file-list class="scrollable"></file-list>
+    </files-pane>
     <meta-pane>
-      <div asset-name></div>
+      <div asset-name contenteditable autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
       <asset-metadata class="bubbles">
         <div asset-id class="bubble">ID <span></span></div>
       </asset-metadata>
-      <!-- <add-note>Add Note...</add-note> -->
-      <!-- <asset-history></asset-history> -->
+      <add-note>Add Note...</add-note>
+      <asset-history></asset-history>
     </meta-pane>
-  </window-top>
-  <files-pane>
-    <file-list></file-list>
-  </files-pane>
+  </main>
 </body>
 </html>

@@ -1,6 +1,6 @@
 meta-pane {
-  display: none;
-  padding: 1em 1em 0;
-  border-left: 1px solid var(--tool-bar-border);
-  background: var(--tool-bar-bg);
+  display: block;
+  flex: 1 0 auto;
+  padding: calc(90px + 1em) 1em 0;
+  border-left: 1px solid var(--tool-bar-bg);
 }

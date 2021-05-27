@@ -1,11 +1,3 @@
-// For both light and dark mode
-html {
-  --window-top-filter: blur(24px) saturate(500%);
-}
-html.blur {
-  --window-top-filter: none;
-}
-
 // Default: light mode
 html {
   --bubble-bg: #e9e9e9;
@@ -21,24 +13,20 @@ html {
   --card-no-image-text: #777;
   --card-no-image-hover: #fafafa;
   --input-bg: #fff0;
-  --input-border: #0002;
   --input-text: #000;
   --input-focus-after-border: hsl(219, 82%, 74%);
+  --main-bg: transparent; //#eeec;
   --meta-bg: #e7e7e7;
   --meta-text: #fff;
   --page-bg: #f2f2f2;
   --scroll-thumb: #ccc;
   --text-color: #272727;
-  --title-bar-bg: #f0f0f0e6;
-  --title-bar-border: #0002;
   --title-bar-text: #171717;
-  --tool-bar-bg: #eeec;
-  --tool-bar-border: #0002;
+  --tool-bar-bg: #f2f2f2dd;
+  --ui-border: #0002;
 }
 html.blur {
-  --title-bar-bg: #e4e4e4;
   --title-bar-text: #a4a4a4;
-  --tool-bar-bg: #e4e4e4;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -56,23 +44,19 @@ html.blur {
     --card-no-image-text: #aaa;
     --card-no-image-hover: #3a3a3a;
     --input-bg: #0004;
-    --input-border: #fff1;
     --input-text: #fff;
     --input-focus-after-border: #316d99;
+    --main-bg: transparent;//#242424cc;
     --meta-bg: #282828;
     --meta-text: #ccc;
     --page-bg: #1b1b1b;
     --scroll-thumb: #333;
     --text-color: #fff;
-    --title-bar-bg: #353535ee;
-    --title-bar-border: #111;
     --title-bar-text: #eaeaea;
-    --tool-bar-bg: #242424f2;
-    --tool-bar-border: #000;
+    --tool-bar-bg: #1b1b1be4;
+    --ui-border: #fff1;
   }
   html.blur {
-    --title-bar-bg: #242424;
     --title-bar-text: #666;
-    --tool-bar-bg: #242424;
   }
 }

@@ -15,7 +15,9 @@ Take ["Env", "Window"], (Env, Window)->
 
   ipcMain.handle "showOpenDialog", ({sender}, opts)-> dialog.showOpenDialog BrowserWindow.fromWebContents(sender), opts
 
-  ipcMain.handle "whats-my-asset", ({sender})-> BrowserWindow.fromWebContents(sender).title
+  ipcMain.handle "whats-my-asset", ({sender})->
+    win = BrowserWindow.fromWebContents sender
+    Window.data[win.webContents.id].assetId
 
   ipcMain.on "fatal", ({sender}, msg)->
     dialog.showErrorBox "Fatal Error", msg

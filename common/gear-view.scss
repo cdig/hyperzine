@@ -12,7 +12,7 @@ gear-view {
 
   div {
     height: 100%;
-    animation: spin 10s infinite linear;
+    animation: gear-spin 10s infinite linear;
     // animation-play-state: paused;
   }
 
@@ -23,7 +23,7 @@ gear-view {
   div { background-image: var(--black-gear) }
 }
 
-@keyframes spin {
+@keyframes gear-spin {
   from { transform: translate(-2.5%) scale(.95) rotate(0deg) }
   50% { transform: translate(-2.5%) scale(.9) rotate(180deg) }
   to { transform: translate(-2.5%) scale(.95) rotate(360deg) }

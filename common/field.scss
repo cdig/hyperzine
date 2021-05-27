@@ -1,6 +1,4 @@
-meta-pane [asset-name] {
-  font-size: 1.2em;
-
+.field {
   display: inline-block;
   box-shadow: 0 .5em 1.25em -.25em var(--page-bg);
   mix-blend-mode: hard-light;
@@ -13,7 +11,8 @@ meta-pane [asset-name] {
   word-wrap: break-word;
   background: var(--page-bg);
 
-  border: 2px solid #7771;
-  &.invalid { border-color: red; }
-
+  &[contenteditable] {
+    border: 2px solid #7771;
+    &.invalid { border-color: red; }
+  }
 }

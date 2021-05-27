@@ -76,7 +76,7 @@ Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
         { role: "close" }
       ])
       { type: "separator" }
-      { label: "Show DB Window", accelerator: "CmdOrCtrl+Shift+D", click: Window.open.db }
+      { label: "Show Debug Log", accelerator: "CmdOrCtrl+Shift+D", click: Window.open.db }
     ]
 
   template.push

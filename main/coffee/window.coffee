@@ -20,6 +20,8 @@ Take ["Env"], (Env)->
     db: []
     "setup-assistant": []
 
+  windowData = {}
+
   # Single instance windows
   db = null
   setupAssistant = null
@@ -46,7 +48,7 @@ Take ["Env"], (Env)->
   # Any properties that aren't specified will just be defaulted by Electron
   defaultBounds =
     asset: width: 1000, height: 600
-    browser: x: 1000, y: 0, width: 440, height:600
+    browser: x: 120, y: 75, width: 1200, height:750
     db: x: 0, y: 0, width: 400, height: 300
     "setup-assistant": width: 480, height: 540
 
@@ -88,11 +90,16 @@ Take ["Env"], (Env)->
       clearIndex type, index
     win
 
+  openAsset = (assetId)->
+    win = newWindow "asset", false, title: "Asset"
+    windowData[win.webContents.id] = assetId: assetId
+    return win
+
   openDb = ()->
     if db?
       db.show()
     else
-      db = newWindow "db", false, title: "DB", backgroundThrottling: false, show: Env.isDev
+      db = newWindow "db", false, title: "Debug Log", backgroundThrottling: false, show: false #Env.isDev
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()
@@ -110,12 +117,14 @@ Take ["Env"], (Env)->
 
 
   Make "Window", Window =
+    data: windowData
+
     getDB: ()->
       throw "DB window doesn't exist" unless db?
       db
 
     open:
-      asset: (assetId)-> newWindow "asset", false, title: assetId
+      asset: openAsset
       browser: ()-> newWindow "browser", false, title: "Browser"
       db: openDb
       setupAssistant: openSetupAssistant

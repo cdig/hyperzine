@@ -14,7 +14,7 @@ Take ["DOOM", "FilesPane", "MetaPane", "Paths", "State", "DOMContentLoaded"], (D
     asset = State "asset"
 
     DOOM pinUnpin, textContent: if asset.pinned then "Unpin" else "Pin"
-    DOOM assetName, textContent: asset.id + " • " + Paths.displayName asset
+    DOOM assetName, textContent: asset.name or asset.id
     FilesPane.render()
     MetaPane.render()
 

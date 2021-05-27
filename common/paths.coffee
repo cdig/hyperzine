@@ -7,6 +7,3 @@ Take ["Read", "Memory"], (Read, Memory)->
     name: (asset)->     Read.path Paths.asset(asset), "Name", asset.name
     tags: (asset)->     Read.path Paths.asset(asset), "Tags"
     tag: (asset, tag)-> Read.path Paths.tags(asset), tag
-
-    # This is temporarily here until we have a better home
-    displayName: (asset)-> (asset.name or asset.id).replace /[-_]/g, " "

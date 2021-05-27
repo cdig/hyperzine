@@ -1,0 +1,32 @@
+window-top-rainbow {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image:
+    linear-gradient(to bottom, black, transparent),
+    radial-gradient(50% 100% at top, black, transparent);
+  -webkit-mask-composite: source-in;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 8000px;
+    height: 100%;
+    background:
+      linear-gradient(to right,    var(--color-a), transparent,    transparent,    var(--color-a), transparent,    transparent,    var(--color-a), transparent,    transparent),
+      linear-gradient(to right,    transparent,    var(--color-b), transparent,    transparent,    var(--color-b), transparent,    transparent,    var(--color-b), transparent),
+      linear-gradient(to right,    transparent,    transparent,    var(--color-c), transparent,    transparent,    var(--color-c), transparent,    transparent,    var(--color-c));
+    opacity: .2;
+    animation: window-top-rainbow 1s linear infinite;
+    animation-delay: var(--delay);
+    animation-play-state: paused;
+  }
+}
+
+@keyframes window-top-rainbow {
+  from { transform: translateX(-12.5%) }
+  to { transform: translateX(-50%) }
+}

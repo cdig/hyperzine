@@ -44,6 +44,5 @@ Take ["Env", "IPC", "Menu", "Window"], (Env, IPC, Menu, Window)->
   app.on "activate", Window.activate
 
   # Now, we'll add handlers for various window events that need main's help
-  IPC.on "open-asset", (e, assetId)->
-    console.log assetId
-    Window.open.asset assetId
+  IPC.on "open-asset", (e, assetId)-> win = Window.open.asset assetId
+  IPC.on "set-asset-name", ({sender}, name)-> BrowserWindow.fromWebContents(sender).setTitle name

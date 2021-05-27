@@ -13,7 +13,7 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
 
   wait = ()->
     new Promise (resolve)->
-      waitTime = parseInt getComputedStyle(document.documentElement).getPropertyValue "--time"
+      waitTime = parseInt document.documentElement.computedStyleMap().get("--time")[0]
       setTimeout resolve, waitTime * 1000
 
   to = (n)-> ()->
@@ -22,7 +22,7 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
       DOOM elm, isShowing: null, pointerEvents: null
     elm = document.getElementById n
     DOOM elm, isShowing: ""
-    await wait() unless Env.isDev
+    await wait()# unless Env.isDev
     DOOM elm, pointerEvents: "auto"
 
   # Block newlines in typable fields (needs to be keydown to avoid flicker)
@@ -38,7 +38,12 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
   do to "welcome"
 
   # Welcome
-  click "[quit-button]", ()-> IPC.send "quit"
+  click "[quit-button]", ()->
+    IPC.send if Memory "setupDone" then "close-window" else "quit"
+
+  Memory.subscribe "setupDone", true, (v)->
+    q("[quit-button]").textContent = if v then "Close" else "Quit"
+
   click "#welcome [next-button]", to "data-folder"
 
   # Data Folder

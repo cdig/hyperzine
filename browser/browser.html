@@ -11,17 +11,20 @@
 </head>
 <body>
   <window-top>
+    <window-top-rainbow></window-top-rainbow>
     <title-bar>
       <div app-name>Hyperzine</div>
       <div app-info></div>
     </title-bar>
     <tool-bar>
       <div asset-count></div>
-      <search-box>
+      <search-box class="ui">
         <input type="search" placeholder="Search" autofocus>
       </search-box>
     </tool-bar>
   </window-top>
-  <asset-list></asset-list>
+  <main>
+    <asset-list class="scrollable"></asset-list>
+  </main>
 </body>
 </html>

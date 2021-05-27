@@ -7,7 +7,7 @@ gear-view {
 
   div {
     background-image: var(--white-gear);
-    animation: spin 111s infinite linear;
+    animation: gear-spin 111s infinite linear;
   }
 
   span {

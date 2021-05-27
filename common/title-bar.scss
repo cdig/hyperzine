@@ -1,22 +1,14 @@
 title-bar {
   display: flex;
+  position: relative; // Render our shadow on top of the tool-bar
   align-items: center;
   justify-content: space-between;
   height: 38px;
-  font-weight: 700;
   padding-left: 80px;
   padding-right: 10px;
-  border-bottom: 1px solid var(--title-bar-border);
-  // border-radius: 0 0 10px 10px;
-  background: var(--title-bar-bg);
-  color: var(--title-bar-text);
-  -webkit-app-region: drag;
+  font-weight: 700;
 
   div {
     flex: 0 0 auto;
-  }
-
-  .ui {
-    -webkit-app-region: no-drag;
   }
 }

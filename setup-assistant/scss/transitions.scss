@@ -1,7 +1,7 @@
 :root { --time: 3.5s; }
 
-#bg g   { transition: transform calc(var(--time) + 2s) cubic-bezier(.23,0,.19,.99), fill calc(var(--time) - 1s) linear; }
-#bg svg { transition: transform calc(var(--time) + 2s) cubic-bezier(.65,0,.69,.99); }
+#bg g   { transition: transform calc(var(--time) + 2s) cubic-bezier(.2,0,.2,1), fill calc(var(--time) - 1s) linear; }
+#bg svg { transition: transform calc(var(--time) + 2s) cubic-bezier(.6,0,.7,1); }
 
 .screen {
   gear-view span {        transition: transform 2.4s 0.0s cubic-bezier(.5, 0, 1, 0); }
