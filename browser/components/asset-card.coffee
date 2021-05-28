@@ -30,6 +30,7 @@ Take ["DOOM", "Frustration", "IPC", "OnScreen", "Paths", "DOMContentLoaded"], (D
       build card, card._asset
 
 
+
   Make "AssetCard", AssetCard = (asset)->
     card = DOOM.create "asset-card"
     card._asset = asset

@@ -3,7 +3,7 @@ Take ["Debounced", "PubSub", "State", "DOMContentLoaded"], (Debounced, {Pub, Sub
   elm = document.querySelector "search-box input"
   return unless elm?
 
-  change = Debounced 100, (e)->
+  change = Debounced (e)->
     Pub "Render" if State.change "search", e.target.value
 
   elm.addEventListener "change", change

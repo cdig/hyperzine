@@ -56,7 +56,7 @@
     "setup-assistant-scss:compiler": "sass temp/setup-assistant.scss out/setup-assistant.css --no-source-map",
     "setup-assistant-scss:generate": "run-s setup-assistant-scss:assemble setup-assistant-scss:compiler",
     "setup-assistant-scss:observer": "onchange 'setup-assistant/**/*.scss' -- npm run setup-assistant-scss:generate",
-    "package": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|extracted|main|node_modules|resources|submodule|temp)/\"",
+    "package": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|extracted|main|node_modules|resources|setup-assistant|submodule|temp)/\"",
     "bump": "yarn version --patch --no-git-tag-version",
     "open": "open ./Hyperzine-darwin-arm64/Hyperzine.app",
     "clean": "rm -r out temp",
@@ -68,7 +68,7 @@
   "dependencies": {},
   "devDependencies": {
     "doom": "ivanreese/doom",
-    "electron": "latest",
+    "electron": "^13.0.1",
     "electron-packager": "latest",
     "npm-run-all": "latest",
     "onchange": "latest",

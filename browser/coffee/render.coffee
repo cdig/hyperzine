@@ -2,13 +2,13 @@ Take ["AssetCard", "DOOM", "Log", "Memory", "Search", "State", "DOMContentLoaded
   elm = document.querySelector "asset-list"
   assetCount = document.querySelector "asset-count"
 
-  Render = ()->
+  Render = ()-> Log.time "Render", ()->
     assets = Memory "assets"
     return unless assets?
 
     assets = Object.values assets
 
-    filteredAssets = Search assets, State "search"
+    filteredAssets = Log.time "Search", ()-> Search assets, State "search"
     DOOM assetCount, textContent: String.pluralize filteredAssets.length, "%% Asset"
 
     elm.replaceChildren() # Empty the asset list

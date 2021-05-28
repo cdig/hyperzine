@@ -10,6 +10,9 @@ brew install node sass/sass/sass yarn
 npm install -g coffeescript
 git submodule update --init --recursive
 
+# Optional — custom Electron build (adjust path as needed):
+export ELECTRON_OVERRIDE_DIST_PATH=~/Work/electron/arm64
+
 # Run:
 yarn start
 
