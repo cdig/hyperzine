@@ -8,6 +8,7 @@ Take ["DOOM", "Frustration", "IPC", "OnScreen", "Paths", "DOMContentLoaded"], (D
       img = DOOM.create "img", assetImage, src: Paths.shot asset
     else
       img = DOOM.create "no-img", assetImage, textContent: Frustration()
+      img.style.setProperty "--hue", Math.randInt 0, 359
 
     img.addEventListener "click", ()->
       IPC.send "open-asset", asset.id

@@ -1,0 +1,10 @@
+rainbow-clouds {
+  display: none;
+  svg {
+    transform: rotate(0deg) translate(0, -30vh);
+    g {
+      transform-origin: center bottom;
+      transform: translate(0, 200px) scale(1, 8);
+    }
+  }
+}

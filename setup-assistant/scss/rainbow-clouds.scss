@@ -1,0 +1,13 @@
+rainbow-clouds {
+  svg {
+    transform: rotate(0deg) translate(0, 0px);
+    will-change: transform;
+
+    g {
+      opacity: 1;
+      transform: translate(0, -100px) scale(1, 1);
+      transform-origin: center bottom;
+      will-change: transform;
+    }
+  }
+}

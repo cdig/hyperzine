@@ -1,0 +1,51 @@
+no-assets {
+  display: none;
+  position: absolute;
+  top: 20%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 3em;
+  mix-blend-mode: overlay;
+  z-index: 1; // Required to make the blend mode work against the rainbow-clouds
+  perspective: 1000px;
+  perspective-origin: top;
+
+  h3 {
+    font-weight: 900;
+    margin-top: .5em;
+  }
+
+  h1 {
+    position: relative;
+    display: inline-block;
+    font-family: fantasy;
+    padding: .6em .5em .3em;
+    font-weight: 400;
+    line-height: 1;
+    animation: wiggle 1s ease-in-out both;
+    transform-origin: center bottom;
+    transform-style: preserve-3d;
+    &::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: var(--tool-bar-bg);
+      border-radius: 100%;
+      z-index: -1;
+      transform: translateZ(-30px);
+    }
+  }
+}
+
+@keyframes wiggle {
+ 0% { transform:   rotateX(5deg) rotateY(0deg); }
+ 20% { transform:  rotateX(5deg) rotateY(-20deg); }
+ 40% { transform:  rotateX(5deg) rotateY(16deg); }
+ 60% { transform:  rotateX(5deg) rotateY(-8deg); }
+ 80% { transform:  rotateX(5deg) rotateY(2deg); }
+ 100% { transform: rotateX(5deg) rotateY(0deg); }
+}
