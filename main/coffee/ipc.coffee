@@ -1,40 +1,13 @@
-{ app, BrowserWindow, dialog, ipcMain, MessageChannelMain } = require "electron"
-{ performance } = require "perf_hooks"
+{ BrowserWindow, ipcMain } = require "electron"
 
-Take ["Env", "Window"], (Env, Window)->
-
-  ipcMain.handle "env", ()-> Env
-
-  ipcMain.on "close-window", ({sender})-> BrowserWindow.fromWebContents(sender)?.close()
-
-  ipcMain.on "quit", ({sender}, msg)-> app.quit()
-
-  ipcMain.on "log", (e, msg)->
-    time = (time or performance.now()).toFixed(0).padStart(5)
-    console.log time + "  " + msg
-
-  ipcMain.handle "showOpenDialog", ({sender}, opts)-> dialog.showOpenDialog BrowserWindow.fromWebContents(sender), opts
-
-  ipcMain.handle "whats-my-asset", ({sender})->
-    win = BrowserWindow.fromWebContents sender
-    Window.data[win.webContents.id].assetId
-
-  ipcMain.on "fatal", ({sender}, msg)->
-    dialog.showErrorBox "Fatal Error", msg
-    app.quit()
-
-  ipcMain.on "bind-db", ({processId, sender})->
-    db = Window.getDB()
-    { port1, port2 } = new MessageChannelMain()
-    sender.postMessage "port", {id:processId}, [port1]
-    db.webContents.postMessage "port", {id:processId}, [port2]
-
+Take ["Window"], (Window)->
 
   Make "IPC", IPC =
 
     on:     (channel, cb)-> ipcMain.on     channel, cb
     once:   (channel, cb)-> ipcMain.once   channel, cb
     handle: (channel, cb)-> ipcMain.handle channel, cb
+
     promise:
       once: (channel)-> new Promise (resolve)-> ipcMain.once channel, (e, arg)-> resolve arg
       handle: (channel)-> new Promise (resolve)-> ipcMain.handle channel, (e, arg)-> resolve arg

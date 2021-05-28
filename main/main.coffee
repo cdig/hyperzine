@@ -1,17 +1,17 @@
 { app } = require "electron"
 
-Take ["Env", "IPC", "Menu", "Window"], (Env, IPC, Menu, Window)->
+Take ["Env", "Handlers", "IPC", "Menu", "Window"], (Env, Handlers, IPC, Menu, Window)->
 
   # Here's our custom config for the About box
   app.setAboutPanelOptions
-    applicationName: "Hyperzine\nAlpha\n#{Env.version.replace /(\d\.\d)\.0/, "$1"}"
+    applicationName: "Hyperzine #{Env.version.replace /(\d\.\d)\.0/, "$1"}"
     applicationVersion: [
-      "Electron #{Env.versions.electron}"
-      "Chrome #{Env.versions.chrome}"
-      "Node #{Env.versions.node}"
-    ].join "\n"
+      "Electron #{Env.versions.electron.split(".")[0]}"
+      "Chrome #{Env.versions.chrome.split(".")[0]}"
+      "Node #{Env.versions.node.split(".")[0]}"
+    ].join " • "
     version: ""
-    copyright: "© 2021 CD Industrial Group Inc."
+    copyright: "Created by Ivan Reese\n© CD Industrial Group Inc."
 
   # Wait for ready before doing anything substantial.
   await app.whenReady()
@@ -19,6 +19,10 @@ Take ["Env", "IPC", "Menu", "Window"], (Env, IPC, Menu, Window)->
   # For now, we just roll with a static menu bar. In the future, we might want to change it
   # depending on which window is active.
   Menu.setup()
+
+  # There's about to be a lot of inter-process communication (IPC). Much of it is going to be
+  # windows asking the main process to do things on their behalf. So let's set up those handlers.
+  Handlers.setup()
 
   # The first window we open is the DB, which handles all filesystem access and stores global state.
   # The instant the DB opens, it'll be ready to receive ports from other windows and help them.
@@ -42,7 +46,3 @@ Take ["Env", "IPC", "Menu", "Window"], (Env, IPC, Menu, Window)->
 
   # Whenever we switch to the app, let the window manager know.
   app.on "activate", Window.activate
-
-  # Now, we'll add handlers for various window events that need main's help
-  IPC.on "open-asset", (e, assetId)-> win = Window.open.asset assetId
-  IPC.on "set-asset-name", ({sender}, name)-> BrowserWindow.fromWebContents(sender).setTitle name
