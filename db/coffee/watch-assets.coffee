@@ -12,7 +12,7 @@ Take ["Asset", "Config", "Debounced", "Log", "IPC", "Memory", "Read"], (Asset, C
     Log "TODO: Implement port-based asset update IPC"
     # for assetId, assetPath of changed
     #   if Read assetPath
-    #     asset = Asset assetPath
+    #     asset = Asset.read assetPath
     #     IPC.assetChanged asset
     #   else
     #     IPC.assetDeleted assetId

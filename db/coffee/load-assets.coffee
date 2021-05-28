@@ -10,7 +10,7 @@ Take ["Asset", "Log", "Memory", "Read"], (Asset, Log, Memory, Read)->
       Log.time "Scan Asset Folders", scanAssetFolders = ()->
         for assetFolder in assetFolders
           assetPath = Read.path assetsFolderPath, assetFolder
-          asset = Asset assetPath
+          asset = Asset.read assetPath
           assets[asset.id] = asset
         null
 

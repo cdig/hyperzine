@@ -7,7 +7,7 @@ app.on "browser-window-blur", (event, win)-> win.webContents.send "blur"
 app.on "window-all-closed", ()-> # We need to subscribe to this event to stop the default auto-close behaviour
 
 
-Take ["Env", "IPC", "Printer", "Window"], (Env, IPC, Printer, Window)->
+Take ["Env", "IPC", "Log", "Printer", "Window"], (Env, IPC, Log, Printer, Window)->
 
   Make "Handlers", Handlers = setup: ()->
 
@@ -23,7 +23,7 @@ Take ["Env", "IPC", "Printer", "Window"], (Env, IPC, Printer, Window)->
       dialog.showErrorBox "Fatal Error", msg
       app.quit()
 
-    IPC.on "log", (e, ...args)-> Printer ...args
+    IPC.on "printer", (e, ...args)-> Printer ...args
 
     IPC.on "bind-db", ({processId, sender})->
       db = Window.getDB()
@@ -50,7 +50,3 @@ Take ["Env", "IPC", "Printer", "Window"], (Env, IPC, Printer, Window)->
       BrowserWindow.fromWebContents(sender).setTitle name
 
     # FEATURES
-
-    IPC.on "new-asset", ()->
-      db = Window.getDB()
-      db.webContents.send "log", "Test"

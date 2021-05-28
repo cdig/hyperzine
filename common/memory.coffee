@@ -39,6 +39,7 @@ Take ["Util"], ({getIn})->
   Memory.default = (path, v)-> conditionalSet path, v, Function.notExists
 
   Memory.subscribe = (path, runNow, cb)->
+    [cb, runNow] = [runNow, true] unless cb?
     [node, k] = getIn subscriptions, path
     ((node[k] ?= {})._cbs ?= []).push cb
     if runNow

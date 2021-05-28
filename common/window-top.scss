@@ -12,7 +12,8 @@ window-top {
   .ui { -webkit-app-region: no-drag; }
 
   &::before {
-    // This element is made extra tall, and then chopped off at the bottom using a mask,
+    // This element applies the backdrop filter.
+    // The element is made extra tall, and then chopped off at the bottom using a mask,
     // as a workaround for flickering due to Chrome's GPU accelerated blur fliter.
     // Disabling GPU acceleration would fix the issue too, but that destroys performance
     // in the Setup Assistant. This workaround *seems* to perform okay.

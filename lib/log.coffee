@@ -11,19 +11,19 @@ Take [], ()->
   Log = (msg, ...args)->
     Env ?= Take "Env"
 
-    # If we have a log Printer, send logs to the Printer
+    # If we have a log Printer in this process, send logs to that Printer
     if Printer ?= Take "Printer"
       Printer msg, ...args
 
-    # If we're in dev and in a render process, send logs to Main
-    if Env?.isDev and Env?.isRender and IPC ?= Take "IPC"
-      IPC.send "log", msg, ...args
-
-    # If we're in a render process that's not DB, send logs to DB
-    if Env?.isRender and DB ?= Take "DB"
+    # If we have a port to the DB, send logs through that port
+    if DB ?= Take "DB"
       DB.send "log", msg, ...args
 
-    # If we're in main, send logs to the DB Printer
+    # If we're in dev, and in a render process, send logs to the main Printer
+    if Env?.isDev and Env?.isRender and IPC ?= Take "IPC"
+      IPC.send "printer", msg, ...args
+
+    # If we're in the main process, send logs to the DB Printer
     if Env?.isMain and IPC ?= Take "IPC"
       IPC.db.send "printer", msg, ...args
 

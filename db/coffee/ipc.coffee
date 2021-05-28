@@ -29,6 +29,7 @@ Take ["MemoryCore", "Log", "Printer"], (MemoryCore, Log, Printer)->
       Log "Unknown db callable: #{name}", color: "#F00"
 
   invokables =
+    asset: ()-> Asset
     memoryInit: ()-> MemoryCore.memory
     memory: MemoryCore
 
