@@ -7,6 +7,8 @@ Take [], ()->
   Env =
     isDev: not app.isPackaged
     isMac: process.platform is "darwin"
+    isMain: true
+    isRender: false
     userData: app.getPath "userData"
     home: app.getPath "home"
     version: app.getVersion()

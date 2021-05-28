@@ -20,8 +20,10 @@ Take ["Window"], (Window)->
       win.webContents.send msg
 
     db:
-      invoke: (fn, ...args)->
-        returnID = Math.random().toString()
-        response = IPC.promise.once "main-db-invoke-#{returnID}"
-        Window.getDB().webContents.send "main-db-invoke", returnID, fn, ...args
-        response
+      send: (fn, ...args)-> Window.getDB().webContents.send fn, ...args
+      # Might not be needed
+      # invoke: (fn, ...args)->
+      #   returnID = Math.random().toString()
+      #   response = IPC.promise.once "main-db-invoke-#{returnID}"
+      #   Window.getDB().webContents.send "main-db-invoke", returnID, fn, ...args
+      #   response

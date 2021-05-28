@@ -1,7 +1,13 @@
 { app, BrowserWindow, dialog, MessageChannelMain } = require "electron"
-{ performance } = require "perf_hooks"
 
-Take ["Env", "IPC", "Window"], (Env, IPC, Window)->
+
+# In additon to the IPC handlers below, we also set up some app event handlers for our windows
+app.on "browser-window-focus", (event, win)-> win.webContents.send "focus"
+app.on "browser-window-blur", (event, win)-> win.webContents.send "blur"
+app.on "window-all-closed", ()-> # We need to subscribe to this event to stop the default auto-close behaviour
+
+
+Take ["Env", "IPC", "Printer", "Window"], (Env, IPC, Printer, Window)->
 
   Make "Handlers", Handlers = setup: ()->
 
@@ -17,9 +23,7 @@ Take ["Env", "IPC", "Window"], (Env, IPC, Window)->
       dialog.showErrorBox "Fatal Error", msg
       app.quit()
 
-    IPC.on "log", (e, msg)->
-      time = (time or performance.now()).toFixed(0).padStart(5)
-      console.log time + "  " + msg
+    IPC.on "log", (e, ...args)-> Printer ...args
 
     IPC.on "bind-db", ({processId, sender})->
       db = Window.getDB()

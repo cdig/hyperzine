@@ -1,5 +1,3 @@
-
-electron = require "electron"
 # Memory supports "deep.paths", but doesn't notify deep subscribers when you write an object. Eg:
 #   Memory.subscribe "outer.inner", false, ()-> do stuff
 #   Memory "outer", {inner: 5}

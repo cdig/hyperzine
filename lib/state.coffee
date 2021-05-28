@@ -1,4 +1,5 @@
-# This is like Memory (same API), but just for transient state local to each window.
+# This is like Memory (same API), but just for transient state local to each process.
+# Hasn't been updated to support "deep.paths" yet
 
 Take [], ()->
   state = {}

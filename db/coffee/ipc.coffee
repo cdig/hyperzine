@@ -4,9 +4,11 @@ Take ["MemoryCore", "Log", "Printer"], (MemoryCore, Log, Printer)->
   ports = {}
 
   ipcRenderer.on "log", (e, ...args)-> Log ...args
+  ipcRenderer.on "printer", (e, ...args)-> Printer ...args
 
-  ipcRenderer.on "main-db-invoke", (e, returnID, name, ...args)->
-    ipcRenderer.send "main-db-invoke-#{returnID}", invokables[name] ...args
+  # Might not be needed
+  # ipcRenderer.on "main-db-invoke", (e, returnID, name, ...args)->
+  #   ipcRenderer.send "main-db-invoke-#{returnID}", invokables[name] ...args
 
   ipcRenderer.on "port", (e, {id})->
     port = ports[id] = e.ports[0]
