@@ -23,7 +23,7 @@ Take ["AssetMetadata", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], 
     asset = State "asset"
     v = assetName.textContent.trim()
     return unless v.length and assetNameValid()
-    Memory.change "assets.#{asset.id}.name", v
+    Memory "assets.#{asset.id}.name", v
 
 
   Make "MetaPane", MetaPane =

@@ -1,14 +1,20 @@
-Take ["DOOM", "DOMContentLoaded"], (DOOM)->
+Take ["DOOM", "Ports", "DOMContentLoaded"], (DOOM, Ports)->
 
-  maxLogLines = 200
-  elm = document.querySelector "log-printer"
+  maxLogLines = 2000
+  printer = document.querySelector "log-printer"
 
-  Make "Printer", Printer = (msg, attrs, time)->
+  Printer = (msg, attrs, time)->
     time = (time or performance.now()).toFixed(0).padStart(5)
-    DOOM.prepend elm, DOOM.create "div", null, textContent: time + "  " + msg
-    DOOM elm, attrs if attrs?
+    console.log time + "  " + msg
 
-    while elm.childElementCount > maxLogLines
-      DOOM.remove elm.lastChild
+    elm = DOOM.create "div", null, textContent: time + "  " + msg
+    DOOM elm, attrs if attrs?
+    DOOM.prepend printer, elm
+
+    while printer.childElementCount > maxLogLines
+      DOOM.remove printer.lastChild
 
     return msg
+
+  Ports.on "printer", Printer
+  Make "Printer", Printer

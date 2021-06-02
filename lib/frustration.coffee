@@ -29,5 +29,9 @@ Take [], ()->
     " `•ω•"
   ]
 
-  Make "Frustration", ()->
-    arr[Math.floor Math.random() * arr.length]
+  Make "Frustration", (i)->
+    if i?
+      i %= arr.length
+    else
+      i = Math.rand 0, arr.length
+    arr[i|0]

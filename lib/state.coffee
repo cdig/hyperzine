@@ -1,5 +1,6 @@
 # This is like Memory (same API), but just for transient state local to each process.
 # Hasn't been updated to support "deep.paths" yet
+# Hasn't been updated to only notify on change
 
 Take [], ()->
   state = {}

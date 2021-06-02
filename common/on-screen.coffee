@@ -7,6 +7,6 @@ Take [], ()->
         cb entry.target, entry.isIntersecting
 
   Make "OnScreen", (elm, cb)->
-    throw "Overwriting existing OnScreen" if elms.has elm
+    throw Error "Overwriting existing OnScreen" if elms.has elm
     elms.set elm, cb
     observer.observe elm

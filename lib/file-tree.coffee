@@ -1,10 +1,7 @@
 Take ["Read"], (Read)->
 
   build = (parentPath, name)->
-    tree =
-      name: name
-      path: Read.path parentPath, name
-      count: 0
+    tree = FileTree.new parentPath, name
     dirents = await Read.withFileTypes tree.path
     tree.children = await Promise.all dirents.map filetreedirentmap = (dirent)->
       if dirent.isDirectory()
@@ -19,14 +16,17 @@ Take ["Read"], (Read)->
     return tree
 
   Make "FileTree", FileTree =
+    new: (parentPath, name)->
+      name: name
+      path: Read.path parentPath, name
+      count: 0
+      children: []
+
     build: (parentPath, name)->
       if await Read.exists Read.path parentPath, name
         build parentPath, name
       else
-        name: name
-        path: Read.path parentPath, name
-        count: 0
-        children: []
+        FileTree.new parentPath, name
 
     flatNames: (tree, into = [])->
       for child in tree.children

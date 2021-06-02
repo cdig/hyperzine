@@ -6,7 +6,7 @@ Take ["Memory"], (Memory)->
 
     return unless localName? and assets?
 
-    highestNumber = -1
+    highestNumber = 0
 
     for assetId, asset of assets when asset.creator is localName
       highestNumber = Math.max highestNumber, asset.number
@@ -18,8 +18,3 @@ Take ["Memory"], (Memory)->
   Memory.subscribe "localName", false, update
   Memory.subscribe "assets", false, update
   update()
-
-
-Take ["Memory", "Log"], (Memory, Log)->
-  Memory.subscribe "nextAssetNumber", (v)->
-    Log "nextAssetNumber: #{v}"

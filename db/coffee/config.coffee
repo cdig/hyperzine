@@ -1,44 +1,42 @@
 Take ["Debounced", "Env", "Log", "Memory", "Read", "Write"], (Debounced, Env, Log, Memory, Read, Write)->
 
-  # This lists all the keys we care about for config, plus the default values
+  # This lists all the keys we'll persist in the config file, with their default values
   configData =
     dataFolder: Env.defaultDataFolder
     localName: Env.computerName
     setupDone: false
 
-  safeToSave = false
+  applyConfig = (data)->
+    for k, v of data
+      didSet = Memory.default k, v
+      if not didSet then Log.err "Memory(#{k}) was already defined before Config initialized it"
 
-  save = Debounced ()->
-    if safeToSave
-      Write.sync.json Env.configPath, configData
+  setupSubscribers = ()->
+    for k of configData
+      Memory.subscribe k, true, updateAndSave
 
-  update = (v, o, k)->
+  updateAndSave = (v, o, k)->
     configData[k] = v
     save()
 
-  # Initialize the configData to default values, and set up subscribers
-  for k, v of configData
-    hadNoValue = Memory.default k, v
-    unless hadNoValue
-      Log "Warning: Memory(#{k}) was already defined before Config initialized it"
-    Memory.subscribe k, true, update
-
+  save = Debounced ()->
+    Write.sync.json Env.configPath, configData
 
   Make "Config", Config = ()->
 
     configFile = Read.file Env.configPath
 
-    unless configFile?
-      safeToSave = true
+    if not configFile?
+      applyConfig configData # Use the default config data
+      setupSubscribers()
       return false # No config file — need to run Setup Assistant
 
     try
       loadedData = JSON.parse configFile
-      Memory.change k, v for k, v of loadedData
-      safeToSave = true
+      applyConfig loadedData
+      setupSubscribers()
       # Loaded successfully — return true to launch normally, or false to run Setup Assistant
-      return configData.setupDone is true
+      return Boolean configData.setupDone
 
     catch
-      # Not safe to save
       return null # Fatal error

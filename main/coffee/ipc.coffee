@@ -18,12 +18,3 @@ Take ["Window"], (Window)->
       win ?= BrowserWindow.getAllWindows()[0] # No window was focussed, so get any window
       win ?= Window.open.browser() # No windows, so open a new window
       win.webContents.send msg
-
-    db:
-      send: (fn, ...args)-> Window.getDB().webContents.send fn, ...args
-      # Might not be needed
-      # invoke: (fn, ...args)->
-      #   returnID = Math.random().toString()
-      #   response = IPC.promise.once "main-db-invoke-#{returnID}"
-      #   Window.getDB().webContents.send "main-db-invoke", returnID, fn, ...args
-      #   response

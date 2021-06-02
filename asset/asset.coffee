@@ -10,4 +10,5 @@ Take ["IPC", "Memory", "Render", "State"], (IPC, Memory, Render, State)->
       IPC.send "close-window"
 
   Memory.subscribe "assets.#{assetId}.name", true, (name)->
-    IPC.send "set-asset-name", name
+    if name?
+      IPC.send "set-asset-name", name

@@ -1,5 +1,7 @@
 Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM, Env, IPC, Log, Memory, Read)->
 
+  previousInputValue = null
+
   q = (k)-> document.querySelector k # Ugh so repetitive
 
   elms =
@@ -7,6 +9,14 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
     dataFolder: q "[data-folder]"
     localName: q "[local-name]"
     existingAssets: q "[existing-assets]"
+
+  inputs = []
+
+  focus = (e)-> previousInputValue = e.currentTarget.textContent
+
+  for n in ["localName"]
+    inputs.push elm = elms[n]
+    elm.addEventListener "focus", focus
 
   click = (n, fn)->
     q(n).onclick = fn
@@ -22,14 +32,36 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
       DOOM elm, isShowing: null, pointerEvents: null
     elm = document.getElementById n
     DOOM elm, isShowing: ""
+    clearFocus()
     await wait()# unless Env.isDev
     DOOM elm, pointerEvents: "auto"
 
+  inputIsFocused = ()->
+    document.activeElement in inputs
+
+  clearFocus = ()->
+    document.activeElement.blur()
+    window.getSelection().empty()
+
+  resetValue = ()->
+    document.activeElement.textContent = previousInputValue
+
   # Block newlines in typable fields (needs to be keydown to avoid flicker)
-  window.addEventListener "keydown", (e)-> e.preventDefault() if e.keyCode is 13
+  window.addEventListener "keydown", (e)->
+    e.preventDefault() if e.keyCode is 13
 
   # Alternative to clicking buttons (needs to be keyup to avoid inadvertant key repeat)
-  window.addEventListener "keydown", (e)-> q("[is-showing] [next-button]")?.click() if e.keyCode is 13
+  window.addEventListener "keydown", (e)->
+    switch e.keyCode
+      when 13
+        q("[is-showing] [next-button]")?.click()
+
+      when 27
+        if inputIsFocused()
+          resetValue()
+          clearFocus()
+        else
+          q("[is-showing] [back-button]")?.click()
 
 
   # Screens #######################################################################################
@@ -89,26 +121,25 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
   click "#local-name [back-button]", to "existing-assets"
 
   Memory.subscribe "localName", true, (v)->
+    Log "localName: #{v}"
     elms.localName.textContent = v
 
   localNameValid = ()->
     return -1 is elms.localName.textContent.trim().search /[^\w ]/
 
-  setLocalName = ()->
-    v = elms.localName.textContent.trim()
-    return unless v.length and localNameValid()
-    # check whether any assets already exist using the local name. If so, show a warning. Otherwise...
-    Memory "localName", v
-    do to "setup-done"
-
   elms.localName.addEventListener "input", (e)->
     elms.localName.className = if localNameValid() then "field" else "field invalid"
 
-  click "#local-name [next-button]", setLocalName
+  click "#local-name [next-button]", ()->
+    v = elms.localName.textContent.trim()
+    return unless v.length and localNameValid()
+    # TODO: check whether any assets already exist using the local name. If so, show a warning. Otherwise...
+    Memory.change "localName", v
+    do to "setup-done"
 
   # Setup Done
   click "#setup-done [back-button]", to "local-name"
   click "#setup-done [next-button]", ()->
-    Memory "setupDone", true
+    Memory.change "setupDone", true
     IPC.send "config-ready"
     IPC.send "close-window"

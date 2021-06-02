@@ -1,15 +1,16 @@
 Take ["Asset", "Log", "Memory", "Read"], (Asset, Log, Memory, Read)->
 
-  Make "LoadAssets", LoadAssets = ()->
-    assets = {}
-    assetsFolderPath = Memory "assetsFolderPath"
-    logAssetLoadTime = Log.time.custom "Loading Assets"
+  Memory.subscribe "assetsFolder", true, (assetsFolder)->
+    return unless assetsFolder?
 
-    if assetFolders = Read assetsFolderPath
+    assets = {}
+    logAssetLoadTime = Log.time.custom "Loading Assets from #{assetsFolder}"
+
+    if assetFolderNames = Read assetsFolder
 
       Log.time "Scan Asset Folders", scanAssetFolders = ()->
-        for assetFolder in assetFolders
-          assetPath = Read.path assetsFolderPath, assetFolder
+        for assetFolderName in assetFolderNames
+          assetPath = Read.path assetsFolder, assetFolderName
           asset = Asset.read assetPath
           assets[asset.id] = asset
         null

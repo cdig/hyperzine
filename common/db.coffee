@@ -1,5 +1,5 @@
-Take ["IPC"], (IPC)->
-  return if window.isDB # DB can't use this
+Take ["IPC", "Log"], (IPC, Log)->
+  return if window.isDB # The DB process doesn't use this — use Ports instead
 
   bind = new Promise (resolve)->
     IPC.on "port", ({ports}, {id})->
@@ -9,26 +9,27 @@ Take ["IPC"], (IPC)->
 
   [db, id] = await bind
 
-  invokes = {}
+  requests = {}
   listeners = {}
-  db.onmessage = ({data: [message, ...data]})->
-    if message is "return"
+  requestID = 0
+
+  db.onmessage = ({data: [msg, ...data]})->
+    if msg is "return"
       returned ...data
-    else if l = listeners[message]
+    else if l = listeners[msg]
       cb ...data for cb in l
     else
-      console.log "message dropped: #{message}"
+      Log "Message from DB dropped: #{msg}"
 
-  returned = (returnID, resp)->
-    resolve = invokes[returnID]
-    delete invokes[returnID]
+  returned = (requestID, resp)->
+    resolve = requests[requestID]
+    delete requests[requestID]
     resolve resp
 
   Make "DB", DB =
-    on: (message, cb)-> (listeners[message] ?= []).push cb
-    send: (message, ...args)-> db.postMessage [message, ...args]
-    invoke: (fn, ...args)->
-      returnID = Math.random().toString()
-      response = new Promise (resolve)-> invokes[returnID] = resolve
-      db.postMessage ["invoke", returnID, fn, ...args]
+    on: (msg, cb)-> (listeners[msg] ?= []).push cb
+    send: (msg, ...args)->
+      requestID++ % Number.MAX_SAFE_INTEGER
+      response = new Promise (resolve)-> requests[requestID] = resolve
+      db.postMessage [requestID, msg, ...args]
       response

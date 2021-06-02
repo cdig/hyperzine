@@ -1,7 +1,6 @@
 { ipcRenderer } = require "electron"
 
 Take [], ()->
-  return if window.isDB # DB has its own IPC system
 
   Make "IPC", IPC =
     send: (...args)-> ipcRenderer.send ...args

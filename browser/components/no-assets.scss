@@ -19,13 +19,15 @@ no-assets {
   h1 {
     position: relative;
     display: inline-block;
-    font-family: fantasy;
-    padding: .6em .5em .3em;
+    font-family: Comic Sans MS;
+    padding: .6em .5em .4em;
     font-weight: 400;
     line-height: 1;
-    animation: wiggle 1s ease-in-out both;
+    animation: wiggle .8s ease-in-out both;
     transform-origin: center bottom;
+    color: #000;
     transform-style: preserve-3d;
+
     &::before {
       content: "";
       position: absolute;
@@ -33,7 +35,7 @@ no-assets {
       height: 100%;
       top: 0;
       left: 0;
-      background: var(--tool-bar-bg);
+      background: radial-gradient(ellipse, #fff 30%, #aaa);
       border-radius: 100%;
       z-index: -1;
       transform: translateZ(-30px);
@@ -42,10 +44,10 @@ no-assets {
 }
 
 @keyframes wiggle {
- 0% { transform:   rotateX(5deg) rotateY(0deg); }
- 20% { transform:  rotateX(5deg) rotateY(-20deg); }
- 40% { transform:  rotateX(5deg) rotateY(16deg); }
- 60% { transform:  rotateX(5deg) rotateY(-8deg); }
- 80% { transform:  rotateX(5deg) rotateY(2deg); }
- 100% { transform: rotateX(5deg) rotateY(0deg); }
+ 0% { transform:   rotateX(15deg) rotateY(0deg)   translateZ(30px); }
+ 10% { transform:  rotateX(15deg) rotateY(5deg)   translateZ(30px); }
+ 30% { transform:  rotateX(15deg) rotateY(-20deg) translateZ(30px); }
+ 60% { transform:  rotateX(15deg) rotateY(20deg)  translateZ(30px); }
+ 80% { transform:  rotateX(15deg) rotateY(-3deg)  translateZ(30px); }
+ 100% { transform: rotateX(15deg) rotateY(0deg)   translateZ(30px); }
 }

@@ -46,11 +46,19 @@ Take ["Env"], (Env)->
 
 
   # Any properties that aren't specified will just be defaulted by Electron
-  defaultBounds =
-    asset: width: 1000, height: 600
-    browser: x: 120, y: 75, width: 1200, height:750
-    db: x: 0, y: 0, width: 400, height: 300
+  # defaultBounds = # LAPTOP
+  #   asset: width: 1000, height: 600
+  #   browser: x: 120, y: 75, width: 1200, height:750
+  #   db: x: 0, y: 0, width: 800, height: 400
+  #   "setup-assistant": width: 480, height: 540
+
+  defaultBounds = # 27" MONITOR
+    asset: x: 480, y: 720, width: 600, height: 720
+    browser: x: 960, y: 0, width: 600, height:720
+    db: x: 0, y: 0, width: 600, height: 720
     "setup-assistant": width: 480, height: 540
+
+  devToolsWidth = 1000
 
   getBounds = (type, index)->
     bounds = windowBounds[type][index] or defaultBounds[type]
@@ -76,12 +84,14 @@ Take ["Env"], (Env)->
     unless props.show is false
       deferPaint = true
       props.show = false
+    openDevTools = openDevTools and Env.isDev or true
     index = getNextIndex type
     bounds = getBounds type, index
+    bounds.width += devToolsWidth if openDevTools
     win = new BrowserWindow Object.assign {}, defaultWindow, bounds, props
     checkBounds win
     win.loadFile "out/#{type}.html"
-    win.webContents.openDevTools() if openDevTools and Env.isDev
+    win.webContents.openDevTools() if openDevTools
     win.once "ready-to-show", win.show if deferPaint
     win.on "move", (e)-> updateBounds type, index, win
     win.on "resize", (e)-> updateBounds type, index, win
@@ -120,7 +130,7 @@ Take ["Env"], (Env)->
     data: windowData
 
     getDB: ()->
-      throw "DB window doesn't exist" unless db?
+      throw Error "DB window doesn't exist" unless db?
       db
 
     open:

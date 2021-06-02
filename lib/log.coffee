@@ -2,30 +2,23 @@
 
 Take [], ()->
 
-  # We can't Take pretty much anything right off the bat, ugh
-  DB = null # Depends on IPC, only exists in non-DB windows
-  Env = null # Depends on IPC in windows
-  IPC = null # Depends on Log in windows
-  Printer = null # Only exists in DB and Main
+  # We can't / shouldn't Take anything, since Log might need to be used *anywhere*
+  DB = Env = IPC = Printer = null
 
-  Log = (msg, ...args)->
+  Log = (msg, attrs, time)->
     Env ?= Take "Env"
 
-    # If we have a log Printer in this process, send logs to that Printer
+    # Send logs to the local printer
     if Printer ?= Take "Printer"
-      Printer msg, ...args
+      Printer msg, attrs, time
 
-    # If we have a port to the DB, send logs through that port
+    # If we have a port to the DB, send logs to the DB Printer
     if DB ?= Take "DB"
-      DB.send "log", msg, ...args
+      DB.send "printer", msg, attrs, time
 
-    # If we're in dev, and in a render process, send logs to the main Printer
+    # If we're in dev, and in a render process, send logs to the main process Printer
     if Env?.isDev and Env?.isRender and IPC ?= Take "IPC"
-      IPC.send "printer", msg, ...args
-
-    # If we're in the main process, send logs to the DB Printer
-    if Env?.isMain and IPC ?= Take "IPC"
-      IPC.db.send "printer", msg, ...args
+      IPC.send "printer", msg, attrs, time
 
     return msg
 

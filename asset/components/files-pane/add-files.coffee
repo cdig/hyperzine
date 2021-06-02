@@ -11,4 +11,4 @@ Take ["DOOM", "IPC", "Log", "DOMContentLoaded"], (DOOM, IPC, Log)->
 
       for file in res.filePaths
         Log file
-      # Memory.change "dataFolder", newFolder
+      # Memory "dataFolder", newFolder

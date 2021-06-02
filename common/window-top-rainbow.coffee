@@ -1,4 +1,4 @@
-Take ["DOMContentLoaded"], ()->
+Take ["Debounced", "DOMContentLoaded"], (Debounced)->
 
   colors = [
     "hsl(20, 100%, 50%)"
@@ -12,8 +12,10 @@ Take ["DOMContentLoaded"], ()->
     elm.style.setProperty "--color-b", colors[1]
     elm.style.setProperty "--color-c", colors[2]
 
+  scroll = Debounced.raf ()->
+    delay -= 1
+    elm.style.setProperty "--delay", "#{delay}ms"
+
   for scrollable in document.querySelectorAll ".scrollable"
     delay = 0
-    scrollable.addEventListener "scroll", (e)->
-      delay -= 1
-      elm.style.setProperty "--delay", "#{delay}ms"
+    scrollable.addEventListener "wheel", scroll, passive: true

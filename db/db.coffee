@@ -1,11 +1,4 @@
-Take ["Config", "IPC", "LoadAssets", "Log", "Memory", "Read", "WatchAssets", "Write"], (Config, IPC, LoadAssets, Log, Memory, Read, WatchAssets, Write)->
-
-  Memory.subscribe "dataFolder", true, (v)->
-    return unless await Read.isFolder v
-    Memory "assetsFolderPath", assetsFolderPath = Read.path v, "Assets"
-    Write.sync.mkdir assetsFolderPath unless await Read.isFolder assetsFolderPath
-    LoadAssets()
-    WatchAssets()
+Take ["Config", "IPC", "Log"], (Config, IPC, Log)->
 
   config = Config()
   Log "Loading Config: #{config}"

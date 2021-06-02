@@ -9,22 +9,26 @@ Take ["Asset", "Config", "Debounced", "Log", "IPC", "Memory", "Read"], (Asset, C
   changed = {}
 
   update = Debounced ()->
-    Log "TODO: Implement port-based asset update IPC"
-    # for assetId, assetPath of changed
-    #   if Read assetPath
-    #     asset = Asset.read assetPath
-    #     IPC.assetChanged asset
-    #   else
-    #     IPC.assetDeleted assetId
+    assetsFolder = Memory "assetsFolder"
+
+    touchedAssets = {}
+
+    for fullPath of changed
+      pathWithinAssetsFolder = fullPath.replace assetsFolder, ""
+      assetId = Array.first Read.split pathWithinAssetsFolder
+      touchedAssets[assetId] = true
+
+    for assetId of touchedAssets
+      Memory "assets.#{assetId}", await Asset.load Read.path assetsFolder, assetId
+
+    changed = {}
     null
 
-  change = (eventType, filename)->
-    assetId = filename.replace(assetsFolderPath, "").split(Read.sep)[0]
-    assetPath = Read.path assetsFolderPath, assetId
-    changed[assetId] = assetPath
+  change = (eventType, fullPath)->
+    changed[fullPath] = true
     update()
 
-  Make "WatchAssets", WatchAssets = ()->
-    assetsFolderPath = Memory "assetsFolderPath"
+  Memory.subscribe "assetsFolder", true, (assetsFolder)->
     watcher?.close()
-    watcher = Read.watch assetsFolderPath, {recursive: true, persistent: false}, change
+    if assetsFolder?
+      watcher = Read.watch assetsFolder, {recursive: true, persistent: false}, change

@@ -39,7 +39,7 @@ asset-image {
       height: 3em;
       left: calc(50% - 2em);
       top:  calc(50% - 1.2em);
-      background: radial-gradient(ellipse, hsl(var(--hue), 100%, 50%), var(--text-color));
+      background: radial-gradient(ellipse, hsl(var(--hue), 100%, 50%) 30%, var(--text-color));
       opacity: .1;
       border-radius: 100%;
     }

@@ -48,5 +48,3 @@ Take ["Env", "IPC", "Log", "Printer", "Window"], (Env, IPC, Log, Printer, Window
 
     IPC.on "set-asset-name", ({sender}, name)->
       BrowserWindow.fromWebContents(sender).setTitle name
-
-    # FEATURES
