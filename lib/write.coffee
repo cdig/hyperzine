@@ -18,6 +18,9 @@ Take [], ()->
   Write.sync.mkdir = (path)->
     fs.mkdirSync path, recursive: true
 
+  Write.sync.rm = (path)->
+    fs.rmSync path, recursive: true
+
   Write.sync.copyFile = (src, dest)->
     fs.copyFileSync src, dest
 

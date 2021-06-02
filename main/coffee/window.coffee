@@ -44,21 +44,21 @@ Take ["Env"], (Env)->
   clearIndex = (type, index)->
     windowIndexes[type][index] = null
 
-
-  # Any properties that aren't specified will just be defaulted by Electron
-  # defaultBounds = # LAPTOP
-  #   asset: width: 1000, height: 600
-  #   browser: x: 120, y: 75, width: 1200, height:750
-  #   db: x: 0, y: 0, width: 800, height: 400
-  #   "setup-assistant": width: 480, height: 540
-
-  defaultBounds = # 27" MONITOR
-    asset: x: 480, y: 720, width: 600, height: 720
-    browser: x: 960, y: 0, width: 600, height:720
-    db: x: 0, y: 0, width: 600, height: 720
+  # LAPTOP — 1440 x 900
+  defaultBounds =
+    asset: width: 740, height: 600
+    browser: x: 380, y: 200, width: 360, height:700
+    db: x: 0, y: 0, width: 300, height: 500
     "setup-assistant": width: 480, height: 540
 
-  devToolsWidth = 1000
+  # 27" MONITOR — 2560 x 1440
+  # defaultBounds =
+  #   asset: x: 430, y: 720, width: 1000, height: 720
+  #   browser: x: 1260, y: 0, width: 600, height:720
+  #   db: x: 0, y: 0, width: 560, height: 720
+  #   "setup-assistant": width: 480, height: 540
+
+  devToolsWidth = 700
 
   getBounds = (type, index)->
     bounds = windowBounds[type][index] or defaultBounds[type]
@@ -114,6 +114,7 @@ Take ["Env"], (Env)->
         unless aboutToQuit
           e.preventDefault()
           db.hide()
+      Make "DBWindowReady"
     return db
 
   openSetupAssistant = ()->

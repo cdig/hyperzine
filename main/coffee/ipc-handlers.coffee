@@ -36,6 +36,9 @@ Take ["Env", "IPC", "Log", "Printer", "Window"], (Env, IPC, Log, Printer, Window
     IPC.on "close-window", ({sender})->
       BrowserWindow.fromWebContents(sender)?.close()
 
+    IPC.on "set-window-title", ({sender}, name)->
+      BrowserWindow.fromWebContents(sender).setTitle name
+
     IPC.handle "showOpenDialog", ({sender}, opts)->
       dialog.showOpenDialog BrowserWindow.fromWebContents(sender), opts
 
@@ -45,6 +48,3 @@ Take ["Env", "IPC", "Log", "Printer", "Window"], (Env, IPC, Log, Printer, Window
     IPC.handle "whats-my-asset", ({sender})->
       win = BrowserWindow.fromWebContents sender
       Window.data[win.webContents.id].assetId
-
-    IPC.on "set-asset-name", ({sender}, name)->
-      BrowserWindow.fromWebContents(sender).setTitle name

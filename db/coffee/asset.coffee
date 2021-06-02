@@ -1,17 +1,8 @@
-Take ["FileTree", "Ports", "Memory", "Read", "Write"], (FileTree, Ports, Memory, Read, Write)->
+Take ["FileTree", "Ports", "Memory", "Read"], (FileTree, Ports, Memory, Read)->
 
   first = (v)-> v?[0]
   arrayPun = (v)-> v or []
   searchPrep = (input)-> (input or "").toLowerCase().replace /[^\w\d]/g, " "
-
-  Ports.on "new-asset", ()->
-    assetsFolder = Memory "assetsFolder"
-    number = Memory "nextAssetNumber"
-    creator = Memory "localName"
-    id = creator + " " + number
-    path = Read.path assetsFolder, id
-    Write.sync.mkdir path
-    return id
 
   Make "Asset", Asset =
     read: (path)->

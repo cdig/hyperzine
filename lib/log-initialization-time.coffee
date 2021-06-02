@@ -3,5 +3,4 @@
 time = performance.now()
 
 Take "Log", (Log)->
-  Log.time.formatted "Initialization Time", time
-  Log "Initialization Time 2", null, time
+  Log "Initialization Time", null, time

@@ -107,6 +107,8 @@ Take ["Util"], ({getIn})->
     # Send additional notifications up the branch toward the root
     if parts.length > 0
       _path = parts.join "."
-      localNotify _path, Memory(_path), null
+      _old = {} # Note: Only stores the stuff that has changed, not the full previous state
+      _old[k] = old
+      localNotify _path, Memory(_path), _old
 
     null

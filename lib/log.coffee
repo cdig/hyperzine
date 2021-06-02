@@ -5,7 +5,7 @@ Take [], ()->
   # We can't / shouldn't Take anything, since Log might need to be used *anywhere*
   DB = Env = IPC = Printer = null
 
-  Log = (msg, attrs, time)->
+  Make.async "Log", Log = (msg, attrs, time)->
     Env ?= Take "Env"
 
     # Send logs to the local printer
@@ -44,5 +44,3 @@ Take [], ()->
 
   Log.err = (msg)->
     Log msg, color: "#F00"
-
-  Make "Log", Log

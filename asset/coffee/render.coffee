@@ -1,5 +1,5 @@
 { shell } = require "electron"
-Take ["DOOM", "FilesPane", "MetaPane", "Paths", "State", "DOMContentLoaded"], (DOOM, FilesPane, MetaPane, Paths, State)->
+Take ["DOOM", "FilesPane", "Log", "MetaPane", "Paths", "State", "DOMContentLoaded"], (DOOM, FilesPane, Log, MetaPane, Paths, State)->
 
   windowTop = document.querySelector "window-top"
   titleBar = windowTop.querySelector "title-bar"
@@ -8,7 +8,7 @@ Take ["DOOM", "FilesPane", "MetaPane", "Paths", "State", "DOMContentLoaded"], (D
   showInFinder = document.querySelector "[show-in-finder]"
 
   showInFinder.addEventListener "click", ()->
-    shell.showItemInFolder Paths.files State "asset"
+    shell.showItemInFolder Paths.asset State "asset"
 
   Render = ()->
     asset = State "asset"

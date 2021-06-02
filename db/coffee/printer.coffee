@@ -5,7 +5,7 @@ Take ["DOOM", "Ports", "DOMContentLoaded"], (DOOM, Ports)->
 
   Printer = (msg, attrs, time)->
     time = (time or performance.now()).toFixed(0).padStart(5)
-    console.log time + "  " + msg
+    console.log time, msg
 
     elm = DOOM.create "div", null, textContent: time + "  " + msg
     DOOM elm, attrs if attrs?
