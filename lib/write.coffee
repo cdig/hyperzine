@@ -1,10 +1,7 @@
-fs = require "fs"
-path = require "path"
-
 Take [], ()->
+  fs = require "fs"
 
-
-  Write = ()->
+  Make.async "Write", Write = ()->
     null
 
   Write.sync = {}
@@ -23,5 +20,3 @@ Take [], ()->
 
   Write.sync.copyFile = (src, dest)->
     fs.copyFileSync src, dest
-
-  Make "Write", Write

@@ -1,9 +1,9 @@
 Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMContentLoaded"], (DOOM, Frustration, IPC, Log, Memory, OnScreen, Paths)->
 
+  cards = {}
 
   build = (card, asset)->
     card._asset = asset
-    asset._card = card
 
     frag = new DocumentFragment()
 
@@ -43,13 +43,14 @@ Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMCo
       build card, updatedAsset
     else
       card.remove()
-      card._asset._card = null
       Log "UNSUB"
       Memory.unsubscribe "assets.#{asset.id}", cb
 
 
   Make "AssetCard", AssetCard = (asset)->
+    return card if card = cards[asset.id]
     card = DOOM.create "asset-card"
+    cards[asset.id] = card
     build card, asset
     OnScreen card, onScreen
     Memory.subscribe "assets.#{asset.id}", false, update card, asset

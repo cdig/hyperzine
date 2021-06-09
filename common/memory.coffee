@@ -1,16 +1,7 @@
-# Memory supports "deep.paths", but doesn't notify deep subscribers when you write an object. Eg:
-#   Memory.subscribe "outer.inner", false, ()-> do stuff
-#   Memory "outer", {inner: 5}
-# The subscriber won't run because the write doesn't go any deeper than "outer".
-# But stuff like this does work:
-#   Memory "outer", {inner: 5}
-#   Memory.subscribe "outer.inner", true, (v)-> console.log "sub outer.inner:", v
-# This could all be improved, but for now let's just be careful about how we write objects.
-
-Take ["Util"], ({getIn})->
+Take [], ()->
 
   memory = null # Stores all the values committed to Memory
-  subscriptions = {} # Notified when specific paths are changed
+  subscriptions = {_cbs:[]} # Notified when specific paths are changed
 
 
   if window.isDB
@@ -44,71 +35,150 @@ Take ["Util"], ({getIn})->
 
 
   # We currently have some trouble with infinite loops, so we're doing a bit of special cycle detection
-  # This should be removed once we no longer see crazy looping
-  recentlyTouchedPaths = {}
-  clearPath = (path)-> ()-> delete recentlyTouchedPaths[path]
+  # This should be removed once we no longer see out of control looping
+  # recentlyTouchedPaths = {}
+  # clearPath = (path)-> ()-> delete recentlyTouchedPaths[path]
 
 
-  Make.async "Memory", Memory = (path, v, doRemoteNotify = true)->
+  # This is how we support "deep.paths":
+  # Pass a tree-like object, and a dot-separated string of keys.
+  # We'll return the penultimate node in the tree, and the final key.
+  # (Stopping just above the final node allows you to do assignment.)
+  # For uniformity, pass "" to get back the tree root wrapped in a node with a "" key.
+  getAt = (node, path)->
+    return [{"":node}, ""] if path is ""
+    parts = path.split "."
+    k = parts.pop()
+    for part in parts
+      node = node[part] ?= {}
+    [node, k]
 
-    if not recentlyTouchedPaths[path]?
-      recentlyTouchedPaths[path] = 0
-      queueMicrotask clearPath path
 
-    if recentlyTouchedPaths[path]++ > 5 # Allow for some slop
-      console.log v
-      throw Error "Memory update cycle detected for #{path} and value ^"
-
-    [node, k] = getIn memory, path
+  Make.async "Memory", Memory = (path = "", v, doRemoteNotify = true)->
+    [node, k] = getAt memory, path
 
     return node[k] if v is undefined # Just a read
+
+    throw Error "You're not allowed to set the Memory root" if path is ""
+
+    # if not recentlyTouchedPaths[path]?
+    #   recentlyTouchedPaths[path] = 0
+    #   queueMicrotask clearPath path
+    #
+    # if recentlyTouchedPaths[path]++ > 20 # Allow for some slop
+    #   console.log v
+    #   throw Error "Memory update cycle detected for #{path} and value ^"
 
     old = node[k]
 
     if v? then node[k] = v else delete node[k]
 
-    if Function.notEquivalent old, v # In theory, this should be enough to stop infinite update cycles
-      remoteNotify path, v, old # if doRemoteNotify # enabling this conditional might help avoid infinite update cycles
-      localNotify path, v, old
+    # console.log "Memory #{path}"
+    # console.log "Old", old
+    # console.log "New", v
+
+    if Function.notEquivalent v, old # In theory, this should be enough to stop infinite update cycles
+      queueMicrotask ()->
+        localNotify path, v # if doRemoteNotify # enabling this conditional might help avoid infinite update cycles
+        remoteNotify path, v
 
     return v
 
   conditionalSet = (path, v, pred)->
-    [node, k] = getIn memory, path
+    [node, k] = getAt memory, path
     doSet = pred node[k], v
     Memory path, v if doSet
     return doSet
 
-  # These are useful because they tell you whether a change was made
+  # These are useful because they return true if a change was made
   Memory.change = (path, v)-> conditionalSet path, v, Function.notEquivalent
   Memory.default = (path, v)-> conditionalSet path, v, Function.notExists
 
-  Memory.subscribe = (path, runNow, cb)->
-    [cb, runNow] = [runNow, true] unless cb?
-    [node, k] = getIn subscriptions, path
+  Memory.subscribe = (...[path = "", runNow = true, weak = false], cb)->
+    throw "Invalid subscribe path" unless String.isString path # Avoid errors if you try say subscribe(runNow, cb)
+    [node, k] = getAt subscriptions, path
     ((node[k] ?= {})._cbs ?= []).push cb
-    if runNow
-      v = Memory path
-      cb v, v, k, path
+    cb._memory_weak = weak # ... this is fine 🐕☕️🔥
+    cb Memory path if runNow
 
-  Memory.unsubscribe = (path, cb)->
-    [node, k] = getIn subscriptions, path
+  Memory.unsubscribe = (...[path = ""], cb)->
+    [node, k] = getAt subscriptions, path
     throw Error "Unsubscribe failed" unless cb in node[k]._cbs
     Array.pull node[k]._cbs, cb
-
-  localNotify = (path, v, old)->
-    [node, k, parts] = getIn subscriptions, path
-
-    # Notify about the changed value
-    if node[k]?._cbs?
-      for cb in node[k]._cbs
-        cb v, old, k, path
-
-    # Send additional notifications up the branch toward the root
-    if parts.length > 0
-      _path = parts.join "."
-      _old = {} # Note: Only stores the stuff that has changed, not the full previous state
-      _old[k] = old
-      localNotify _path, Memory(_path), _old
-
     null
+
+  localNotify = (path, v)->
+    [node, k] = getAt subscriptions, path
+    # console.log "  within:"
+    runCbsWithin node[k], v
+    # console.log "  at path:"
+    runCbs node[k], v, v
+    # console.log "  above:"
+    changes = runCbsAbove path, v
+    # console.log "  root:"
+    runCbs subscriptions, memory, changes
+
+  runCbsWithin = (parent, v)->
+    return unless Object.isObject parent
+    for k, child of parent when k isnt "_cbs"
+      _v = v?[k]
+      runCbsWithin child, _v
+      runCbs child, _v, _v
+    null
+
+  runCbsAbove = (path, changes)->
+    parts = path.split "."
+    p = parts.pop()
+    changesAbove = {}
+    changesAbove[p] = changes
+    return changesAbove unless parts.length > 0
+    pathAbove = parts.join "."
+    [node, k] = getAt subscriptions, pathAbove
+    runCbs node[k], Memory(pathAbove), changesAbove
+    runCbsAbove pathAbove, changesAbove
+
+  runCbs = (node, v, changed)->
+    if node?._cbs
+      dead = []
+      for cb in node._cbs
+        if cb._memory_weak and not v?
+          dead.push cb
+        else
+          cb v, changed
+      Array.pull node._cbs, cb for cb in dead
+    null
+
+
+  # TESTS
+  j = (x)-> JSON.stringify x
+  sub = (p)->
+    console.log p
+    Memory.subscribe p, false, (v, changed)-> console.log "    " + p, j(v), j changed
+    # Memory.subscribe p, false, (v, changed)-> console.log "    strong  " + p, j(v), j changed
+    # Memory.subscribe p, false, true, (v, changed)-> console.log "    weak    " + p, j(v), j changed
+  set = (p, v, msg)->
+    console.log "\n\n"+msg if msg?
+    console.log "\nSET #{p} to", j(v)
+    Memory p, v
+
+  # Note: changed only exists when we've modified a subpath rather than the path specified by the listener
+
+  # console.log "SUBSCRIBERS"
+  # sub "assets.A.id"
+  # sub "assets.A.files"
+  # sub "assets.A"
+  # sub "assets.B"
+  # sub "assets"
+  # sub "squibs - should never see this run"
+  # sub ""
+
+  # set "assets.A", {id:0, x: 0}, "create an obj"
+  # set "assets.A.y", 0, "create a primitive"
+  # set "assets.A.id", 1, "change a primitive"
+  # # set "assets.A.x.wat", 0, "drill into a primitive!?" — error
+  # set "assets.A.id", {in:0}, "replace a primitive with an obj"
+  # set "assets.A.id", null, "delete an obj"
+  # set "assets.B", {id:9}, "create another obj"
+  # set "fork", {}, "create, no subscribers"
+  # set "assets", null, "delete an obj with many subs"
+  # # set "", 3, "set root — should error"

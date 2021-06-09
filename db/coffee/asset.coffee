@@ -21,9 +21,12 @@ Take ["FileTree", "Ports", "Memory", "Read"], (FileTree, Ports, Memory, Read)->
         tags: searchPrep asset.tags.join " "
         files: Array.unique FileTree.flatNames asset.files
 
-    load: (path)->
+    loadFields: (id)->
+      assetsFolder = Memory "assetsFolder"
+      path = Read.path assetsFolder, id
       if await Read.isFolder path
-        asset = Asset.read path
+        asset = Memory "assets.#{id}"
+        asset ?= Asset.read path
         asset.name = await Asset.build.name asset
         asset.shot = await Asset.build.shot asset
         asset.tags = await Asset.build.tags asset

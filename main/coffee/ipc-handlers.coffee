@@ -1,13 +1,12 @@
-{ app, BrowserWindow, dialog, MessageChannelMain } = require "electron"
+do ()->
+  { app, BrowserWindow, dialog, MessageChannelMain } = require "electron"
 
+  # In additon to the IPC handlers below, we also set up some app event handlers for our windows
+  app.on "browser-window-focus", (event, win)-> win.webContents.send "focus"
+  app.on "browser-window-blur", (event, win)-> win.webContents.send "blur"
+  app.on "window-all-closed", ()-> # We need to subscribe to this event to stop the default auto-close behaviour
 
-# In additon to the IPC handlers below, we also set up some app event handlers for our windows
-app.on "browser-window-focus", (event, win)-> win.webContents.send "focus"
-app.on "browser-window-blur", (event, win)-> win.webContents.send "blur"
-app.on "window-all-closed", ()-> # We need to subscribe to this event to stop the default auto-close behaviour
-
-
-Take ["Env", "IPC", "Log", "Printer", "Window"], (Env, IPC, Log, Printer, Window)->
+  { Env, IPC, Log, Printer, Window } = await Take.async ["Env", "IPC", "Log", "Printer", "Window"]
 
   Make "Handlers", Handlers = setup: ()->
 

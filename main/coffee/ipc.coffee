@@ -1,6 +1,5 @@
-{ BrowserWindow, ipcMain } = require "electron"
-
 Take ["Window"], (Window)->
+  { BrowserWindow, ipcMain } = require "electron"
 
   Make "IPC", IPC =
 

@@ -1,6 +1,5 @@
-{ app, Menu, shell } = require "electron"
-
 Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
+  { app, Menu, shell } = require "electron"
 
   template = []
 

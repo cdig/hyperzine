@@ -1,7 +1,6 @@
-fs = require "fs"
-path = require "path"
-
 Take [], ()->
+  fs = require "fs"
+  path = require "path"
 
   validFileName = (v)->
     return false if v.indexOf(".") is 0 # Exclude dotfiles

@@ -1,9 +1,9 @@
-{ app } = require "electron"
-childProcess = require "child_process"
-os = require "os"
-path = require "path"
-
 Take [], ()->
+  { app } = require "electron"
+  childProcess = require "child_process"
+  os = require "os"
+  path = require "path"
+
   Env =
     isDev: not app.isPackaged
     isMac: process.platform is "darwin"

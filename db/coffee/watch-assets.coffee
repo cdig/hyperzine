@@ -1,34 +1,34 @@
-Take ["Asset", "Config", "Debounced", "Log", "IPC", "Memory", "Read"], (Asset, Config, Debounced, Log, IPC, Memory, Read)->
+Take ["Asset", "Debounced", "Iterated", "Log", "Memory", "Read"], (Asset, Debounced, Iterated, Log, Memory, Read)->
 
   watcher = null
 
   validFileName = (v)->
+    return false unless v?.length > 0
     return false if v.indexOf(".") is 0 # Exclude dotfiles
     return true # Everything else is good
 
-  changed = {}
+  touchedAssets = {}
 
-  update = Debounced ()->
-    assetsFolder = Memory "assetsFolder"
-
+  update = Debounced 200, Iterated 10, (more)->
+    for assetId of touchedAssets when assetId
+      Memory "assets.#{assetId}", await Asset.loadFields assetId
+      touchedAssets[assetId] = false # Mark this asset as done
+      return unless more()
     touchedAssets = {}
 
-    for fullPath of changed
-      pathWithinAssetsFolder = fullPath.replace assetsFolder, ""
-      assetId = Array.first Read.split pathWithinAssetsFolder
-      touchedAssets[assetId] = true
-
-    for assetId of touchedAssets
-      Memory "assets.#{assetId}", await Asset.load Read.path assetsFolder, assetId
-
-    changed = {}
-    null
-
   change = (eventType, fullPath)->
-    changed[fullPath] = true
+    assetsFolder = Memory "assetsFolder"
+    pathWithinAssetsFolder = fullPath.replace assetsFolder, ""
+    assetId = Array.first Read.split pathWithinAssetsFolder
+    return unless validFileName assetId
+    Log "Watch #{eventType} #{pathWithinAssetsFolder}"
+    # We'll just reload the whole asset. This is simpler than trying to track exactly which paths have changed,
+    # and the performance overhead will be effectively invisible (likely less than 1ms even on giant assets).
+    touchedAssets[assetId] = true
     update()
 
   Memory.subscribe "assetsFolder", true, (assetsFolder)->
     watcher?.close()
+    touchedAssets = {} # Clear any changes queued up for the debounced update, since they'll no longer resolve properly
     if assetsFolder?
       watcher = Read.watch assetsFolder, {recursive: true, persistent: false}, change

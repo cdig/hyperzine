@@ -1,8 +1,7 @@
-{ app, dialog } = require "electron"
-path = require "path"
-fs = require "fs"
-
 Take ["Read"], (Read)->
+  { app, dialog } = require "electron"
+  path = require "path"
+  fs = require "fs"
 
   Make "AppFolder", AppFolder =
 

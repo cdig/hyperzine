@@ -1,6 +1,5 @@
-{ app, BrowserWindow } = require "electron"
-
 Take ["Env"], (Env)->
+  { app, BrowserWindow } = require "electron"
 
   defaultWindow =
     backgroundColor: "#FFF"
@@ -52,11 +51,11 @@ Take ["Env"], (Env)->
     "setup-assistant": width: 480, height: 540
 
   # 27" MONITOR — 2560 x 1440
-  # defaultBounds =
-  #   asset: x: 430, y: 720, width: 1000, height: 720
-  #   browser: x: 1260, y: 0, width: 600, height:720
-  #   db: x: 0, y: 0, width: 560, height: 720
-  #   "setup-assistant": width: 480, height: 540
+  defaultBounds =
+    asset: x: 430, y: 720, width: 1000, height: 720
+    browser: x: 1260, y: 0, width: 600, height:720
+    db: x: 0, y: 0, width: 560, height: 720
+    "setup-assistant": width: 480, height: 540
 
   devToolsWidth = 700
 

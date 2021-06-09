@@ -1,6 +1,8 @@
-{ performance } = require "perf_hooks" unless performance?
+do ()->
+  { performance } = require "perf_hooks" unless performance?
 
-time = performance.now()
+  time = performance.now()
 
-Take "Log", (Log)->
+  Log = await Take.async "Log"
+
   Log "Initialization Time", null, time

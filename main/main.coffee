@@ -1,6 +1,6 @@
-{ app } = require "electron"
-
 Take ["Env", "Handlers", "IPC", "Menu", "Window"], (Env, Handlers, IPC, Menu, Window)->
+
+  { app } = require "electron"
 
   # Here's our custom config for the About box
   app.setAboutPanelOptions

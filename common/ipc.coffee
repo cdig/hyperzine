@@ -1,6 +1,5 @@
-{ ipcRenderer } = require "electron"
-
 Take [], ()->
+  { ipcRenderer } = require "electron"
 
   Make "IPC", IPC =
     send: (...args)-> ipcRenderer.send ...args

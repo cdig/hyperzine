@@ -1,5 +1,5 @@
-{ nativeImage, shell } = require "electron"
 Take ["DOOM", "Paths", "State", "DOMContentLoaded"], (DOOM, Paths, State)->
+  { nativeImage, shell } = require "electron"
 
   filesToolbar = document.querySelector "tool-bar"
   fileCount = filesToolbar.querySelector "[file-count]"

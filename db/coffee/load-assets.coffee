@@ -1,4 +1,4 @@
-Take ["Asset", "Log", "Memory", "Read"], (Asset, Log, Memory, Read)->
+Take ["Asset", "Log", "Memory", "Read", "WriteAssets"], (Asset, Log, Memory, Read, WriteAssets)->
 
   Memory.subscribe "assetsFolder", true, (assetsFolder)->
     return unless assetsFolder?
@@ -38,4 +38,10 @@ Take ["Asset", "Log", "Memory", "Read"], (Asset, Log, Memory, Read)->
     else
       Log "No Assets Found"
 
+    # Pause persisting asset changes to disk
+    WriteAssets.enable false
+
     Memory "assets", assets
+
+    # Later, after all Memory notifications will have gone out, resume persisting asset changes
+    requestAnimationFrame WriteAssets.enable

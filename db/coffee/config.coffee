@@ -13,9 +13,9 @@ Take ["Debounced", "Env", "Log", "Memory", "Read", "Write"], (Debounced, Env, Lo
 
   setupSubscribers = ()->
     for k of configData
-      Memory.subscribe k, true, updateAndSave
+      Memory.subscribe k, true, updateAndSave k
 
-  updateAndSave = (v, o, k)->
+  updateAndSave = (k)-> (v)->
     configData[k] = v
     save()
 

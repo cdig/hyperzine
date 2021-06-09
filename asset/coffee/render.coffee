@@ -1,5 +1,5 @@
-{ shell } = require "electron"
 Take ["DOOM", "FilesPane", "Log", "MetaPane", "Paths", "State", "DOMContentLoaded"], (DOOM, FilesPane, Log, MetaPane, Paths, State)->
+  { shell } = require "electron"
 
   windowTop = document.querySelector "window-top"
   titleBar = windowTop.querySelector "title-bar"

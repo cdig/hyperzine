@@ -1,6 +1,5 @@
-{ performance } = require "perf_hooks" unless performance?
-
 Take [], ()->
+  { performance } = require "perf_hooks" unless performance?
 
   # We can't / shouldn't Take anything, since Log might need to be used *anywhere*
   DB = Env = IPC = Printer = null
