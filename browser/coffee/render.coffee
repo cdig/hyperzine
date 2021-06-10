@@ -6,6 +6,7 @@ Take ["AssetCard", "DOOM", "Frustration", "Iterated", "Log", "Memory", "Search",
 
   renderCount = 1
   assetsToRender = []
+  lastQuery = null
 
   Render = ()->
     assets = Memory "assets"
@@ -16,6 +17,11 @@ Take ["AssetCard", "DOOM", "Frustration", "Iterated", "Log", "Memory", "Search",
     assets = Object.values assets
 
     query = State "search"
+
+    if query isnt lastQuery
+      lastQuery = query
+      elm.scrollTo 0, 0
+
     assetsToRender = Search assets, query
     hasResults = assetsToRender.length > 0
 

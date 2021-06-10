@@ -6,9 +6,9 @@ Take [], ()->
       if cb = elms.get entry.target
         cb entry.target, entry.isIntersecting
 
-  observer = new IntersectionObserver observerFn#,
-    # root: document.querySelector "[on-screen-container]"
-    # rootMargin: "1000px" # Start loading images a little before they scroll into view
+  observer = new IntersectionObserver observerFn,
+    root: document.querySelector "[on-screen-container]"
+    rootMargin: "500px" # Start loading images a little before they scroll into view
 
   Make "OnScreen", (elm, cb)->
     throw Error "Overwriting existing OnScreen" if elms.has elm

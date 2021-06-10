@@ -1,4 +1,5 @@
-Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMContentLoaded"], (DOOM, Frustration, IPC, Log, Memory, OnScreen, Paths)->
+Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "Read", "DOMContentLoaded"], (DOOM, Frustration, IPC, Log, Memory, OnScreen, Paths, Read)->
+  { nativeImage } = require "electron"
 
   cards = {}
 
@@ -8,12 +9,19 @@ Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMCo
       DOOM.remove card._img
       card._img = null
 
-
   loadImage = (card, asset)->
     unloadImage card, asset # Clear any old image
 
     if asset.shot?
-      img = DOOM.create "img", card._assetImageElm, src: Paths.shot asset
+      path = Paths.shot asset
+
+      # if asset.files?.count > 0
+      #   shot = asset.shot.replace /\.(png|jpg)\.png/, ".$1"
+      #   for child in asset.files.children
+      #     if child.name is shot
+      #       path = Read.path Paths.asset(asset), "Files", shot
+
+      img = DOOM.create "img", card._assetImageElm, src: path
 
     else
       card._hash ?= String.hash asset.id
@@ -25,7 +33,6 @@ Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMCo
 
 
   build = (card, asset)->
-    card._asset = asset
     frag = new DocumentFragment()
 
     assetImage = DOOM.create "asset-image", frag
@@ -46,10 +53,12 @@ Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMCo
       loadImage card, card._asset
 
     card.replaceChildren frag
+    card._built = true
 
 
   onScreen = (card, visible)->
     if visible and not card._visible
+      build card, card._asset unless card._built
       loadImage card, card._asset
     if not visible and card._visible
       unloadImage card, card._asset
@@ -58,7 +67,8 @@ Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMCo
 
   update = (card, asset)-> cb = (updatedAsset)->
     if updatedAsset?
-      build card, updatedAsset
+      card._built = false
+      build card, updatedAsset if card._visible
     else
       card.remove()
       delete cards[asset.id]
@@ -68,7 +78,7 @@ Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMCo
   Make "AssetCard", AssetCard = (asset)->
     return card if card = cards[asset.id]
     card = cards[asset.id] = DOOM.create "asset-card"
-    build card, asset
+    card._asset = asset
     OnScreen card, onScreen
     Memory.subscribe "assets.#{asset.id}", false, update card, asset
     card
