@@ -1,4 +1,7 @@
 [asset-size] {
+  display: inline-block;
+  margin: 0 8px;
+
   @media (max-width: 600px) {
     width: 4em;
   }

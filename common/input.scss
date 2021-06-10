@@ -1,5 +1,5 @@
-input[type="text"],
-input[type="search"] {
+[type="text"],
+[type="search"] {
   display: block;
   padding: .4em .8em;
   border: 1px solid var(--ui-border);
@@ -11,7 +11,7 @@ input[type="search"] {
   user-select: contain;
 }
 
-input[type="range"] {
+[type="range"] {
   margin: 0;
   font-size: 1em;
 
