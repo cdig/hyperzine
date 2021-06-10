@@ -14,21 +14,22 @@ Take ["Debounced", "Log", "Memory", "Ports", "Read", "Write"], (Debounced, Log, 
   permittedKeys = name: "Name", shot: "Shot"#, tags: "Tags", files: "Files"
   validName = (name)-> -1 is name.search /[^\w &-(),]/
 
-  update = Debounced 500, ()->
+  update = Debounced 2000, ()->
     for id, changes of changed
       if changes? then updateAsset id, changes else deleteAsset id
     changed = {}
 
   deleteAsset = (id)->
-    Log "TODO Delete #{id}"
+    return unless id?.length > 0
+    assetsFolder = Memory "assetsFolder"
+    path = Read.path assetsFolder, id
+    if Read(path)?
+      Write.sync.rm path
 
   updateAsset = (id, changes)->
     for k, v of changes
-      Log "Write Assets #{id}/#{k}/#{v}"
       folder = permittedKeys[k]
-      if not folder # The change was an asset property that doesn't get saved
-        # Log "No persist #{id} . #{k}"
-        continue
+      continue unless folder # The change was an asset property that doesn't get saved
       if v?
         updateProperty id, folder, v
       else
@@ -37,21 +38,17 @@ Take ["Debounced", "Log", "Memory", "Ports", "Read", "Write"], (Debounced, Log, 
 
   deleteProperty = (id, folder)->
     assetsFolder = Memory "assetsFolder"
-    kPath = Read.path assetsFolder, id, folder
-    if Read(kPath)?
-      try
-        Write.sync.rm kPath
-        Log "rm #{id}/#{folder}"
-      catch
-        throw Error "Failed to rm #{kPath}"
+    path = Read.path assetsFolder, id, folder
+    current = Read path
+    return unless current?.length > 0
+    path = Read.path path, current[0] if current.length is 1
+    Write.sync.rm path
 
   updateProperty = (id, folder, v)->
     assetsFolder = Memory "assetsFolder"
     unless validName v
-      Log "Can't write value #{v} to the filesystem (see console.log)"
-      console.log id
-      console.log folder
-      console.log v
+      Log "Can't write value #{v} to the filesystem (see console)"
+      console.log id, folder, v
       return
 
     kPath = Read.path assetsFolder, id, folder
@@ -59,14 +56,14 @@ Take ["Debounced", "Log", "Memory", "Ports", "Read", "Write"], (Debounced, Log, 
     # Log "kPath #{Read.path id, folder}"
     # Log "vPath #{vPath}"
 
-    # Clear any old value
+    # We don't need to do the write if the FS is already correct
+    current = await Read.async kPath
+    return if current?.length is 1 and current[0] is v
+
+    # Clear old value
     deleteProperty id, folder
 
-    try
-      Write.sync.mkdir vPath
-      Log "mkdir #{id}/#{folder}/#{v}"
-    catch
-      throw "Failed to mkdir #{vPath}"
+    Write.sync.mkdir vPath
     null
 
 

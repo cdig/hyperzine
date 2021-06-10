@@ -1,4 +1,4 @@
-Take [], ()->
+Take ["Log"], (Log)->
 
   memory = null # Stores all the values committed to Memory
   subscriptions = {_cbs:[]} # Notified when specific paths are changed
@@ -34,12 +34,6 @@ Take [], ()->
     DB.on "memory-broadcast", (path, v)-> Memory path, v, false
 
 
-  # We currently have some trouble with infinite loops, so we're doing a bit of special cycle detection
-  # This should be removed once we no longer see out of control looping
-  # recentlyTouchedPaths = {}
-  # clearPath = (path)-> ()-> delete recentlyTouchedPaths[path]
-
-
   # This is how we support "deep.paths":
   # Pass a tree-like object, and a dot-separated string of keys.
   # We'll return the penultimate node in the tree, and the final key.
@@ -61,26 +55,14 @@ Take [], ()->
 
     throw Error "You're not allowed to set the Memory root" if path is ""
 
-    # if not recentlyTouchedPaths[path]?
-    #   recentlyTouchedPaths[path] = 0
-    #   queueMicrotask clearPath path
-    #
-    # if recentlyTouchedPaths[path]++ > 20 # Allow for some slop
-    #   console.log v
-    #   throw Error "Memory update cycle detected for #{path} and value ^"
-
     old = node[k]
 
     if v? then node[k] = v else delete node[k]
 
-    # console.log "Memory #{path}"
-    # console.log "Old", old
-    # console.log "New", v
-
-    if Function.notEquivalent v, old # In theory, this should be enough to stop infinite update cycles
+    if Function.notEquivalent v, old
       queueMicrotask ()->
-        localNotify path, v # if doRemoteNotify # enabling this conditional might help avoid infinite update cycles
-        remoteNotify path, v
+        localNotify path, v
+        remoteNotify path, v if doRemoteNotify
 
     return v
 

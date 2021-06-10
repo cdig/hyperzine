@@ -3,8 +3,6 @@ Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMCo
   cards = {}
 
   build = (card, asset)->
-    card._asset = asset
-
     frag = new DocumentFragment()
 
     assetImage = DOOM.create "asset-image", frag
@@ -51,7 +49,8 @@ Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "DOMCo
     return card if card = cards[asset.id]
     card = DOOM.create "asset-card"
     cards[asset.id] = card
-    build card, asset
+    card._asset = asset
+    # build card, asset
     OnScreen card, onScreen
     Memory.subscribe "assets.#{asset.id}", false, update card, asset
     card

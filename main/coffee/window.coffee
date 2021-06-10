@@ -44,20 +44,20 @@ Take ["Env"], (Env)->
     windowIndexes[type][index] = null
 
   # LAPTOP — 1440 x 900
+  devToolsWidth = 300
   defaultBounds =
     asset: width: 740, height: 600
-    browser: x: 380, y: 200, width: 360, height:700
-    db: x: 0, y: 0, width: 300, height: 500
+    browser: x: 0, y: 0, width: 1440, height:900
+    db: x: 0, y: 0, width: 500, height: 400
     "setup-assistant": width: 480, height: 540
 
   # 27" MONITOR — 2560 x 1440
-  defaultBounds =
-    asset: x: 430, y: 720, width: 1000, height: 720
-    browser: x: 1260, y: 0, width: 600, height:720
-    db: x: 0, y: 0, width: 560, height: 720
-    "setup-assistant": width: 480, height: 540
-
-  devToolsWidth = 700
+  # devToolsWidth = 700
+  # defaultBounds =
+  #   asset: x: 430, y: 720, width: 1000, height: 720
+  #   browser: x: 1260, y: 0, width: 600, height:720
+  #   db: x: 0, y: 0, width: 560, height: 720
+  #   "setup-assistant": width: 480, height: 540
 
   getBounds = (type, index)->
     bounds = windowBounds[type][index] or defaultBounds[type]
@@ -83,10 +83,10 @@ Take ["Env"], (Env)->
     unless props.show is false
       deferPaint = true
       props.show = false
-    openDevTools = openDevTools and Env.isDev or true
+    openDevTools = openDevTools and Env.isDev# or true
     index = getNextIndex type
     bounds = getBounds type, index
-    bounds.width += devToolsWidth if openDevTools
+    bounds.width += devToolsWidth
     win = new BrowserWindow Object.assign {}, defaultWindow, bounds, props
     checkBounds win
     win.loadFile "out/#{type}.html"
@@ -108,7 +108,7 @@ Take ["Env"], (Env)->
     if db?
       db.show()
     else
-      db = newWindow "db", false, title: "Debug Log", backgroundThrottling: false, show: Env.isDev
+      db = newWindow "db", false, title: "Debug Log", backgroundThrottling: false, show: false#Env.isDev
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()

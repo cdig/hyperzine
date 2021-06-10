@@ -11,7 +11,7 @@ Take ["Memory"], (Memory)->
     for assetId, asset of assets when asset.creator is localName
       highestNumber = Math.max highestNumber, asset.number
 
-    Memory.change "nextAssetNumber", highestNumber + 1
+    Memory "nextAssetNumber", highestNumber + 1
 
     null
 

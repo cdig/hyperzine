@@ -10,8 +10,9 @@ Take ["Asset", "Debounced", "Iterated", "Log", "Memory", "Read"], (Asset, Deboun
   touchedAssets = {}
 
   update = Debounced 200, Iterated 10, (more)->
-    for assetId of touchedAssets when assetId
-      Memory "assets.#{assetId}", await Asset.loadFields assetId
+    for assetId of touchedAssets when touchedAssets[assetId]
+      asset = await Asset.loadFields assetId
+      Memory "assets.#{assetId}", asset
       touchedAssets[assetId] = false # Mark this asset as done
       return unless more()
     touchedAssets = {}

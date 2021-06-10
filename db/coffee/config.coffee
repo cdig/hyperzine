@@ -10,14 +10,16 @@ Take ["Debounced", "Env", "Log", "Memory", "Read", "Write"], (Debounced, Env, Lo
     for k, v of data
       didSet = Memory.default k, v
       if not didSet then Log.err "Memory(#{k}) was already defined before Config initialized it"
+      configData[k] = v
 
   setupSubscribers = ()->
     for k of configData
-      Memory.subscribe k, true, updateAndSave k
+      Memory.subscribe k, false, updateAndSave k
 
   updateAndSave = (k)-> (v)->
-    configData[k] = v
-    save()
+    if configData[k] isnt v
+      configData[k] = v
+      save()
 
   save = Debounced ()->
     Write.sync.json Env.configPath, configData
