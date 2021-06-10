@@ -1,3 +1,10 @@
+:root {
+  --browser-asset-size: 1em;
+}
+
+
+
+
 // Default: light mode
 html {
   --bubble-bg: #e9e9e9;
@@ -11,7 +18,7 @@ html {
   --card-image-hover-border: #fff;
   --card-no-image-bg: #f7f7f7;
   --card-no-image-text: #777;
-  --card-no-image-hover: #fafafa;
+  --card-no-image-hover: #f7f7f7;
   --input-bg: #fff0;
   --input-text: #000;
   --input-focus-after-border: hsl(219, 82%, 74%);
@@ -42,7 +49,7 @@ html.blur {
     --card-image-hover-border: #444;
     --card-no-image-bg: #333;
     --card-no-image-text: #aaa;
-    --card-no-image-hover: #3a3a3a;
+    --card-no-image-hover: #333;
     --input-bg: #0004;
     --input-text: #fff;
     --input-focus-after-border: #316d99;
@@ -53,7 +60,7 @@ html.blur {
     --scroll-thumb: #333;
     --text-color: #fff;
     --title-bar-text: #eaeaea;
-    --tool-bar-bg: #1b1b1be4;
+    --tool-bar-bg: #1b1b1bd7;
     --ui-border: #fff1;
   }
   html.blur {

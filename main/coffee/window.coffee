@@ -44,7 +44,7 @@ Take ["Env"], (Env)->
     windowIndexes[type][index] = null
 
   # LAPTOP — 1440 x 900
-  devToolsWidth = 300
+  devToolsWidth = 0
   defaultBounds =
     asset: width: 740, height: 600
     browser: x: 0, y: 0, width: 1440, height:900
@@ -135,7 +135,7 @@ Take ["Env"], (Env)->
 
     open:
       asset: openAsset
-      browser: ()-> newWindow "browser", false, title: "Browser"
+      browser: ()-> newWindow "browser", false, title: "Browser", minWidth: 400
       db: openDb
       setupAssistant: openSetupAssistant
 

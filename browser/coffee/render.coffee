@@ -7,44 +7,35 @@ Take ["AssetCard", "DOOM", "Frustration", "Iterated", "Log", "Memory", "Search",
   renderCount = 1
   assetsToRender = []
 
-  # Render = ()-> Log.time "Render #{renderCount++}", ()->
   Render = ()->
     assets = Memory "assets"
     return unless assets?
 
+    renderCount++
+
     assets = Object.values assets
 
     query = State "search"
-    # filteredAssets = Log.time "Search", ()-> Search assets, query
-    filteredAssets = Search assets, query
-    DOOM assetCount, textContent: String.pluralize filteredAssets.length, "%% Asset"
+    assetsToRender = Search assets, query
+    hasResults = assetsToRender.length > 0
 
-    elm.replaceChildren() # Empty the asset list
-    assetsToRender = []
+    elm.replaceChildren()
+    update() if hasResults
 
-    if filteredAssets.length
-      assetsToRender = [].concat filteredAssets
-      update()
+    DOOM assetCount, innerHTML: String.pluralize(assetsToRender.length, "%% <span>Asset") + "</span>"
 
-    noResults = filteredAssets.length is 0
-    DOOM noAssets, display: if noResults then "block" else "none"
-    DOOM rainbowClouds, display: if noResults then "block" else "none"
-    rainbowClouds.style.animationPlayState = if noResults then "playing" else "paused"
-    DOOM noAssets.querySelector("h1"), textContent: Frustration() if noResults
+    DOOM noAssets, display: if hasResults then "none" else "block"
+    DOOM rainbowClouds, display: if hasResults then "none" else "block"
+    rainbowClouds.style.animationPlayState = if hasResults then "paused" else "playing"
+    DOOM noAssets.querySelector("h1"), textContent: Frustration renderCount unless hasResults
 
-    # elm.scroll(0,0)
-
-  update = Iterated 2, (more)->
-    frag = new DocumentFragment() # Build a frag to hold all the assets we want to show
+  update = Iterated 3, (more)->
+    frag = new DocumentFragment()
     for asset, i in assetsToRender when asset
       card = AssetCard asset
-      assetsToRender[i] = null # done
+      assetsToRender[i] = null
       DOOM.append frag, card
       break unless more()
-
     DOOM.append elm, frag
-    console.log elm.childElementCount
-
-
 
   Make "Render", Render

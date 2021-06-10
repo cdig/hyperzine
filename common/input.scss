@@ -1,4 +1,5 @@
-input {
+input[type="text"],
+input[type="search"] {
   display: block;
   padding: .4em .8em;
   border: 1px solid var(--ui-border);
@@ -8,4 +9,40 @@ input {
   color: var(--input-text);
   pointer-events: auto;
   user-select: contain;
+}
+
+input[type="range"] {
+  margin: 0;
+  font-size: 1em;
+
+  // width: calc(100% + 1em);
+  // margin-left: -.5em;
+  vertical-align: middle;
+  background: none;
+  -webkit-appearance: none;
+
+  &:focus { outline: none; }
+
+  $size: .5em;
+
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: $size;
+    background: var(--button-bg);
+    border-radius: $size;
+    border: none;
+  }
+  &:focus::-webkit-slider-runnable-track {
+
+  }
+
+  &::-webkit-slider-thumb {
+    height: $size * 2;
+    width: $size * 2;
+    margin-top: $size * -0.5;
+    border-radius: $size;
+    background: var(--button-active-bg);
+    -webkit-appearance: none;
+  }
+
 }

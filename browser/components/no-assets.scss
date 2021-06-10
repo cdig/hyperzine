@@ -26,6 +26,7 @@ no-assets {
     animation: wiggle .8s ease-in-out both;
     transform-origin: center bottom;
     color: #000;
+    white-space: pre;
     transform-style: preserve-3d;
 
     &::before {

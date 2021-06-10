@@ -8,12 +8,15 @@ meta-list {
   & > * {
     display: inline-block;
     vertical-align: middle;
-    margin: 0 .1em;
+    margin: .1em;
     padding: .3em .6em;
     border-radius: 4px;
     line-height: 1em;
+    & > * {
+      display: inline-block;
+    }
   }
 
-  file-count { border: 1px solid var(--meta-bg); }
+  // file-count { border: 1px solid var(--meta-bg); }
   tag-item { background: var(--meta-bg); }
 }

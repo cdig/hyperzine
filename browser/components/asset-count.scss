@@ -3,4 +3,9 @@ asset-count {
   flex: 0 0 7.2em;
   text-align: right;
   padding-right: .8em;
+
+  @media (max-width: 450px) {
+    flex: 0 0 3.6em;
+    span { display: none; }
+  }
 }

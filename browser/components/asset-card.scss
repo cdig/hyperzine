@@ -1,8 +1,8 @@
 asset-card {
-  flex: 1 0 12em;
   display: inline-block;
-  max-width: 15em;
-  margin: 1em .5em;
+  width: 16em;
+  height: 16em;
+  margin: .5em 0;
   color: var(--card-text);
-  overflow-x: hidden;
+  overflow: visible;
 }

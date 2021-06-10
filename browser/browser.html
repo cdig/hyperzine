@@ -15,15 +15,16 @@
     <title-bar>
       <asset-count>&nbsp;</asset-count>
       <search-box class="ui">
-        <input type="search" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <input type="text" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off">
       </search-box>
       <div class="ui">
+        <input type="range" min="0.4" max="1.2" value="1.2" step="0.01" asset-size>
         <button new-asset>New Asset</button>
       </div>
     </title-bar>
   </window-top>
   <main>
-    <asset-list class="scrollable"></asset-list>
+    <asset-list class="scrollable" on-screen-container></asset-list>
     <no-assets>
       <h1>&nbsp;</h1>
       <h3>No Assets</h3>

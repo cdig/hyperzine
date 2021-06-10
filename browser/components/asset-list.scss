@@ -5,8 +5,8 @@ asset-list {
   align-content: flex-start;
   align-items: flex-start;
   height: 100%;
-  padding: 38px .5em 0;
-  font-size: 1.2em;
-  overflow-y: auto;
+  padding: calc(38px + 1em) .5em 0;
+  font-size: var(--browser-asset-size);
+  overflow-y: scroll;
   overscroll-behavior: contain;
 }
