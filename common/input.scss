@@ -44,5 +44,8 @@
     background: var(--button-active-bg);
     -webkit-appearance: none;
   }
+}
 
+html.blur input {
+  opacity: .5;
 }

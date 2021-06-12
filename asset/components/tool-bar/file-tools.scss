@@ -1,0 +1,28 @@
+file-tools {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  [file-count] {
+    flex: 0 0 7.2em;
+    text-align: right;
+    padding-right: .8em;
+    font-weight: bold;
+
+    @media (max-width: 450px) {
+      flex: 0 0 3.6em;
+      span { display: none; }
+    }
+  }
+
+  search-box {
+  }
+
+  [add-files] {
+    flex: 0 0 auto;
+    margin-left: .5em;
+  }
+
+}

@@ -1,3 +1,6 @@
+# Take "GearView", (GearView)->
+#   GearView 24, 0#, class: "paused"
+
 Take ["IPC", "Memory", "Render", "State"], (IPC, Memory, Render, State)->
 
   assetId = await IPC.invoke "whats-my-asset"

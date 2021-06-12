@@ -10,21 +10,27 @@
   <script src="asset.js" defer></script>
 </head>
 <body>
-  <window-top>
+  <window-top class="backdrop-filter">
     <window-top-rainbow></window-top-rainbow>
     <title-bar>
-      <div asset-name></div>
-      <div class="ui">
-        <button pin-unpin>Pin</button>
-        <button show-in-finder>Show In Finder</button>
-      </div>
+      <div class="left"></div>
+      <div class="center meta"></div>
+      <div class="right gears"><gear-view></gear-view></div>
     </title-bar>
     <tool-bar>
-      <div file-count></div>
-      <button add-files>Add Files</button>
-      <search-box class="ui">
-        <input type="text" placeholder="Search (Not Yet Implemented)" autocomplete="off"  autocorrect="off" autocapitalize="off">
-      </search-box>
+      <file-tools class="ui">
+        <input thumbnail-size type="range" min="0.5" max="2" value="1" step="0.001" list="snaps">
+        <datalist id="snaps"><option value="1"></option></datalist>
+        <div file-count></div>
+        <search-box class="ui">
+          <input type="text" placeholder="Search (Not Yet Implemented)" autocomplete="off"  autocorrect="off" autocapitalize="off">
+        </search-box>
+        <button add-files>Add Files</button>
+      </file-tools>
+      <meta-tools>
+        <button pin-unpin>Pin</button>
+        <button show-in-finder>Show In Finder</button>
+      </meta-tools>
     </tool-bar>
   </window-top>
   <main>
@@ -33,9 +39,6 @@
     </files-pane>
     <meta-pane>
       <div asset-name contenteditable autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
-      <asset-metadata class="bubbles">
-        <div asset-id class="bubble">ID <span></span></div>
-      </asset-metadata>
       <add-note>Add Note...</add-note>
       <asset-history></asset-history>
     </meta-pane>

@@ -1,8 +1,7 @@
 Take ["Env"], (Env)->
-  { app, BrowserWindow } = require "electron"
+  { app, BrowserWindow, nativeTheme } = require "electron"
 
   defaultWindow =
-    backgroundColor: "#FFF"
     title: "Hyperzine"
     titleBarStyle: "hiddenInset"
     minWidth: 340
@@ -46,7 +45,7 @@ Take ["Env"], (Env)->
   # LAPTOP — 1440 x 900
   devToolsWidth = 0
   defaultBounds =
-    asset: width: 740, height: 600
+    asset: width: 1440, height: 900
     browser: x: 0, y: 0, width: 1440, height:900
     db: x: 0, y: 0, width: 500, height: 400
     "setup-assistant": width: 480, height: 540
@@ -87,7 +86,8 @@ Take ["Env"], (Env)->
     index = getNextIndex type
     bounds = getBounds type, index
     bounds.width += devToolsWidth
-    win = new BrowserWindow Object.assign {}, defaultWindow, bounds, props
+    background = backgroundColor: if nativeTheme.shouldUseDarkColors then "#1b1b1b" else "#f2f2f2"
+    win = new BrowserWindow Object.assign {}, defaultWindow, bounds, background, props
     checkBounds win
     win.loadFile "out/#{type}.html"
     win.webContents.openDevTools() if openDevTools

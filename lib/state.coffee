@@ -1,41 +1,89 @@
-# This is like Memory (same API), but just for transient state local to each process.
-# Hasn't been updated to support "deep.paths" yet
-# Hasn't been updated to only notify on change
+Take ["Log"], (Log)->
 
-Take [], ()->
   state = {}
-  subscriptions = {}
+  subscriptions = {_cbs:[]}
 
-  State = (k, v)->
-    return state[k] if v is undefined
-    commit k, v
+  getAt = (node, path)->
+    return [{"":node}, ""] if path is ""
+    parts = path.split "."
+    k = parts.pop()
+    for part in parts
+      node = node[part] ?= {}
+    [node, k]
 
-  State.change = (k, v)->
-    State k, v if set = v isnt state[k]
-    return set
 
-  State.default = (k, v)->
-    State k, v if set = not state[k]?
-    return set
+  Make.async "State", State = (path = "", v)->
+    [node, k] = getAt state, path
 
-  State.subscribe = (k, runNow, cb)->
-    (subscriptions[k] ?= []).push cb
-    if runNow
-      v = State(k)
-      cb v, v, k
+    return node[k] if v is undefined # Just a read
 
-  State.unsubscribe = (k, cb)->
-    Array.pull subscriptions[k], cb
+    throw Error "You're not allowed to set the State root" if path is ""
 
-  commit = (k, v)->
-    old = state[k]
-    if v? then state[k] = v else delete state[k]
-    notify k, v, old
+    old = node[k]
 
-  notify = (k, v, old)->
-    if subscriptions[k]?
-      for cb in subscriptions[k]
-        cb v, old, k
+    if v? then node[k] = v else delete node[k]
+
+    if Function.notEquivalent v, old
+      queueMicrotask ()->
+        localNotify path, v
+
+    return v
+
+  conditionalSet = (path, v, pred)->
+    [node, k] = getAt state, path
+    doSet = pred node[k], v
+    State path, v if doSet
+    return doSet
+
+  State.change = (path, v)-> conditionalSet path, v, Function.notEquivalent
+  State.default = (path, v)-> conditionalSet path, v, Function.notExists
+
+  State.subscribe = (...[path = "", runNow = true, weak = false], cb)->
+    throw "Invalid subscribe path" unless String.isString path # Avoid errors if you try say subscribe(runNow, cb)
+    [node, k] = getAt subscriptions, path
+    ((node[k] ?= {})._cbs ?= []).push cb
+    cb._state_weak = weak # ... this is fine 🐕☕️🔥
+    cb State path if runNow
+
+  State.unsubscribe = (...[path = ""], cb)->
+    [node, k] = getAt subscriptions, path
+    throw Error "Unsubscribe failed" unless cb in node[k]._cbs
+    Array.pull node[k]._cbs, cb
     null
 
-  Make "State", State
+  localNotify = (path, v)->
+    [node, k] = getAt subscriptions, path
+    runCbsWithin node[k], v
+    runCbs node[k], v, v
+    changes = runCbsAbove path, v
+    runCbs subscriptions, state, changes
+
+  runCbsWithin = (parent, v)->
+    return unless Object.isObject parent
+    for k, child of parent when k isnt "_cbs"
+      _v = v?[k]
+      runCbsWithin child, _v
+      runCbs child, _v, _v
+    null
+
+  runCbsAbove = (path, changes)->
+    parts = path.split "."
+    p = parts.pop()
+    changesAbove = {}
+    changesAbove[p] = changes
+    return changesAbove unless parts.length > 0
+    pathAbove = parts.join "."
+    [node, k] = getAt subscriptions, pathAbove
+    runCbs node[k], State(pathAbove), changesAbove
+    runCbsAbove pathAbove, changesAbove
+
+  runCbs = (node, v, changed)->
+    if node?._cbs
+      dead = []
+      for cb in node._cbs
+        if cb._state_weak and not v?
+          dead.push cb
+        else
+          cb v, changed
+      Array.pull node._cbs, cb for cb in dead
+    null

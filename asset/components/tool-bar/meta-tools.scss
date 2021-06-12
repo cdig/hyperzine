@@ -1,0 +1,12 @@
+meta-tools {
+  // flex: 0 0 30rem;
+  flex: 0 0 auto;
+  padding-right: .5em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  button {
+    margin-left: .5em;
+  }
+}

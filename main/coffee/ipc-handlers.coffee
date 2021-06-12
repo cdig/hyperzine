@@ -47,3 +47,14 @@ do ()->
     IPC.handle "whats-my-asset", ({sender})->
       win = BrowserWindow.fromWebContents sender
       Window.data[win.webContents.id].assetId
+
+    # FEATURES
+
+    IPC.on "drag-file", ({sender}, path)->
+      sender.startDrag
+        file: path
+        icon: await app.getFileIcon path
+
+    IPC.handle "get-file-icon", ({sender}, path)->
+      img = await app.getFileIcon path
+      img.toDataURL()

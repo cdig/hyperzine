@@ -1,0 +1,50 @@
+.file {
+  margin: 1em;
+  display: flex;
+  align-items: center;
+
+  .thumbnail {
+    flex: 0 0 10em;
+    width: 10em;
+    height: 10em;
+    text-align: right;
+    font-size: var(--asset-thumbnail-size);
+  }
+
+  img, no-img, video, .loading {
+    display: inline-block;
+    max-width: 10em;
+    max-height: 10em;
+    object-fit: contain;
+    border-radius: 4px;
+    background: var(--card-image-bg);
+  }
+
+  no-img, .loading {
+    display: block;
+    line-height: 4em;
+    background: var(--card-no-image-bg);
+  }
+
+  .info {
+    flex: 1 1 auto;
+    margin-left: 1em;
+
+    .name {
+      font-size: 1.2em;
+      font-weight: 600;
+      margin-left: .2em;
+    }
+
+    .meta {
+      margin-top: .2em;
+    }
+
+    .i-eye {
+      width: 1em;
+      height: calc(1em * 80 / 112);
+      background-color: currentColor;
+      cursor: pointer;
+    }
+  }
+}

@@ -3,7 +3,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--scroll-thumb);
+  min-height: 40px;
   border: 2px solid var(--page-bg);
   border-radius: 8px;
+  background-color: var(--scroll-thumb);
+}
+
+::-webkit-scrollbar-track {
+  margin: 38px 0 5px;
 }

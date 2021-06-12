@@ -1,0 +1,37 @@
+.bubble {
+  display: inline-block;
+  margin: .2em;
+  padding: .4em .8em;
+  border-radius: 2em;
+  // background-color: var(--bubble-bg);
+  // background: var(--page-bg);
+  font-weight: bold;
+
+  & > * {
+    display: inline-block;
+    font-weight: 900;
+    margin-left: .3em;
+    // background-image: linear-gradient(var(--bubble-text-a), var(--bubble-text-b));
+    // background-image: linear-gradient(var(--text-color), var(--title-bar-text));
+    background-image: linear-gradient(#0002, #0002);
+    // -webkit-background-clip: text;
+    // background: #7777;
+    color: transparent;
+    backdrop-filter: brightness(50%) saturate(1000%);
+    @media(prefers-color-scheme: dark) {
+      backdrop-filter: saturate(250%) brightness(900%);
+    }
+    -webkit-mask-image: linear-gradient(white, white);
+    -webkit-mask-clip: text;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--bubble-text-b);
+  }
+}
+
+html.blur .bubble > * {
+  opacity: .4;
+}

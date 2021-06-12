@@ -17,8 +17,9 @@ Take ["Env", "Log", "Memory"], (Env, Log, Memory)->
     fs.writeFileSync path, data
 
   Write.sync.mkdir = (path)->
-    logWrite "mkdir", path
-    fs.mkdirSync path, recursive: true
+    unless fs.existsSync path
+      logWrite "mkdir", path
+      fs.mkdirSync path, recursive: true
 
   Write.sync.rm = (path)->
     logWrite "rm", path

@@ -27,6 +27,10 @@ window-top-rainbow {
   }
 }
 
+html.blur window-top-rainbow {
+  filter: grayscale(100%);
+}
+
 @keyframes window-top-rainbow {
   from { transform: translateX(-12.5%) }
   to { transform: translateX(-50%) }

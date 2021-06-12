@@ -7,7 +7,7 @@ Take ["IPC", "Log"], (IPC, Log)->
     port = ports[id] = e.ports[0]
     port.onmessage = ({data: [requestID, msg, ...args]})->
       if fn = listeners[msg]
-        v = fn ...args
+        v = await fn ...args
         port.postMessage ["return", requestID, v]
       else
         Log "Missing DB port handler: #{msg}", color: "#F00"

@@ -1,4 +1,4 @@
-Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "Read", "DOMContentLoaded"], (DOOM, Frustration, IPC, Log, Memory, OnScreen, Paths, Read)->
+Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "Read", "DOMContentLoaded"], (DB, DOOM, Frustration, IPC, Log, Memory, OnScreen, Paths, Read)->
   { nativeImage } = require "electron"
 
   cards = {}
@@ -15,18 +15,26 @@ Take ["DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "Read"
     if asset.shot?
       path = Paths.shot asset
 
-      # if asset.files?.count > 0
-      #   shot = asset.shot.replace /\.(png|jpg)\.png/, ".$1"
-      #   for child in asset.files.children
-      #     if child.name is shot
-      #       path = Read.path Paths.asset(asset), "Files", shot
+      if asset.files?.count > 0
+        shot = asset.shot.replace /\.png/, ""
+        for child in asset.files.children
+          if child.name is shot
+            thumbPath = Read.path Paths.asset(asset), "Files", shot
+            break
 
-      img = DOOM.create "img", card._assetImageElm, src: path
+        loading = DOOM.create "div", card._assetImageElm, class: "loading", textContent: "Loading"
+        thumbPath = await DB.send "create-thumbnail", thumbPath
 
+        path = thumbPath if thumbPath
+
+    if path
+      img = DOOM.create "img", null, src: path
     else
       card._hash ?= String.hash asset.id
-      img = DOOM.create "no-img", card._assetImageElm, textContent: Frustration card._hash
+      img = DOOM.create "no-img", null, textContent: Frustration card._hash
       img.style.setProperty "--hue", card._hash % 360
+
+    card._assetImageElm.replaceChildren img
 
     img.onclick = ()-> IPC.send "open-asset", asset.id
     card._img = img

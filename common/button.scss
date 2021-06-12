@@ -16,3 +16,7 @@ button {
   // background: var(--page-bg);
   // opacity: 0;
 }
+
+html.blur button {
+  opacity: .5;
+}

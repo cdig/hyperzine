@@ -57,6 +57,6 @@ Take [], ()->
     segs.join path.sep
 
   Read.split = (p)->
-    p.split path.sep
+    Array.pull p.split(path.sep), ""
 
   Make "Read", Read

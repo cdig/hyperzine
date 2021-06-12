@@ -1,4 +1,4 @@
-Take ["AssetMetadata", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (AssetMetadata, DOOM, Memory, Paths, State)->
+Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (MetaTools, DOOM, Memory, Paths, State)->
   metaPane = document.querySelector "meta-pane"
   assetName = metaPane.querySelector "[asset-name]"
   addNote = metaPane.querySelector "[add-note]"
@@ -30,4 +30,3 @@ Take ["AssetMetadata", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], 
     render: ()->
       asset = State "asset"
       DOOM assetName, textContent: asset.name or asset.id
-      AssetMetadata.render()
