@@ -20,6 +20,11 @@ Take [], ()->
     catch
       null
 
+  Read.sync = Read
+
+  Read.sync.exists = ()->
+    fs.existsSync path
+
   Read.async = (folderPath)->
     new Promise (resolve)->
       fs.readdir folderPath, (err, fileNames)->
