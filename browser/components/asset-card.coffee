@@ -25,7 +25,9 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
 
     if shotSourcePath
       loading = DOOM.create "div", null, class: "loading", textContent: "Loading"
-      thumbPath = card._thumbPath ?= await DB.send "create-thumbnail", shotSourcePath
+
+      size = if DOOM(document.body, "hideLabels") is "" then 128 else 512
+      thumbPath = card._thumbPath ?= await DB.send "create-thumbnail", shotSourcePath, size
 
       # In the time it took to create the thumbnail, the card might have scrolled
       # offscreen and unloaded. In that case, we should just bail now.
@@ -41,7 +43,8 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
 
     else
       card._hash ?= String.hash asset.id
-      img = DOOM.create "no-img", null, textContent: Frustration card._hash
+      img = DOOM.create "no-img", null
+      DOOM.create "span", img, textContent: Frustration card._hash
       img.style.setProperty "--hue", card._hash % 360
 
     img.onclick = ()-> IPC.send "open-asset", asset.id
@@ -56,9 +59,11 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
 
     card._assetImageElm = DOOM.create "asset-image", frag
 
-    DOOM.create "asset-name", frag, textContent: asset.name or asset.id
+    label = DOOM.create "asset-label", frag
 
-    metaList = DOOM.create "meta-list", frag
+    DOOM.create "asset-name", label, textContent: asset.name or asset.id
+
+    metaList = DOOM.create "meta-list", label
 
     fileCount = DOOM.create "file-count", metaList,
       textContent: String.pluralize asset.files.count, "%% File"
@@ -79,6 +84,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
     build card if card._visible and not card._built
     loadImage card if card._visible and not card._loaded
     unloadImage card if not card._visible and card._loaded
+    # unbuild card if not card._visible and card._loaded
 
 
   onScreen = (card, visible)->

@@ -7,6 +7,8 @@ Take ["Debounced", "DOOM", "Memory", "PubSub", "DOMContentLoaded"], (Debounced, 
 
   slider.oninput = slider.onchange = update = Debounced.raf ()->
     document.body.style.setProperty "--browser-asset-size", slider.value + "em"
+    document.body.style.setProperty "--browser-label-size", (1/slider.value ** 0.5) + "em"
+    DOOM document.body, hideLabels: if slider.value <= 0.5 then "" else null
 
     # This doesn't work because when the number of assets in a row goes up or down,
     # things wrap differently and we end up looking at a whole different set of assets.

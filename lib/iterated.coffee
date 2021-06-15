@@ -13,7 +13,7 @@ Take [], ()->
     run = (time)->
       requested = false
       outOfTime = false
-      startTime = time
+      startTime = time or performance.now()
       callback more
       if outOfTime
         requestRun()
@@ -29,4 +29,4 @@ Take [], ()->
       outOfTime = performance.now() - startTime > timeLimit
       return not outOfTime
 
-    return requestRun
+    return run

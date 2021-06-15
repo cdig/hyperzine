@@ -20,3 +20,7 @@ meta-list {
   // file-count { border: 1px solid var(--meta-bg); }
   tag-item { background: var(--meta-bg); }
 }
+
+[hide-labels] meta-list {
+  display: none;
+}

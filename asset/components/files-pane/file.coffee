@@ -19,7 +19,8 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
 
     if file.count?
       type = "folder"
-      img = DOOM.create "no-img", thumbnail, textContent: "📁"
+      img = DOOM.create "no-img", thumbnail
+      DOOM.create "span", img, textContent: "📁"
     # else if isImage file
     #   type = "image"
     #   img = DOOM.create "img", thumbnail, src: filePath
@@ -32,7 +33,7 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
         src: filePath
     else
       loading = DOOM.create "div", thumbnail, class: "loading", textContent: "Loading"
-      src = await DB.send "create-thumbnail", file.path
+      src = await DB.send "create-thumbnail", file.path, 512
       src ?= await IPC.invoke "get-file-icon", file.path
       img = DOOM.create "img", null, src: src
       thumbnail.replaceChildren img
@@ -47,7 +48,8 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
       #   else
       #     type = "unknown"
       #     name = ""
-      #   img = DOOM.create "no-img", null, textContent: name
+      #   img = DOOM.create "no-img", null
+      #   DOOM.create "span", img, textContent: name
       # .finally ()->
       #   # return unless thumbnail._visible
       #

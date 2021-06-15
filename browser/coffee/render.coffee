@@ -5,18 +5,16 @@ Take ["AssetCard", "Debounced", "DOOM", "Frustration", "Iterated", "Log", "Memor
   assetCount = document.querySelector "asset-count"
 
   renderCount = 1
-  assetsToRender = []
+  assetsToRender = {}
+  count = null
   lastQuery = null
 
-  Render = Debounced 50, ()->
+  Render = Debounced ()->
     assets = Memory "assets"
     return unless assets?
 
-    Log renderCount
-    renderCount++
-
-
-    assets = Object.values assets
+    # Log renderCount
+    # renderCount++
 
     query = State "search"
 
@@ -24,35 +22,30 @@ Take ["AssetCard", "Debounced", "DOOM", "Frustration", "Iterated", "Log", "Memor
       lastQuery = query
       elm.scrollTo 0, 0
 
-    assetsToRender = Search assets, query
-    hasResults = assetsToRender.length > 0
+    # Search will return a clone of assets that we are safe to mutate
+    [assetsToRender, count] = Search assets, query
+
+    hasResults = count > 0
 
     elm.replaceChildren()
+
     update() if hasResults
 
-    # frag = new DocumentFragment()
-    # for asset, i in assetsToRender[0..100]
-    #   renderAsset asset, i, frag
-    # DOOM.append elm, frag
-
-    DOOM assetCount, innerHTML: String.pluralize(assetsToRender.length, "%% <span>Asset") + "</span>"
+    DOOM assetCount, innerHTML: String.pluralize(count, "%% <span>Asset") + "</span>"
 
     DOOM noAssets, display: if hasResults then "none" else "block"
     DOOM rainbowClouds, display: if hasResults then "none" else "block"
     rainbowClouds.style.animationPlayState = if hasResults then "paused" else "playing"
     DOOM noAssets.querySelector("h1"), textContent: Frustration renderCount unless hasResults
 
-  update = Iterated 50, (more)->
+  update = Iterated 500, (more)->
     frag = new DocumentFragment()
-    for asset, i in assetsToRender when asset
-      renderAsset asset, i, frag
+    for id, asset of assetsToRender when asset
+      card = AssetCard asset
+      assetsToRender[id] = null
+      DOOM.append frag, card
       break unless more()
     DOOM.append elm, frag
-
-  renderAsset = (asset, i, frag)->
-    card = AssetCard asset
-    assetsToRender[i] = null
-    DOOM.append frag, card
 
 
   Make "Render", Render

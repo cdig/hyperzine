@@ -4,7 +4,7 @@ Take ["Env", "Memory", "NativeThumbnail", "Ports", "Read", "SipsThumbnail"], (En
   promises = {}
 
 
-  Ports.on "create-thumbnail", (source)->
+  Ports.on "create-thumbnail", (source, size)->
     # Path to source file, relative to assets folder
     subpath = source.replace Memory("assetsFolder"), ""
 
@@ -15,11 +15,11 @@ Take ["Env", "Memory", "NativeThumbnail", "Ports", "Read", "SipsThumbnail"], (En
     return null unless ext in ["jpg", "jpeg", "png"]
 
     hash = String.hash subpath
-    dest = Read.path Memory("thumbnailsFolder"), "#{hash}.#{ext}"
+    dest = Read.path Memory("thumbnailsFolder"), "#{hash}-#{size}.#{ext}"
 
     return dest if await Read.exists dest
 
     if Env.isMac
-      return promises[source] ?= SipsThumbnail source, dest, ext
+      return promises[source] ?= SipsThumbnail source, dest, size, ext
     else
-      return promises[source] ?= NativeThumbnail source, dest, ext
+      return promises[source] ?= NativeThumbnail source, dest, size, ext

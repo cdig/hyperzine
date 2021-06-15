@@ -3,16 +3,29 @@ Take [], ()->
   subsort = (a, b)->
     a.name - b.name
 
+  bail = (assets)->
+    # Functions that call Search should expect to be able to mutate its return value,
+    # so we do a clone of the passed-in assets object before bailing.
+    assetsObj = {}
+    count = 0
+    for id, asset of assets
+      count++
+      assetsObj[id] = asset
+    [assetsObj, count]
+
+
   Make "Search", Search = (assets, input)->
-    return assets unless input?
+    return bail assets unless input?
+
     input = input.join " " if input instanceof Array
     queryTokens = input.toLowerCase().replace(/[-_]+/g, " ").split " "
 
     queryTokens = queryTokens.filter (t)-> t isnt ""
 
-    return assets if queryTokens.length is 0
+    return bail assets if queryTokens.length is 0
 
     rankedMatches = {}
+    count = 0
 
     for id, asset of assets
       points = 0
@@ -35,10 +48,12 @@ Take [], ()->
       if points > 0 # asset did match all the tokens
         (rankedMatches[points] ?= []).push asset
         asset._points = points
+        count++
 
-    filteredAssets = []
+    sortedAssets = {}
 
     for k in Object.keys(rankedMatches).sort().reverse()
-      filteredAssets.push rankedMatches[k].sort subsort
+      for asset in rankedMatches[k].sort subsort
+        sortedAssets[asset.id] = asset
 
-    filteredAssets.flat()
+    return [sortedAssets, count]

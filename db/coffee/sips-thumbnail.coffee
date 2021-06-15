@@ -5,9 +5,9 @@ Take ["Iterated", "Log"], (Iterated, Log)->
 
   iterate = Iterated 2, (more)->
     for source, v of iterating when v?
-      {dest, resolve} = v
+      {dest, resolve, size} = v
       iterating[source] = null
-      childProcess.exec "sips -Z 640 \"#{source}\" --out \"#{dest}\"", done resolve, dest
+      childProcess.exec "sips -Z #{size} \"#{source}\" --out \"#{dest}\"", done resolve, dest
       return unless more()
     iterating = {}
 
@@ -17,7 +17,7 @@ Take ["Iterated", "Log"], (Iterated, Log)->
     else
       resolve dest
 
-  Make "SipsThumbnail", SipsThumbnail = (source, dest)->
+  Make "SipsThumbnail", SipsThumbnail = (source, dest, size)->
     new Promise (resolve)->
-      iterating[source] = {dest, resolve}
+      iterating[source] = {dest, resolve, size}
       iterate()

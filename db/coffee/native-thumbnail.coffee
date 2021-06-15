@@ -20,10 +20,10 @@ Take ["Iterated", "Write"], (Iterated, Write)->
 
     iterating = {}
 
-  Make "NativeThumbnail", NativeThumbnail = (source, dest, ext)->
+  Make "NativeThumbnail", NativeThumbnail = (source, dest, size, ext)->
     new Promise (resolve)->
       try
-        image = await nativeImage.createThumbnailFromPath source, {width: 640, height: 640}
+        image = await nativeImage.createThumbnailFromPath source, {width: size, height: size}
         iterating[source] = {dest, ext, image, resolve}
         iterate()
       catch

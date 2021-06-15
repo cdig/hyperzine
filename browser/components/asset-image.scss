@@ -4,6 +4,10 @@ asset-image {
   align-items: flex-end;
   height: 9em;
 
+  &:hover {
+    z-index: 1;
+  }
+
   img, no-img {
     border-radius: 8px;
     border: 4px solid var(--page-bg);
@@ -30,19 +34,35 @@ asset-image {
     display: block;
     width: 100%;
     height: 9em;
-    font-size: 1em; // override common/no-img.scss
     line-height: 9em;
     white-space: pre;
     &::before {
       content: "";
       position: absolute;
-      width: 4em;
-      height: 3em;
-      left: calc(50% - 2em);
-      top:  calc(50% - 1.3em);
+      width: 8em;
+      height: 6em;
+      left: calc(50% - 4em);
+      top:  calc(50% - 3em);
       background: radial-gradient(ellipse 50% 50%, hsl(var(--hue), 100%, 50%) 20%, hsl(var(--hue), 100%, 10%));
       opacity: .2;
       border-radius: 100%;
     }
+  }
+}
+
+[hide-labels] asset-image {
+  height: 16em;
+  img, no-img {
+    border-radius: 0px;
+    border-width: 2px;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+    object-position: center;
+  }
+  no-img {
+    height: 16em;
+    line-height: 16em;
   }
 }
