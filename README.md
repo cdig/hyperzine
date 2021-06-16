@@ -5,13 +5,16 @@ An asset management system.
 ### Building
 
 ```
-# Deps:
+# Global deps:
 brew install node sass/sass/sass yarn
 npm install -g coffeescript
 git submodule update --init --recursive
 
-# Optional — custom Electron build (adjust path as needed):
+# Optional — custom Electron build
+# Download from: https://github.com/electron/electron/releases/tag/
+# Then put it on your PATH, eg:
 export ELECTRON_OVERRIDE_DIST_PATH=~/Work/electron/arm64
+# (I just include this in my dotfiles)
 
 # Run:
 yarn start

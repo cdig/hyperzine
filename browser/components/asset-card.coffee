@@ -3,7 +3,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
 
 
   unloadImage = (card)->
-    card._img.style.display = "none"
+    card._img?.style?.display = "none"
     card._loaded = false
 
 
@@ -50,7 +50,12 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
       card._hash ?= String.hash asset.id
       img = DOOM.create "no-img", null
       DOOM.create "span", img, textContent: Frustration card._hash
-      img.style.setProperty "--hue", card._hash % 360
+      hue = 71 * card._hash % 360
+      img.style.setProperty "--lit",    d3.lch  90, 30, hue
+      img.style.setProperty "--shaded", d3.lch  50, 70, hue
+      img.style.setProperty "--shadow", d3.lch  30, 90, hue
+      img.style.setProperty "--glow",   d3.lch 120, 60, hue
+      img.style.setProperty "--bg",     d3.lch 120, 20, hue
 
     img.onclick = ()-> IPC.send "open-asset", asset.id
     card._assetImageElm.replaceChildren img
