@@ -4,11 +4,14 @@ no-img {
   white-space: pre;
   color: var(--card-no-image-text);
   background: var(--card-no-image-bg);
-  &:hover {
-    background: var(--card-no-image-hover);
-  }
+
+  // &:hover {
+  //   background: var(--card-no-image-hover);
+  // }
 
   span {
+    position: relative; // Render in front of the colored "sphere"-like head
     font-size: 2em;
+    color: black;
   }
 }

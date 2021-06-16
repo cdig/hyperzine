@@ -5,44 +5,45 @@ Take ["AssetCard", "Debounced", "DOOM", "Frustration", "Iterated", "Log", "Memor
   assetCount = document.querySelector "asset-count"
 
   renderCount = 1
-  assetsToRender = {}
-  count = null
+  assetsToRender = []
   lastQuery = null
 
   Render = Debounced ()->
     assets = Memory "assets"
     return unless assets?
 
-    # Log renderCount
-    # renderCount++
-
     query = State "search"
 
     if query isnt lastQuery
       lastQuery = query
       elm.scrollTo 0, 0
+      AssetCard.unbuildCards()
 
-    # Search will return a clone of assets that we are safe to mutate
-    [assetsToRender, count] = Search assets, query
+    AssetCard.clearIndexes()
 
-    hasResults = count > 0
+    assetsToRender = Search assets, query
+
+    hasResults = assetsToRender.length > 0
 
     elm.replaceChildren()
 
     update() if hasResults
 
-    DOOM assetCount, innerHTML: String.pluralize(count, "%% <span>Asset") + "</span>"
+    DOOM assetCount, innerHTML: String.pluralize(assetsToRender.length, "%% <span>Asset") + "</span>"
 
     DOOM noAssets, display: if hasResults then "none" else "block"
     DOOM rainbowClouds, display: if hasResults then "none" else "block"
     rainbowClouds.style.animationPlayState = if hasResults then "paused" else "playing"
-    DOOM noAssets.querySelector("h1"), textContent: Frustration renderCount unless hasResults
 
-  update = Iterated 500, (more)->
+    # Log renderCount
+    DOOM noAssets.querySelector("h1"), textContent: Frustration renderCount unless hasResults
+    renderCount++
+
+  update = Iterated 5, (more)->
     frag = new DocumentFragment()
-    for id, asset of assetsToRender when asset
-      card = AssetCard asset
-      assetsToRender[id] = null
+    for asset, i in assetsToRender when asset
+      card = AssetCard asset, i
+      assetsToRender[i] = null
       DOOM.append frag, card
       break unless more()
     DOOM.append elm, frag

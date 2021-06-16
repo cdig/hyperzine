@@ -3,14 +3,19 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
 
 
   unloadImage = (card)->
-    card._assetImageElm.replaceChildren()
+    card._img.style.display = "none"
     card._loaded = false
 
 
   loadImage = (card)->
     asset = card._asset
 
-    unloadImage card, asset # Clear any old image
+    if card._loaded
+      card._img.style.display = "inline-block"
+      return
+
+    # card._assetImageElm.replaceChildren()
+    # unloadImage card, asset # Clear any old image
 
     card._loaded = true
 
@@ -50,6 +55,8 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
     img.onclick = ()-> IPC.send "open-asset", asset.id
     card._assetImageElm.replaceChildren img
 
+    card._img = img
+
 
   build = (card)->
     card._built = true
@@ -83,8 +90,11 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
   update = (card)->
     build card if card._visible and not card._built
     loadImage card if card._visible and not card._loaded
-    unloadImage card if not card._visible and card._loaded
-    # unbuild card if not card._visible and card._loaded
+    unloadImage card if not card._visible and card._loaded and (not card._index? or card._index > 100)
+
+    # The last part of this conditional (about _index) stops the results that are up near the search bar
+    # from flickering as you type in a search (due to OnScreen quickly alternating between invisible and visible).
+    # unbuild card if not card._visible and card._loaded and (not card._index? or card._index > 100)
 
 
   onScreen = (card, visible)->
@@ -102,16 +112,23 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
       delete cards[assetId]
       Memory.unsubscribe "assets.#{assetId}", cb
 
+  Make.async "AssetCard", AssetCard = (asset, index)->
+    card = cards[asset.id]
+    if not card?
+      card = cards[asset.id] = DOOM.create "asset-card"
+      card._asset = asset
+      OnScreen card, onScreen
+      Memory.subscribe "assets.#{asset.id}", false, assetChanged card, asset.id
+    card._index = index
+    card
 
-  Sub "Unbuild Cards", ()->
+
+  AssetCard.unbuildCards = ()->
     for assetId, card of cards when card._built and not card._visible
       unbuild card
 
+  Sub "Unbuild Cards", AssetCard.unbuildCards
 
-  Make "AssetCard", AssetCard = (asset)->
-    return card if card = cards[asset.id]
-    card = cards[asset.id] = DOOM.create "asset-card"
-    card._asset = asset
-    OnScreen card, onScreen
-    Memory.subscribe "assets.#{asset.id}", false, assetChanged card, asset.id
-    card
+  AssetCard.clearIndexes = ()->
+    for assetId, card of cards
+      card._index = null

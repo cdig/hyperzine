@@ -36,6 +36,10 @@ asset-image {
     height: 9em;
     line-height: 9em;
     white-space: pre;
+    background: radial-gradient(circle at 40% 60%, hsl(var(--hue), 100%, 90%), hsl(var(--hue), 0%, 90%));
+    &:hover {
+      background: inherit;
+    }
     &::before {
       content: "";
       position: absolute;
@@ -43,8 +47,9 @@ asset-image {
       height: 6em;
       left: calc(50% - 4em);
       top:  calc(50% - 3em);
-      background: radial-gradient(ellipse 50% 50%, hsl(var(--hue), 100%, 50%) 20%, hsl(var(--hue), 100%, 10%));
-      opacity: .2;
+      background: radial-gradient(ellipse 50% 50% at 40% 60%, hsl(var(--hue), 50%, 50%) 20%, hsl(var(--hue), 100%, 10%));
+      box-shadow: .2em -.2em .5em hsl(var(--hue), 100%, 10%);
+      opacity: .5;
       border-radius: 100%;
     }
   }

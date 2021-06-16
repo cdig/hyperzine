@@ -10,6 +10,6 @@ window-top.backdrop-filter {
   .ui { -webkit-app-region: no-drag; }
 
   &::before {
-    background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg));
+    background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg) 110%);
   }
 }
