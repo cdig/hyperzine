@@ -25,8 +25,12 @@ Take ["FileTree", "Ports", "Memory", "Read"], (FileTree, Ports, Memory, Read)->
       assetsFolder = Memory "assetsFolder"
       path = Read.path assetsFolder, id
       if await Read.isFolder path
-        asset = Memory "assets.#{id}"
-        asset ?= Asset.read path
+        if asset = Memory "assets.#{id}"
+          # We need to clone the asset, so that the below mutations don't mess with
+          # Memory's ability to detect changes.
+          asset = Object.clone asset
+        else
+          asset = Asset.read path
         asset.name = await Asset.build.name asset
         asset.shot = await Asset.build.shot asset
         asset.tags = await Asset.build.tags asset

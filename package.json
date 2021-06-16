@@ -68,8 +68,8 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "DOOM": "ivanreese/doom",
     "d3-color": "^3.0.1",
-    "doom": "ivanreese/doom",
     "electron": "14.0.0-beta.3",
     "electron-packager": "latest",
     "npm-run-all": "latest",

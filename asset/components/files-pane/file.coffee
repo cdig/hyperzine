@@ -26,9 +26,15 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
     #   img = DOOM.create "img", thumbnail, src: filePath
     else if isVideo file
       type = "video"
+
+      # TODO: trigger this to play with JS, so we can make sure its muted
       img = DOOM.create "video", thumbnail,
-        autoplay: ""
+        # autoplay: ""
         muted: ""
+        controls: ""
+        controlslist: "nodownload nofullscreen noremoteplayback"
+        disablepictureinpicture: ""
+        disableremoteplayback: ""
         loop: ""
         src: filePath
     else

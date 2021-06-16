@@ -11,7 +11,7 @@ Take ["Debounced", "Log", "Memory", "Ports", "Read", "Write"], (Debounced, Log, 
 
   enabled = false
   changed = {}
-  permittedKeys = name: "Name", shot: "Shot"#, tags: "Tags", files: "Files"
+  permittedKeys = name: "Name", shot: "Shot", tags: "Tags"#, files: "Files"
   validName = (name)-> -1 is name.search /[^\w &-(),]/
 
   update = Debounced 2000, ()->
@@ -45,7 +45,41 @@ Take ["Debounced", "Log", "Memory", "Ports", "Read", "Write"], (Debounced, Log, 
     Write.sync.rm path
 
   updateProperty = (id, folder, v)->
+    if v instanceof Array
+      writeArray id, folder, v
+    else
+      writeString id, folder, v
+
+
+  writeArray = (id, folder, arr)->
     assetsFolder = Memory "assetsFolder"
+    kPath = Read.path assetsFolder, id, folder
+
+    # We don't need to do the write if the FS is already correct
+    current = await Read.async kPath
+    return if Array.equal arr, current
+
+    # Remove anything that's in the folder but not in our new array
+    for v in current when v not in arr
+      Write.sync.rm Read.path kPath, v
+
+    # Save anything that's in our new array but not in the folder
+    for v in arr when v not in current
+
+      vPath = Read.path kPath, v
+
+      if validName v
+        Write.sync.mkdir vPath
+      else
+        Log "Can't write value #{v} to the filesystem (see console)"
+        console.log id, folder, v
+
+    null
+
+
+  writeString = (id, folder, v)->
+    assetsFolder = Memory "assetsFolder"
+
     unless validName v
       Log "Can't write value #{v} to the filesystem (see console)"
       console.log id, folder, v
@@ -53,12 +87,10 @@ Take ["Debounced", "Log", "Memory", "Ports", "Read", "Write"], (Debounced, Log, 
 
     kPath = Read.path assetsFolder, id, folder
     vPath = Read.path kPath, v
-    # Log "kPath #{Read.path id, folder}"
-    # Log "vPath #{vPath}"
 
     # We don't need to do the write if the FS is already correct
     current = await Read.async kPath
-    return if current?.length is 1 and current[0] is v
+    return if Array.equal current, [v]
 
     # Clear old value
     deleteProperty id, folder

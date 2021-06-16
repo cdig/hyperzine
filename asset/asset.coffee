@@ -7,6 +7,7 @@ Take ["IPC", "Memory", "Render", "State"], (IPC, Memory, Render, State)->
 
   Memory.subscribe "assets.#{assetId}", true, (asset)->
     if asset?
+      console.log asset.tags
       State "asset", asset
       Render()
     else

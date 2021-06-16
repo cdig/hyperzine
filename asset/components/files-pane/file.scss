@@ -20,6 +20,10 @@
     background: var(--card-image-bg);
   }
 
+  video {
+    width: 100%;
+  }
+
   no-img, .loading {
     display: block;
     line-height: 4em;

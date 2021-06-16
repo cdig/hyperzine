@@ -70,6 +70,10 @@
   dependencies:
     "@types/node" "*"
 
+DOOM@ivanreese/doom:
+  version "6666.0.0"
+  resolved "https://codeload.github.com/ivanreese/doom/tar.gz/80f9324813c402aac1e1e8996b88d1d4ab604bbd"
+
 ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
@@ -361,10 +365,6 @@ detect-node@^2.0.4:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/detect-node/-/detect-node-2.1.0.tgz#c9c70775a49c3d03bc2c06d9a73be550f978f8b1"
   integrity sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==
-
-doom@ivanreese/doom:
-  version "1000.0.0"
-  resolved "https://codeload.github.com/ivanreese/doom/tar.gz/516e3ee8465a6e88abdb8d81de5fa733af48bbe7"
 
 duplexer3@^0.1.4:
   version "0.1.4"
