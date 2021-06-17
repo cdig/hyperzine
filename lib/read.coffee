@@ -3,12 +3,12 @@ Take [], ()->
   path = require "path"
 
   validFileName = (v)->
-    return false if v.indexOf(".") is 0 # Exclude dotfiles
+    return false if 0 is v.indexOf "." # Exclude dotfiles
+    return false if -1 isnt name.search /[<>:;,?"*|/\\]/ # Exclude names we won't be able to roundtrip
     return true # Everything else is good
 
   validDirentName = (v)->
-    return false if v.name.indexOf(".") is 0 # Exclude dotfiles
-    return true # Everything else is good
+    validFileName v.name
 
   filterValidDirentName = (vs)->
     vs.filter validDirentName
