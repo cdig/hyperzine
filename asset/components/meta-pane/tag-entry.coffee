@@ -1,22 +1,89 @@
-Take ["DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (DOOM, Memory, Paths, State)->
+Take ["Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Debounced, DOOM, Memory, Paths, State)->
 
   input = document.querySelector "tag-entry input"
+  suggestionList = document.querySelector "tag-entry suggestion-list"
 
-  # Block newlines in typable fields (needs to be keydown to avoid flicker)
-  window.addEventListener "keydown", (e)->
-    e.preventDefault() if e.keyCode is 13
+  focused = false
+  highlightIndex = 0
 
-  window.addEventListener "keydown", (e)->
+  update = Debounced.raf ()->
+    hasInput = input.value?.length > 0
+
+    matches = []
+
+    if hasInput
+      value = input.value.toLowerCase()
+      for tag of Memory "tags" when tag.toLowerCase().startsWith value
+        matches.push tag
+
+      frag = new DocumentFragment()
+      highlightIndex = (highlightIndex + matches.length+1) % (matches.length+1)
+
+      for tag, i in Array.sortAlphabetic matches
+        DOOM.create "div", frag,
+          textContent: tag
+          showHighlight: if i+1 is highlightIndex then "" else null
+      suggestionList.replaceChildren frag
+
+    show = focused and hasInput and matches.length > 0
+    suggestionList.style.display = if show then "block" else "none"
+    highlightIndex = 0 unless show
+
+
+  highlightNext = ()->
+    highlightIndex++
+    update()
+
+  highlightPrev = ()->
+    highlightIndex--
+    update()
+
+
+  input.addEventListener "focus", (e)->
+    focused = true
+    highlightIndex = 0
+    update()
+
+  input.addEventListener "blur", (e)->
+    focused = false
+    update()
+
+  input.addEventListener "change", update
+  input.addEventListener "input", update
+
+  input.addEventListener "keydown", (e)->
     switch e.keyCode
-      when 13
+      when 13 # return
+        e.preventDefault()
         value = input.value
+
+        if highlighted = suggestionList.querySelector "[show-highlight]"
+          value = highlighted.textContent
+
         if value?.length > 0
           asset = State "asset"
           tags = Array.clone Memory "assets.#{asset.id}.tags"
           tags.push value
-          Memory "assets.#{asset.id}.tags", tags
+          Memory "assets.#{asset.id}.tags", Array.sortAlphabetic tags
           Memory "tags.#{value}", value
           input.value = ""
 
-      when 27
+        highlightIndex = 0
+        update()
+
+      when 27 # esc
+        highlightIndex = 0
         input.value = ""
+        input.blur()
+
+      when 38 # up
+        e.preventDefault()
+        highlightPrev()
+
+      when 40 # down
+        e.preventDefault()
+        highlightNext()
+
+      else
+        highlightIndex = 0
+        update()

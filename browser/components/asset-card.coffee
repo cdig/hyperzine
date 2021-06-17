@@ -80,7 +80,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
     fileCount = DOOM.create "file-count", metaList,
       textContent: String.pluralize asset.files.count, "%% File"
 
-    for v in asset.tags
+    for v in Array.sortAlphabetic asset.tags
       DOOM.create "tag-item", metaList, textContent: v
 
     card.replaceChildren frag

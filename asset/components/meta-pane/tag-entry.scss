@@ -1,4 +1,18 @@
 tag-entry {
+  position: relative;
   display: block;
   margin-top: .4em;
+
+  suggestion-list {
+    display: none;
+
+    position: absolute;
+    top: 2em;
+    background: var(--meta-bg);
+    padding: .5em;
+
+    [show-highlight] {
+      background: red;
+    }
+  }
 }

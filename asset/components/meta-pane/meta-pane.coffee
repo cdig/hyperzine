@@ -40,7 +40,7 @@ Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Met
 
       tagList.replaceChildren()
       frag = new DocumentFragment()
-      for tag in asset.tags
+      for tag in Array.sortAlphabetic asset.tags
         tagItem = DOOM.create "tag-item", frag, textContent: tag
         DOOM.create "span", tagItem, textContent: "x", click: remove tag
       tagList.append frag
