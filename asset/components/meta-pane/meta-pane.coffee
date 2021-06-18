@@ -5,7 +5,12 @@ Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Met
   assetHistory = metaPane.querySelector "[asset-history]"
   tagList = metaPane.querySelector "tag-list"
 
-  assetName.addEventListener "blur", (e)-> setAssetName()
+  assetName.addEventListener "focus", (e)->
+    assetName._focused = true
+
+  assetName.addEventListener "blur", (e)->
+    assetName._focused = false
+    setAssetName()
 
   assetName.addEventListener "keydown", (e)->
     if e.keyCode is 13
@@ -36,7 +41,9 @@ Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Met
   Make "MetaPane", MetaPane =
     render: ()->
       asset = State "asset"
-      DOOM assetName, textContent: asset.name or asset.id
+
+      if not assetName._focused
+        DOOM assetName, textContent: asset.name or asset.id
 
       tagList.replaceChildren()
       frag = new DocumentFragment()

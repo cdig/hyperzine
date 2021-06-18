@@ -12,6 +12,7 @@ Take ["Env", "Log", "Memory", "Read"], (Env, Log, Memory, Read)->
     throw "Not Implemented"
 
   Write.sync = {}
+  Write.async = {}
 
   logWrite = (fn, p)->
     p = p.replace Memory("assetsFolder"), "" unless p is Memory("assetsFolder")
@@ -55,3 +56,17 @@ Take ["Env", "Log", "Memory", "Read"], (Env, Log, Memory, Read)->
     # Save anything that's in our new array but not in the folder
     Write.sync.mkdir Read.path path, v for v in arr when v not in current
     null
+
+
+  Write.async.copyInto = (src, destFolder)->
+    srcName = Array.last Read.split src
+    if await Read.isFolder src
+      childDestFolder = Read.path destFolder, srcName
+      Write.sync.mkdir childDestFolder
+      valid = true
+      for item in Read.sync src
+        _valid = Write.async.copyInto Read.path(src, item), childDestFolder
+        valid &&= _valid
+      return valid
+    else
+      Write.sync.copyFile src, Read.path destFolder, srcName

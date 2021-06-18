@@ -15,6 +15,10 @@ button {
   // border: 1px solid currentColor;
   // background: var(--page-bg);
   // opacity: 0;
+
+  &:disabled {
+    opacity: .5;
+  }
 }
 
 html.blur button {

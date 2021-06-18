@@ -12,17 +12,24 @@ Take ["Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Deb
     matches = []
 
     if hasInput
+      asset = State "asset"
       value = input.value.toLowerCase()
-      for tag of Memory "tags" when tag.toLowerCase().startsWith value
+      for tag of Memory "tags"
+        continue unless tag.toLowerCase().startsWith value
+        continue if tag in asset.tags
         matches.push tag
 
       frag = new DocumentFragment()
       highlightIndex = (highlightIndex + matches.length+1) % (matches.length+1)
 
+      delay = State("rainbow-before-delay") - 3
+      State "rainbow-before-delay", delay
+      document.body.style.setProperty "--rainbow-delay", "#{delay}ms"
+
+
       for tag, i in Array.sortAlphabetic matches
-        DOOM.create "div", frag,
-          textContent: tag
-          showHighlight: if i+1 is highlightIndex then "" else null
+        tagElm = DOOM.create "div", frag, rainbowBefore: if i+1 is highlightIndex then "" else null
+        DOOM.create "span", tagElm, textContent: tag
       suggestionList.replaceChildren frag
 
     show = focused and hasInput and matches.length > 0

@@ -4,7 +4,7 @@ Take ["Debounced", "Log", "Memory", "Read", "Write"], (Debounced, Log, Memory, R
   changed = {}
   permittedKeys = name: "Name", shot: "Shot", tags: "Tags"#, files: "Files"
 
-  update = Debounced 2000, ()->
+  update = Debounced.raf ()->
     for id, changes of changed
       if changes? then updateAsset id, changes else deleteAsset id
     changed = {}

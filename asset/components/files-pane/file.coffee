@@ -21,15 +21,14 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
       type = "folder"
       img = DOOM.create "no-img", thumbnail
       DOOM.create "span", img, textContent: "📁"
-    # else if isImage file
-    #   type = "image"
-    #   img = DOOM.create "img", thumbnail, src: filePath
+      makeBubble meta, file.count + " Items"
+
     else if isVideo file
       type = "video"
 
       # TODO: trigger this to play with JS, so we can make sure its muted
       img = DOOM.create "video", thumbnail,
-        # autoplay: ""
+        autoplay: ""
         muted: ""
         controls: ""
         controlslist: "nodownload nofullscreen noremoteplayback"
@@ -37,37 +36,18 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
         disableremoteplayback: ""
         loop: ""
         src: filePath
+
+      img.addEventListener "loadedmetadata", ()->
+        img.muted = true # It seems the attr isn't working, so we gotta do this
+        if img.duration
+          makeBubble meta, Math.round(img.duration) + "s"
+
     else
       loading = DOOM.create "div", thumbnail, class: "loading", textContent: "Loading"
       src = await DB.send "create-thumbnail", file.path, 512
       src ?= await IPC.invoke "get-file-icon", file.path
       img = DOOM.create "img", null, src: src
       thumbnail.replaceChildren img
-
-      # .then (image)->
-      #   type = "nativeImage"
-      #
-      # .catch ()->
-      #   if file.name.indexOf(".") > 0
-      #     type = "document"
-      #     name = Array.last file.name.toUpperCase().split(".")
-      #   else
-      #     type = "unknown"
-      #     name = ""
-      #   img = DOOM.create "no-img", null
-      #   DOOM.create "span", img, textContent: name
-      # .finally ()->
-      #   # return unless thumbnail._visible
-      #
-
-    # switch type
-    #   when "video"
-    #     img.addEventListener "loadedmetadata", ()->
-    #       img.muted = true # It seems the attr isn't working, so we gotta do this
-    #       if img.duration
-    #         makeBubble meta, Math.round(img.duration) + "s"
-    #   when "folder"
-    #     makeBubble meta, file.count + " Items"
 
 
   # unloadThumbnail = (thumbnail)->

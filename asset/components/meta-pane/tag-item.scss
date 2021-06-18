@@ -16,11 +16,15 @@ tag-item {
     height: 2ex;
     width: 2ex;
     line-height: 1.5ex;
-    border-radius: 2px;
+    border-radius: 4px;
     text-align: center;
     color: var(--button-text);
     background: var(--button-bg);
     border: 1px solid var(--ui-border);
+
+    &:hover {
+      background: var(--button-active-bg);
+    }
   }
 
   &:hover span {

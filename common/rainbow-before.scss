@@ -1,0 +1,21 @@
+[rainbow-before]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8000px;
+  height: 100%;
+  background:
+    linear-gradient(to right,    var(--rainbow-a), transparent,      transparent,      var(--rainbow-a), transparent,      transparent,      var(--rainbow-a), transparent,      transparent),
+    linear-gradient(to right,    transparent,      var(--rainbow-b), transparent,      transparent,      var(--rainbow-b), transparent,      transparent,      var(--rainbow-b), transparent),
+    linear-gradient(to right,    transparent,      transparent,      var(--rainbow-c), transparent,      transparent,      var(--rainbow-c), transparent,      transparent,      var(--rainbow-c));
+  opacity: .2;
+  animation: rainbow-before 1s linear infinite;
+  animation-delay: var(--rainbow-delay);
+  animation-play-state: paused;
+}
+
+@keyframes rainbow-before {
+  from { transform: translateX(-12.5%) }
+  to { transform: translateX(-50%) }
+}

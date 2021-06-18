@@ -3,16 +3,39 @@ tag-entry {
   display: block;
   margin-top: .4em;
 
+  input {
+    position: relative;
+    width: 100%;
+    z-index: 2;
+  }
+
   suggestion-list {
     display: none;
 
     position: absolute;
-    top: 2em;
+    top: 0em;
+    left: 0em;
+    min-width: calc(100% + 0em);
     background: var(--meta-bg);
-    padding: .5em;
+    border-radius: 8px;
+    padding: 2.4em .4em .4em;
 
-    [show-highlight] {
-      background: red;
+    div {
+      position: relative;
+      padding: .2em .4em;
+
+      span {
+        position: relative;
+        z-index: 2;
+      }
+    }
+
+    [rainbow-before] {
+      border-radius: 4px;
+      overflow: hidden;
+      &::before {
+        opacity: .5;
+      }
     }
   }
 }
