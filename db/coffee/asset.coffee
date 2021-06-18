@@ -19,7 +19,7 @@ Take ["FileTree", "Ports", "Memory", "Read"], (FileTree, Ports, Memory, Read)->
       search: (asset)->
         name: searchPrep asset.name
         tags: searchPrep asset.tags.join " "
-        files: Array.unique FileTree.flatNames asset.files
+        files: Array.unique(FileTree.flatNames(asset.files)).map searchPrep
 
     loadFields: (id)->
       assetsFolder = Memory "assetsFolder"

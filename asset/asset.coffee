@@ -1,7 +1,7 @@
 # Take "GearView", (GearView)->
 #   GearView 24, 0#, class: "paused"
 
-Take ["IPC", "Memory", "Render", "State"], (IPC, Memory, Render, State)->
+Take ["IPC", "Memory", "PubSub", "Render", "State"], (IPC, Memory, {Sub}, Render, State)->
 
   assetId = await IPC.invoke "whats-my-asset"
 
@@ -14,3 +14,5 @@ Take ["IPC", "Memory", "Render", "State"], (IPC, Memory, Render, State)->
 
   Memory.subscribe "assets.#{assetId}.name", true, (name)->
     IPC.send "set-window-title", name if name?
+
+  Sub "Render", Render

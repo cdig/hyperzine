@@ -7,7 +7,7 @@ file-list {
   overscroll-behavior: contain;
 
   &::-webkit-scrollbar-track {
-    margin: 82px 0 5px;
+    margin: calc(82px + 1em) 0 1em;
   }
 
 }

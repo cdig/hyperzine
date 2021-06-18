@@ -16,6 +16,7 @@ Take [], ()->
     rankedMatches = {}
 
     for id, asset of assets
+
       points = 0
 
       for token in queryTokens

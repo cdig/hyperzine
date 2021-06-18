@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IPC, Log, OnScreen)->
+Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "PubSub", "DOMContentLoaded"], (DB, DOOM, IPC, Log, OnScreen, {Pub})->
   { nativeImage, shell } = require "electron"
 
   isImage = (file)->
@@ -26,7 +26,6 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
     else if isVideo file
       type = "video"
 
-      # TODO: trigger this to play with JS, so we can make sure its muted
       img = DOOM.create "video", thumbnail,
         autoplay: ""
         muted: ""
@@ -40,7 +39,7 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
       img.addEventListener "loadedmetadata", ()->
         img.muted = true # It seems the attr isn't working, so we gotta do this
         if img.duration
-          makeBubble meta, Math.round(img.duration) + "s"
+          makeBubble meta, "Length", Math.round(img.duration) + "s"
 
     else
       loading = DOOM.create "div", thumbnail, class: "loading", textContent: "Loading"
@@ -63,9 +62,9 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
     #   unloadThumbnail thumbnail
 
 
-  makeBubble = (elm, text)->
-    b = DOOM.create "div", elm, class: "bubble"
-    DOOM.create "span", b, textContent: text
+  makeBubble = (elm, label, value)->
+    b = DOOM.create "div", elm, class: "bubble", textContent: label or ""
+    DOOM.create "span", b, textContent: value or ""
     b
 
 
@@ -73,24 +72,40 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "DOMContentLoaded"], (DB, DOOM, IP
     elm = DOOM.create "div", null,
       class: "file"
       marginLeft: "#{depth+1}em"
+
+    thumbnail = DOOM.create "div", elm,
+      class: "thumbnail"
       draggable: "true"
-
-    thumbnail = DOOM.create "div", elm, class: "thumbnail"
-
-    OnScreen thumbnail, onscreen file, meta
 
     thumbnail.ondragstart = (e)->
       e.preventDefault()
       IPC.send "drag-file", file.path
+
+    if file.count
+      elm._show_children = false
+      thumbnail.onclick = ()->
+        elm._show_children = !elm._show_children
+        Pub "Render"
 
     info = DOOM.create "div", elm, class: "info"
 
     DOOM.create "div", info, class: "name", textContent: file.name
 
     meta = DOOM.create "div", info, class: "meta"
+    tools = DOOM.create "div", info, class: "tools"
 
-    show = DOOM.create "div", meta,
-      class: "i-eye"
+    show = DOOM.create "svg", tools,
+      class: "icon"
+      viewBox: "0 0 200 200"
+      innerHTML: "<use xlink:href='#i-eye'></use>"
       click: ()-> shell.showItemInFolder file.path
+
+    remove = DOOM.create "svg", tools,
+      class: "icon"
+      viewBox: "0 0 200 200"
+      innerHTML: "<use xlink:href='#i-ex'></use>"
+      disabled: ""
+
+    OnScreen thumbnail, onscreen file, meta
 
     elm

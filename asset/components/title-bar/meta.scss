@@ -1,0 +1,28 @@
+title-bar .meta div {
+  display: inline-block;
+  margin: .2em;
+  padding: .4em .8em;
+  border-radius: 2em;
+  font-weight: bold;
+
+  & > * {
+    display: inline-block;
+    font-weight: 900;
+    margin-left: .3em;
+    background-image: linear-gradient(#0002, #0002);
+    color: transparent;
+    backdrop-filter: brightness(50%) saturate(1000%);
+    @media(prefers-color-scheme: dark) {
+      backdrop-filter: saturate(250%) brightness(900%);
+    }
+    -webkit-mask-image: linear-gradient(white, white);
+    -webkit-mask-clip: text;
+  }
+}
+
+html.blur title-bar .meta div {
+  opacity: .4;
+  & > * {
+    color: var(--text-color);
+  }
+}

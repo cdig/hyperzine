@@ -10,10 +10,10 @@ Take ["DOOM", "Memory", "State", "DOMContentLoaded"], (DOOM, Memory, State)->
 
     frag = new DocumentFragment()
 
-    elm = DOOM.create "div", frag, textContent: "ID", class: "bubble"
+    elm = DOOM.create "div", frag, textContent: "ID"
     DOOM.create "span", elm, textContent: State("asset").id
 
-    elm = DOOM.create "div", frag, textContent: "Size", class: "bubble"
+    elm = DOOM.create "div", frag, textContent: "Size"
     DOOM.create "span", elm, textContent: size
 
     meta.replaceChildren frag

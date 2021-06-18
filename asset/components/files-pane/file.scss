@@ -5,6 +5,9 @@
 
   .thumbnail {
     flex: 0 0 10em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 10em;
     height: 10em;
     text-align: right;
@@ -40,7 +43,7 @@
       margin-left: .2em;
     }
 
-    .meta {
+    .meta, .tools {
       margin-top: .2em;
     }
 
@@ -49,6 +52,15 @@
       height: calc(1em * 80 / 112);
       background-color: currentColor;
       cursor: pointer;
+    }
+
+    .icon {
+      width: 1.4em;
+      height: 1.4em;
+      padding: .2em;
+      background: var(--button-bg);
+      border-radius: 4px;
+      margin: 0 .1em;
     }
   }
 }

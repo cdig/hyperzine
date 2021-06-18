@@ -36,9 +36,9 @@ html.blur {
 
 @media (prefers-color-scheme: dark) {
   html {
-    --bubble-bg: #0007;
-    --bubble-text-a: hsl(46, 0%, 50%);
-    --bubble-text-b: hsl(34, 0%, 50%);
+    --bubble-bg: #111;
+    --bubble-text-a: hsl(46, 0%, 80%);
+    --bubble-text-b: hsl(34, 0%, 60%);
     --button-bg: #555;
     --button-text: #fff;
     --button-active-bg: hsl(204, 0%, 53%);
