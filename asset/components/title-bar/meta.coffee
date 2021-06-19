@@ -6,7 +6,7 @@ Take ["DOOM", "Memory", "State", "DOMContentLoaded"], (DOOM, Memory, State)->
   State.subscribe "asset", false, (asset)-> if asset?
     size = await new Promise (resolve)->
       exec "du -sh '#{asset.path}'", (err, val)->
-        resolve err or (val.split("\t")[0] + "B")
+        resolve err or (val.split("\t")[0] + "B").replace("BB", "B")
 
     frag = new DocumentFragment()
 

@@ -12,7 +12,9 @@ Take ["FileTree", "Ports", "Memory", "Read"], (FileTree, Ports, Memory, Read)->
       creator: id.split(" ")[0...-1].join " "
 
     build:
-      name: (asset)-> Read.async(Read.path asset.path, "Name").then first
+      name: (asset)->
+        name = await Read.async(Read.path asset.path, "Name").then first
+        (name or asset.id).trim()
       shot: (asset)-> Read.async(Read.path asset.path, "Shot").then first
       tags: (asset)-> Read.async(Read.path asset.path, "Tags").then arrayPun
       files: (asset)-> FileTree.build asset.path, "Files"

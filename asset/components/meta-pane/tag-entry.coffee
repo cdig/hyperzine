@@ -64,7 +64,7 @@ Take ["Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Deb
         e.preventDefault()
         value = input.value
 
-        if highlighted = suggestionList.querySelector "[show-highlight]"
+        if highlighted = suggestionList.querySelector "[rainbow-before]"
           value = highlighted.textContent
 
         if value?.length > 0

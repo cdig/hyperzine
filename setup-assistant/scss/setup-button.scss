@@ -1,20 +1,13 @@
-button {
+setup-button {
+  margin: 0 .4em;
   padding: .4em .6em;
-  border: none;
-  outline: none;
   border-radius: 4px;
+  border: 1px solid currentColor;
   color: var(--button-text);
-  background-color: var(--button-bg);
+  background: var(--page-bg);
   &:active:hover { background-color: var(--button-active-bg); }
-
+  mix-blend-mode: overlay;
   user-select: none;
   cursor: default;
-
-  &:disabled {
-    opacity: .5;
-  }
-}
-
-html.blur button {
-  opacity: .5;
+  opacity: 0;
 }

@@ -2,7 +2,7 @@ html {
   text-align: center;
 
   -webkit-app-region: drag;
-  .ui, button, a, input { -webkit-app-region: no-drag; }
+  .ui, setup-button, a, input { -webkit-app-region: no-drag; }
 
   --page-bg: #fff;
 

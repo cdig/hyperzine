@@ -42,10 +42,10 @@ Take ["Env", "Handlers", "IPC", "Menu", "Window"], (Env, Handlers, IPC, Menu, Wi
 
   # Everything is ready — open a browser window.
   # Eventually, we might want to restore whichever windows were open when we last quit
-  # Window.open.browser()
+  Window.open.browser()
 
   # Whenever we switch to the app, let the window manager know.
-  # app.on "activate", Window.activate
+  app.on "activate", Window.activate
 
-  setTimeout (()-> Window.open.asset "iMckelvie 1284"), 800
+  # setTimeout (()-> Window.open.asset "iMckelvie 1284"), 800
   # setTimeout (()-> Window.open.asset "CDIG Touch 1"), 1000

@@ -24,8 +24,8 @@
     <div><gear-view></gear-view></div>
     <h1>Hyperzine</h1>
     <div class="buttons">
-      <button back-button quit-button>Quit</button>
-      <button next-button>Set Up</button>
+      <setup-button back-button quit-button>Quit</setup-button>
+      <setup-button next-button>Set Up</setup-button>
     </div>
   </div>
 
@@ -34,7 +34,7 @@
       <p>Hyperzine needs a place to store data.</p>
       <p path-reason></p>
       <div class="field" data-folder></div>
-    <button next-button>Looks Good To Me</button>
+    <setup-button next-button>Looks Good To Me</setup-button>
     <a select-folder>Select a different folder?</a>
     <div class="buttons">
       <a back-button>Back</a>
@@ -52,10 +52,10 @@
 
   <div class="screen" id="existing-assets">
     <h1>Existing Assets</h1>
-      <p>Hyperzine will scan your selected folder for assets.</p>
+      <p>Hyperzine has scanned the selected folder for assets.</p>
       <p>If everything looks good, you can proceed.</p>
       <h3 existing-assets></h3>
-      <button next-button>Seems Good</button>
+      <setup-button next-button>Seems Good</setup-button>
     <div class="buttons">
       <a back-button>Back</a>
     </div>
@@ -63,10 +63,14 @@
 
   <div class="screen" id="local-name">
     <h1>Local Name</h1>
-      <p>Hyperzine needs a unique name for every computer it's installed on. If the same name is used on multiple computers, this can lead to sync conflicts.</p>
+      <p>
+        Hyperzine needs a unique name on each computer.<br>
+        If the same name is used on two computers,<br>
+        this can lead to sync conflicts.
+      </p>
       <p>Enter a unique name for this computer:</p>
       <div class="field" local-name contenteditable autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
-    <button next-button>That's My Name</button>
+    <setup-button next-button>That's My Name</setup-button>
     <div class="buttons">
       <a back-button>Back</a>
     </div>
@@ -75,7 +79,7 @@
   <div class="screen" id="setup-done">
     <h1>🍰</h1>
     <h3>Hyperzine is Ready</h3>
-    <button next-button>Piece of Cake!</button>
+    <setup-button next-button>Piece of Cake!</setup-button>
     <div class="buttons">
       <a back-button>Back</a>
     </div>

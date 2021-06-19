@@ -81,6 +81,8 @@ Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
   template.push
     role: "help"
     submenu: [
+      { label: "Hyperzine Guide", click: ()-> shell.openExternal "https://github.com/cdig/hyperzine/wiki/Hyperzine-Guide" }
+      { type: "separator" }
       { label: "Report a Problem or Feature Request…", click: ()-> shell.openExternal "https://github.com/cdig/hyperzine/issues/new" }
       { label: "All Open Issues", click: ()-> shell.openExternal "https://github.com/cdig/hyperzine/issues" }
       { label: "Beep for Good Luck", click: ()-> shell.beep() }

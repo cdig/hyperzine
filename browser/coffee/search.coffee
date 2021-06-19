@@ -1,17 +1,20 @@
 Take [], ()->
 
-  subsort = (a, b)->
-    a.name - b.name
+  sortByName = (a, b)->
+    a.name.localeCompare b.name
+
+  bail = (assets)->
+    Object.values(assets).sort sortByName
 
   Make "Search", Search = (assets, input)->
-    return Object.values assets unless input?
+    return bail assets unless input?
 
     input = input.join " " if input instanceof Array
     queryTokens = input.toLowerCase().replace(/[-_]+/g, " ").split " "
 
     queryTokens = queryTokens.filter (t)-> t isnt ""
 
-    return Object.values assets if queryTokens.length is 0
+    return bail assets if queryTokens.length is 0
 
     rankedMatches = {}
 
@@ -41,7 +44,7 @@ Take [], ()->
     sortedAssets = []
 
     for key in Object.keys(rankedMatches).sort().reverse()
-      sortedRank = rankedMatches[key].sort subsort
+      sortedRank = rankedMatches[key].sort sortByName
       sortedAssets = sortedAssets.concat sortedRank
 
     return sortedAssets
