@@ -110,6 +110,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
   assetChanged = (card, assetId)-> cb = (asset)->
     if asset?
       card._asset = asset
+      card._loaded = false
       card._built = false
       update card
     else

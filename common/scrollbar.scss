@@ -11,4 +11,9 @@
 
 ::-webkit-scrollbar-track {
   margin: 38px 0 5px;
+  background: none;
+}
+
+::-webkit-scrollbar-corner {
+  background: none;
 }
