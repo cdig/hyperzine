@@ -101,7 +101,7 @@ Take ["Log"], (Log)->
     runCbs subscriptions, memory, changes
 
   runCbsWithin = (parent, v)->
-    return unless Object.isObject parent
+    return unless Object.type parent
     for k, child of parent when k isnt "_cbs"
       _v = v?[k]
       runCbsWithin child, _v
