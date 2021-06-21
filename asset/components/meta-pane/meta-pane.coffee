@@ -1,4 +1,4 @@
-Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (MetaTools, DOOM, Memory, Paths, State)->
+Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "TagList", "DOMContentLoaded"], (MetaTools, DOOM, Memory, Paths, State, TagList)->
   metaPane = document.querySelector "meta-pane"
   assetName = metaPane.querySelector "[asset-name]"
   addNote = metaPane.querySelector "[add-note]"
@@ -31,7 +31,7 @@ Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Met
     return unless v.length and assetNameValid()
     Memory "assets.#{asset.id}.name", v
 
-  remove = (tag)-> (e)->
+  removeTag = (tag)-> (e)->
     asset = State "asset"
     tags = Memory "assets.#{asset.id}.tags"
     tags = [].concat tags
@@ -45,9 +45,4 @@ Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Met
       if not assetName._focused
         DOOM assetName, textContent: asset.name or asset.id
 
-      tagList.replaceChildren()
-      frag = new DocumentFragment()
-      for tag in Array.sortAlphabetic asset.tags
-        tagItem = DOOM.create "tag-item", frag, textContent: tag
-        DOOM.create "span", tagItem, textContent: "x", click: remove tag
-      tagList.append frag
+      tagList.replaceChildren TagList asset, removeTag

@@ -4,4 +4,8 @@ meta-pane {
   flex: 1 1 50%;
   padding: calc(82px + 1em) 1em 0;
   border-left: 1px solid var(--tool-bar-bg);
+
+  tag-list {
+    margin-top: 2em;
+  }
 }

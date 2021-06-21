@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "PubSub", "Read", "DOMContentLoaded"], (DB, DOOM, Frustration, IPC, Log, Memory, OnScreen, Paths, {Sub}, Read)->
+Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "PubSub", "Read", "TagList", "DOMContentLoaded"], (DB, DOOM, Frustration, IPC, Log, Memory, OnScreen, Paths, {Sub}, Read, TagList)->
   cards = {}
 
 
@@ -75,13 +75,12 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
 
     DOOM.create "asset-name", label, textContent: asset.name or asset.id
 
-    metaList = DOOM.create "meta-list", label
+    tagList = DOOM.create "tag-list", label
 
-    fileCount = DOOM.create "file-count", metaList,
+    fileCount = DOOM.create "file-count", tagList,
       textContent: String.pluralize asset.files.count, "%% File"
 
-    for v in Array.sortAlphabetic asset.tags
-      DOOM.create "tag-item", metaList, textContent: v
+    tagList.append TagList asset
 
     card.replaceChildren frag
 
