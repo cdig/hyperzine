@@ -1,4 +1,6 @@
 Take ["Iterated", "Write"], (Iterated, Write)->
+  { nativeImage } = require "electron"
+
   iterating = {}
 
   iterate = Iterated 2, (more)->
@@ -27,4 +29,4 @@ Take ["Iterated", "Write"], (Iterated, Write)->
         iterating[source] = {dest, ext, image, resolve}
         iterate()
       catch
-        return null
+        resolve null

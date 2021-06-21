@@ -2,6 +2,8 @@ Take ["Debounced", "Env", "Log", "Memory", "Read", "Write"], (Debounced, Env, Lo
 
   # This lists all the keys we'll persist in the config file, with their default values
   configData =
+    assetThumbnailSize: 0.5
+    browserThumbnailSize: 1
     dataFolder: Env.defaultDataFolder
     localName: Env.computerName
     setupDone: false
@@ -21,7 +23,7 @@ Take ["Debounced", "Env", "Log", "Memory", "Read", "Write"], (Debounced, Env, Lo
       configData[k] = v
       save()
 
-  save = Debounced ()->
+  save = Debounced 500, ()->
     Write.sync.json Env.configPath, configData
 
   Make "Config", Config = ()->

@@ -63,7 +63,6 @@ Take [], ()->
 
     input = input.join " " if input instanceof Array
     queryTokens = tokenizeQuery input
-    console.log queryTokens
 
     return bail assets if queryTokens.length is 0
 

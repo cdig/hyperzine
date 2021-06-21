@@ -29,7 +29,8 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
           break
 
     if shotSourcePath
-      loading = DOOM.create "div", null, class: "loading", textContent: "Loading"
+      loading = DOOM.create "no-img", null, class: "loading", innerHTML: "<span>Loading</span>"
+      card._assetImageElm.replaceChildren loading
 
       size = if DOOM(document.body, "hideLabels") is "" then 128 else 512
       thumbPath = card._thumbPath ?= await DB.send "create-thumbnail", shotSourcePath, size
