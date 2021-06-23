@@ -1,3 +1,5 @@
+# TODO: Clear up the naming so that everything is explicitly Read.sync.foo or Read.async.foo
+
 Take [], ()->
   fs = require "fs"
   path = require "path"
