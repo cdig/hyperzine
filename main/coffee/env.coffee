@@ -16,8 +16,13 @@ Take [], ()->
 
   Env.computerName = if Env.isMac then childProcess.execSync("scutil --get ComputerName").toString().replace("\n","") else os.hostname()
 
-  Env.configPath = path.join Env.userData, "config.json"
+  # Persisted user preferences and other per-install app state that will be managed by the DB window
+  Env.configPath = path.join Env.userData, "Config.json"
 
+  # Persisted per-install app state that will be managed by the Main process
+  Env.mainStatePath = path.join Env.userData, "Main State.json"
+
+  # Where the assets and other globally-shared data managed by Hyperzine will live
   Env.defaultDataFolder = path.join Env.home, "Dropbox", "System", "Hyperzine"
 
   Make "Env", Env

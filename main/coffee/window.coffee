@@ -1,4 +1,4 @@
-Take ["Env"], (Env)->
+Take ["Env", "MainState"], (Env, MainState)->
   { app, BrowserWindow, nativeTheme } = require "electron"
 
   defaultWindow =
@@ -11,12 +11,14 @@ Take ["Env"], (Env)->
       nodeIntegration: true
       scrollBounce: true
 
+  defaultBounds =
+    asset: width: 960, height: 540
+    browser: width: 1280, height: 720
+    db: x: 0, y: 0, width: 500, height: 400
+    "setup-assistant": width: 480, height: 540
+
   windowIndexes = {}
-  windowBounds =
-    asset: []
-    browser: []
-    db: []
-    "setup-assistant": []
+  windowBounds = null
 
   windowData = {}
 
@@ -42,41 +44,29 @@ Take ["Env"], (Env)->
   clearIndex = (type, index)->
     windowIndexes[type][index] = null
 
-  # LAPTOP — 1440 x 900
-  devToolsWidth = 0
-  defaultBounds =
-    asset: width: 1440, height: 900
-    browser: x: 0, y: 0, width: 1440, height:900
-    db: x: 0, y: 0, width: 500, height: 400
-    "setup-assistant": width: 480, height: 540
-
-  # 27" MONITOR — 2560 x 1440
-  # devToolsWidth = 700
-  # defaultBounds =
-  #   asset: x: 430, y: 720, width: 1000, height: 720
-  #   browser: x: 1260, y: 0, width: 600, height:720
-  #   db: x: 0, y: 0, width: 560, height: 720
-  #   "setup-assistant": width: 480, height: 540
-
   getBounds = (type, index)->
     bounds = windowBounds[type][index] or defaultBounds[type]
 
   checkBounds = (win)->
     bounds = win.getBounds()
-    for otherWindow in BrowserWindow.getAllWindows() when otherWindow isnt win
+    for otherWindow in BrowserWindow.getAllWindows() when otherWindow isnt win and otherWindow isnt db
       otherBounds = otherWindow.getBounds()
       if bounds.x is otherBounds.x and bounds.y is otherBounds.y
         bounds.x += 22
         bounds.y += 22
-    win.setBounds bounds
+        # We've moved our window, so we need to start checking all over again
+        # TODO: There's a small risk of an infine loop here if the behaviour of
+        # setBounds followed by getBounds changes and starts clipping to the window.
+        # Also, we aren't matching OSX behaviour, which is to wrap.
+        win.setBounds bounds
+        checkBounds win
+        return
 
   updateBounds = (type, index, win)->
     windowBounds[type][index] = win.getBounds()
-
-  saveBounds = ()->
-    # Disabled until we figure out app initialization
-    # Config "windowBounds", windowBounds
-    null
+    # TODO: This makes window resizing have lots of hiccups because of synchronous
+    # writing to disk.
+    MainState "windowBounds", windowBounds
 
   newWindow = (type, openDevTools = false, props = {})->
     unless props.show is false
@@ -85,7 +75,6 @@ Take ["Env"], (Env)->
     openDevTools = openDevTools and Env.isDev# or true
     index = getNextIndex type
     bounds = getBounds type, index
-    bounds.width += devToolsWidth
     background = backgroundColor: if nativeTheme.shouldUseDarkColors then "#1b1b1b" else "#f2f2f2"
     win = new BrowserWindow Object.assign {}, defaultWindow, bounds, background, props
     checkBounds win
@@ -94,9 +83,7 @@ Take ["Env"], (Env)->
     win.once "ready-to-show", win.show if deferPaint
     win.on "move", (e)-> updateBounds type, index, win
     win.on "resize", (e)-> updateBounds type, index, win
-    win.on "closed", (e)->
-      saveBounds()
-      clearIndex type, index
+    win.on "closed", (e)-> clearIndex type, index
     win
 
   openAsset = (assetId)->
@@ -127,6 +114,9 @@ Take ["Env"], (Env)->
 
 
   Make "Window", Window =
+    init: ()->
+      windowBounds = MainState "windowBounds"
+
     data: windowData
 
     getDB: ()->

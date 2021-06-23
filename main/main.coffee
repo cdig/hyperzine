@@ -1,5 +1,4 @@
-Take ["Env", "Handlers", "IPC", "Menu", "Window"], (Env, Handlers, IPC, Menu, Window)->
-
+Take ["Env", "Handlers", "IPC", "Menu", "MainState", "Window"], (Env, Handlers, IPC, Menu, MainState, Window)->
   { app } = require "electron"
 
   # Here's our custom config for the About box
@@ -12,6 +11,11 @@ Take ["Env", "Handlers", "IPC", "Menu", "Window"], (Env, Handlers, IPC, Menu, Wi
     ].join " • "
     version: ""
     copyright: "Created by Ivan Reese\n© CD Industrial Group Inc."
+
+  # While we're waiting for electron to get ready, we can load our persisted
+  # main state (if any), and then set up things that depend on it.
+  MainState.init()
+  Window.init()
 
   # Wait for ready before doing anything substantial.
   await app.whenReady()
@@ -42,10 +46,10 @@ Take ["Env", "Handlers", "IPC", "Menu", "Window"], (Env, Handlers, IPC, Menu, Wi
 
   # Everything is ready — open a browser window.
   # Eventually, we might want to restore whichever windows were open when we last quit
-  # Window.open.browser()
+  Window.open.browser()
 
   # Whenever we switch to the app, let the window manager know.
   app.on "activate", Window.activate
 
-  setTimeout (()-> Window.open.asset "iMckelvie 1284"), 800
+  # setTimeout (()-> Window.open.asset "iMckelvie 1284"), 800
   # setTimeout (()-> Window.open.asset "CDIG Touch 1"), 1000
