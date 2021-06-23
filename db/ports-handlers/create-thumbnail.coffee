@@ -1,4 +1,4 @@
-Take ["Env", "Memory", "NativeThumbnail", "Ports", "Read", "SipsThumbnail"], (Env, Memory, NativeThumbnail, Ports, Read, SipsThumbnail)->
+Take ["Env", "Log", "Memory", "NativeThumbnail", "Ports", "Read", "SipsThumbnail"], (Env, Log, Memory, NativeThumbnail, Ports, Read, SipsThumbnail)->
   promises = {}
 
   sipsFormats = {"3fr","arw","astc","avci","bmp","cr2","cr3","crw","dcr","dds","dng","dxo","erf","exr","fff","gif","heic","heics","heif","icns","ico","iiq","jp2","jpeg","jpg","ktx","mos","mpo","mrw","nef","nrw","orf","orf","orf","pbm","pdf","pef","pic","pict","png","psd","pvr","raf","raw","rw2","rwl","sgi","sr2","srf","srw","tga","tiff","webp"}
@@ -18,6 +18,8 @@ Take ["Env", "Memory", "NativeThumbnail", "Ports", "Read", "SipsThumbnail"], (En
 
     hash = String.hash subpath
     dest = Read.path Memory("thumbnailsFolder"), "#{hash}-#{size}.#{destExt}"
+
+    Log dest
 
     # If we have previously generated a thumbnail, we're done!
     return dest if await Read.exists dest

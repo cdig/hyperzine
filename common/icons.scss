@@ -8,12 +8,4 @@
   stroke-width: 35px;
   fill: none;
   stroke: currentColor;
-
-  &[disabled] {
-    opacity: .5;
-  }
-
-  &:active {
-    opacity: .5;
-  }
 }

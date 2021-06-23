@@ -1,0 +1,9 @@
+.buttonish {
+  &[disabled] {
+    opacity: .5;
+  }
+
+  &:active {
+    opacity: .5;
+  }
+}

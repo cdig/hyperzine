@@ -1,4 +1,4 @@
-Take ["DOOM", "IPC", "Log", "Paths", "State", "Write", "DOMContentLoaded"], (DOOM, IPC, Log, Paths, State, Write)->
+Take ["IPC", "Log", "Paths", "State", "Write", "DOMContentLoaded"], (IPC, Log, Paths, State, Write)->
 
   elm = document.querySelector "[add-files]"
 
@@ -8,7 +8,7 @@ Take ["DOOM", "IPC", "Log", "Paths", "State", "Write", "DOMContentLoaded"], (DOO
       properties: ["openDirectory", "openFile", "multiSelections"]
     unless res.cancelled
       asset = State "asset"
-
+      filesPath = Paths.files asset
+      Write.sync.mkdir filesPath
       for file in res.filePaths
-        Write.async.copyInto file, Paths.files asset
-      # Memory "dataFolder", newFolder
+        Write.async.copyInto file, filesPath

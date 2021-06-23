@@ -22,7 +22,7 @@ Take ["Asset", "Debounced", "Iterated", "Log", "Memory", "Read"], (Asset, Deboun
     pathWithinAssetsFolder = fullPath.replace assetsFolder, ""
     assetId = Array.first Read.split pathWithinAssetsFolder
     return unless validFileName assetId
-    Log "Watch #{eventType} #{pathWithinAssetsFolder}"
+    # Log "Watch #{eventType} #{pathWithinAssetsFolder}"
     # We'll just reload the whole asset. This is simpler than trying to track exactly which paths have changed,
     # and the performance overhead will be effectively invisible (likely less than 1ms even on giant assets).
     touchedAssets[assetId] = true

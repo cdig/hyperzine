@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "PubSub", "DOMContentLoaded"], (DB, DOOM, IPC, Log, OnScreen, {Pub})->
+Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "OnScreen", "PubSub", "Write", "DOMContentLoaded"], (DB, DOOM, HoldToRun, IPC, Log, OnScreen, {Pub}, Write)->
   { nativeImage, shell } = require "electron"
 
   isVideo = (file)->
@@ -37,7 +37,7 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "PubSub", "DOMContentLoaded"], (DB
 
     else
       loading = DOOM.create "no-img", thumbnail, class: "loading", innerHTML: "<span>Loading</span>"
-      src = await DB.send "create-thumbnail", file.path, 512
+      src = await DB.send "create-thumbnail", file.path, 256
 
       if src
         img = DOOM.create "img", null, src: src
@@ -59,6 +59,9 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "PubSub", "DOMContentLoaded"], (DB
       loadThumbnail thumbnail, file, meta
     # else
     #   unloadThumbnail thumbnail
+
+  deleteFile = (file, elm)-> ()->
+    Write.sync.rm file.path
 
 
   Make "File", (file, depth)->
@@ -88,16 +91,20 @@ Take ["DB", "DOOM", "IPC", "Log", "OnScreen", "PubSub", "DOMContentLoaded"], (DB
     meta = DOOM.create "div", info, class: "meta"
 
     show = DOOM.create "svg", tools,
-      class: "icon"
+      class: "icon buttonish"
       viewBox: "0 0 200 200"
       innerHTML: "<use xlink:href='#i-eye'></use>"
       click: ()-> shell.showItemInFolder file.path
 
-    remove = DOOM.create "svg", tools,
+    # We need a wrapper div around the svg icon because [hold-to-run]'s pseudo element
+    # doesn't seem to work otherwise. * shrug *
+    remove = DOOM.create "div", tools
+    DOOM.create "svg", remove,
       class: "icon"
       viewBox: "0 0 200 200"
       innerHTML: "<use xlink:href='#i-ex'></use>"
-      disabled: ""
+
+    HoldToRun remove, 400, deleteFile file, elm
 
     OnScreen thumbnail, onscreen file, meta
 

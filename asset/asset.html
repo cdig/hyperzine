@@ -20,7 +20,7 @@
     <tool-bar>
       <file-tools class="ui">
         <input thumbnail-size type="range" min="0.5" max="2" value="0.5" step="0.001" list="snaps">
-        <datalist id="snaps"><option value="0.5"></option></datalist>
+        <datalist id="snaps"><option value="1"></option></datalist>
         <div file-count></div>
         <search-box class="ui">
           <input type="text" placeholder="Search Files" autocomplete="off"  autocorrect="off" autocapitalize="off">
@@ -28,8 +28,9 @@
         <button add-files>Add Files</button>
       </file-tools>
       <meta-tools>
-        <button disabled pin-unpin>Pin</button>
-        <button show-in-finder>Show In Finder</button>
+        <button pin-unpin style="display:none">Pin</button>
+        <button delete-asset>Delete Asset</button>
+        <button show-in-finder>Show in Finder</button>
       </meta-tools>
     </tool-bar>
   </window-top>

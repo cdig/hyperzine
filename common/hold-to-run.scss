@@ -1,0 +1,29 @@
+[hold-to-run] {
+  position: relative;
+
+  &[hold-active] {
+    opacity: 0;
+    transition: var(--hold-time) opacity linear;
+  }
+
+  &[hold-longer]::after {
+    content: "Press & Hold";
+    position: absolute;
+    bottom: calc(100% + .2em);
+    left: 50%;
+    padding: .4em .6em;
+    border-radius: 4px;
+    white-space: pre;
+    background: var(--meta-text);
+    color: var(--meta-bg);
+    transform: translateX(-50%);
+    animation: hold-to-run-longer 2s both;
+  }
+}
+
+@keyframes hold-to-run-longer {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
+}
