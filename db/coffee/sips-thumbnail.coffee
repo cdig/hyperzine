@@ -8,7 +8,7 @@ Take ["Iterated", "Log"], (Iterated, Log)->
       {resolve, dest, ext, size} = v
       iterating[source] = null
       ext = "jpeg" if ext is "jpg" # sips expects jpeg as the format, not jpg
-      childProcess.exec "sips -s format #{ext} -Z #{size} \"#{source}\" --out \"#{dest}\"", done resolve, dest
+      childProcess.exec "sips -s format #{ext} -s formatOptions 91 -Z #{size} \"#{source}\" --out \"#{dest}\"", done resolve, dest
       return unless more()
     iterating = {}
 

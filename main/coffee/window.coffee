@@ -64,8 +64,6 @@ Take ["Env", "MainState"], (Env, MainState)->
 
   updateBounds = (type, index, win)->
     windowBounds[type][index] = win.getBounds()
-    # TODO: This makes window resizing have lots of hiccups because of synchronous
-    # writing to disk.
     MainState "windowBounds", windowBounds
 
   newWindow = (type, openDevTools = false, props = {})->
