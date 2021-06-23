@@ -56,7 +56,7 @@
     "setup-assistant-scss:compiler": "sass temp/setup-assistant.scss out/setup-assistant.css --no-source-map",
     "setup-assistant-scss:generate": "run-s setup-assistant-scss:assemble setup-assistant-scss:compiler",
     "setup-assistant-scss:observer": "onchange 'setup-assistant/**/*.scss' -- npm run setup-assistant-scss:generate",
-    "package": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|lib|main|node_modules|resources|setup-assistant|submodule|temp)/\"",
+    "package": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|lib|main|node_modules|resources|setup-assistant|submodule|temp)/\" --osx-sign.type=distribution --osx-sign.entitlements=\"resources/entitlements.plist\"",
     "deps": "cp node_modules/d3-color/dist/d3-color.min.js out",
     "bump": "yarn version --patch --no-git-tag-version",
     "open": "open ./Hyperzine-darwin-arm64/Hyperzine.app",
