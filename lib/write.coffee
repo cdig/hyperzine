@@ -53,6 +53,7 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
 
   Write.sync.array = (path, arr)->
     current = Read path
+    current ?= []
     return if Array.equal arr, current
     # Remove anything that's in the folder but not in our new array
     Write.sync.rm Read.path path, v for v in current when v not in arr
