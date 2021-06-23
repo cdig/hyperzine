@@ -1,4 +1,4 @@
-Take ["Env", "Log", "Memory", "Read"], (Env, Log, Memory, Read)->
+Take ["Env", "Log", "Read"], (Env, Log, Read)->
   fs = require "fs"
 
   validPath = (v)->
@@ -14,9 +14,12 @@ Take ["Env", "Log", "Memory", "Read"], (Env, Log, Memory, Read)->
   Write.sync = {}
   Write.async = {}
 
+  Memory = null
+
   logWrite = (fn, p)->
-    p = p.replace Memory("assetsFolder"), "" unless p is Memory("assetsFolder")
-    p = p.replace Memory("dataFolder"), "" unless p is Memory("dataFolder")
+    if Memory ?= Take "Memory"
+      p = p.replace Memory("assetsFolder"), "" unless p is Memory("assetsFolder")
+      p = p.replace Memory("dataFolder"), "" unless p is Memory("dataFolder")
     p = p.replace Env.home, "" unless p is Env.home
     Log "WRITE #{fn} #{p}"
 
