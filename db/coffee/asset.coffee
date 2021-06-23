@@ -7,6 +7,7 @@ Take ["FileTree", "Ports", "Memory", "Read"], (FileTree, Ports, Memory, Read)->
   Make "Asset", Asset =
     read: (path)->
       id: id = Array.last Read.split path
+      name: id
       path: path
       number: Array.last id.split(" ")
       creator: id.split(" ")[0...-1].join " "

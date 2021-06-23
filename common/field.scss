@@ -13,6 +13,7 @@
 
   &[contenteditable] {
     border: 2px solid #7771;
-    &.invalid { border-color: red; }
+
+    &[field-invalid] { border-color: red; }
   }
 }

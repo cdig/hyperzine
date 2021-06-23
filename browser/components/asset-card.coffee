@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", "PubSub", "Read", "TagList", "DOMContentLoaded"], (DB, DOOM, Frustration, IPC, Log, Memory, OnScreen, Paths, {Sub}, Read, TagList)->
+Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScreen", "Paths", "PubSub", "Read", "TagList", "Validations", "DOMContentLoaded"], (DB, DOOM, Frustration, IPC, Log, Memory, MemoryField, OnScreen, Paths, {Sub}, Read, TagList, Validations)->
   cards = {}
 
 
@@ -74,7 +74,8 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "OnScreen", "Paths", 
 
     label = DOOM.create "asset-label", frag
 
-    DOOM.create "asset-name", label, textContent: asset.name or asset.id
+    assetName = DOOM.create "asset-name", label, class: "basic-field"
+    MemoryField "assets.#{asset.id}.name", assetName, validate: Validations.asset.name
 
     tagList = DOOM.create "tag-list", label
 

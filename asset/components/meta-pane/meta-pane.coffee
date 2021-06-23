@@ -1,35 +1,9 @@
-Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "TagList", "DOMContentLoaded"], (MetaTools, DOOM, Memory, Paths, State, TagList)->
+Take ["DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList", "Validations", "DOMContentLoaded"], (DOOM, Memory, MemoryField, MetaTools, Paths, State, TagList, Validations)->
   metaPane = document.querySelector "meta-pane"
-  assetName = metaPane.querySelector "[asset-name]"
+  assetName = metaPane.querySelector "asset-name"
   addNote = metaPane.querySelector "[add-note]"
   assetHistory = metaPane.querySelector "[asset-history]"
   tagList = metaPane.querySelector "tag-list"
-
-  assetName.addEventListener "focus", (e)->
-    assetName._focused = true
-
-  assetName.addEventListener "blur", (e)->
-    assetName._focused = false
-    setAssetName()
-
-  assetName.addEventListener "keydown", (e)->
-    if e.keyCode is 13
-      e.preventDefault()
-      setAssetName()
-      assetName.blur()
-
-  assetName.addEventListener "input", (e)->
-    assetName.className = if assetNameValid() then "field" else "field invalid"
-    setAssetName()
-
-  assetNameValid = ()->
-    return -1 is assetName.textContent.trim().search /[:/\\]/
-
-  setAssetName = ()->
-    asset = State "asset"
-    v = assetName.textContent.trim()
-    return unless v.length and assetNameValid()
-    Memory "assets.#{asset.id}.name", v
 
   removeTag = (tag)-> (e)->
     asset = State "asset"
@@ -41,8 +15,5 @@ Take ["MetaTools", "DOOM", "Memory", "Paths", "State", "TagList", "DOMContentLoa
   Make "MetaPane", MetaPane =
     render: ()->
       asset = State "asset"
-
-      if not assetName._focused
-        DOOM assetName, textContent: asset.name or asset.id
-
+      MemoryField "assets.#{asset.id}.name", assetName, saveOnInput: true, validate: Validations.asset.name
       tagList.replaceChildren TagList asset, removeTag

@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "OnScreen", "PubSub", "Write", "DOMContentLoaded"], (DB, DOOM, HoldToRun, IPC, Log, OnScreen, {Pub}, Write)->
+Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "PubSub", "Read", "Validations", "Write", "DOMContentLoaded"], (DB, DOOM, HoldToRun, IPC, Log, EditableField, OnScreen, {Pub}, Read, Validations, Write)->
   { nativeImage, shell } = require "electron"
 
   isVideo = (file)->
@@ -60,9 +60,11 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "OnScreen", "PubSub", "Write", "D
     # else
     #   unloadThumbnail thumbnail
 
-  deleteFile = (file, elm)-> ()->
+  deleteFile = (file)-> ()->
     Write.sync.rm file.path
 
+  renameFile = (file)-> (v)->
+    Write.sync.rename file.path, v
 
   Make "File", (file, depth)->
     elm = DOOM.create "div", null,
@@ -85,7 +87,8 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "OnScreen", "PubSub", "Write", "D
 
     info = DOOM.create "div", elm, class: "info"
 
-    DOOM.create "div", info, class: "name", textContent: file.name
+    fileName = DOOM.create "div", info, class: "name basic-field", textContent: file.name
+    EditableField fileName, renameFile(file), validate: Validations.file
 
     tools = DOOM.create "div", info, class: "tools"
     meta = DOOM.create "div", info, class: "meta"
@@ -104,7 +107,7 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "OnScreen", "PubSub", "Write", "D
       viewBox: "0 0 200 200"
       innerHTML: "<use xlink:href='#i-ex'></use>"
 
-    HoldToRun remove, 400, deleteFile file, elm
+    HoldToRun remove, 400, deleteFile file
 
     OnScreen thumbnail, onscreen file, meta
 

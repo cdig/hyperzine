@@ -60,10 +60,8 @@ Take [], ()->
   Read.sep = path.sep
   Read.watch = fs.watch
 
-  Read.path = (...segs)->
-    segs.join path.sep
-
-  Read.split = (p)->
-    Array.pull p.split(path.sep), ""
+  Read.path = (...segs)-> segs.join path.sep
+  Read.split = (p)-> Array.pull p.split(path.sep), ""
+  Read.parentPath = (p)-> Read.path ...Array.butLast Read.split p
 
   Make "Read", Read

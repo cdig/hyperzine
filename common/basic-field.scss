@@ -1,0 +1,6 @@
+.basic-field {
+  outline: 0;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  &[field-invalid] { border-color: red; }
+}

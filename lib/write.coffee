@@ -36,6 +36,13 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
       fs.mkdirSync path, recursive: true
     return valid
 
+  Write.sync.rename = (path, newName)->
+    newPath = "/" + Read.path Read.parentPath(path), newName
+    if valid = validPath(path) and validPath(newPath)
+      logWrite "rename", "#{path} -> #{newPath}"
+      fs.renameSync path, newPath
+    return valid
+
   Write.sync.rm = (path)->
     if valid = validPath path
       logWrite "rm", path
