@@ -61,7 +61,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
 
     else
       card._hash ?= String.hash asset.id
-      img = DOOM.create "no-img", null
+      img = DOOM.create "no-img", null, class: "frustration"
       DOOM.create "span", img, textContent: Frustration card._hash
       hue = 71 * card._hash % 360
       img.style.setProperty "--lit",    d3.lch  90, 30, hue
