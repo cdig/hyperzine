@@ -7,7 +7,7 @@ Take ["Debounced", "Env", "Log", "Read", "Write"], (Debounced, Env, Log, Read, W
   state =
     windowBounds: asset: [], browser: [], db: [], "setup-assistant": []
 
-  save = Debounced 500, ()->
+  save = Debounced 2000, ()->
     Write.sync.json Env.mainStatePath, state
 
   Make.async "MainState", MainState = (k, v)->

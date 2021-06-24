@@ -22,6 +22,10 @@ Take ["IPC", "Log"], (IPC, Log)->
         port.postMessage [msg, ...args]
       null
 
+    fromMain: (msg, ...args)->
+      if fn = listeners[msg]
+        fn ...args
+
     # close: (id)->
     #   ports[id].close()
     #   delete ports[id]

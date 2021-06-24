@@ -22,7 +22,7 @@ Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
   template.push
     label: "File"
     submenu: [
-      { label: "New Asset", enabled: false, accelerator: "CmdOrCtrl+N" }
+      { label: "New Asset", accelerator: "CmdOrCtrl+N", click: ()-> Take("DB")?.send "new-asset" }
       { label: "New Browser Window", accelerator: "CmdOrCtrl+Shift+N", click: Window.open.browser }
       { type: "separator" }
       ...(if Env.isDev

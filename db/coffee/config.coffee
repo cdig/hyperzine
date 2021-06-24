@@ -23,7 +23,7 @@ Take ["Debounced", "Env", "Log", "Memory", "Read", "Write"], (Debounced, Env, Lo
       configData[k] = v
       save()
 
-  save = Debounced 500, ()->
+  save = Debounced 2000, ()->
     Write.sync.json Env.configPath, configData
 
   Make "Config", Config = ()->

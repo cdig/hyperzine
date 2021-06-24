@@ -11,3 +11,7 @@ asset-list {
   overflow-y: scroll;
   overscroll-behavior: contain;
 }
+
+[hide-labels] asset-list {
+  display: block;
+}
