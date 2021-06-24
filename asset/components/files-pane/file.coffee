@@ -13,7 +13,7 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pub
 
     if file.count?
       type = "folder"
-      img = DOOM.create "no-img", thumbnail
+      img = DOOM.create "no-img", thumbnail, class: "icon"
       DOOM.create "span", img, textContent: "📁"
       DOOM.create "span", meta, textContent: file.count + " Items"
 
@@ -93,14 +93,13 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pub
     tools = DOOM.create "div", info, class: "tools"
     meta = DOOM.create "div", info, class: "meta"
 
-    show = DOOM.create "svg", tools,
+    show = DOOM.create "div", tools
+    DOOM.create "svg", show,
       class: "icon buttonish"
       viewBox: "0 0 200 200"
-      innerHTML: "<use xlink:href='#i-eye'></use>"
+      innerHTML: "<use xlink:href='#i-arrow' transform='rotate(90)' transform-origin='100 100'></use>"
       click: ()-> shell.showItemInFolder file.path
 
-    # We need a wrapper div around the svg icon because [hold-to-run]'s pseudo element
-    # doesn't seem to work otherwise. * shrug *
     remove = DOOM.create "div", tools
     DOOM.create "svg", remove,
       class: "icon"
