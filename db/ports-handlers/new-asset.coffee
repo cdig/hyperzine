@@ -7,10 +7,5 @@ Take ["IPC", "Log", "Memory", "Ports", "Read", "Write"], (IPC, Log, Memory, Port
     id = creator + " " + number
     path = Read.path assetsFolder, id
     Write.sync.mkdir path
-
-    Memory.subscribe "assets.#{id}", true, listener = (asset)->
-      return unless asset?
-      Memory.unsubscribe "assets.#{id}", listener
-      IPC.send "open-asset", id
-
+    IPC.send "open-asset", id
     return id
