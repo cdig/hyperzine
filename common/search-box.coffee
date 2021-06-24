@@ -9,5 +9,4 @@ Take ["Debounced", "PubSub", "State", "DOMContentLoaded"], (Debounced, {Pub, Sub
   elm.addEventListener "change", change
   elm.addEventListener "input", change
 
-  Sub "Find", ()->
-    elm.focus()
+  Sub "find", ()-> elm.focus()
