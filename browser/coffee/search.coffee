@@ -38,12 +38,14 @@ Take [], ()->
       if "-" is token.charAt 0
         token = token[1..]
         # If the asset matches any negative token, it fails the entire query
+        return 0 if matchesToken asset.id, token
         return 0 if matchesToken asset.search.name, token
         return 0 if matchesToken asset.search.tags, token
         return 0 for file in asset.search.files when matchesToken file, token
 
       else
         tokenPoints = 0
+        tokenPoints += 2 if matchesToken asset.id, token
         tokenPoints += 2 if matchesToken asset.search.name, token
         tokenPoints += 1 if matchesToken asset.search.tags, token
 

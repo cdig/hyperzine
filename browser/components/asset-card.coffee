@@ -56,9 +56,6 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
           path = thumbPath
           break
 
-    if asset.id is "iMckelvie 1874"
-      Log path
-
     if path
       img = DOOM.create "img", null, src: path
 
