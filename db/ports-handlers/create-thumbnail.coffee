@@ -19,8 +19,6 @@ Take ["Env", "Log", "Memory", "NativeThumbnail", "Ports", "Read", "SipsThumbnail
     hash = String.hash subpath
     dest = Read.path Memory("thumbnailsFolder"), "#{hash}-#{size}.#{destExt}"
 
-    Log dest
-
     # If we have previously generated a thumbnail, we're done!
     return dest if await Read.exists dest
 

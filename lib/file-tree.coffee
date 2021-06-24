@@ -18,6 +18,7 @@ Take ["Read"], (Read)->
   Make "FileTree", FileTree =
     new: (parentPath, name)->
       name: name
+      ext: Array.last name.split "."
       path: Read.path parentPath, name
       count: 0
       children: []

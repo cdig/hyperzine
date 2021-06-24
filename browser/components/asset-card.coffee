@@ -44,6 +44,21 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
       # create-thumbnail will return null if it fails, in which case we can just load the old low-res asset.shot image
       path = thumbPath if thumbPath
 
+    # We still don't have a screenshot. Attempt to use a random file.
+    if not path and asset.files?.count > 0
+      loading = DOOM.create "no-img", null, class: "loading", innerHTML: "<span>Loading</span>"
+      card._assetImageElm.replaceChildren loading
+
+      for file in asset.files.children
+        thumbPath = card._thumbPath ?= await DB.send "create-thumbnail", file.path, 256
+        return unless card._loaded
+        if thumbPath
+          path = thumbPath
+          break
+
+    if asset.id is "iMckelvie 1874"
+      Log path
+
     if path
       img = DOOM.create "img", null, src: path
 
