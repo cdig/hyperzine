@@ -17,6 +17,7 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
   Memory = null
 
   logWrite = (fn, p)->
+    return unless Env.isDev
     if Memory ?= Take "Memory"
       p = p.replace Memory("assetsFolder"), "" unless p is Memory("assetsFolder")
       p = p.replace Memory("dataFolder"), "" unless p is Memory("dataFolder")

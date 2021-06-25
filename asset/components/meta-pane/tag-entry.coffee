@@ -22,7 +22,7 @@ Take ["Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Deb
       frag = new DocumentFragment()
       highlightIndex = (highlightIndex + matches.length+1) % (matches.length+1)
 
-      delay = State("rainbow-before-delay") - 3
+      delay = State("rainbow-before-delay") - 4
       State "rainbow-before-delay", delay
       document.body.style.setProperty "--rainbow-delay", "#{delay}ms"
 

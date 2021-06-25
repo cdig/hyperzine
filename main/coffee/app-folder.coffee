@@ -1,4 +1,4 @@
-Take ["Read"], (Read)->
+Take ["Log", "Read"], (Log, Read)->
   { app, dialog } = require "electron"
   path = require "path"
   fs = require "fs"
@@ -35,7 +35,7 @@ Take ["Read"], (Read)->
           for file in files
             fs.copyFileSync path.join(sourceOut, file), path.join(destOut, file)
         else
-          dialog.showErrorBox("Invalid Folder Selected", "It seems the folder you selected is empty.")
+          return dialog.showErrorBox("Invalid Folder Selected", "It seems the folder you selected is empty.")
         dialog.showMessageBoxSync message: "Hyperzine was successfully updated."
         app.relaunch()
         app.quit()

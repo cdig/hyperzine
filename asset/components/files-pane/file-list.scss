@@ -1,6 +1,6 @@
 file-list {
   display: block;
-  padding-top: 82px;
+  padding-top: calc(82px + 1em);
   height: calc(100%);
   overflow-y: auto;
   overflow-x: hidden;
