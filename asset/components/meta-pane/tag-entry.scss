@@ -19,6 +19,7 @@ tag-entry {
     background: var(--meta-bg);
     border-radius: 8px;
     padding: 2.4em .4em .4em;
+    z-index: 1;
 
     div {
       position: relative;

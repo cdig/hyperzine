@@ -1,4 +1,6 @@
-Take ["Config", "IPC", "Log"], (Config, IPC, Log)->
+Take ["Config", "DBState", "IPC", "Log"], (Config, DBState, IPC, Log)->
+
+  DBState.init()
 
   config = Config()
   Log "Loading Config: #{config}"

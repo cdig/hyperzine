@@ -11,6 +11,7 @@ Take ["Debounced", "Env", "Log", "Read", "Write"], (Debounced, Env, Log, Read, W
     Write.sync.json Env.mainStatePath, state
 
   Make.async "MainState", MainState = (k, v)->
+    throw Error "Unknown MainState key: #{k}" unless state[k]?
     if v isnt undefined
       if v? then state[k] = v else delete state[k]
       save()

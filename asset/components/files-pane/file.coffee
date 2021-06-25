@@ -36,7 +36,7 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pub
           makeBubble meta, "Length", Math.round(img.duration) + "s"
 
     else
-      loading = DOOM.create "no-img", thumbnail, class: "loading", innerHTML: "<span>Loading</span>"
+      loading = DOOM.create "no-img", thumbnail, class: "loading", innerHTML: "<span>•••</span>"
       src = await DB.send "create-thumbnail", file.path, 256
 
       if src

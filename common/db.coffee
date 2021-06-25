@@ -11,6 +11,7 @@ Take ["IPC", "Log"], (IPC, Log)->
 
   requests = {}
   listeners = {}
+  ignoreList = {"memory-broadcast"}
   requestID = 0
 
   db.onmessage = ({data: [msg, ...data]})->
@@ -18,7 +19,7 @@ Take ["IPC", "Log"], (IPC, Log)->
       returned ...data
     else if l = listeners[msg]
       cb ...data for cb in l
-    else
+    else if not ignoreList[msg]? # We can safely ignore certain messages dropping
       Log "Message from DB dropped: #{msg}"
 
   returned = (requestID, resp)->

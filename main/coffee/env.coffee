@@ -19,6 +19,9 @@ Take [], ()->
   # Persisted user preferences and other per-install app state that will be managed by the DB window
   Env.configPath = path.join Env.userData, "Config.json"
 
+  # Persisted per-install app state that will be managed by the DB process
+  Env.dbStatePath = path.join Env.userData, "DB State.json"
+
   # Persisted per-install app state that will be managed by the Main process
   Env.mainStatePath = path.join Env.userData, "Main State.json"
 

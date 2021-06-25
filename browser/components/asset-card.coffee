@@ -22,6 +22,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
     if asset.shot?
       path = Paths.shot asset
 
+      # Attempt to upgrade the shot using the original file
       if asset.files?.count > 0
         shotSourceName = asset.shot.replace /\.png/, ""
         for child in asset.files.children when child.name is shotSourceName
@@ -29,8 +30,11 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
           break
 
     if shotSourcePath
-      loading = DOOM.create "no-img", null, class: "loading", innerHTML: "<span>Loading</span>"
-      card._assetImageElm.replaceChildren loading
+
+      # If we have an old image, we can just keep showing that while we wait for the new one
+      if not card._thumbPath?
+        loading = DOOM.create "no-img", null, class: "loading", innerHTML: "<span>•••</span>"
+        card._assetImageElm.replaceChildren loading
 
       size = if DOOM(document.body, "hideLabels") is "" then 128 else 512
       thumbPath = card._thumbPath ?= await DB.send "create-thumbnail", shotSourcePath, size
@@ -46,8 +50,11 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
 
     # We still don't have a screenshot. Attempt to use a random file.
     if not path and asset.files?.count > 0
-      loading = DOOM.create "no-img", null, class: "loading", innerHTML: "<span>Loading</span>"
-      card._assetImageElm.replaceChildren loading
+
+      # If we have an old image, we can just keep showing that while we wait for the new one
+      if not card._thumbPath?
+        loading = DOOM.create "no-img", null, class: "loading", innerHTML: "<span>:::</span>"
+        card._assetImageElm.replaceChildren loading
 
       for file in asset.files.children
         thumbPath = card._thumbPath ?= await DB.send "create-thumbnail", file.path, 256
@@ -82,7 +89,8 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
     frag = new DocumentFragment()
     asset = card._asset
 
-    card._assetImageElm = DOOM.create "asset-image", frag
+    card._assetImageElm ?= DOOM.create "asset-image"
+    frag.append card._assetImageElm
 
     label = DOOM.create "asset-label", frag
 
@@ -131,6 +139,9 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
       delete cards[assetId]
       Memory.unsubscribe "assets.#{assetId}", cb
 
+  rebuildCard = (card, assetId)-> ()->
+    assetChanged(card, assetId) Memory "assets.#{assetId}"
+
   Make.async "AssetCard", AssetCard = (asset, index)->
     card = cards[asset.id]
     if not card?
@@ -138,6 +149,8 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
       card._asset = asset
       OnScreen card, onScreen
       Memory.subscribe "assets.#{asset.id}", false, assetChanged card, asset.id
+      # This is for testing whether we see flashing
+      # setInterval rebuildCard(card, asset.id), 500
     card._index = index
     card
 
