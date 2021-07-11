@@ -23,6 +23,7 @@ Take ["FileTree", "Ports", "Memory", "Read"], (FileTree, Ports, Memory, Read)->
         assetTags
       files: (asset)-> FileTree.build asset.path, "Files"
       search: (asset)->
+        id: searchPrep asset.id
         name: searchPrep asset.name
         tags: searchPrep asset.tags.join " "
         files: Array.unique(FileTree.flatNames(asset.files)).map searchPrep

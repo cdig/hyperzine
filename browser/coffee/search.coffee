@@ -45,7 +45,7 @@ Take [], ()->
 
       else
         tokenPoints = 0
-        tokenPoints += 2 if matchesToken asset.id, token
+        tokenPoints += 2 if matchesToken asset.search.id, token
         tokenPoints += 2 if matchesToken asset.search.name, token
         tokenPoints += 1 if matchesToken asset.search.tags, token
 
@@ -85,7 +85,7 @@ Take [], ()->
     return sortedAssets
 
   Tests "Search", ()->
-
+    return
     Test "split queries on spaces, internal dashes, and underscores",
       ["f00", "bar", "2baz", "bash"],
       tokenizeQuery "f00-BAR_2baz bash"
@@ -129,6 +129,14 @@ Take [], ()->
     Test "same token does match",
       matchesToken "foo", "foo"
       true
+
+    Test "value containing token does match",
+      matchesToken "foo", "f"
+      true
+
+    Test "token containing value does not match",
+      matchesToken "f", "foo"
+      false
 
     Test "zero points for an empty asset",
       computePoints {search:{name:"",tags:"",files:[]}}, ["foo"]
