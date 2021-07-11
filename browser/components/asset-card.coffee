@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScreen", "Paths", "PubSub", "Read", "TagList", "Validations", "DOMContentLoaded"], (DB, DOOM, Frustration, IPC, Log, Memory, MemoryField, OnScreen, Paths, {Sub}, Read, TagList, Validations)->
+Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScreen", "Paths", "PubSub", "Read", "State", "TagList", "Validations", "DOMContentLoaded"], (DB, DOOM, Frustration, IPC, Log, Memory, MemoryField, OnScreen, Paths, {Sub}, Read, State, TagList, Validations)->
   cards = {}
 
 
@@ -102,7 +102,12 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
     fileCount = DOOM.create "file-count", tagList,
       textContent: String.pluralize asset.files.count, "%% File"
 
-    tagList.append TagList asset
+    tagList.append TagList asset, click: (tag, elm)->
+      current = State "search"
+      if not current
+        State "search", tag
+      else if current.indexOf(tag) is -1
+        State "search", [current, tag].join " "
 
     card.replaceChildren frag
 

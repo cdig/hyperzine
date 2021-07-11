@@ -16,4 +16,4 @@ Take ["DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList",
     render: ()->
       asset = State "asset"
       MemoryField "assets.#{asset.id}.name", assetName, saveOnInput: true, validate: Validations.asset.name
-      tagList.replaceChildren TagList asset, removeTag
+      tagList.replaceChildren TagList asset, removeFn: removeTag
