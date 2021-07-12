@@ -110,10 +110,6 @@ Take [], ()->
       tokenizeQuery "(foo) [bar]!@_#$%-^&*() -[baz]!@_baz#$%^&*()"
       ["foo", "bar", "-baz_baz"]
 
-    Test "remove punctuation, even when negated",
-      tokenizeQuery "(foo) [bar]!@_#$%-^&*() -[baz]!@_baz#$%^&*()"
-      ["foo", "bar", "-baz_baz"]
-
     Test "empty value does not match",
       matchesToken "", "foo"
       false

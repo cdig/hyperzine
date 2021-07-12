@@ -1,0 +1,17 @@
+no-asset {
+  display: none;
+  position: absolute;
+  top: 38px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 38px);
+  padding: 5em 1em 1em;
+  text-align: center;
+  background: var(--page-bg);
+  z-index: 100;
+  animation: fade-in .5s .5s linear both;
+
+  p {
+    margin-top: .5em;
+  }
+}

@@ -1,13 +1,13 @@
-Take ["DOOM", "FilesPane", "FileTools", "Memory", "MetaPane", "MetaTools", "State", "DOMContentLoaded"], (DOOM, FilesPane, FileTools, Memory, MetaPane, MetaTools, State)->
+Take ["ArchivedStyle", "DOOM", "FilesPane", "FileTools", "Memory", "MetaPane", "MetaTools", "NoAsset", "State", "DOMContentLoaded"], (ArchivedStyle, DOOM, FilesPane, FileTools, Memory, MetaPane, MetaTools, NoAsset, State)->
 
-  Render = ()->
-    FileTools.render()
-    MetaTools.render()
-    FilesPane.render()
-    MetaPane.render()
+  Make "Render", Render = ()->
+    # These subsystems are designed to work whether an asset is loaded or not
+    ArchivedStyle.render()
+    NoAsset.render()
 
-    asset = State "asset"
-    DOOM document.documentElement, isArchived: if "Archived" in asset.tags then "" else null
-
-
-  Make "Render", Render
+    # if asset = State "asset"
+    #   # These subsystems haven't yet been updated to work if an asset isn't loaded
+    #   FileTools.render()
+    #   MetaTools.render()
+    #   FilesPane.render()
+    #   MetaPane.render()

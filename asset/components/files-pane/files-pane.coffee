@@ -1,4 +1,4 @@
-Take ["File", "State", "DOMContentLoaded"], (File, State)->
+Take ["DOOM", "File", "State", "DOMContentLoaded"], (DOOM, File, State)->
   filesPane = document.querySelector "files-pane"
   fileList = filesPane.querySelector "file-list"
 
@@ -20,5 +20,11 @@ Take ["File", "State", "DOMContentLoaded"], (File, State)->
   Make "FilesPane", FilesPane =
     render: ()->
       frag = new DocumentFragment()
-      makeFileElms State("asset").files, frag
+      if State "archived"
+        div = DOOM.create "div", frag, class: "archived"
+        DOOM.create "h2", div, textContent: "Archived"
+        DOOM.create "h3", div, textContent: "To avoid confusion, the files in an archived asset are not accessible."
+      else
+        makeFileElms State("asset").files, frag
+
       fileList.replaceChildren frag
