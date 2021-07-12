@@ -5,9 +5,9 @@ Take ["ArchivedStyle", "DOOM", "FilesPane", "FileTools", "Memory", "MetaPane", "
     ArchivedStyle.render()
     NoAsset.render()
 
-    # if asset = State "asset"
-    #   # These subsystems haven't yet been updated to work if an asset isn't loaded
-    #   FileTools.render()
-    #   MetaTools.render()
-    #   FilesPane.render()
-    #   MetaPane.render()
+    if asset = State "asset"
+      # These subsystems haven't yet been updated to work if an asset isn't loaded
+      FileTools.render()
+      MetaTools.render()
+      FilesPane.render()
+      MetaPane.render()

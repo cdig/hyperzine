@@ -8,7 +8,7 @@ Take ["Memory"], (Memory)->
 
     highestNumber = 0
 
-    for assetId, asset of assets when asset.creator is localName
+    for assetId, asset of assets when asset.creator.toLowerCase() is localName.toLowerCase()
       highestNumber = Math.max highestNumber, asset.number
 
     Memory "nextAssetNumber", highestNumber + 1
