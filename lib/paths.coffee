@@ -1,10 +1,11 @@
-Take ["Memory", "Read"], (Memory, Read)->
+Take ["Read"], (Read)->
 
   Make "Paths", Paths =
-    asset: (asset)->      Read.path Memory("assetsFolder"), asset.id
-    name: (asset)->       Read.path Paths.asset(asset), "Name", asset.name
-    shot: (asset)->       Read.path Paths.asset(asset), "Shot", asset.shot
-    files: (asset)->      Read.path Paths.asset(asset), "Files"
-    file: (asset, file)-> Read.path Paths.files(asset), file
-    tags: (asset)->       Read.path Paths.asset(asset), "Tags"
-    tag: (asset, tag)->   Read.path Paths.tags(asset), tag
+    file: (asset, file)->      Read.path Paths.files(asset), file
+    files: (asset)->           Read.path asset.path, "Files"
+    name: (asset)->            Read.path asset.path, "Name", asset.name
+    shot: (asset)->            Read.path asset.path, "Shot", asset.shot
+    tag: (asset, tag)->        Read.path Paths.tags(asset), tag
+    tags: (asset)->            Read.path asset.path, "Tags"
+    thumbnail: (asset, file)-> Read.path Paths.thumbnails(asset), file
+    thumbnails: (asset)->      Read.path asset.path, "Thumbnail Cache"

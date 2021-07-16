@@ -62,6 +62,7 @@ Take [], ()->
 
   Read.path = (...segs)-> segs.join path.sep
   Read.split = (p)-> Array.pull p.split(path.sep), ""
+  Read.last = (p)-> Array.last Read.split p
   Read.parentPath = (p)-> Read.path ...Array.butLast Read.split p
 
   Make "Read", Read

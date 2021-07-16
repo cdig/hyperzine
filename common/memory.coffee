@@ -1,4 +1,4 @@
-Take ["Log"], (Log)->
+Take [], ()->
 
   memory = null # Stores all the values committed to Memory
   subscriptions = {_cbs:[]} # Notified when specific paths are changed
@@ -31,7 +31,7 @@ Take ["Log"], (Log)->
     remoteNotify = (path, v)-> DB.send "memory-notify-db", path, v
 
     # When the DB's memory changes, it'll notify us
-    DB.on "memory-broadcast", (path, v)-> Memory path, v, false
+    DB.on "memory-broadcast", (path, v)-> Memory path, v, remote: false
 
 
   # This is how we support "deep.paths":
@@ -48,12 +48,18 @@ Take ["Log"], (Log)->
     [node, k]
 
 
-  Make.async "Memory", Memory = (path = "", v, doRemoteNotify = true)->
+  Make.async "Memory", Memory = (path = "", v, {remote = true, immutable = false} = {})->
     [node, k] = getAt memory, path
 
     return node[k] if v is undefined # Just a read
 
     throw Error "You're not allowed to set the Memory root" if path is ""
+
+    # It's not safe to take something out of Memory, mutate it, and commit it again.
+    # The immutable option tells us the caller promises they're not doing that.
+    if v? and not immutable
+      v = Object.clone v if Object.type v
+      v = Array.clone v if Array.type v
 
     old = node[k]
 
@@ -62,7 +68,7 @@ Take ["Log"], (Log)->
     if Function.notEquivalent v, old
       queueMicrotask ()->
         localNotify path, v
-        remoteNotify path, v if doRemoteNotify
+        remoteNotify path, v if remote
 
     return v
 
@@ -77,7 +83,7 @@ Take ["Log"], (Log)->
   Memory.default = (path, v)-> conditionalSet path, v, Function.notExists
 
   Memory.subscribe = (...[path = "", runNow = true, weak = false], cb)->
-    throw "Invalid subscribe path" unless String.isString path # Avoid errors if you try say subscribe(runNow, cb)
+    throw "Invalid subscribe path" unless String.type path # Avoid errors if you try say subscribe(runNow, cb)
     [node, k] = getAt subscriptions, path
     ((node[k] ?= {})._cbs ?= []).push cb
     cb._memory_weak = weak # ... this is fine 🐕☕️🔥

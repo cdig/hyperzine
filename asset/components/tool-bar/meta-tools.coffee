@@ -6,7 +6,7 @@ Take ["DOOM", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write", "DOMConte
   showInFinder = document.querySelector "[show-in-finder]"
 
   showInFinder.onclick = ()->
-    shell.showItemInFolder Paths.asset State "asset"
+    shell.showItemInFolder State("asset").path
 
   HoldToRun deleteAsset, 1000, ()->
     asset = State("asset")

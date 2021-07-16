@@ -23,6 +23,11 @@ yarn start
 yarn electron
 ```
 
+### Standards
+
+For all user-configurable settings, the defaults are listed at the top of `db/coffee/config.coffee`.
+
+
 ### TODO
 
 If we're gonna debounce stuff like writing files to disk, we gotta make sure we have a way to finish all that stuff before quitting, so that we don't lose any data.

@@ -39,7 +39,7 @@ Take ["Log"], (Log)->
   State.default = (path, v)-> conditionalSet path, v, Function.notExists
 
   State.subscribe = (...[path = "", runNow = true, weak = false], cb)->
-    throw "Invalid subscribe path" unless String.isString path # Avoid errors if you try say subscribe(runNow, cb)
+    throw "Invalid subscribe path" unless String.type path # Avoid errors if you try say subscribe(runNow, cb)
     [node, k] = getAt subscriptions, path
     ((node[k] ?= {})._cbs ?= []).push cb
     cb._state_weak = weak # ... this is fine 🐕☕️🔥

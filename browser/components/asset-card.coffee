@@ -14,59 +14,14 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
       card._img.style.display = "inline-block"
       return
 
-    # card._assetImageElm.replaceChildren()
-    # unloadImage card, asset # Clear any old image
-
     card._loaded = true
 
-    if asset.shot?
-      path = Paths.shot asset
-
-      # Attempt to upgrade the shot using the original file
-      if asset.files?.count > 0
-        shotSourceName = asset.shot.replace /\.png/, ""
-        for child in asset.files.children when child.name is shotSourceName
-          shotSourcePath = Paths.file asset, shotSourceName
-          break
-
-    if shotSourcePath
-
-      # If we have an old image, we can just keep showing that while we wait for the new one
-      if not card._thumbPath?
-        loading = DOOM.create "no-img", null, class: "loading", innerHTML: "<span>•••</span>"
-        card._assetImageElm.replaceChildren loading
-
+    if asset.thumbnail?
       size = if DOOM(document.body, "hideLabels") is "" then 128 else 512
-      thumbPath = card._thumbPath ?= await DB.send "create-thumbnail", shotSourcePath, size
+      if path = asset.thumbnail[size]?.path
+        img = DOOM.create "img", null, src: path
 
-      # In the time it took to create the thumbnail, the card might have scrolled
-      # offscreen and unloaded. In that case, we should just bail now.
-      # If the card scrolled off and then back on, loadImage might be called multiple times.
-      # This is fine, since loadImage is idempotent and create-thumbnail is memoized.
-      return unless card._loaded
-
-      # create-thumbnail will return null if it fails, in which case we can just load the old low-res asset.shot image
-      path = thumbPath if thumbPath
-
-    # We still don't have a screenshot. Attempt to use a random file.
-    if not path and asset.files?.count > 0
-
-      # If we have an old image, we can just keep showing that while we wait for the new one
-      if not card._thumbPath?
-        loading = DOOM.create "no-img", null, class: "loading", innerHTML: "<span>:::</span>"
-        card._assetImageElm.replaceChildren loading
-
-      for file in asset.files.children
-        thumbPath = card._thumbPath ?= await DB.send "create-thumbnail", file.path, 256
-        return unless card._loaded
-        if thumbPath
-          path = thumbPath
-          break
-
-    if path
-      img = DOOM.create "img", null, src: path
-
-    else
+    if not img?
       card._hash ?= String.hash asset.id
       img = DOOM.create "no-img", null, class: "frustration"
       DOOM.create "span", img, textContent: Frustration card._hash

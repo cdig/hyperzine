@@ -10,8 +10,15 @@ Take ["Asset", "Debounced", "Iterated", "Log", "Memory", "Read"], (Asset, Deboun
   touchedAssets = {}
 
   update = Debounced 200, Iterated 10, (more)->
+    assetsFolder = Memory "assetsFolder"
     for assetId of touchedAssets when touchedAssets[assetId]
-      asset = await Asset.loadFields assetId
+      path = Read.path assetsFolder, assetId
+      if await Read.isFolder path
+        asset = Memory "assets.#{assetId}"
+        asset ?= Asset.new path
+        Asset.loadFields asset
+      else
+        asset = null
       Memory "assets.#{assetId}", asset
       touchedAssets[assetId] = false # Mark this asset as done
       return unless more()

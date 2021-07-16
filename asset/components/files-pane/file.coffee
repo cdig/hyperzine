@@ -37,7 +37,9 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pub
 
     else
       loading = DOOM.create "no-img", thumbnail, class: "loading", innerHTML: "<span>•••</span>"
-      src = await DB.send "create-thumbnail", file.path, 256
+
+      # TODO: thumbnails need to go into Memory
+      # src = await DB.send "create-thumbnail", file.path, 256
 
       if src
         img = DOOM.create "img", null, src: src

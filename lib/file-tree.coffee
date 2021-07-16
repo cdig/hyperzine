@@ -12,13 +12,14 @@ Take ["Read"], (Read)->
         tree.count += 1
         child =
           name: dirent.name
+          ext: Array.last dirent.name.split "."
           path: Read.path tree.path, dirent.name
     return tree
 
   Make "FileTree", FileTree =
     new: (parentPath, name)->
       name: name
-      ext: Array.last name.split "."
+      # ext: Array.last name.split "." # TODO: Remove
       path: Read.path parentPath, name
       count: 0
       children: []

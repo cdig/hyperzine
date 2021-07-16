@@ -9,6 +9,7 @@ Take ["AssetCard", "Debounced", "DOOM", "Frustration", "Iterated", "Log", "Memor
   lastQuery = null
 
   Render = Debounced ()->
+    Log "Render"
     assets = Memory "assets"
     return unless assets?
 

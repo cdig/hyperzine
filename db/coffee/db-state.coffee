@@ -1,15 +1,17 @@
-# This file manages any state that needs to be persisted to the local filesystem
-# just for the DB process.
+# This file manages data that needs to be persisted to the local filesystem, just for the DB process.
+# The typical use of this system is to cache data that'll speed up launching the app.
+# DBState is its own data store. It does not put its data into State or Memory.
 
-Take ["Debounced", "Env", "Read", "Write"], (Debounced, Env, Read, Write)->
+Take ["Debounced", "Env", "Log", "Read", "Write"], (Debounced, Env, Log, Read, Write)->
 
-  # This lists all the keys we'll persist in the DB state file, with their default values
+  # This lists all the keys we'll persist in the DBState file, with their default values
   state =
     assets: {}
 
   save = Debounced 2000, ()->
-    # TODO: This should totally be async
-    Write.sync.json Env.dbStatePath, state
+    Log.time "Saving DBState", ()->
+      # TODO: This should totally be async
+      Write.sync.json Env.dbStatePath, state
 
   Make.async "DBState", DBState = (k, v)->
     throw Error "Unknown DBState key: #{k}" unless state[k]?
@@ -18,7 +20,7 @@ Take ["Debounced", "Env", "Read", "Write"], (Debounced, Env, Read, Write)->
       save()
     state[k]
 
-  DBState.init = ()->
+  DBState.init = ()-> Log.time "Loading DBState", ()->
     try
       json = Read.file Env.dbStatePath
       data = JSON.parse json
