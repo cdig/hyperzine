@@ -121,7 +121,6 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM,
   click "#local-name [back-button]", to "existing-assets"
 
   Memory.subscribe "localName", true, (v)->
-    Log "localName: #{v}"
     elms.localName.textContent = v
 
   localNameValid = ()->

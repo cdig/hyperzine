@@ -46,14 +46,28 @@ Take ["Env", "MainState"], (Env, MainState)->
     windowIndexes[type][index] = null
 
   getBounds = (type, index)->
-    bounds = windowBounds[type][index]
-    if not bounds?
+    if type is "setup-assistant"
       bounds = defaultBounds[type]
-      # Position the new window at or near the mouse cursor.
-      # This helps us avoid frustration when working with multiple monitors.
       p = screen.getCursorScreenPoint()
-      bounds.x = p.x - 74
-      bounds.y = p.y - 16
+      d = screen.getDisplayNearestPoint p
+      bounds.x = d.bounds.x + d.bounds.width/2 - bounds.width/2
+      bounds.y = d.bounds.y + d.bounds.height/2 - bounds.height/2
+
+    else
+      bounds = windowBounds[type][index]
+      if not bounds?
+        bounds = defaultBounds[type]
+        if type is "db"
+          p = screen.getCursorScreenPoint()
+          d = screen.getDisplayNearestPoint p
+          bounds.x = d.bounds.x
+          bounds.y = d.bounds.y
+        else
+          # Position the new window at or near the mouse cursor.
+          # This helps us avoid frustration when working with multiple monitors.
+          p = screen.getCursorScreenPoint()
+          bounds.x = p.x - 74
+          bounds.y = p.y - 16
     bounds
 
   checkBounds = (win)->
@@ -139,4 +153,5 @@ Take ["Env", "MainState"], (Env, MainState)->
 
     activate: ()->
       unless BrowserWindow.getAllWindows().length > 1
+        # TODO: If we're not done setup, open the Setup Assistant instead
         Window.open.browser()
