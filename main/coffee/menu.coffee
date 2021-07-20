@@ -32,6 +32,9 @@ Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
       )
       { label: "Show Config File", click: ()-> shell.showItemInFolder Env.configPath }
       { type: "separator" }
+      { label: "Rebuild Thumbnails", accelerator: "CmdOrCtrl+Shift+T", click: ()-> Take("DB")?.send "rebuild-thumbnails" }
+      { label: "Delete Thumbnails", click: ()-> Take("DB")?.send "delete-thumbnails" }
+      { type: "separator" }
       { role: if Env.isMac then "close" else "quit" }
     ]
 

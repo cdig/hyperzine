@@ -1,4 +1,4 @@
-Take ["Log"], (Log)->
+Take [], ()->
 
   state = {}
   subscriptions = {_cbs:[]}

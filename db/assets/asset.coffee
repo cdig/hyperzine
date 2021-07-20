@@ -16,7 +16,21 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
         tags: []
         files: FileTree.new path, "Files"
         thumbnails: {}
-      asset.search = Asset.build.search asset
+        _loading: false
+      asset.search = Asset.load.search asset
+      asset
+
+    rehydrate: (assetsFolder, asset)->
+      # id - included in dehydrated asset
+      # name - included in dehydrated asset
+      asset.path = Read.path assetsFolder, asset.id
+      asset.number = Array.last asset.id.split(" ")
+      asset.creator = asset.id.split(" ")[0...-1].join " "
+      # shot - not needed by browser for initial render
+      # tags - included in dehydrated asset
+      # files - included in dehydrated asset
+      asset.thumbnails = {}
+      # search - included in dehydrated asset
       asset
 
     # This preps an asset for caching to disk. Only keep the modicum of properties needed
@@ -26,30 +40,37 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
     dehydrate: (asset)->
       id: asset.id
       name: asset.name
+      # path - will be rehydrated on load
+      # number - will be rehydrated on load
+      # creator - will be rehydrated on load
+      # shot - not needed by browser for initial render
       tags: asset.tags
-      search: asset.search
       files:
         count: asset.files.count
+      # thumbnails - not needed by browser for initial render
+      search: asset.search
 
     loadFields: (asset)->
-      asset.name = await Asset.build.name asset
-      asset.shot = await Asset.build.shot asset
-      asset.tags = await Asset.build.tags asset
-      asset.files = await Asset.build.files asset
-      asset.thumbnails = await Asset.build.thumbnails asset
-      asset.search = Asset.build.search asset
+      asset.name = await Asset.load.name asset
+      asset.shot = await Asset.load.shot asset
+      asset.tags = await Asset.load.tags asset
+      asset.files = await Asset.load.files asset
+      asset.thumbnails = await Asset.load.thumbnails asset
+      asset.search = Asset.load.search asset
       asset
 
-    build:
+    load:
       name: (asset)->
         name = await Read.async(Read.path asset.path, "Name").then first
         (name or asset.id).trim()
-      shot: (asset)-> Read.async(Read.path asset.path, "Shot").then first
+      shot: (asset)->
+        Read.async(Read.path asset.path, "Shot").then first
       tags: (asset)->
         assetTags = await Read.async(Read.path asset.path, "Tags").then arrayPun
         Memory "tags.#{tag}", tag for tag in assetTags
         assetTags
-      files: (asset)-> FileTree.build asset.path, "Files"
+      files: (asset)->
+        FileTree.build asset.path, "Files"
       thumbnails: (asset)->
         thumbs = await Read.async(Paths.thumbnails(asset)).then arrayPun
         Array.mapToObject thumbs, (thumb)-> Paths.thumbnail asset, thumb

@@ -22,9 +22,11 @@ Take [], ()->
     catch
       null
 
-  Read.sync = Read
+  # Temporary hack until we fully switch Read over to split sync and async.
+  # Note that we can't just say Read.sync = Read, or that breaks Read.sync.exists!
+  Read.sync = (p)-> Read p
 
-  Read.sync.exists = ()->
+  Read.sync.exists = (path)->
     fs.existsSync path
 
   Read.async = (folderPath)->

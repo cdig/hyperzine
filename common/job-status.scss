@@ -1,0 +1,13 @@
+job-status {
+  display: block;
+  margin-right: 8px;
+  text-align: right;
+
+  div {
+    display: inline-block;
+  }
+
+  :last-child {
+    min-width: 4em;
+  }
+}

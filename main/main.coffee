@@ -1,4 +1,4 @@
-Take ["Env", "Handlers", "IPC", "Menu", "MainState", "Window"], (Env, Handlers, IPC, Menu, MainState, Window)->
+Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Window"], (Env, Handlers, IPC, Log, Menu, MainState, Window)->
   { app } = require "electron"
 
   # Here's our custom config for the About box

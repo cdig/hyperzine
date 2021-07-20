@@ -32,6 +32,8 @@ For all user-configurable settings, the defaults are listed at the top of `db/co
 
 If we're gonna debounce stuff like writing files to disk, we gotta make sure we have a way to finish all that stuff before quitting, so that we don't lose any data.
 
+If things like the assets folder path changes while we're running jobs, that could lead to us reading and writing in the wrong location. Eg: if we create a thumbnail job for a certain asset, then before the job runs the assets folder changes to one where that asset no longer exists. The job will still run, but relative to the new assets folder. While we won't run into this in practice, it's still worth thinking about whether we can change how things are architected so that we don't need to sprinkle little defensive null/conformance checks all throughout the codebase.
+
 ### Idea Bucket
 
 https://docs.google.com/document/d/1U1t5ws2_DjsdBBRG5bPBsRgXeyZvx7GDxpZ8oTvNvPc/edit

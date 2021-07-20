@@ -11,12 +11,15 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
   Make.async "Write", Write = ()->
     throw "Not Implemented"
 
+  Write.logging = true
+
   Write.sync = {}
   Write.async = {}
 
   Memory = null
 
   logWrite = (fn, p)->
+    return unless Write.logging
     if Memory ?= Take "Memory"
       p = p.replace Memory("assetsFolder"), "" unless p is Memory("assetsFolder")
       p = p.replace Memory("dataFolder"), "" unless p is Memory("dataFolder")
@@ -75,7 +78,7 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
       childDestFolder = Read.path destFolder, srcName
       Write.sync.mkdir childDestFolder
       valid = true
-      for item in Read.sync src
+      for item in Read src
         _valid = Write.async.copyInto Read.path(src, item), childDestFolder
         valid &&= _valid
       return valid

@@ -7,11 +7,14 @@ Take ["AssetCard", "Debounced", "DOOM", "Frustration", "Iterated", "Log", "Memor
   renderCount = 1
   assetsToRender = []
   lastQuery = null
+  first = true
 
   Render = Debounced ()->
-    Log "Render"
     assets = Memory "assets"
     return unless assets?
+
+    Log "First Render #{Object.keys(assets).length}" if first
+    first = false
 
     query = State "search"
 

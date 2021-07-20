@@ -66,18 +66,18 @@ Take ["Env", "MainState"], (Env, MainState)->
     windowBounds[type][index] = win.getBounds()
     MainState "windowBounds", windowBounds
 
-  newWindow = (type, openDevTools = false, props = {})->
+  newWindow = (type, {tools}, props = {})->
     unless props.show is false
       deferPaint = true
       props.show = false
-    openDevTools = openDevTools and Env.isDev# or true
+    openDevTools = tools and Env.isDev# or true
     index = getNextIndex type
     bounds = getBounds type, index
     background = backgroundColor: if nativeTheme.shouldUseDarkColors then "#1b1b1b" else "#f2f2f2"
     win = new BrowserWindow Object.assign {}, defaultWindow, bounds, background, props
     checkBounds win
     win.loadFile "out/#{type}.html"
-    win.webContents.openDevTools() if openDevTools
+    win.webContents.openDevTools() if tools
     win.once "ready-to-show", win.show if deferPaint
     win.on "move", (e)-> updateBounds type, index, win
     win.on "resize", (e)-> updateBounds type, index, win
@@ -85,7 +85,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     win
 
   openAsset = (assetId)->
-    win = newWindow "asset", false, title: "Asset"
+    win = newWindow "asset", {tools: false}, title: "Asset"
     windowData[win.webContents.id] = assetId: assetId
     return win
 
@@ -93,7 +93,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     if db?
       db.show()
     else
-      db = newWindow "db", false, title: "Debug Log", backgroundThrottling: false, show: false#Env.isDev
+      db = newWindow "db", {tools: true}, title: "Debug Log", backgroundThrottling: false, show: Env.isDev
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()
@@ -105,7 +105,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     if setupAssistant?
       setupAssistant.show()
     else
-      setupAssistant = newWindow "setup-assistant", false, title: "Setup Assistant", resizable: false, fullscreenable: false, frame: false, titleBarStyle: "default"
+      setupAssistant = newWindow "setup-assistant", {tools: false}, title: "Setup Assistant", resizable: false, fullscreenable: false, frame: false, titleBarStyle: "default"
       setupAssistant.on "close", (e)-> setupAssistant = null
     return setupAssistant
 
@@ -123,7 +123,7 @@ Take ["Env", "MainState"], (Env, MainState)->
 
     open:
       asset: openAsset
-      browser: ()-> newWindow "browser", false, title: "Browser", minWidth: 400
+      browser: ()-> newWindow "browser", {tools: false}, title: "Browser", minWidth: 400
       db: openDb
       setupAssistant: openSetupAssistant
 

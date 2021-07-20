@@ -15,26 +15,26 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
       return
 
     card._loaded = true
-
-    if asset.thumbnail?
-      size = if DOOM(document.body, "hideLabels") is "" then 128 else 512
-      if path = asset.thumbnail[size]?.path
-        img = DOOM.create "img", null, src: path
-
-    if not img?
-      card._hash ?= String.hash asset.id
-      img = DOOM.create "no-img", null, class: "frustration"
-      DOOM.create "span", img, textContent: Frustration card._hash
-      hue = 71 * card._hash % 360
-      img.style.setProperty "--lit",    d3.lch  90, 30, hue
-      img.style.setProperty "--shaded", d3.lch  50, 70, hue
-      img.style.setProperty "--shadow", d3.lch  30, 90, hue
-      img.style.setProperty "--glow",   d3.lch 120, 60, hue
-      img.style.setProperty "--bg",     d3.lch 120, 20, hue
-
-    img.onclick = ()-> IPC.send "open-asset", asset.id
+    size = if DOOM(document.body, "hideLabels") is "" then 128 else 512
+    path = Paths.thumbnail asset, "#{size}.jpg"
+    img = DOOM.create "img", null, src: path
+    img.addEventListener "error", ()-> frustration card, asset
     card._assetImageElm.replaceChildren img
+    card._img = img
 
+
+  frustration = (card, asset)->
+    console.log "ERROR"
+    card._hash ?= String.hash asset.id
+    img = DOOM.create "no-img", null, class: "frustration"
+    DOOM.create "span", img, textContent: Frustration card._hash
+    hue = 71 * card._hash % 360
+    img.style.setProperty "--lit",    d3.lch  90, 30, hue
+    img.style.setProperty "--shaded", d3.lch  50, 70, hue
+    img.style.setProperty "--shadow", d3.lch  30, 90, hue
+    img.style.setProperty "--glow",   d3.lch 120, 60, hue
+    img.style.setProperty "--bg",     d3.lch 120, 20, hue
+    card._assetImageElm.replaceChildren img
     card._img = img
 
 
@@ -44,7 +44,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
     frag = new DocumentFragment()
     asset = card._asset
 
-    card._assetImageElm ?= DOOM.create "asset-image"
+    card._assetImageElm ?= DOOM.create "asset-image", null, click: ()-> IPC.send "open-asset", asset.id
     frag.append card._assetImageElm
 
     label = DOOM.create "asset-label", frag
