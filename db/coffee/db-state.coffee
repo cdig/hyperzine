@@ -11,7 +11,7 @@ Take ["Debounced", "Env", "Log", "Read", "Write"], (Debounced, Env, Log, Read, W
   save = Debounced 2000, ()->
     Log.time "Saving DBState", ()->
       # TODO: This should totally be async
-      Write.sync.json Env.dbStatePath, state
+      Write.sync.json Env.dbStatePath, state, quiet: true
 
   Make.async "DBState", DBState = (k, v)->
     throw Error "Unknown DBState key: #{k}" unless state[k]?

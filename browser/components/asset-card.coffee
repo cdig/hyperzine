@@ -17,7 +17,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
     card._loaded = true
     size = if DOOM(document.body, "hideLabels") is "" then 128 else 512
     path = Paths.thumbnail asset, "#{size}.jpg"
-    img = DOOM.create "img", null, src: path
+    img = DOOM.create "img", null, src: path, click: ()-> IPC.send "open-asset", asset.id
     img.addEventListener "error", ()-> frustration card, asset
     card._assetImageElm.replaceChildren img
     card._img = img
@@ -26,7 +26,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
   frustration = (card, asset)->
     console.log "ERROR"
     card._hash ?= String.hash asset.id
-    img = DOOM.create "no-img", null, class: "frustration"
+    img = DOOM.create "no-img", null, class: "frustration", click: ()-> IPC.send "open-asset", asset.id
     DOOM.create "span", img, textContent: Frustration card._hash
     hue = 71 * card._hash % 360
     img.style.setProperty "--lit",    d3.lch  90, 30, hue
@@ -44,7 +44,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
     frag = new DocumentFragment()
     asset = card._asset
 
-    card._assetImageElm ?= DOOM.create "asset-image", null, click: ()-> IPC.send "open-asset", asset.id
+    card._assetImageElm ?= DOOM.create "asset-image"
     frag.append card._assetImageElm
 
     label = DOOM.create "asset-label", frag

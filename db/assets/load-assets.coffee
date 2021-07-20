@@ -134,8 +134,8 @@ Take ["Asset", "DBState", "Log", "Memory", "Read", "WriteAssets"], (Asset, DBSta
     # requestAnimationFrame WriteAssets.enable
 
     # Finally, save a simplified version of assets to the disk, to speed future launch times.
-    # Log.time "Saving Cached Assets", ()->
-    #   DBState "assets", Object.mapValues assets, Asset.dehydrate
+    Log.time "Saving Cached Assets", ()->
+      DBState "assets", Object.mapValues assets, Asset.dehydrate
 
     # Done
     return restart() if requested

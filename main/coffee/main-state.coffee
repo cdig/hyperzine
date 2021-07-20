@@ -8,7 +8,7 @@ Take ["Debounced", "Env", "Log", "Read", "Write"], (Debounced, Env, Log, Read, W
     windowBounds: asset: [], browser: [], db: [], "setup-assistant": []
 
   save = Debounced 2000, ()->
-    Write.sync.json Env.mainStatePath, state
+    Write.sync.json Env.mainStatePath, state, quiet: true
 
   Make.async "MainState", MainState = (k, v)->
     throw Error "Unknown MainState key: #{k}" unless state[k]?

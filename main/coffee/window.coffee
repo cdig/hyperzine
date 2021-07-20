@@ -1,5 +1,5 @@
 Take ["Env", "MainState"], (Env, MainState)->
-  { app, BrowserWindow, nativeTheme } = require "electron"
+  { app, BrowserWindow, nativeTheme, screen } = require "electron"
 
   defaultWindow =
     title: "Hyperzine"
@@ -10,11 +10,12 @@ Take ["Env", "MainState"], (Env, MainState)->
       contextIsolation: false
       nodeIntegration: true
       scrollBounce: true
+      backgroundThrottling: false
 
   defaultBounds =
     asset: width: 960, height: 540
     browser: width: 1280, height: 720
-    db: x: 0, y: 0, width: 500, height: 400
+    db: width: 640, height: 480
     "setup-assistant": width: 480, height: 540
 
   windowIndexes = {}
@@ -45,7 +46,15 @@ Take ["Env", "MainState"], (Env, MainState)->
     windowIndexes[type][index] = null
 
   getBounds = (type, index)->
-    bounds = windowBounds[type][index] or defaultBounds[type]
+    bounds = windowBounds[type][index]
+    if not bounds?
+      bounds = defaultBounds[type]
+      # Position the new window at or near the mouse cursor.
+      # This helps us avoid frustration when working with multiple monitors.
+      p = screen.getCursorScreenPoint()
+      bounds.x = p.x - 74
+      bounds.y = p.y - 16
+    bounds
 
   checkBounds = (win)->
     bounds = win.getBounds()
@@ -76,6 +85,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     background = backgroundColor: if nativeTheme.shouldUseDarkColors then "#1b1b1b" else "#f2f2f2"
     win = new BrowserWindow Object.assign {}, defaultWindow, bounds, background, props
     checkBounds win
+    updateBounds type, index, win
     win.loadFile "out/#{type}.html"
     win.webContents.openDevTools() if tools
     win.once "ready-to-show", win.show if deferPaint
@@ -93,7 +103,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     if db?
       db.show()
     else
-      db = newWindow "db", {tools: true}, title: "Debug Log", backgroundThrottling: false, show: Env.isDev
+      db = newWindow "db", {tools: false}, title: "Debug Log", show: Env.isDev
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()

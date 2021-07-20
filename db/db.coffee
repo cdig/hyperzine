@@ -3,7 +3,7 @@ Take ["Config", "DBState", "IPC", "Log"], (Config, DBState, IPC, Log)->
   # The DB process stores a cache of data in a file, to help it speed up launching. We load that first.
   DBState.init()
 
-  # Next, we load our config — preference data created by the Setup Assistant and through general user interaction.
+  # Next, we load the config file — preference data created by the Setup Assistant and through general user interaction.
   config = Config()
 
   # Depending on how the config load went, we can continue to launch the main app, or drop

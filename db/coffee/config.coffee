@@ -28,7 +28,7 @@ Take ["Debounced", "Env", "Log", "Memory", "Read", "Write"], (Debounced, Env, Lo
       save()
 
   save = Debounced 1000, ()->
-    Write.sync.json Env.configPath, configData
+    Write.sync.json Env.configPath, configData, quiet: true
 
   Make "Config", ()-> Log.time "Loading Config", ()->
 
