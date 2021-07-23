@@ -12,9 +12,10 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
         path: path
         number: Array.last id.split(" ")
         creator: id.split(" ")[0...-1].join " "
+        hash: String.hash id
         shot: null
         tags: []
-        files: FileTree.new path, "Files"
+        files: FileTree.newEmpty path, "Files"
         thumbnails: {}
         _loading: false
       asset.search = Asset.load.search asset
@@ -26,6 +27,7 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
       asset.path = Read.path assetsFolder, asset.id
       asset.number = Array.last asset.id.split(" ")
       asset.creator = asset.id.split(" ")[0...-1].join " "
+      asset.hash = String.hash asset.id
       # shot - not needed by browser for initial render
       # tags - included in dehydrated asset
       # files - included in dehydrated asset
@@ -70,7 +72,7 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
         Memory "tags.#{tag}", tag for tag in assetTags
         assetTags
       files: (asset)->
-        FileTree.build asset.path, "Files"
+        FileTree.newPopulated asset.path, "Files"
       thumbnails: (asset)->
         thumbs = await Read.async(Paths.thumbnails(asset)).then arrayPun
         Array.mapToObject thumbs, (thumb)-> Paths.thumbnail asset, thumb
@@ -78,4 +80,5 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
         id: searchPrep asset.id
         name: searchPrep asset.name
         tags: searchPrep asset.tags.join " "
-        files: Array.unique(FileTree.flatNames(asset.files)).map searchPrep
+        files: Array.unique(FileTree.flat(asset.files, "basename")).map searchPrep
+        exts: Array.unique(FileTree.flat(asset.files, "ext")).map searchPrep

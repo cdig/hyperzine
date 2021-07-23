@@ -71,8 +71,8 @@
     "@types/node" "*"
 
 DOOM@ivanreese/doom:
-  version "6666.0.0"
-  resolved "https://codeload.github.com/ivanreese/doom/tar.gz/80f9324813c402aac1e1e8996b88d1d4ab604bbd"
+  version "6666.6.6"
+  resolved "https://codeload.github.com/ivanreese/doom/tar.gz/3b91bf5689377e7500b8db7b6877a2c61decefcd"
 
 ansi-styles@^3.2.1:
   version "3.2.1"

@@ -1,25 +1,14 @@
-Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "PubSub", "Read", "Validations", "Write", "DOMContentLoaded"], (DB, DOOM, HoldToRun, IPC, Log, EditableField, OnScreen, {Pub}, Read, Validations, Write)->
+Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Paths", "PubSub", "Read", "State", "Validations", "Write", "DOMContentLoaded"], (DB, DOOM, HoldToRun, IPC, Log, EditableField, OnScreen, Paths, {Pub}, Read, State, Validations, Write)->
   { nativeImage, shell } = require "electron"
 
-  isVideo = (file)->
-    name = file.name.toLowerCase()
-    for ext in ["avchd", "avi", "m4p", "m4v", "mov", "mp2", "mp4", "mpe", "mpeg", "mpg", "mpv", "ogg", "qt", "webm", "wmv"]
-      return true if name.endsWith ext
-    false
-
   loadThumbnail = (thumbnail, file, meta)->
-    filePath = file.path
-    type = null
 
     if file.count?
-      type = "folder"
       img = DOOM.create "no-img", thumbnail, class: "icon"
-      DOOM.create "span", img, textContent: "📁"
+      DOOM.create "span", img, textContent: if thumbnail._show_children then "📂" else "📁"
       DOOM.create "span", meta, textContent: file.count + " Items"
 
-    else if isVideo file
-      type = "video"
-
+    else if Paths.ext.video[file.ext]?
       img = DOOM.create "video", thumbnail,
         autoplay: ""
         muted: ""
@@ -28,26 +17,36 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pub
         disablepictureinpicture: ""
         disableremoteplayback: ""
         loop: ""
-        src: filePath
+        src: file.path
 
       img.addEventListener "loadedmetadata", ()->
         img.muted = true # It seems the attr isn't working, so we gotta do this
         if img.duration
           makeBubble meta, "Length", Math.round(img.duration) + "s"
 
-    else
-      loading = DOOM.create "no-img", thumbnail, class: "loading", innerHTML: "<span>•••</span>"
+    else if Paths.ext.icon[file.ext]?
+      loadIcon file, img = DOOM.create "img"
 
-      # TODO: thumbnails need to go into Memory
-      # src = await DB.send "create-thumbnail", file.path, 256
+    else if asset = State "asset"
+      size = 256
+      thumbName = Paths.thumbnailName file, size
+      src = Paths.thumbnail asset, thumbName
+      img = DOOM.create "img", null, src: src
 
-      if src
-        img = DOOM.create "img", null, src: src
-      else
-        src = await IPC.invoke "get-file-icon", file.path
-        img = DOOM.create "img", null, src: src, class: "icon"
+      img.addEventListener "error", ()->
+        src = await DB.send "create-file-thumbnail", asset.id, file.path, size, thumbName
+        if src
+          DOOM img, src: null # gotta clear it first or DOOM's cache will defeat the following
+          DOOM img, {src}
+        else
+          loadIcon file, img
 
-      thumbnail.replaceChildren img
+    thumbnail.replaceChildren img if img?
+
+
+  loadIcon = (file, img)->
+    src = await IPC.invoke "get-file-icon", file.path
+    DOOM img, {src, class: "icon"}
 
 
   # unloadThumbnail = (thumbnail)->
@@ -69,13 +68,12 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pub
     Write.sync.rename file.path, v
 
   Make "File", (file, depth)->
-    elm = DOOM.create "div", null,
-      class: "file"
-      paddingLeft: 5 * depth + "em"
+    elm = DOOM.create "div", null, class: "file"
 
     thumbnail = DOOM.create "div", elm,
       class: "thumbnail"
       draggable: "true"
+      marginLeft: 2 * depth + "em"
 
     thumbnail.ondragstart = (e)->
       e.preventDefault()

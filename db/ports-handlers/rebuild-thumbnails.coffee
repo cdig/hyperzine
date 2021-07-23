@@ -7,7 +7,12 @@ Take ["Job", "Log", "Memory", "Paths", "Ports", "Read", "Thumbnail", "Write"], (
     Write.logging = false
 
     promises = for id, asset of assets
-      Job 1, "Rebuild Thumbnails", asset
+      assetPromise = Job 1, "Rebuild Asset Thumbnails", asset
+
+      p = for file in asset.files.children when file.ext? and not Paths.ext.icon[file.ext]
+        Job 1, "Rebuild File Thumbnails", asset, file
+
+      Promise.all p.concat assetPromise
 
     await Promise.all promises
 
@@ -15,11 +20,27 @@ Take ["Job", "Log", "Memory", "Paths", "Ports", "Read", "Thumbnail", "Write"], (
     Write.logging = true
 
 
-  Job.handler "Rebuild Thumbnails", (asset)->
+  Job.handler "Rebuild File Thumbnails", (asset, file)->
+    msg = "Thumbnail for #{asset.id}/#{file.relpath} —"
+    size = 256
+    destName = Paths.thumbnailName file, size
+
+    if Read.sync.exists Paths.thumbnail asset, destName
+      Log "#{msg} already exists :)", color: "hsl(330, 55%, 50%)" # violet
+    else
+      if await Thumbnail asset, file.path, size, destName
+        Log "#{msg} created :)", color: "hsl(180, 100%, 29%)" # mint
+      else
+        Log "#{msg} will use an icon :/", color: "hsl(180, 100%, 29%)" # teal
+
+
+  Job.handler "Rebuild Asset Thumbnails", (asset)->
+    msg = "Thumbnails for #{asset.id} —"
+
     has128 = Read.sync.exists Paths.thumbnail asset, "128.jpg"
     has512 = Read.sync.exists Paths.thumbnail asset, "512.jpg"
     if has128 and has512
-      Log "Thumbnails for #{asset.id} — already exist :)", color: "hsl(330, 55%, 50%)" # violet
+      Log "#{msg} already exist :)", color: "hsl(330, 55%, 50%)" # violet
       return
 
     if asset.shot?
@@ -28,20 +49,20 @@ Take ["Job", "Log", "Memory", "Paths", "Ports", "Read", "Thumbnail", "Write"], (
       if asset.files?.count > 0
         shotSourceName = asset.shot.replace /\.png/, ""
         for file in asset.files.children when file.name is shotSourceName
-          Log "Thumbnails for #{asset.id} — trying to upgrade #{shotSourceName}"
+          Log "#{msg} trying to upgrade #{shotSourceName}"
           path = Paths.file asset, shotSourceName
           has128 = await Thumbnail asset, path, 128, true
           has512 = await Thumbnail asset, path, 512, true
-          Log "Thumbnails for #{asset.id} — upgraded :)", color: "hsl(153, 80%, 41%)" # mint
+          Log "#{msg} upgraded :)", color: "hsl(153, 80%, 41%)" # mint
           return markPath asset, path if has128 and has512
 
     # We couldn't upgrade the shot. Attempt to use a random file.
     if asset.files?.count > 0
       for file in asset.files.children
-        Log "Thumbnail for #{asset.id} — trying files... #{file.name}"
+        Log "#{msg} trying files... #{file.name}"
         if await Thumbnail asset, file.path, 128, true
           if await Thumbnail asset, file.path, 512, true
-            Log "Thumbnail for #{asset.id} — used file #{file.name}", color: "hsl(180, 100%, 29%)" # teal
+            Log "#{msg} used file #{file.name}", color: "hsl(180, 100%, 29%)" # teal
             return markPath asset, file.path # success
 
     # We couldn't use a random file. As a last-ditch attempt, try to use the original shot.
@@ -49,11 +70,11 @@ Take ["Job", "Log", "Memory", "Paths", "Ports", "Read", "Thumbnail", "Write"], (
       path = Paths.shot asset
       has128 = await Thumbnail asset, path, 128, true
       has512 = await Thumbnail asset, path, 512, true
-      Log "Thumbnails for #{asset.id} — upgraded :)", "hsl(220, 50%, 50%)" # blue
+      Log "#{msg} upgraded :)", "hsl(220, 50%, 50%)" # blue
       return markPath asset, path if has128 and has512
 
 
-    Log "Thumbnail for #{asset.id} — no dice :(", color: "hsl(25, 100%, 59%)" # orange
+    Log "#{msg} no dice :(", color: "hsl(25, 100%, 59%)" # orange
     null
 
 

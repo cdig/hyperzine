@@ -24,11 +24,9 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
 
 
   frustration = (card, asset)->
-    console.log "ERROR"
-    card._hash ?= String.hash asset.id
     img = DOOM.create "no-img", null, class: "frustration", click: ()-> IPC.send "open-asset", asset.id
-    DOOM.create "span", img, textContent: Frustration card._hash
-    hue = 71 * card._hash % 360
+    DOOM.create "span", img, textContent: Frustration asset.hash
+    hue = 71 * asset.hash % 360
     img.style.setProperty "--lit",    d3.lch  90, 30, hue
     img.style.setProperty "--shaded", d3.lch  50, 70, hue
     img.style.setProperty "--shadow", d3.lch  30, 90, hue

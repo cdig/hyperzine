@@ -1,37 +1,44 @@
 Take ["Read"], (Read)->
 
-  build = (parentPath, name)->
-    tree = FileTree.new parentPath, name
-    dirents = await Read.withFileTypes tree.path
-    tree.children = await Promise.all dirents.map filetreedirentmap = (dirent)->
-      if dirent.isDirectory()
-        child = await build tree.path, dirent.name
-        tree.count += child.count if child.count?
-        child
-      else
-        tree.count += 1
-        child =
-          name: dirent.name
-          ext: Array.last dirent.name.split "."
-          path: Read.path tree.path, dirent.name
-    return tree
+  populateTree = (tree)->
+    if await Read.exists tree.path
+      dirents = await Read.withFileTypes tree.path
+      tree.children = await Promise.all dirents.map (dirent)->
+        if dirent.isDirectory()
+          childTree = FileTree.newEmpty tree.path, dirent.name
+          childTree.relpath = Read.path tree.relpath, dirent.name
+          await populateTree childTree
+          tree.count += childTree.count
+          childTree
+        else
+          tree.count += 1
+          parts = dirent.name.split "."
+          childFile =
+            name: dirent.name
+            basename: Array.butLast(parts).join "."
+            ext: if parts.length > 1 then Array.last(parts).toLowerCase() else null
+            path: Read.path tree.path, dirent.name
+            relpath: Read.path tree.relpath, dirent.name
+    tree
 
   Make "FileTree", FileTree =
-    new: (parentPath, name)->
+    newEmpty: (parentPath, name)->
       name: name
-      # ext: Array.last name.split "." # TODO: Remove
-      path: Read.path parentPath, name
+      path: Read.path parentPath, name # absolute path on the local HD
+      relpath: name # path relative to the parent of the tree root
       count: 0
       children: []
 
-    build: (parentPath, name)->
-      if await Read.exists Read.path parentPath, name
-        build parentPath, name
-      else
-        FileTree.new parentPath, name
+    newPopulated: (parentPath, name)->
+      root = FileTree.newEmpty parentPath, name
+      await populateTree root
+      root
 
-    flatNames: (tree, into = [])->
+    flat: (tree, k, into = [])->
       for child in tree.children
-        into.push child.name
-        FileTree.flatNames child, into if child.children
+        if not k? # collecting children
+          into.push child
+        else if child[k]? # collecting children's properties
+          into.push child[k]
+        FileTree.flat child, k, into if child.children
       into

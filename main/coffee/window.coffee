@@ -46,28 +46,43 @@ Take ["Env", "MainState"], (Env, MainState)->
     windowIndexes[type][index] = null
 
   getBounds = (type, index)->
+    # We do some special logic to position windows based on the position of the
+    # mouse cursor, to avoid frustration when working with multiple monitors.
+    # We regard the mouse to be occupying the "current" monitor.
+    cursor = screen.getCursorScreenPoint()
+    display = screen.getDisplayNearestPoint(cursor).bounds
+
+    # The Setup Assistant is handled specially.
+    # It should always appear centered on the current monitor.
     if type is "setup-assistant"
       bounds = defaultBounds[type]
-      p = screen.getCursorScreenPoint()
-      d = screen.getDisplayNearestPoint p
-      bounds.x = d.bounds.x + d.bounds.width/2 - bounds.width/2
-      bounds.y = d.bounds.y + d.bounds.height/2 - bounds.height/2
+      bounds.x = display.x + display.width/2 - bounds.width/2
+      bounds.y = display.y + display.height/2 - bounds.height/2
+      return bounds
+
+    # For other types of windows, we'll first try to load the
+    # last-used position for this instance (by index) of this type of window
+    bounds = windowBounds[type][index]
+    return bounds if bounds?
+
+    # We don't have a last-used position, so let's set up a new one.
+    bounds = defaultBounds[type]
+
+    if type is "db"
+      # By default, the db should appear in the top left of the current monitor.
+      bounds.x = display.x
+      bounds.y = display.y
+
+    else if type is "browser" and index is 0
+      # The first instance of the browser window should appear centered on the current monitor.
+      bounds.x = display.x + display.width/2 - bounds.width/2
+      bounds.y = display.y + display.height/2 - bounds.height/2
 
     else
-      bounds = windowBounds[type][index]
-      if not bounds?
-        bounds = defaultBounds[type]
-        if type is "db"
-          p = screen.getCursorScreenPoint()
-          d = screen.getDisplayNearestPoint p
-          bounds.x = d.bounds.x
-          bounds.y = d.bounds.y
-        else
-          # Position the new window at or near the mouse cursor.
-          # This helps us avoid frustration when working with multiple monitors.
-          p = screen.getCursorScreenPoint()
-          bounds.x = p.x - 74
-          bounds.y = p.y - 16
+      # All other windows should appear near the mouse cursor.
+      bounds.x = cursor.x - 74
+      bounds.y = cursor.y - 16
+
     bounds
 
   checkBounds = (win)->
@@ -109,7 +124,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     win
 
   openAsset = (assetId)->
-    win = newWindow "asset", {tools: false}, title: "Asset"
+    win = newWindow "asset", {tools: true}, title: "Asset"
     windowData[win.webContents.id] = assetId: assetId
     return win
 
@@ -117,7 +132,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     if db?
       db.show()
     else
-      db = newWindow "db", {tools: false}, title: "Debug Log", show: Env.isDev
+      db = newWindow "db", {tools: true}, title: "Debug Log", show: Env.isDev# and false
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()
