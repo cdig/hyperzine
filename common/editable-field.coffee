@@ -3,6 +3,8 @@ Take ["DOOM"], (DOOM)->
   Make "EditableField", EditableField = (elm, cb, opts = {})->
     return if DOOM(elm, "editableField")?
 
+    startValue = null
+
     DOOM elm,
       editableField: ""
       contenteditable: ""
@@ -12,15 +14,23 @@ Take ["DOOM"], (DOOM)->
       spellcheck: "false"
 
     setValue = ()->
-      cb elm.textContent.trim() if elm._valid
+      validate()
+      cb elm.textContent if elm._valid
 
-    elm.addEventListener "input", (e)->
+    validate = ()->
+      elm.textContent = elm.textContent.trim()
       if opts.validate?
-        elm._valid = opts.validate elm.textContent.trim()
+        elm._valid = opts.validate elm.textContent
         DOOM elm, fieldInvalid: if elm._valid then null else ""
       else
         elm._valid = true
+
+    elm.addEventListener "input", (e)->
       setValue() if opts.saveOnInput
+
+    elm.addEventListener "focus", ()->
+      validate()
+      startValue = elm.textContent
 
     elm.addEventListener "blur", ()->
       window.getSelection().empty()
@@ -29,5 +39,10 @@ Take ["DOOM"], (DOOM)->
     elm.addEventListener "keydown", (e)->
       switch e.keyCode
         when 13
+          e.preventDefault()
+          elm.blur()
+
+        when 27
+          elm.textContent = startValue
           e.preventDefault()
           elm.blur()

@@ -128,6 +128,9 @@ Take ["Env", "MainState"], (Env, MainState)->
     windowData[win.webContents.id] = assetId: assetId
     return win
 
+  openBrowser = ()->
+    newWindow "browser", {tools: true}, title: "Browser", minWidth: 400
+
   openDb = ()->
     if db?
       db.show()
@@ -162,7 +165,7 @@ Take ["Env", "MainState"], (Env, MainState)->
 
     open:
       asset: openAsset
-      browser: ()-> newWindow "browser", {tools: false}, title: "Browser", minWidth: 400
+      browser: openBrowser
       db: openDb
       setupAssistant: openSetupAssistant
 

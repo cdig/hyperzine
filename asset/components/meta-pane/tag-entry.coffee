@@ -1,4 +1,4 @@
-Take ["Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Debounced, DOOM, Memory, Paths, State)->
+Take ["DB", "Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (DB, Debounced, DOOM, Memory, Paths, State)->
 
   input = document.querySelector "tag-entry input"
   suggestionList = document.querySelector "tag-entry suggestion-list"
@@ -69,9 +69,7 @@ Take ["Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (Deb
 
         if value?.length > 0
           asset = State "asset"
-          tags = Array.clone Memory "assets.#{asset.id}.tags"
-          tags.push value
-          Memory "assets.#{asset.id}.tags", Array.sortAlphabetic tags
+          DB.send "Add Tag", asset.id, value
           Memory "tags.#{value}", value
           input.value = ""
 

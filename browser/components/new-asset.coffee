@@ -3,4 +3,4 @@ Take ["DB", "DOOM", "IPC", "Log", "Memory", "DOMContentLoaded"], (DB, DOOM, IPC,
   elm = document.querySelector "[new-asset]"
 
   elm.onclick = ()->
-    DB.send "new-asset"
+    DB.send "New Asset"

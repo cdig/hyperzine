@@ -1,4 +1,4 @@
-Take ["Asset", "Debounced", "Iterated", "Log", "Memory", "Read"], (Asset, Debounced, Iterated, Log, Memory, Read)->
+Take ["Asset", "Debounced", "Job", "Log", "Memory", "Read"], (Asset, Debounced, Job,Log, Memory, Read)->
 
   watcher = null
 
@@ -9,27 +9,29 @@ Take ["Asset", "Debounced", "Iterated", "Log", "Memory", "Read"], (Asset, Deboun
 
   touchedAssets = {}
 
-  update = Debounced 200, Iterated 10, (more)->
-    assetsFolder = Memory "assetsFolder"
-    for assetId of touchedAssets when touchedAssets[assetId]
-      path = Read.path assetsFolder, assetId
-      if await Read.isFolder path
-        asset = Memory "assets.#{assetId}"
-        asset ?= Asset.new path
-        Asset.loadFields asset
-      else
-        asset = null
-      Memory "assets.#{assetId}", asset
-      touchedAssets[assetId] = false # Mark this asset as done
-      return unless more()
+  update = Debounced 200, ()->
+    for assetId of touchedAssets
+      Job 50, "Watched Asset Reload", assetId
     touchedAssets = {}
 
+  Job.handler "Watched Asset Reload", (assetId)->
+    assetsFolder = Memory "assetsFolder"
+    path = Read.path assetsFolder, assetId
+    if await Read.isFolder path
+      asset = Memory "assets.#{assetId}"
+      asset ?= Asset.new path
+      await Asset.loadFields asset
+    else
+      asset = null
+    Memory "assets.#{assetId}", asset
+
   change = (eventType, fullPath)->
+    return if Memory "Pause Watching"
     assetsFolder = Memory "assetsFolder"
     pathWithinAssetsFolder = fullPath.replace assetsFolder, ""
     assetId = Array.first Read.split pathWithinAssetsFolder
     return unless validFileName assetId
-    # Log "Watch #{eventType} #{pathWithinAssetsFolder}"
+    Log "Watch #{eventType} #{pathWithinAssetsFolder}"
     # We'll just reload the whole asset. This is simpler than trying to track exactly which paths have changed,
     # and the performance overhead will be effectively invisible (likely less than 1ms even on giant assets).
     touchedAssets[assetId] = true

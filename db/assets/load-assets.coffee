@@ -1,4 +1,4 @@
-Take ["Asset", "DBState", "Log", "Memory", "Read", "WriteAssets"], (Asset, DBState, Log, Memory, Read, WriteAssets)->
+Take ["Asset", "DBState", "Log", "Memory", "Read"], (Asset, DBState, Log, Memory, Read)->
 
   # LoadAssets does a ton of long-running async stuff, so if the dataFolder
   # changes while it's running, we'll be asked to start over again.
@@ -26,8 +26,10 @@ Take ["Asset", "DBState", "Log", "Memory", "Read", "WriteAssets"], (Asset, DBSta
     assets = {}
     assetsFolder = Memory "assetsFolder"
 
-    # Pause persisting asset changes to disk while we make rapid changes.
-    WriteAssets.enable false
+    # Mark that we want to be in a "read only" mode, so that things that would
+    # normally happen when assets are changed might not happen, since *lots*
+    # of assets are about to change.
+    Memory "Read Only", true
 
     Log.time "Rehydrating DBState Assets", ()->
       # To start, load all asset data cached from the last run.
@@ -130,9 +132,6 @@ Take ["Asset", "DBState", "Log", "Memory", "Read", "WriteAssets"], (Asset, DBSta
 
     return restart() if requested
 
-    # Later, after all Memory notifications will have gone out, resume persisting asset changes
-    # requestAnimationFrame WriteAssets.enable
-
     # Finally, save a simplified version of assets to the disk, to speed future launch times.
     Log.time "Saving Cached Assets", ()->
       DBState "assets", Object.mapValues assets, Asset.dehydrate
@@ -140,3 +139,4 @@ Take ["Asset", "DBState", "Log", "Memory", "Read", "WriteAssets"], (Asset, DBSta
     # Done
     return restart() if requested
     running = false
+    Memory "Read Only", false

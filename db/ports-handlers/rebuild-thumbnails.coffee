@@ -5,6 +5,8 @@ Take ["Job", "Log", "Memory", "Paths", "Ports", "Read", "Thumbnail", "Write"], (
 
     Log "Rebuilding All Thumbnails", background: "hsl(153, 80%, 41%)", color: "#000"
     Write.logging = false
+    Memory "Pause Caching", true
+    Memory "Pause Watching", true
 
     promises = for id, asset of assets
       assetPromise = Job 1, "Rebuild Asset Thumbnails", asset
@@ -17,7 +19,13 @@ Take ["Job", "Log", "Memory", "Paths", "Ports", "Read", "Thumbnail", "Write"], (
     await Promise.all promises
 
     Log "All Thumbnails Rebuilt", background: "hsl(153, 80%, 41%)", color: "#000"
+    # We should slightly delay the below, so that we give the watcher a sec to cool off.
+    # (We might even want to kill the watcher while this is running, rather than just
+    # ignoring its triggering)
     Write.logging = true
+    Memory "Pause Caching", false
+    Memory "Pause Watching", false
+    LoadAssets() # Catch up on changes
 
 
   Job.handler "Rebuild File Thumbnails", (asset, file)->
@@ -51,8 +59,8 @@ Take ["Job", "Log", "Memory", "Paths", "Ports", "Read", "Thumbnail", "Write"], (
         for file in asset.files.children when file.name is shotSourceName
           Log "#{msg} trying to upgrade #{shotSourceName}"
           path = Paths.file asset, shotSourceName
-          has128 = await Thumbnail asset, path, 128, true
-          has512 = await Thumbnail asset, path, 512, true
+          has128 = await Thumbnail asset, path, 128
+          has512 = await Thumbnail asset, path, 512
           Log "#{msg} upgraded :)", color: "hsl(153, 80%, 41%)" # mint
           return markPath asset, path if has128 and has512
 
@@ -60,16 +68,16 @@ Take ["Job", "Log", "Memory", "Paths", "Ports", "Read", "Thumbnail", "Write"], (
     if asset.files?.count > 0
       for file in asset.files.children
         Log "#{msg} trying files... #{file.name}"
-        if await Thumbnail asset, file.path, 128, true
-          if await Thumbnail asset, file.path, 512, true
+        if await Thumbnail asset, file.path, 128
+          if await Thumbnail asset, file.path, 512
             Log "#{msg} used file #{file.name}", color: "hsl(180, 100%, 29%)" # teal
             return markPath asset, file.path # success
 
     # We couldn't use a random file. As a last-ditch attempt, try to use the original shot.
     if asset.shot?
       path = Paths.shot asset
-      has128 = await Thumbnail asset, path, 128, true
-      has512 = await Thumbnail asset, path, 512, true
+      has128 = await Thumbnail asset, path, 128
+      has512 = await Thumbnail asset, path, 512
       Log "#{msg} upgraded :)", "hsl(220, 50%, 50%)" # blue
       return markPath asset, path if has128 and has512
 

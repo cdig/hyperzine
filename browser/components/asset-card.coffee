@@ -48,7 +48,10 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
     label = DOOM.create "asset-label", frag
 
     assetName = DOOM.create "asset-name", label, class: "basic-field"
-    MemoryField "assets.#{asset.id}.name", assetName, validate: Validations.asset.name
+
+    MemoryField "assets.#{asset.id}.name", assetName,
+      validate: Validations.asset.name
+      update: (v)-> DB.send "Rename Asset", asset.id, v
 
     tagList = DOOM.create "tag-list", label
 

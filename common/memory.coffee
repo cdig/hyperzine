@@ -51,15 +51,20 @@ Take [], ()->
   Make.async "Memory", Memory = (path = "", v, {remote = true, immutable = false} = {})->
     [node, k] = getAt memory, path
 
-    return node[k] if v is undefined # Just a read
-
-    throw Error "You're not allowed to set the Memory root" if path is ""
+    if v is undefined # Just a read
+      isRead = true
+      v = node[k] # Pull the value out so we can clone it if needed
 
     # It's not safe to take something out of Memory, mutate it, and commit it again.
     # The immutable option tells us the caller promises they're not doing that.
+    # Otherwise, we clone objects and arrays before reading or writing them.
     if v? and not immutable
       v = Object.clone v if Object.type v
       v = Array.clone v if Array.type v
+
+    return v if isRead # Now return the (possibly cloned) value
+
+    throw Error "You're not allowed to set the Memory root" if path is ""
 
     old = node[k]
 

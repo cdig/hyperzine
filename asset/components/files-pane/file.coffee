@@ -62,10 +62,12 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
     #   unloadThumbnail thumbnail
 
   deleteFile = (file)-> ()->
-    Write.sync.rm file.path
+    if asset = State "asset"
+      DB.send "Delete File", asset.id, file.relpath
 
   renameFile = (file)-> (v)->
-    Write.sync.rename file.path, v
+    if asset = State "asset"
+      DB.send "Rename File", asset.id, file.relpath, v
 
   Make "File", (file, depth)->
     elm = DOOM.create "div", null, class: "file"

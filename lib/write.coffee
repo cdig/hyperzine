@@ -22,9 +22,9 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
     return if opts.quiet
     return unless Write.logging
     if Memory ?= Take "Memory"
-      p = p.replace Memory("assetsFolder"), "" unless p is Memory("assetsFolder")
-      p = p.replace Memory("dataFolder"), "" unless p is Memory("dataFolder")
-    p = p.replace Env.home, "" unless p is Env.home
+      p = p.replace new RegExp(Memory("assetsFolder") + Read.sep, "g"), "" unless p is Memory("assetsFolder")
+      p = p.replace new RegExp(Memory("dataFolder") + Read.sep, "g"), "" unless p is Memory("dataFolder")
+    p = p.replace new RegExp(Env.home + Read.sep, "g"), "" unless p is Env.home
     Log "WRITE #{fn} #{p}"
 
   Write.sync.file = (path, data, opts)->
@@ -41,7 +41,8 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
     return valid
 
   Write.sync.rename = (path, newName, opts)->
-    newPath = "/" + Read.path Read.parentPath(path), newName
+    newPath = Read.sep + Read.path Read.parentPath(path), newName
+    return true if path is newPath
     if valid = validPath(path) and validPath(newPath)
       logWrite "rename", "#{path} -> #{newPath}", opts
       fs.renameSync path, newPath

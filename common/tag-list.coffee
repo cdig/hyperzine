@@ -11,8 +11,15 @@ Take ["Memory"], (Memory)->
     return frag
 
   makeTag = (tag, opts, special)->
-    tagItem = DOOM.create "tag-item", null, textContent: tag
-    if special then DOOM tagItem, special: ""
-    if opts.click? then DOOM tagItem, click: ()-> opts.click tag, tagItem
-    if opts.removeFn? then DOOM.create "span", tagItem, textContent: "x", class: "remove", click: opts.removeFn tag
-    tagItem
+    elm = DOOM.create "tag-item", null, textContent: tag
+    if special then DOOM elm, special: ""
+
+    if opts.click?
+      DOOM elm, click: (e)->
+        opts.click tag, elm unless Memory "Read Only"
+
+    if opts.removeFn?
+      DOOM.create "span", elm, textContent: "x", class: "remove", click: (e)->
+        opts.removeFn tag unless Memory "Read Only"
+
+    elm

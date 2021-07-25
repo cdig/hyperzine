@@ -23,9 +23,12 @@ Take [], ()->
   Job.count = 0
   Job.delay = 0
 
+  Job.handler = (type, handler)->
+    if handlers[type] then throw Error "A job handler for #{type} already exists"
+    handlers[type] = handler
 
-  Job.handler = (type, handler)-> handlers[type] = handler
-  Job.watcher = (watcher)-> watchers.push watcher
+  Job.watcher = (watcher)->
+    watchers.push watcher
 
   Job.runJobs = ()->
     return if running

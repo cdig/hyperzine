@@ -3,7 +3,7 @@ Take ["IPC", "Memory", "PubSub", "Render", "State"], (IPC, Memory, {Sub}, Render
   assetId = await IPC.invoke "whats-my-asset"
 
   Memory.subscribe "assets.#{assetId}", true, (asset)->
-    return if asset._loading
+    return if asset?._loading
     State "asset", asset
     Render()
 

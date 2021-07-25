@@ -1,4 +1,4 @@
-Take ["DOOM", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write", "DOMContentLoaded"], (DOOM, HoldToRun, IPC, Memory, Paths, State, Write)->
+Take ["DB", "DOOM", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write", "DOMContentLoaded"], (DB, DOOM, HoldToRun, IPC, Memory, Paths, State, Write)->
   { shell } = require "electron"
 
   pinUnpin = document.querySelector "[pin-unpin]"
@@ -9,9 +9,9 @@ Take ["DOOM", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write", "DOMConte
     shell.showItemInFolder State("asset").path
 
   HoldToRun deleteAsset, 1000, ()->
-    asset = State("asset")
-    Write.sync.rm asset.path
-    IPC.send "close-window"
+    asset = State "asset"
+    DB.send "Delete Asset", asset.id
+    # IPC.send "close-window"
 
   render = ()->
     DOOM pinUnpin, textContent: if State("asset").pinned then "Unpin" else "Pin"

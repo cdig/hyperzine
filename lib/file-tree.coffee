@@ -42,3 +42,10 @@ Take ["Read"], (Read)->
           into.push child[k]
         FileTree.flat child, k, into if child.children
       into
+
+    find: (tree, k, v)->
+      return tree if tree[k] is v
+      if tree.children
+        for child in tree.children
+          return res if res = FileTree.find child, k, v
+      null
