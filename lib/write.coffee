@@ -49,6 +49,7 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
     return valid
 
   Write.sync.rm = (path, opts)->
+    return true if not fs.existsSync path
     if valid = validPath path
       logWrite "rm", path, opts
       fs.rmSync path, recursive: true

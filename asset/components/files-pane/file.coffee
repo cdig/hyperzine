@@ -1,5 +1,5 @@
 Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Paths", "PubSub", "Read", "State", "Validations", "Write", "DOMContentLoaded"], (DB, DOOM, HoldToRun, IPC, Log, EditableField, OnScreen, Paths, {Pub}, Read, State, Validations, Write)->
-  { nativeImage, shell } = require "electron"
+  { shell } = require "electron"
 
   loadThumbnail = (thumbnail, file, meta)->
 
@@ -69,6 +69,10 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
     if asset = State "asset"
       DB.send "Rename File", asset.id, file.relpath, v
 
+  setThumbnail = (file)-> ()->
+    if asset = State "asset"
+      DB.send "Set Thumbnail", asset.id, file.relpath
+
   Make "File", (file, depth)->
     elm = DOOM.create "div", null, class: "file"
 
@@ -107,6 +111,14 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
       class: "icon"
       viewBox: "0 0 200 200"
       innerHTML: "<use xlink:href='#i-ex'></use>"
+
+    if file.ext? and not Paths.ext.icon[file.ext]
+      thumb = DOOM.create "div", tools
+      thumbSvg = DOOM.create "svg", thumb,
+        class: "icon"
+        viewBox: "0 0 200 200"
+        innerHTML: "<use xlink:href='#i-eye'></use>"
+        click: setThumbnail file
 
     HoldToRun remove, 400, deleteFile file
 

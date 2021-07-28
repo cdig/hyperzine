@@ -16,7 +16,7 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
 
     card._loaded = true
     size = if DOOM(document.body, "hideLabels") is "" then 128 else 512
-    path = Paths.thumbnail asset, "#{size}.jpg"
+    path = Paths.thumbnail asset, "#{size}.jpg?cachebust=#{Math.randInt 0, 100000}"
     img = DOOM.create "img", null, src: path, click: ()-> IPC.send "open-asset", asset.id
     img.addEventListener "error", ()-> frustration card, asset
     card._assetImageElm.replaceChildren img
@@ -78,7 +78,6 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
     build card if card._visible and not card._built
     loadImage card if card._visible and not card._loaded
     unloadImage card if not card._visible and card._loaded and (not card._index? or card._index > 100)
-
     # The last part of this conditional (about _index) stops the results that are up near the search bar
     # from flickering as you type in a search (due to OnScreen quickly alternating between invisible and visible).
     # unbuild card if not card._visible and card._loaded and (not card._index? or card._index > 100)

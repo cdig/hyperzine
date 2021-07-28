@@ -2,13 +2,13 @@
 # The typical use of this system is to cache data that'll speed up launching the app.
 # DBState is its own data store. It does not put its data into State or Memory.
 
-Take ["Debounced", "Env", "Log", "Read", "Write"], (Debounced, Env, Log, Read, Write)->
+Take ["ADSR", "Env", "Log", "Read", "Write"], (ADSR, Env, Log, Read, Write)->
 
   # This lists all the keys we'll persist in the DBState file, with their default values
   state =
     assets: {}
 
-  save = Debounced 2000, ()->
+  save = ADSR 20, 2000, ()->
     Log.time "Saving DBState", ()->
       # TODO: This should totally be async
       Write.sync.json Env.dbStatePath, state, quiet: true

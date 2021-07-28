@@ -4,5 +4,5 @@ Take ["Memory"], (Memory)->
     "Archived"
   }
 
-  Memory "tags.#{tag}", tag for tag of specialTags
+  Memory.merge "tags", specialTags
   Memory "specialTags", specialTags

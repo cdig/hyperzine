@@ -31,13 +31,13 @@
 
 
 
-# Take ["Debounced", "Log", "Memory", "Read", "Write"], (Debounced, Log, Memory, Read, Write)->
+# Take ["ADSR", "Log", "Memory", "Read", "Write"], (ADSR, Log, Memory, Read, Write)->
 #
 #   enabled = false
 #   changed = {}
 #   permittedKeys = name: "Name", shot: "Shot", tags: "Tags"#, files: "Files"
 #
-#   update = Debounced.raf ()->
+#   update = ADSR 1, 1, ()->
 #     for id, changes of changed
 #       if changes? then updateAsset id, changes else deleteAsset id
 #     changed = {}

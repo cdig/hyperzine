@@ -1,0 +1,15 @@
+meta-pane asset-thumbnail {
+  display: inline-block;
+  // padding: 1em;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  vertical-align: top;
+
+  img {
+    width: 100%;
+    // max-width: 15em;
+    max-height: 30vh;
+    border-radius: 8px;
+    object-fit: contain;
+  }
+}

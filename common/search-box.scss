@@ -15,7 +15,7 @@ search-box {
     left: 0;
     width: 100%;
     height: 100%;
-    border: 4px solid var(--input-focus-after-border);
+    border: 2px solid var(--rainbow-focus);
     border-radius: 8px;
     opacity: 0;
     transition: opacity .1s;

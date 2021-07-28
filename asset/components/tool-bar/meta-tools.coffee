@@ -11,7 +11,7 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write", "DO
   HoldToRun deleteAsset, 1000, ()->
     asset = State "asset"
     DB.send "Delete Asset", asset.id
-    # IPC.send "close-window"
+    IPC.send "close-window"
 
   render = ()->
     DOOM pinUnpin, textContent: if State("asset").pinned then "Unpin" else "Pin"

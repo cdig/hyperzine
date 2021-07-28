@@ -8,7 +8,7 @@ Take ["Asset", "DBState", "Log", "Memory", "Read"], (Asset, DBState, Log, Memory
   restart = ()->
     running = false
     requested = false
-    Log "Restarting LoadAssets"
+    Log "Restarting LoadAssets", background: "#f80", color: "black"
     LoadAssets()
 
 
@@ -30,6 +30,11 @@ Take ["Asset", "DBState", "Log", "Memory", "Read"], (Asset, DBState, Log, Memory
     # normally happen when assets are changed might not happen, since *lots*
     # of assets are about to change.
     Memory "Read Only", true
+
+    # This ensures we have an assets object in Memory, even if the library is brand new
+    # and there are no assets in it yet (in which case none of the below would end up
+    # committing to Memory, and Memory("assets") would be undefined)
+    Memory.default "assets", assets
 
     Log.time "Rehydrating DBState Assets", ()->
       # To start, load all asset data cached from the last run.
@@ -133,7 +138,7 @@ Take ["Asset", "DBState", "Log", "Memory", "Read"], (Asset, DBState, Log, Memory
     return restart() if requested
 
     # Finally, save a simplified version of assets to the disk, to speed future launch times.
-    Log.time "Saving Cached Assets", ()->
+    Log.time "Saving Fast-Load Asset Cache", ()->
       DBState "assets", Object.mapValues assets, Asset.dehydrate
 
     # Done

@@ -1,6 +1,6 @@
 Take ["DOOM", "Ports", "DOMContentLoaded"], (DOOM, Ports)->
 
-  maxLogLines = 2000
+  maxLogLines = 5000
   printer = document.querySelector "log-printer"
 
   Printer = (msg, attrs, time)->

@@ -1,3 +1,8 @@
+:root {
+  --rainbow-before-delay: 0ms;
+}
+
+
 [rainbow-before]::before {
   content: "";
   position: absolute;
@@ -11,7 +16,7 @@
     linear-gradient(to right,    transparent,      transparent,      var(--rainbow-c), transparent,      transparent,      var(--rainbow-c), transparent,      transparent,      var(--rainbow-c));
   opacity: .2;
   animation: rainbow-before 1s linear infinite;
-  animation-delay: var(--rainbow-delay);
+  animation-delay: var(--rainbow-before-delay);
   animation-play-state: paused;
 }
 

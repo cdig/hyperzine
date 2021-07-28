@@ -1,7 +1,7 @@
 .file {
   display: flex;
   align-items: center;
-  margin-left: .3em;
+  margin-left: .5em;
 
   .thumbnail {
     flex: 0 0 8em;
@@ -13,7 +13,7 @@
     // for some reason I don't understand. So if having no height limit becomes
     // a problem, we'll just need to set all items to have fixed height, sadly.
     // height: 8em;
-    margin: .25em;
+    margin: 0 .25rem .5rem;
     font-size: var(--asset-thumbnail-size);
 
     & > * {
@@ -44,11 +44,17 @@
 
   .info {
     flex: 1 1 auto;
-    margin-left: .5em;
 
     .name {
       // font-weight: 600;
-      margin-left: .2em;
+      margin-left: -.2em;
+      margin-top: -.25em;
+      padding: calc(.2em - 2px) calc(.4em - 2px);
+      border: 2px solid transparent;
+
+      &:focus-visible {
+        border-color: var(--rainbow-focus);
+      }
     }
 
     .meta, .tools {

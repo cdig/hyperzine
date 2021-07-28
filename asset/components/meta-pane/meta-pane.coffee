@@ -1,5 +1,6 @@
-Take ["DB", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList", "Validations", "DOMContentLoaded"], (DB, DOOM, Memory, MemoryField, MetaTools, Paths, State, TagList, Validations)->
+Take ["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList", "Validations", "DOMContentLoaded"], (DB, ADSR, DOOM, Memory, MemoryField, MetaTools, Paths, State, TagList, Validations)->
   metaPane = document.querySelector "meta-pane"
+  assetThumbnail = metaPane.querySelector "asset-thumbnail"
   assetName = metaPane.querySelector "asset-name"
   addNote = metaPane.querySelector "[add-note]"
   assetHistory = metaPane.querySelector "[asset-history]"
@@ -9,7 +10,7 @@ Take ["DB", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "Tag
     asset = State "asset"
     DB.send "Remove Tag", asset.id, tag
 
-  renameAsset = (v)->
+  renameAsset = ADSR 300, 0, (v)->
     asset = State "asset"
     DB.send "Rename Asset", asset.id, v
 
@@ -18,6 +19,7 @@ Take ["DB", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "Tag
       asset = State "asset"
       tagList.replaceChildren TagList asset, removeFn: removeTag
       MemoryField "assets.#{asset.id}.name", assetName,
-        saveOnInput: true
         validate: Validations.asset.name
         update: renameAsset
+      assetThumbnail.replaceChildren DOOM.create "img", null,
+        src: Paths.thumbnail asset, "512.jpg?cachebust=#{Math.randInt 0, 10000}"

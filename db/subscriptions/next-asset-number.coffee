@@ -8,13 +8,14 @@ Take ["Memory"], (Memory)->
 
     highestNumber = 0
 
-    for assetId, asset of assets when asset.creator.toLowerCase() is localName.toLowerCase()
-      highestNumber = Math.max highestNumber, asset.number
+    for assetId, asset of assets
+      if asset.creator.toLowerCase() is localName.toLowerCase()
+        highestNumber = Math.max highestNumber, asset.number
 
     Memory "nextAssetNumber", highestNumber + 1
 
     null
 
-  Memory.subscribe "localName", false, update
-  Memory.subscribe "assets", false, update
+  Memory.subscribe "localName", true, update
+  Memory.subscribe "assets", true, update
   update()

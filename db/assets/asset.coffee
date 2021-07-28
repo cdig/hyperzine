@@ -14,6 +14,7 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
         creator: id.split(" ")[0...-1].join " "
         hash: String.hash id
         shot: null
+        newShot: null
         tags: []
         files: FileTree.newEmpty path, "Files"
         thumbnails: {}
@@ -29,6 +30,7 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
       asset.creator = asset.id.split(" ")[0...-1].join " "
       asset.hash = String.hash asset.id
       # shot - not needed by browser for initial render
+      # newShot - not needed by browser for initial render
       # tags - included in dehydrated asset
       # files - included in dehydrated asset
       asset.thumbnails = {}
@@ -46,6 +48,7 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
       # number - will be rehydrated on load
       # creator - will be rehydrated on load
       # shot - not needed by browser for initial render
+      # newShot - not needed by browser for initial render
       tags: asset.tags
       files:
         count: asset.files.count
@@ -55,6 +58,7 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
     loadFields: (asset)->
       asset.name = await Asset.load.name asset
       asset.shot = await Asset.load.shot asset
+      asset.newShot = await Asset.load.newShot asset
       asset.tags = await Asset.load.tags asset
       asset.files = await Asset.load.files asset
       asset.thumbnails = await Asset.load.thumbnails asset
@@ -63,12 +67,14 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
 
     load:
       name: (asset)->
-        name = await Read.async(Read.path asset.path, "Name").then first
+        name = await Read.async(Paths.names asset).then first
         (name or asset.id).trim()
       shot: (asset)->
-        Read.async(Read.path asset.path, "Shot").then first
+        shot = Read.async(Paths.shots asset).then first
+      newShot: (asset)->
+        shot = await Read.async(Paths.newShots asset).then first
       tags: (asset)->
-        assetTags = await Read.async(Read.path asset.path, "Tags").then arrayPun
+        assetTags = await Read.async(Paths.tags asset).then arrayPun
         Memory "tags.#{tag}", tag for tag in assetTags
         assetTags
       files: (asset)->

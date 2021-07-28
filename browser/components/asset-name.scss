@@ -1,8 +1,14 @@
 asset-name {
   display: block;
   margin: .3em .3em;
+  border: 2px solid transparent;
   font-weight: 600;
   text-align: center;
+  transition: .1s border-color;
+
+  &:focus-visible {
+    border-color: var(--rainbow-focus);
+  }
 }
 
 [hide-labels] asset-name {

@@ -51,18 +51,15 @@ Take [], ()->
   Make.async "Memory", Memory = (path = "", v, {remote = true, immutable = false} = {})->
     [node, k] = getAt memory, path
 
-    if v is undefined # Just a read
-      isRead = true
-      v = node[k] # Pull the value out so we can clone it if needed
+    return node[k] if v is undefined # Just a read
 
     # It's not safe to take something out of Memory, mutate it, and commit it again.
     # The immutable option tells us the caller promises they're not doing that.
-    # Otherwise, we clone objects and arrays before reading or writing them.
-    if v? and not immutable
-      v = Object.clone v if Object.type v
-      v = Array.clone v if Array.type v
+    # Otherwise, we clone values before writing them.
+    v = Function.clone v unless immutable
 
-    return v if isRead # Now return the (possibly cloned) value
+    if (Object.type(v) or Array.type(v)) and v is node[k]
+      throw "Did you take something out of Memory, mutate it, and commit it again?"
 
     throw Error "You're not allowed to set the Memory root" if path is ""
 
@@ -86,6 +83,22 @@ Take [], ()->
   # These are useful because they return true if a change was made
   Memory.change = (path, v)-> conditionalSet path, v, Function.notEquivalent
   Memory.default = (path, v)-> conditionalSet path, v, Function.notExists
+
+  # This is useful because it reduces the need to update Memory in a loop,
+  # which triggers a lot of (possibly pointless) notifications.
+  # Reminder that Object.merge doesn't handle arrays, so maybe
+  # limit the use of this function to primitives (since it implies immutable).
+  Memory.merge = (path, v)-> Memory path, (Object.merge v, Memory path), immutable: true
+
+  # These are useful because it offers a nice syntax for updating existing values in Memory,
+  # with support for async, either mutably or immutably.
+  Memory.update = (path, fn)-> Memory path, (await fn Memory path), immutable: true
+  Memory.mutate = (path, fn)-> Memory.clone path, (await fn Memory path), immutable: true
+
+  # This is a convenience function for reading something from Memory that is pre-cloned
+  # (if necessary) to avoid mutability issues.
+  Memory.clone = (path)-> Function.clone Memory path
+
 
   Memory.subscribe = (...[path = "", runNow = true, weak = false], cb)->
     throw "Invalid subscribe path" unless String.type path # Avoid errors if you try say subscribe(runNow, cb)

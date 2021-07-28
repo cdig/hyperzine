@@ -1,13 +1,13 @@
 # This file manages any state that needs to be persisted to the local filesystem
 # just for the main process.
 
-Take ["Debounced", "Env", "Log", "Read", "Write"], (Debounced, Env, Log, Read, Write)->
+Take ["ADSR", "Env", "Log", "Read", "Write"], (ADSR, Env, Log, Read, Write)->
 
   # This lists all the keys we'll persist in the main state file, with their default values
   state =
     windowBounds: asset: [], browser: [], db: [], "setup-assistant": []
 
-  save = Debounced 2000, ()->
+  save = ADSR 0, 2000, ()->
     Write.sync.json Env.mainStatePath, state, quiet: true
 
   Make.async "MainState", MainState = (k, v)->

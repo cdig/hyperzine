@@ -2,7 +2,7 @@
 # This system manages user preferences and related data. It uses Memory to share this data with other systems.
 # This file is also where all the default values for user preferences are listed.
 
-Take ["Debounced", "Env", "Log", "Memory", "Read", "Write"], (Debounced, Env, Log, Memory, Read, Write)->
+Take ["ADSR", "Env", "Log", "Memory", "Read", "Write"], (ADSR, Env, Log, Memory, Read, Write)->
 
   # This lists all the keys we'll persist in the config file, with their default values
   configData =
@@ -27,7 +27,7 @@ Take ["Debounced", "Env", "Log", "Memory", "Read", "Write"], (Debounced, Env, Lo
       configData[k] = v
       save()
 
-  save = Debounced 1000, ()->
+  save = ADSR 0, 2000, ()->
     Write.sync.json Env.configPath, configData, quiet: true
 
   Make "Config", ()-> Log.time "Loading Config", ()->

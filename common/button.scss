@@ -1,6 +1,6 @@
 button {
-  padding: .4em .6em;
-  border: none;
+  padding: calc(.4em - 2px) calc(.6em - 2px);
+  border: 2px solid transparent;
   outline: none;
   border-radius: 4px;
   color: var(--button-text);
@@ -12,6 +12,12 @@ button {
 
   &:disabled {
     opacity: .5;
+  }
+
+  transition: border-color .1s;
+
+  &:focus-visible {
+    border-color: var(--rainbow-focus)
   }
 }
 

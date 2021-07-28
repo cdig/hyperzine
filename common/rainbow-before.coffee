@@ -1,11 +1,9 @@
-Take ["Debounced", "State", "DOMContentLoaded"], (Debounced, State)->
+Take ["ADSR", "Rainbow", "DOMContentLoaded"], (ADSR, Rainbow)->
 
-  State "rainbow-before-delay", 0
+  scroll = ADSR 1, 1, ()->
+    Rainbow.move 0.5
 
-  scroll = Debounced.raf ()->
-    delay = State("rainbow-before-delay") - 0.5
-    State "rainbow-before-delay", delay
-    document.body.style.setProperty "--rainbow-delay", "#{delay}ms"
+  scroll()
 
   for scrollable in document.querySelectorAll ".scrollable"
     scrollable.addEventListener "wheel", scroll, passive: true

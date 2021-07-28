@@ -12,10 +12,18 @@ Take [], ()->
     [node, k]
 
 
-  Make.async "State", State = (path = "", v)->
+  Make.async "State", State = (path = "", v, {immutable = false} = {})->
     [node, k] = getAt state, path
 
     return node[k] if v is undefined # Just a read
+
+    # It's not safe to take something out of State, mutate it, and commit it again.
+    # The immutable option tells us the caller promises they're not doing that.
+    # Otherwise, we clone values before reading or writing them.
+    v = Function.clone v unless immutable
+
+    if not immutable and v is node[k] and (Object.type(v) or Array.type(v))
+      throw "Did you take something out of State, mutate it, and commit it again?"
 
     throw Error "You're not allowed to set the State root" if path is ""
 
@@ -35,8 +43,24 @@ Take [], ()->
     State path, v if doSet
     return doSet
 
+  # These are useful because they return true if a change was made
   State.change = (path, v)-> conditionalSet path, v, Function.notEquivalent
   State.default = (path, v)-> conditionalSet path, v, Function.notExists
+
+  # This is useful because it reduces the need to update State in a loop,
+  # which triggers a lot of (possibly pointless) notifications.
+  # Reminder that Object.merge doesn't handle arrays, so maybe
+  # limit the use of this function to primitives (since it implies immutable).
+  State.merge = (path, v)-> State path, (Object.merge v, State path), immutable: true
+
+  # These are useful because it offers a nice syntax for updating existing values in State,
+  # with support for async, either mutably or immutably.
+  State.update = (path, fn)-> State path, (await fn State path), immutable: true
+  State.mutate = (path, fn)-> State.clone path, (await fn State path), immutable: true
+
+  # This is a convenience function for reading something from State that is pre-cloned
+  # (if necessary) to avoid mutability issues.
+  State.clone = (path)-> Function.clone State path
 
   State.subscribe = (...[path = "", runNow = true, weak = false], cb)->
     throw "Invalid subscribe path" unless String.type path # Avoid errors if you try say subscribe(runNow, cb)

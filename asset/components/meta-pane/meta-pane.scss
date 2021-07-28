@@ -1,6 +1,7 @@
 meta-pane {
   display: block;
   // flex: 0 0 30rem;
+  max-width: 60%;
   flex: 1 1 50%;
   padding: calc(82px + 1em) 1em 0;
   border-left: 1px solid var(--tool-bar-bg);

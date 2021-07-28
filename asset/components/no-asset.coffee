@@ -4,5 +4,4 @@ Take ["DOOM", "State"], (DOOM, State)->
 
   Make "NoAsset", NoAsset =
     render: ()->
-      asset = State "asset"
-      DOOM elm, display: if not asset? then "block" else "none"
+      DOOM elm, display: if State("asset")? then "none" else "block"

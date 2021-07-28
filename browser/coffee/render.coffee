@@ -1,4 +1,4 @@
-Take ["AssetCard", "Debounced", "DOOM", "Frustration", "Iterated", "Log", "Memory", "Search", "State", "DOMContentLoaded"], (AssetCard, Debounced, DOOM, Frustration, Iterated, Log, Memory, Search, State)->
+Take ["AssetCard", "ADSR", "DOOM", "Frustration", "Iterated", "Log", "Memory", "Search", "State", "DOMContentLoaded"], (AssetCard, ADSR, DOOM, Frustration, Iterated, Log, Memory, Search, State)->
   elm = document.querySelector "asset-list"
   noAssets = document.querySelector "no-assets"
   rainbowClouds = document.querySelector "rainbow-clouds"
@@ -9,7 +9,7 @@ Take ["AssetCard", "Debounced", "DOOM", "Frustration", "Iterated", "Log", "Memor
   lastQuery = null
   first = true
 
-  Render = Debounced ()->
+  Render = ADSR ()->
     assets = Memory "assets"
     return unless assets?
 

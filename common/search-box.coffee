@@ -1,11 +1,11 @@
-Take ["Debounced", "PubSub", "State", "DOMContentLoaded"], (Debounced, {Pub, Sub}, State)->
+Take ["ADSR", "PubSub", "State", "DOMContentLoaded"], (ADSR, {Pub, Sub}, State)->
 
   elm = document.querySelector "search-box input"
   return unless elm?
 
   focused = false
 
-  change = Debounced (e)-> State "search", elm.value
+  change = ADSR 1, 1, (e)-> State "search", elm.value
 
   State.subscribe "search", false, (v)->
     elm.value = v unless focused

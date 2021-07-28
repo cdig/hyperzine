@@ -6,6 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval'">
   <link href="common.css" rel="stylesheet">
   <link href="asset.css" rel="stylesheet">
+  <script src="d3-color.min.js" defer></script>
   <script src="common.js" defer></script>
   <script src="asset.js" defer></script>
 </head>
@@ -39,13 +40,18 @@
       <file-list class="scrollable"></file-list>
     </files-pane>
     <meta-pane>
-      <asset-name class="field"></asset-name>
 
-      <tag-list></tag-list>
-      <tag-entry>
-        <input type="text" placeholder="Add Tag" autocomplete="off" autocorrect="off" autocapitalize="off">
-        <suggestion-list></suggestion-list>
-      </tag-entry>
+      <asset-thumbnail></asset-thumbnail>
+
+      <div id="details">
+        <asset-name class="field"></asset-name>
+
+        <tag-list></tag-list>
+        <tag-entry>
+          <input type="text" placeholder="Add Tag" autocomplete="off" autocorrect="off" autocapitalize="off">
+          <suggestion-list></suggestion-list>
+        </tag-entry>
+      </div>
 
       <add-note>This big empty space on the right is reserved for a notes field and changelog. It'll be how we track the evolution of our assets (eg: who changed what, when), capture issues or change requests, and store other info.</add-note>
       <asset-history></asset-history>

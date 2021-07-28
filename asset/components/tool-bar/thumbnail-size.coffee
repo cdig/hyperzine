@@ -1,4 +1,4 @@
-Take ["Debounced", "DOOM", "Memory", "DOMContentLoaded"], (Debounced, DOOM, Memory)->
+Take ["ADSR", "DOOM", "Memory", "DOMContentLoaded"], (ADSR, DOOM, Memory)->
 
   newSize = 1
   oldSize = 1
@@ -6,7 +6,7 @@ Take ["Debounced", "DOOM", "Memory", "DOMContentLoaded"], (Debounced, DOOM, Memo
   slider = document.querySelector "[thumbnail-size]"
   scroller = document.querySelector "file-list"
 
-  update = Debounced.raf ()->
+  update = ADSR 1, 1, ()->
     return unless newSize isnt oldSize
     document.body.style.setProperty "--asset-thumbnail-size", newSize + "em"
     scale = newSize/oldSize

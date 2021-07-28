@@ -4,12 +4,14 @@ Take ["Read"], (Read)->
     files: (asset)->               Read.path asset.path, "Files"
     names: (asset)->               Read.path asset.path, "Name"
     shots: (asset)->               Read.path asset.path, "Shot"
+    newShots: (asset)->            Read.path asset.path, "Shot (New)"
     tags: (asset)->                Read.path asset.path, "Tags"
     thumbnails: (asset)->          Read.path asset.path, "Thumbnail Cache"
 
     file: (asset, filename)->      Read.path Paths.files(asset), filename
     name: (asset)->                Read.path Paths.names(asset), asset.name
     shot: (asset)->                Read.path Paths.shots(asset), asset.shot
+    newShot: (asset)->             Read.path Paths.newShots(asset), asset.newShot
     thumbnail: (asset, filename)-> Read.path Paths.thumbnails(asset), filename
     tag: (asset, tag)->            Read.path Paths.tags(asset), tag
 

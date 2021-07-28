@@ -32,8 +32,9 @@
     border-radius: $size;
     border: none;
   }
-  &:focus::-webkit-slider-runnable-track {
 
+  &:focus-visible::-webkit-slider-runnable-track {
+    background: var(--rainbow-focus);
   }
 
   &::-webkit-slider-thumb {
@@ -43,6 +44,10 @@
     border-radius: $size;
     background: var(--button-active-bg);
     -webkit-appearance: none;
+  }
+
+  &:focus-visible::-webkit-slider-thumb {
+    background: var(--meta-text);
   }
 }
 

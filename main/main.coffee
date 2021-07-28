@@ -1,6 +1,10 @@
 Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Window"], (Env, Handlers, IPC, Log, Menu, MainState, Window)->
   { app } = require "electron"
 
+  # Just guessing that these might be nice. Haven't tested them at all.
+  app.commandLine.appendSwitch "disable-renderer-backgrounding"
+  app.commandLine.appendSwitch "force_low_power_gpu"
+
   # Here's our custom config for the About box
   app.setAboutPanelOptions
     applicationName: "Hyperzine #{Env.version.replace /(\d\.\d)\.0/, "$1"}"
@@ -12,8 +16,7 @@ Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Window"], (Env, Han
     version: ""
     copyright: "Created by Ivan Reese\n© CD Industrial Group Inc."
 
-  # While we're waiting for electron to get ready, we can load our persisted
-  # main state (if any), and then set up things that depend on it.
+  # While we're waiting for electron to get ready, we can load our persisted main state (if any).
   MainState.init()
   Window.init()
 

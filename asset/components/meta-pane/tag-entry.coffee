@@ -1,4 +1,4 @@
-Take ["DB", "Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (DB, Debounced, DOOM, Memory, Paths, State)->
+Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "Rainbow", "State", "DOMContentLoaded"], (DB, ADSR, DOOM, Memory, Paths, Rainbow, State)->
 
   input = document.querySelector "tag-entry input"
   suggestionList = document.querySelector "tag-entry suggestion-list"
@@ -6,7 +6,7 @@ Take ["DB", "Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"]
   focused = false
   highlightIndex = 0
 
-  update = Debounced.raf ()->
+  update = ADSR 1, 1, ()->
     hasInput = input.value?.length > 0
 
     matches = []
@@ -22,10 +22,7 @@ Take ["DB", "Debounced", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"]
       frag = new DocumentFragment()
       highlightIndex = (highlightIndex + matches.length+1) % (matches.length+1)
 
-      delay = State("rainbow-before-delay") - 4
-      State "rainbow-before-delay", delay
-      document.body.style.setProperty "--rainbow-delay", "#{delay}ms"
-
+      Rainbow.move 4
 
       for tag, i in Array.sortAlphabetic matches
         tagElm = DOOM.create "div", frag, rainbowBefore: if i+1 is highlightIndex then "" else null

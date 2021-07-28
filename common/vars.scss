@@ -1,6 +1,7 @@
 :root {
   --browser-asset-size: 1em;
   --browser-label-size: 1em;
+  --rainbow-focus: rgb(208, 115, 146);
 }
 
 // Default: light mode
@@ -10,7 +11,7 @@ html {
   --bubble-text-b: hsl(240, 0%, 50%);
   --button-bg: #ddd;
   --button-text: #000;
-  --button-active-bg: hsl(204, 0%, 53%);
+  --button-active-bg: hsl(0, 0%, 53%);
   --card-image-bg: #fff;
   --card-image-hover-bg: #f2f2f2;
   --card-image-hover-border: #fff;
@@ -19,8 +20,6 @@ html {
   --card-no-image-hover: #f7f7f7;
   --input-bg: #fff0;
   --input-text: #000;
-  --input-focus-after-border: hsl(219, 82%, 74%);
-  --main-bg: transparent; //#eeec;
   --meta-bg: #e7e7e7;
   --meta-text: #444;
   --page-bg: #f2f2f2;
@@ -41,7 +40,7 @@ html.blur {
     --bubble-text-b: hsl(34, 0%, 60%);
     --button-bg: #555;
     --button-text: #fff;
-    --button-active-bg: hsl(204, 0%, 53%);
+    --button-active-bg: hsl(0, 0%, 53%);
     --card-image-bg: #fff;
     --card-image-hover-bg: #f2f2f2;
     --card-image-hover-border: #444;
@@ -50,8 +49,6 @@ html.blur {
     --card-no-image-hover: #f7f7f7;
     --input-bg: #0004;
     --input-text: #fff;
-    --input-focus-after-border: #316d99;
-    --main-bg: transparent;//#242424cc;
     --meta-bg: #282828;
     --meta-text: #ccc;
     --page-bg: #1b1b1b;

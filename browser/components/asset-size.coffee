@@ -1,4 +1,4 @@
-Take ["Debounced", "DOOM", "Memory", "PubSub", "DOMContentLoaded"], (Debounced, DOOM, Memory, {Pub})->
+Take ["ADSR", "DOOM", "Memory", "PubSub", "DOMContentLoaded"], (ADSR, DOOM, Memory, {Pub})->
 
   newSize = 1
   oldSize = 1
@@ -6,7 +6,7 @@ Take ["Debounced", "DOOM", "Memory", "PubSub", "DOMContentLoaded"], (Debounced, 
   slider = document.querySelector "[asset-size]"
   scroller = document.querySelector "asset-list"
 
-  update = Debounced.raf ()->
+  update = ADSR 1, 1, ()->
     return unless newSize isnt oldSize
     document.body.style.setProperty "--browser-asset-size", newSize + "em"
     document.body.style.setProperty "--browser-label-size", (1/newSize ** 0.5) + "em"
