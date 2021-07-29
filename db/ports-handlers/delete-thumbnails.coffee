@@ -20,9 +20,7 @@ Take ["Job", "LoadAssets", "Log", "Memory", "Paths", "Ports", "Read", "Thumbnail
     LoadAssets() # Catch up on changes
 
 
-
-
   Job.handler "Delete Thumbnails", (asset)->
-    path = Paths.thumbnails asset
-    Write.sync.rm path if Read.sync.exists path
+    Write.sync.rm Paths.thumbnails asset
+    Write.sync.rm Paths.newShots asset
     null

@@ -73,7 +73,7 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
     if asset = State "asset"
       DB.send "Set Thumbnail", asset.id, file.relpath
 
-  Make "File", (file, depth)->
+  Make.async "File", File = (file, depth)->
     elm = DOOM.create "div", null, class: "file"
 
     thumbnail = DOOM.create "div", elm,
@@ -114,7 +114,7 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
 
     if file.ext? and not Paths.ext.icon[file.ext]
       thumb = DOOM.create "div", tools
-      thumbSvg = DOOM.create "svg", thumb,
+      elm._thumbSvg = DOOM.create "svg", thumb,
         class: "icon"
         viewBox: "0 0 200 200"
         innerHTML: "<use xlink:href='#i-eye'></use>"
@@ -125,3 +125,7 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
     OnScreen thumbnail, onscreen file, meta
 
     elm
+
+  File.update = (asset, file, elm)->
+    if elm._thumbSvg?
+      DOOM elm._thumbSvg, isShot: if asset.newShot is file.name then "" else null

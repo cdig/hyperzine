@@ -1,9 +1,9 @@
-Take ["Job", "Log", "Memory", "Paths", "Ports", "Thumbnails", "Write"], (Job, Log, Memory, Paths, Ports, Thumbnails, Write)->
+Take ["Job", "LoadAssets", "Log", "Memory", "Paths", "Ports", "Thumbnails", "Write"], (Job, LoadAssets, Log, Memory, Paths, Ports, Thumbnails, Write)->
 
   Ports.on "rebuild-thumbnails", rebuildThumbnails = ()->
     assets = Memory "assets"
 
-    Log "Rebuilding All Thumbnails", background: "hsl(153, 80%, 41%)", color: "#000"
+    Log "Rebuilding Thumbnails", background: "hsl(153, 80%, 41%)", color: "#000"
     Write.logging = false
     Memory "Pause Caching", true
     Memory "Pause Watching", true
@@ -19,7 +19,7 @@ Take ["Job", "Log", "Memory", "Paths", "Ports", "Thumbnails", "Write"], (Job, Lo
 
     await Promise.all promises
 
-    Log "All Thumbnails Rebuilt", background: "hsl(153, 80%, 41%)", color: "#000"
+    Log "Thumbnails Rebuilt", background: "hsl(153, 80%, 41%)", color: "#000"
     Write.logging = true
     Memory "Pause Caching", false
     Memory "Pause Watching", false

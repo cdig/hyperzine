@@ -7,6 +7,6 @@ meta-pane {
   border-left: 1px solid var(--tool-bar-bg);
 
   tag-list {
-    margin-top: 2em;
+    margin-top: .9em; // 1em minus the .1em from the top of tag-items
   }
 }

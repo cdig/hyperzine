@@ -35,7 +35,7 @@ Take ["Asset", "ADSR", "Job", "Log", "Memory", "Read", "Thumbnails"], (Asset, AD
     assetId = Array.first Read.split pathWithinAssetsFolder
     return unless validFileName assetId
     return unless validFileName Array.last Read.split fullPath
-    Log "Disk Watcher: #{pathWithinAssetsFolder}", color: "hsl(333, 50%, 50%)"
+    # Log "Disk Watcher: #{pathWithinAssetsFolder}", color: "hsl(333, 50%, 50%)"
     # We'll just reload the whole asset. This is simpler than trying to track exactly which paths have changed,
     # and the performance overhead will be effectively invisible (likely less than 1ms even on giant assets).
     touchedAssets[assetId] = true

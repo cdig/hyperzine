@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScreen", "Paths", "PubSub", "Read", "State", "TagList", "Validations", "DOMContentLoaded"], (DB, DOOM, Frustration, IPC, Log, Memory, MemoryField, OnScreen, Paths, {Sub}, Read, State, TagList, Validations)->
+Take ["DB", "DOOM", "Env", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScreen", "Paths", "PubSub", "Read", "State", "TagList", "Validations", "DOMContentLoaded"], (DB, DOOM, Env, Frustration, IPC, Log, Memory, MemoryField, OnScreen, Paths, {Sub}, Read, State, TagList, Validations)->
   cards = {}
 
 
@@ -54,6 +54,10 @@ Take ["DB", "DOOM", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScr
       update: (v)-> DB.send "Rename Asset", asset.id, v
 
     tagList = DOOM.create "tag-list", label
+
+    if asset._points and Env.isDev
+      searchPoints = DOOM.create "search-points", tagList,
+        textContent: String.pluralize Math.roundTo(asset._points, .1), "%% Point"
 
     fileCount = DOOM.create "file-count", tagList,
       textContent: String.pluralize asset.files.count, "%% File"

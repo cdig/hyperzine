@@ -124,18 +124,18 @@ Take ["Env", "MainState"], (Env, MainState)->
     win
 
   openAsset = (assetId)->
-    win = newWindow "asset", {tools: true}, title: "Asset"
+    win = newWindow "asset", {tools: false}, title: "Asset"
     windowData[win.webContents.id] = assetId: assetId
     return win
 
   openBrowser = ()->
-    newWindow "browser", {tools: true}, title: "Browser", minWidth: 400
+    newWindow "browser", {tools: false}, title: "Browser", minWidth: 400
 
   openDb = ()->
     if db?
       db.show()
     else
-      db = newWindow "db", {tools: true}, title: "Debug Log", show: Env.isDev# and false
+      db = newWindow "db", {tools: false}, title: "Debug Log", show: Env.isDev# and false
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()

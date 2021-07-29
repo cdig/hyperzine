@@ -78,6 +78,10 @@
       background: var(--button-bg);
       border-radius: 4px;
       margin: 0 .1em;
+
+      &[is-shot] {
+        background: var(--rainbow-focus);
+      }
     }
   }
 }
