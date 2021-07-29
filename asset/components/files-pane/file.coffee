@@ -33,11 +33,14 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
       src = Paths.thumbnail asset, thumbName
       img = DOOM.create "img", null, src: src
 
-      img.addEventListener "error", ()->
+      img.onerror = ()->
         src = await DB.send "create-file-thumbnail", asset.id, file.path, size, thumbName
+        console.log src
         if src
           DOOM img, src: null # gotta clear it first or DOOM's cache will defeat the following
-          DOOM img, {src}
+          DOOM img, src: src
+          img.onerror = ()-> # Avoid an infinite loop if the src path is valid but the thumbnail is not
+            loadIcon file, img
         else
           loadIcon file, img
 

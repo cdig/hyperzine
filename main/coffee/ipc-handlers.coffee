@@ -22,6 +22,9 @@ do ()->
       dialog.showErrorBox "Fatal Error", msg
       app.quit()
 
+    IPC.on "alert", ({sender}, opts)-> # See: https://www.electronjs.org/docs/latest/api/dialog/#dialogshowmessageboxbrowserwindow-options
+      dialog.showMessageBox opts
+
     IPC.on "printer", (e, ...args)-> Printer ...args
 
     IPC.on "bind-db", ({processId, sender})->
