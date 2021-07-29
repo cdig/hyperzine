@@ -1,3 +1,7 @@
 [new-asset] {
-  
+  @media (max-width: 600px) {
+    span {
+      display: none;
+    }
+  }
 }

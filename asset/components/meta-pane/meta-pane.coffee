@@ -21,5 +21,7 @@ Take ["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "Stat
       MemoryField "assets.#{asset.id}.name", assetName,
         validate: Validations.asset.name
         update: renameAsset
-      assetThumbnail.replaceChildren DOOM.create "img", null,
+      img = DOOM.create "img", null,
         src: Paths.thumbnail asset, "512.jpg?cachebust=#{Math.randInt 0, 10000}"
+      img.addEventListener "load", ()->
+        assetThumbnail.replaceChildren img

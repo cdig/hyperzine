@@ -65,9 +65,9 @@ Take ["DB", "DOOM", "Env", "Frustration", "IPC", "Log", "Memory", "MemoryField",
     tagList.append TagList asset, click: (tag, elm)->
       current = State "search"
       if not current
-        State "search", tag
+        State "search", "tag:#{tag}"
       else if current.indexOf(tag) is -1
-        State "search", [current, tag].join " "
+        State "search", [current, "tag:#{tag}"].join " "
 
     card.replaceChildren frag
 

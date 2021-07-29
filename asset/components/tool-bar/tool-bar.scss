@@ -3,4 +3,10 @@ tool-bar {
   align-items: center;
   height: 44px;
   white-space: nowrap;
+
+  @media (max-width: 700px) {
+    button span {
+      display: none;
+    }
+  }
 }

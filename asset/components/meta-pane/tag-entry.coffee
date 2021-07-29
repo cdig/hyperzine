@@ -1,4 +1,4 @@
-Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "Rainbow", "State", "DOMContentLoaded"], (DB, ADSR, DOOM, Memory, Paths, Rainbow, State)->
+Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (DB, ADSR, DOOM, Memory, Paths, State)->
 
   input = document.querySelector "tag-entry input"
   suggestionList = document.querySelector "tag-entry suggestion-list"
@@ -21,8 +21,6 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "Rainbow", "State", "DOMContentLo
 
       frag = new DocumentFragment()
       highlightIndex = (highlightIndex + matches.length+1) % (matches.length+1)
-
-      Rainbow.move 4
 
       for tag, i in Array.sortAlphabetic matches
         tagElm = DOOM.create "div", frag, rainbowBefore: if i+1 is highlightIndex then "" else null

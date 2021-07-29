@@ -4,7 +4,7 @@ asset-count {
   text-align: right;
   padding-right: .8em;
 
-  @media (max-width: 450px) {
+  @media (max-width: 600px) {
     flex: 0 0 3.6em;
     span { display: none; }
   }
