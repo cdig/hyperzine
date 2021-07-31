@@ -3,6 +3,14 @@
   align-items: center;
   margin-left: .5em;
 
+  &.folder[show-children] {
+    position: sticky;
+    top: -1em;
+    z-index: 5;
+    background: white;
+  }
+
+
   .thumbnail {
     flex: 0 0 8em;
     display: flex;
@@ -13,7 +21,7 @@
     // for some reason I don't understand. So if having no height limit becomes
     // a problem, we'll just need to set all items to have fixed height, sadly.
     // height: 8em;
-    margin: 0 .25rem .5rem;
+    margin: .25rem;
     font-size: var(--asset-thumbnail-size);
 
     & > * {
@@ -47,9 +55,9 @@
 
     .name {
       // font-weight: 600;
-      margin-left: -.2em;
-      margin-top: -.25em;
-      padding: calc(.2em - 2px) calc(.4em - 2px);
+      margin-left: -.5em;
+      margin-top: -.3em;
+      padding: calc(.3em - 2px) calc(.6em - 2px);
       border: 2px solid transparent;
 
       &:focus-visible {

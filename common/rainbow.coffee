@@ -7,7 +7,7 @@ Take ["State"], (State)->
       delay = State("rainbow-before-delay") - delta
       State "rainbow-before-delay", delay
       document.body.style.setProperty "--rainbow-before-delay", "#{delay}ms"
-      document.body.style.setProperty "--rainbow-focus", d3.lch  50, 30, -delay/2
+      document.body.style.setProperty "--rainbow-focus", d3.lch  70, 30, -delay/2
 
   window.addEventListener "keydown", ()->
     Rainbow.move 4

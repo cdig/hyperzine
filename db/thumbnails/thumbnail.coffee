@@ -66,7 +66,7 @@ Take ["Env", "IPC", "Job", "Log", "Memory", "Paths", "Read", "Write"], (Env, IPC
   ]
 
   handleErr = (subpath, err)->
-    Log.err err
+    Log.err "Error generating thumbnail for #{subpath}:\n #{err.toString()}"
 
     for message in unimportantErrorMessages
       if -1 isnt err.message.toLowerCase().indexOf message.toLowerCase()

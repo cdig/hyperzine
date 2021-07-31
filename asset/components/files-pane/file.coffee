@@ -4,12 +4,16 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
   loadThumbnail = (thumbnail, file, meta)->
 
     if file.count?
-      img = DOOM.create "no-img", thumbnail, class: "icon"
-      DOOM.create "span", img, textContent: if thumbnail._show_children then "📂" else "📁"
-      DOOM.create "span", meta, textContent: file.count + " Items"
+      img = DOOM.create "no-img", null, class: "icon"
+      DOOM.create "span", img, textContent: if DOOM(thumbnail.parentElement, "showChildren")? then "📂" else "📁"
+      thumbnail.replaceChildren img
+      return
 
-    else if Paths.ext.video[file.ext]?
-      img = DOOM.create "video", thumbnail,
+    # Show an icon while we wait for the image to be ready
+    await loadIcon file, thumbnail
+
+    if Paths.ext.video[file.ext]?
+      img = DOOM.create "video", null,
         autoplay: ""
         muted: ""
         controls: ""
@@ -22,34 +26,32 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
       img.addEventListener "loadedmetadata", ()->
         img.muted = true # It seems the attr isn't working, so we gotta do this
         if img.duration
-          makeBubble meta, "Length", Math.round(img.duration) + "s"
+          meta._duration ?= DOOM.create "span", meta
+          DOOM meta._duration, textContent: Math.round(img.duration) + "s"
+        else
+          DOOM.remove meta._duration
+          delete meta._duration
+        thumbnail.replaceChildren img
 
     else if Paths.ext.icon[file.ext]?
-      loadIcon file, img = DOOM.create "img"
+      # Just use the icon
 
     else if asset = State "asset"
-      size = 256
-      thumbName = Paths.thumbnailName file, size
-      src = Paths.thumbnail asset, thumbName
-      img = DOOM.create "img", null, src: src
-
+      thumbName = Paths.thumbnailName file, 256
+      img = DOOM.create "img", null, src: Paths.thumbnail asset, thumbName
       img.onerror = ()->
-        src = await DB.send "create-file-thumbnail", asset.id, file.path, size, thumbName
-        console.log src
+        src = await DB.send "create-file-thumbnail", asset.id, file.path, 256, thumbName
         if src
           DOOM img, src: null # gotta clear it first or DOOM's cache will defeat the following
           DOOM img, src: src
-          img.onerror = ()-> # Avoid an infinite loop if the src path is valid but the thumbnail is not
-            loadIcon file, img
-        else
-          loadIcon file, img
-
-    thumbnail.replaceChildren img if img?
+          delete img.onerror # Prevent repeat failures if the src path is valid but the thumbnail is not
+      img.onload = ()-> thumbnail.replaceChildren img
 
 
-  loadIcon = (file, img)->
-    src = await IPC.invoke "get-file-icon", file.path
-    DOOM img, {src, class: "icon"}
+  loadIcon = (file, thumbnail)->
+    thumbnail.replaceChildren DOOM.create "img", null,
+      class: "icon"
+      src: await IPC.invoke "get-file-icon", file.path
 
 
   # unloadThumbnail = (thumbnail)->
@@ -77,7 +79,8 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
       DB.send "Set Thumbnail", asset.id, file.relpath
 
   Make.async "File", File = (file, depth)->
-    elm = DOOM.create "div", null, class: "file"
+    elm = DOOM.create "div", null,
+      class: if file.count then "file folder" else "file"
 
     thumbnail = DOOM.create "div", elm,
       class: "thumbnail"
@@ -87,12 +90,6 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
     thumbnail.ondragstart = (e)->
       e.preventDefault()
       IPC.send "drag-file", file.path
-
-    if file.count
-      elm._show_children = false
-      thumbnail.onclick = ()->
-        elm._show_children = !elm._show_children
-        Pub "Render"
 
     info = DOOM.create "div", elm, class: "info"
 
@@ -122,6 +119,21 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
         viewBox: "0 0 200 200"
         innerHTML: "<use xlink:href='#i-eye'></use>"
         click: setThumbnail file
+
+    if file.count
+      DOOM.create "span", meta, textContent: file.count + " Items"
+      thumbnail.onclick = ()->
+        DOOM elm, showChildren: if DOOM(elm, "showChildren")? then null else ""
+        loadThumbnail thumbnail, file # This doesn't seem to update on Render, so just do it manually
+        Pub "Render"
+
+      # I don't think this works?
+      # cb = ([e])->
+      #   console.log  e.intersectionRatio < 1
+      #   e.target.toggleAttribute "is-stuck", e.intersectionRatio < 1
+      # observer = new IntersectionObserver cb, threshold: [1]
+      # observer.observe elm
+
 
     HoldToRun remove, 400, deleteFile file
 

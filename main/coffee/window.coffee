@@ -108,7 +108,6 @@ Take ["Env", "MainState"], (Env, MainState)->
     unless props.show is false
       deferPaint = true
       props.show = false
-    openDevTools = tools and Env.isDev# or true
     index = getNextIndex type
     bounds = getBounds type, index
     background = backgroundColor: if nativeTheme.shouldUseDarkColors then "#1b1b1b" else "#f2f2f2"
@@ -116,7 +115,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     checkBounds win
     updateBounds type, index, win
     win.loadFile "out/#{type}.html"
-    win.webContents.openDevTools() if tools
+    win.webContents.openDevTools() if tools and Env.isDev# or true
     win.once "ready-to-show", win.show if deferPaint
     win.on "move", (e)-> updateBounds type, index, win
     win.on "resize", (e)-> updateBounds type, index, win

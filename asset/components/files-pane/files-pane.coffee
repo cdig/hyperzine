@@ -4,18 +4,18 @@ Take ["DOOM", "File", "State", "DOMContentLoaded"], (DOOM, File, State)->
 
   fileElms = {}
 
-  fileSort = (a, b)-> a.name.localeCompare b.name
-
-  makeFileElms = (asset, tree, frag, depth = 0)->
+  makeFileElms = (asset, tree, parentFrag, depth = 0)->
     search = State("search")?.toLowerCase()
 
-    for child in tree.children.sort fileSort
-      fileElm = fileElms[child.name] ?= File child, depth
+    frag = DOOM.create "div"
+    for child in tree.children
+      fileElm = fileElms[child.relpath] ?= File child, depth
       File.update asset, child, fileElm
-      if (not search?) or (search.length <= 0) or child.name.toLowerCase().search(search) >= 0
-        frag.appendChild fileElm
-      if fileElm._show_children and child.children?
+      # if (not search?) or (search.length <= 0) or child.name.toLowerCase().search(search) >= 0
+      frag.appendChild fileElm
+      if child.children? and DOOM(fileElm, "showChildren")?
         makeFileElms asset, child, frag, depth+1
+    parentFrag.appendChild frag
     null
 
   Make "FilesPane", FilesPane =
@@ -23,6 +23,7 @@ Take ["DOOM", "File", "State", "DOMContentLoaded"], (DOOM, File, State)->
       return unless asset = State "asset"
 
       frag = new DocumentFragment()
+
       if State "archived"
         div = DOOM.create "div", frag, class: "archived"
         DOOM.create "h2", div, textContent: "Archived"

@@ -1,8 +1,11 @@
 Take ["Read"], (Read)->
 
+  sort = (a, b)-> a.name.localeCompare b.name
+
   populateTree = (tree)->
     if await Read.exists tree.path
       dirents = await Read.withFileTypes tree.path
+      dirents.sort sort
       tree.children = await Promise.all dirents.map (dirent)->
         if dirent.isDirectory()
           childTree = FileTree.newEmpty tree.path, dirent.name
