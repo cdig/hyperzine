@@ -93,7 +93,7 @@ Take [], ()->
   # These are useful because it offers a nice syntax for updating existing values in Memory,
   # with support for async, either mutably or immutably.
   Memory.update = (path, fn)-> Memory path, (await fn Memory path), immutable: true
-  Memory.mutate = (path, fn)-> Memory.clone path, (await fn Memory path), immutable: true
+  Memory.mutate = (path, fn)-> Memory path, (await fn Memory.clone path), immutable: true
 
   # This is a convenience function for reading something from Memory that is pre-cloned
   # (if necessary) to avoid mutability issues.
