@@ -1,0 +1,11 @@
+.tree {
+  position: relative;
+  overflow: hidden;
+}
+
+.children {
+  display: none;
+  margin-left: 1.2em;
+}
+
+[show-children] > .children { display: block; }

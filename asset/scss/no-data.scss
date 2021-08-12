@@ -1,4 +1,4 @@
-no-asset {
+no-data {
   display: none;
   position: absolute;
   top: 38px;
@@ -14,4 +14,8 @@ no-asset {
   p {
     margin-top: .5em;
   }
+}
+
+[no-data] no-data {
+  display: block;
 }

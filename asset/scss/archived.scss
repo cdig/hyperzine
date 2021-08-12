@@ -1,0 +1,10 @@
+.archived {
+  display: none;
+  text-align: center;
+  margin: calc(20vh + 86px) auto 0;
+  max-width: 20em;
+}
+
+[is-archived] .archived {
+  display: block;
+}

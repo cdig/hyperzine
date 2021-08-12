@@ -18,6 +18,7 @@
     color: var(--meta-bg);
     transform: translateX(-50%);
     animation: hold-to-run-longer 2s both;
+    pointer-events: none;
   }
 }
 

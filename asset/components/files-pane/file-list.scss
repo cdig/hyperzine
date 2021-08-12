@@ -1,14 +1,17 @@
 file-list {
   position: relative;
   display: block;
-  padding-top: calc(82px + 1em);
-  height: calc(100%);
+  padding-top: 86px;
+  height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
 
   &::-webkit-scrollbar-track {
-    margin: calc(82px + 1em) 0 1em;
+    margin: 86px 0 0;
   }
+}
 
+[is-archived] file-list {
+  display: none;
 }

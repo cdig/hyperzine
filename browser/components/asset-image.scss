@@ -8,7 +8,7 @@ asset-image {
     z-index: 1;
   }
 
-  img, no-img {
+  img, .frustration {
     border-radius: 8px;
     border: 4px solid var(--page-bg);
     pointer-events: auto;
@@ -29,16 +29,16 @@ asset-image {
     }
   }
 
-  no-img {
+  .frustration {
     position: relative;
     display: block;
     width: 100%;
     height: 9em;
     line-height: 9em;
-  }
-
-  .frustration {
+    text-align: center;
+    font-weight: 700;
     white-space: pre;
+    color: var(--card-no-image-text);
     background: radial-gradient(circle at 40% 60%, var(--glow), var(--bg));
     &::before {
       content: "";
@@ -52,12 +52,18 @@ asset-image {
       opacity: .5;
       border-radius: 100%;
     }
+
+    span {
+      position: relative; // Render in front of the colored "sphere"-like head
+      font-size: 2em;
+      color: black;
+    }
   }
 }
 
 [hide-labels] asset-image {
   height: 16em;
-  img, no-img {
+  img, .frustration {
     border-radius: 0px;
     border-width: 2px;
   }
@@ -66,7 +72,7 @@ asset-image {
     height: 100%;
     object-position: center;
   }
-  no-img {
+  .frustration {
     height: 16em;
     line-height: 16em;
   }

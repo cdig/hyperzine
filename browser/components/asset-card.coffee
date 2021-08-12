@@ -24,7 +24,7 @@ Take ["DB", "DOOM", "Env", "Frustration", "IPC", "Log", "Memory", "MemoryField",
 
 
   frustration = (card, asset)->
-    img = DOOM.create "no-img", null, class: "frustration", click: ()-> IPC.send "open-asset", asset.id
+    img = DOOM.create "div", null, class: "frustration", click: ()-> IPC.send "open-asset", asset.id
     DOOM.create "span", img, textContent: Frustration asset.hash
     hue = 71 * asset.hash % 360
     img.style.setProperty "--lit",    d3.lch  90, 30, hue

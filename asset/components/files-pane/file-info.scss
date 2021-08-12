@@ -1,0 +1,48 @@
+.file .info {
+  flex: 1 1 auto;
+
+  .name .basic-field {
+    display: inline-block;
+    padding: .2em .4em;
+    margin-bottom: .2em;
+    border: 2px solid #7771;
+
+    &:focus-visible {
+      border-color: var(--rainbow-focus);
+    }
+  }
+
+  .tools {
+    display: inline-flex;
+    align-items: center;
+    margin-right: .3em;
+  }
+
+  .tool {
+    margin-right: .2em;
+  }
+
+  .meta {
+    display: inline-block;
+    font-size: 0.9em;
+  }
+
+  .i-eye {
+    width: 1em;
+    height: calc(1em * 80 / 112);
+    background-color: currentColor;
+  }
+
+  .icon {
+    width: 1.4em;
+    height: 1.4em;
+    padding: .2em;
+    border-radius: 4px;
+    vertical-align: middle;
+    background: var(--button-bg);
+
+    &[is-shot] {
+      background: var(--rainbow-focus);
+    }
+  }
+}
