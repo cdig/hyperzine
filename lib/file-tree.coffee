@@ -27,6 +27,8 @@ Take ["Read"], (Read)->
   Make "FileTree", FileTree =
     newEmpty: (parentPath, name)->
       name: name
+      basename: name
+      ext: null
       path: Read.path parentPath, name # absolute path on the local HD
       relpath: name # path relative to the parent of the tree root
       count: 0
