@@ -414,10 +414,10 @@ electron-packager@latest:
     semver "^7.1.3"
     yargs-parser "^20.0.0"
 
-electron@14.0.0-beta.3:
-  version "14.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-14.0.0-beta.3.tgz#09678dab8a092bc8979df99f968c11192bd8d9c5"
-  integrity sha512-flttm8TT7sX9CyDbSgeWm6H/XjZGbKdZibdZwMdTp/xHzd01GLkmP7CnxGK39sfqCc2IMnHARbXmZRoW6us9rQ==
+electron@15.0.0-alpha.5:
+  version "15.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-15.0.0-alpha.5.tgz#9a0dd91a88be57ffc961db4909eec5da5639bc86"
+  integrity sha512-neJaQlN8/x0taaRkrS2TP0FMmYJzqb37Nv/hW8VXSzjxb7kcmvJTRjLqygmopamZGigsRtEs+TChcuKCmAh9kg==
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^14.6.2"

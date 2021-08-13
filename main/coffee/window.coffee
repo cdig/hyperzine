@@ -134,7 +134,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     if db?
       db.show()
     else
-      db = newWindow "db", {tools: false}, title: "Debug Log", show: Env.isDev# and false
+      db = newWindow "db", {tools: false}, title: "Debug Log", show: Env.isDev and false
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()
