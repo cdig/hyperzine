@@ -4,7 +4,6 @@ do ()->
   # In additon to the IPC handlers below, we also set up some app event handlers for our windows
   app.on "browser-window-focus", (event, win)-> win.webContents.send "focus"
   app.on "browser-window-blur", (event, win)-> win.webContents.send "blur"
-  app.on "window-all-closed", ()-> # We need to subscribe to this event to stop the default auto-close behaviour
 
   { Env, IPC, Log, Printer, Window } = await Take.async ["Env", "IPC", "Log", "Printer", "Window"]
 
