@@ -32,8 +32,10 @@ jobs:
       #   with:
       #     fileName: 'win-certificate.pfx'
       #     encodedString: ${{ secrets.CERTIFICATE_WINDOWS_PFX }}
-      - name: Make
-        run: yarn electron-forge package
+      - name: Build
+        run: yarn build
+      - name: Package
+        run: yarn package
         # env:
         #   APPLE_ID: ${{ secrets.APPLE_ID }}
         #   APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}

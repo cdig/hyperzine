@@ -56,15 +56,17 @@
     "setup-assistant-scss:compiler": "sass temp/setup-assistant.scss target/setup-assistant.css --no-source-map",
     "setup-assistant-scss:generate": "run-s setup-assistant-scss:assemble setup-assistant-scss:compiler",
     "setup-assistant-scss:observer": "onchange 'setup-assistant/**/*.scss' -- npm run setup-assistant-scss:generate",
-    "package": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|lib|main|node_modules|resources|setup-assistant|submodule|temp)/\" --osx-sign.type=distribution --osx-sign.entitlements=\"resources/entitlements.plist\"",
+    "packageOld": "electron-packager . --platform=darwin --arch=x64,arm64 --overwrite --icon=resources/icon.icns --ignore=\"(asset|browser|build|common|db|lib|main|node_modules|resources|setup-assistant|submodule|temp)/\" --osx-sign.type=distribution --osx-sign.entitlements=\"resources/entitlements.plist\"",
+    "package": "electron-forge package",
     "deps": "cp node_modules/d3-color/dist/d3-color.min.js target",
     "bump": "yarn version --patch --no-git-tag-version",
     "open": "open ./Hyperzine-darwin-arm64/Hyperzine.app",
     "clean": "rm -r target temp",
     "init": "mkdir -p target temp",
     "electron": "electron .",
+    "build": "npm-run-all init deps *:generate",
     "watch": "npm-run-all --parallel *:observer",
-    "start": "npm-run-all init deps *:generate watch"
+    "start": "npm-run-all build watch"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0"
@@ -74,11 +76,13 @@
     "@electron-forge/maker-squirrel": "^6.0.0-beta.59",
     "@electron-forge/maker-zip": "^6.0.0-beta.59",
     "DOOM": "ivanreese/doom",
+    "coffeescript": "^2.5.1",
     "d3-color": "^3.0.1",
-    "electron": "15.0.0-alpha.5",
-    "electron-packager": "",
+    "electron": "^15.0.0-alpha.5",
+    "electron-packager": "^15.3.0",
     "npm-run-all": "latest",
     "onchange": "latest",
+    "sass": "^1.37.5",
     "take-and-make": "cdig/take-and-make"
   },
   "config": {
