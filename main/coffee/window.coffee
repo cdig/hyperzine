@@ -11,6 +11,7 @@ Take ["Env", "MainState"], (Env, MainState)->
       nodeIntegration: true
       scrollBounce: true
       backgroundThrottling: false
+      nativeWindowOpen: false # This is changing to true by default in Electron 15
 
   defaultBounds =
     asset: width: 960, height: 540
