@@ -1,10 +1,14 @@
-Take ["DB", "IPC", "Log", "Paths", "State", "Write", "DOMContentLoaded"], (DB, IPC, Log, Paths, State, Write)->
+Take ["DB", "Env", "IPC", "Log", "Paths", "State", "Write", "DOMContentLoaded"], (DB, Env, IPC, Log, Paths, State, Write)->
 
   elm = document.querySelector "[add-files]"
 
   elm.onclick = ()->
-    res = await IPC.invoke "showOpenDialog",
-      properties: ["openDirectory", "openFile", "multiSelections"]
+    if Env.isMac
+      res = await IPC.invoke "showOpenDialog",
+        properties: ["openDirectory", "openFile", "multiSelections"]
+    else
+      res = await IPC.invoke "showOpenDialog",
+        properties: ["openFile", "multiSelections"] # TODO: Windows can't do a mixed file+directory open dialog!? https://www.electronjs.org/docs/latest/api/dialog#dialogshowopendialogbrowserwindow-options
     unless res.cancelled
       asset = State "asset"
       DB.send "Add Files", asset.id, res.filePaths
