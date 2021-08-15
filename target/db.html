@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval'">
+  <link href="common.css" rel="stylesheet">
+  <link href="db.css" rel="stylesheet">
+  <script src="d3-color.min.js" defer></script>
+  <script>
+    // Since this is guaranteed to exist before any of our other scripts,
+    // we can use it in common scripts to tell if the script is running in the
+    // DB window or in a non-DB window.
+    window.isDB = true;
+  </script>
+  <script src="common.js" defer></script>
+  <script src="db.js" defer></script>
+</head>
+<body>
+  <window-top class="backdrop-filter">
+    <window-top-rainbow rainbow-before></window-top-rainbow>
+    <title-bar>
+      Debug Log
+      <adsr-status></adsr-status>
+      <job-status><div></div><div></div></job-status>
+    </title-bar>
+  </window-top>
+  <main>
+    <log-printer class="scrollable selectable"></log-printer>
+  </main>
+</body>
+</html>

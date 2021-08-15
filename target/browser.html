@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval'">
+  <link href="common.css" rel="stylesheet">
+  <link href="browser.css" rel="stylesheet">
+  <script src="d3-color.min.js" defer></script>
+  <script src="common.js" defer></script>
+  <script src="browser.js" defer></script>
+</head>
+<body>
+  <window-top class="backdrop-filter">
+    <window-top-rainbow rainbow-before></window-top-rainbow>
+    <title-bar>
+      <asset-count>0 Assets</asset-count>
+      <search-box class="ui">
+        <input type="text" placeholder="Search" autocomplete="off" autocorrect="off" autocapitalize="off">
+      </search-box>
+      <div class="ui">
+        <button new-asset>New <span>Asset</span></button>
+        <input asset-size type="range" min="0.5" max="2" value="1" step="0.01" list="snaps">
+        <datalist id="snaps"><option value="0.5"></option><option value="1"></option></datalist>
+      </div>
+    </title-bar>
+  </window-top>
+  <main>
+    <asset-list class="scrollable" on-screen-container></asset-list>
+    <no-assets>
+      <h1>&nbsp;</h1>
+      <h3>No Assets</h3>
+    </no-assets>
+  </main>
+
+  <rainbow-clouds>
+    <svg width="1200" height="1200">
+      <g class="a"><path d="M572.588 1104.81c134.56 69.66 210.56-59.666 376.744-105.207 166.184-45.541 101.64-256.084 164.645-376.188 63.005-120.104-164.645-247.044-164.645-383.68s-185.847-49.321-320.768-135.818C493.643 17.421 487.507 145.86 265.9 216.055 44.293 286.251 140.685 508.323 85.44 706.712 30.192 905.102 209.513 895.026 265.9 999.603c56.386 104.577 172.129 35.546 306.688 105.207z"/></g>
+      <g class="b"><path d="M176.528 323.856C48.92 405.558 122.92 536.038 79.268 702.729c-43.653 166.69 170.955 216.064 243.466 330.68 72.51 114.617 296.268-19.064 414.599 49.254 118.33 68.318 135.636-136.288 278.005-209.885 142.369-73.597 34.205-143.13 84.218-370.145 50.012-227.015-190.504-254.573-334.691-401.612-144.188-147.039-225.122 13.295-343.881 9.838-118.76-3.457-116.848 131.295-244.456 212.997z"/></g>
+      <g class="c"><path d="M1050.884 371.334C1043.932 219.972 893.932 218.817 771.4 97.668c-122.532-121.149-272.596 40.02-408.112 45.507-135.516 5.488-131.623 266.11-249.953 334.427-118.33 68.318 50.21 185.609 42.762 345.702-7.447 160.094 106.852 101.188 278.446 258.008 171.595 156.82 315.719-37.695 515.152-89.045 199.433-51.351 101.047-201.61 163.42-302.73 62.374-101.12-55.28-166.84-62.232-318.203z"/></g>
+    </svg>
+  </rainbow-clouds>
+</body>
+</html>

@@ -1,0 +1,372 @@
+.file .info {
+  flex: 1 1 auto;
+}
+.file .info .name .basic-field {
+  display: inline-block;
+  padding: 0.2em 0.4em;
+  margin-bottom: 0.2em;
+  border: 2px solid #7771;
+}
+.file .info .name .basic-field:focus-visible {
+  border-color: var(--rainbow-focus);
+}
+.file .info .tools {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.3em;
+}
+.file .info .tool {
+  margin-right: 0.2em;
+}
+.file .info .meta {
+  display: inline-block;
+  font-size: 0.9em;
+}
+.file .info .i-eye {
+  width: 1em;
+  height: calc(1em * 80 / 112);
+  background-color: currentColor;
+}
+.file .info .icon {
+  width: 1.4em;
+  height: 1.4em;
+  padding: 0.2em;
+  border-radius: 4px;
+  vertical-align: middle;
+  background: var(--button-bg);
+}
+.file .info .icon[is-shot] {
+  background: var(--rainbow-focus);
+}
+
+file-list {
+  position: relative;
+  display: block;
+  padding-top: 86px;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+}
+file-list::-webkit-scrollbar-track {
+  margin: 86px 0 0;
+}
+
+[is-archived] file-list {
+  display: none;
+}
+
+.file .thumbnail {
+  flex: 0 0 8em;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8em;
+  margin-right: 0.5rem;
+  font-size: var(--asset-thumbnail-size);
+}
+.file .thumbnail > * {
+  display: inline-block;
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
+  object-fit: scale-down;
+  background: var(--card-image-bg);
+}
+.file .thumbnail .icon {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  height: 3.5rem;
+  background: var(--meta-bg);
+}
+.file .thumbnail .emoji {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 2rem;
+  height: 3.5rem;
+  background: var(--meta-bg);
+}
+.file .thumbnail .emoji .closed {
+  display: inline-block;
+}
+.file .thumbnail .emoji .open {
+  display: none;
+}
+
+[show-children] > .folder .thumbnail .open {
+  display: inline-block;
+}
+[show-children] > .folder .thumbnail .closed {
+  display: none;
+}
+
+.file {
+  display: flex;
+  align-items: center;
+  margin: 0 0.5em 0.5em;
+}
+
+files-pane {
+  flex: 1 1 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.tree {
+  position: relative;
+  overflow: hidden;
+}
+
+.children {
+  display: none;
+  margin-left: 1.2em;
+}
+
+[show-children] > .children {
+  display: block;
+}
+
+add-note {
+  display: block;
+  margin-top: 2em;
+  color: var(--meta-text);
+  opacity: 0.1;
+}
+
+meta-pane asset-name.field {
+  font-size: 1.2em;
+  mix-blend-mode: unset;
+  box-shadow: unset;
+  word-wrap: break-word;
+}
+
+meta-pane asset-thumbnail {
+  display: inline-block;
+  vertical-align: top;
+}
+meta-pane asset-thumbnail img {
+  max-width: 100%;
+  max-height: 30vh;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  border-radius: 8px;
+  object-fit: contain;
+  object-position: top left;
+}
+
+#details {
+  display: inline-block;
+}
+
+meta-pane {
+  display: block;
+  max-width: 60%;
+  flex: 1 1 50%;
+  padding: 86px 1em 0;
+  border-left: 1px solid var(--tool-bar-bg);
+}
+meta-pane tag-list {
+  margin-top: 0.9em;
+}
+
+tag-entry {
+  position: relative;
+  display: block;
+  margin-top: 0.4em;
+}
+tag-entry input {
+  position: relative;
+  width: 100%;
+  z-index: 2;
+}
+tag-entry:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--rainbow-focus);
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.1s;
+  pointer-events: none;
+  z-index: 3;
+}
+tag-entry:focus-within:after {
+  opacity: 1;
+}
+tag-entry suggestion-list {
+  display: none;
+  position: absolute;
+  top: 0em;
+  left: 0em;
+  min-width: calc(100% + 0em);
+  background: var(--meta-bg);
+  border-radius: 8px;
+  padding: 2.4em 0.4em 0.4em;
+  z-index: 1;
+}
+tag-entry suggestion-list div {
+  position: relative;
+  padding: 0.2em 0.4em;
+}
+tag-entry suggestion-list div span {
+  position: relative;
+  z-index: 2;
+}
+tag-entry suggestion-list [rainbow-before] {
+  border-radius: 4px;
+  overflow: hidden;
+}
+tag-entry suggestion-list [rainbow-before]::before {
+  opacity: 0.3;
+}
+
+.gears {
+  margin-right: -2px;
+}
+.gears gear-view {
+  width: 32px;
+  height: 32px;
+}
+
+title-bar .meta div {
+  display: inline-block;
+  margin: 0.2em;
+  padding: 0.4em 0.8em;
+  border-radius: 2em;
+  font-weight: bold;
+}
+title-bar .meta div > * {
+  display: inline-block;
+  font-weight: 900;
+  margin-left: 0.3em;
+  background-image: linear-gradient(#0002, #0002);
+  color: transparent;
+  backdrop-filter: brightness(50%) saturate(1000%);
+  -webkit-mask-image: linear-gradient(white, white);
+  -webkit-mask-clip: text;
+}
+@media (prefers-color-scheme: dark) {
+  title-bar .meta div > * {
+    backdrop-filter: saturate(250%) brightness(900%);
+  }
+}
+
+html.blur title-bar .meta div {
+  opacity: 0.4;
+}
+html.blur title-bar .meta div > * {
+  color: var(--text-color);
+}
+
+file-tools {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+file-tools [file-count] {
+  flex: 0 0 7.2em;
+  text-align: right;
+  padding-right: 0.8em;
+  font-weight: bold;
+}
+@media (max-width: 800px) {
+  file-tools [file-count] {
+    flex: 0 1 3.6em;
+  }
+}
+@media (max-width: 600px) {
+  file-tools [file-count] span {
+    display: none;
+  }
+}
+file-tools [add-files] {
+  flex: 0 0 auto;
+  margin-left: 0.5em;
+}
+
+meta-tools {
+  flex: 0 0 auto;
+  padding-right: 0.5em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+meta-tools button {
+  margin-left: 0.5em;
+}
+
+[thumbnail-size] {
+  display: inline-block;
+  margin: 0 8px;
+}
+@media (max-width: 600px) {
+  [thumbnail-size] {
+    width: calc(31.5vw - 60px);
+  }
+}
+
+tool-bar {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  tool-bar button span {
+    display: none;
+  }
+}
+
+.archived {
+  display: none;
+  text-align: center;
+  margin: calc(20vh + 86px) auto 0;
+  max-width: 20em;
+}
+
+[is-archived] .archived {
+  display: block;
+}
+
+[is-archived] {
+  filter: grayscale(50%) contrast(75%) sepia(40%);
+}
+
+main {
+  display: flex;
+}
+
+no-data {
+  display: none;
+  position: absolute;
+  top: 38px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 38px);
+  padding: 5em 1em 1em;
+  text-align: center;
+  background: var(--page-bg);
+  z-index: 100;
+  animation: fade-in 0.5s 0.5s linear both;
+}
+no-data p {
+  margin-top: 0.5em;
+}
+
+[no-data] no-data {
+  display: block;
+}

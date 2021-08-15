@@ -1,0 +1,20 @@
+log-printer {
+  display: block;
+  height: 100%;
+  padding: calc(37px + .1em) 0.8em 0.5em;
+  line-height: 0.9;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  font-family: Inconsolata, monospace;
+  white-space: pre;
+}
+log-printer div {
+  padding: 3px 0.2em;
+  margin: 1px 0;
+  border-radius: 2px;
+  white-space: pre-wrap;
+}
+
+::-webkit-scrollbar-track {
+  margin-top: 37px;
+}

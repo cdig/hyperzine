@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval'">
+  <link href="common.css" rel="stylesheet">
+  <link href="asset.css" rel="stylesheet">
+  <script src="d3-color.min.js" defer></script>
+  <script src="common.js" defer></script>
+  <script src="asset.js" defer></script>
+</head>
+<body>
+  <window-top class="backdrop-filter">
+    <window-top-rainbow rainbow-before></window-top-rainbow>
+    <title-bar>
+      <div class="left"></div>
+      <div class="center meta"></div>
+      <div class="right gears"><gear-view></gear-view></div>
+    </title-bar>
+    <tool-bar>
+      <file-tools class="ui">
+        <input thumbnail-size type="range" min="0.5" max="2" value="0.5" step="0.01" list="snaps">
+        <datalist id="snaps"><option value="1"></option></datalist>
+        <div file-count></div>
+        <search-box class="ui">
+          <input type="text" placeholder="Search Files" autocomplete="off"  autocorrect="off" autocapitalize="off">
+        </search-box>
+        <button add-files>Add <span>Files</span></button>
+      </file-tools>
+      <meta-tools class="ui">
+        <button pin-unpin style="display:none">Pin</button>
+        <button delete-asset>Delete <span>Asset</span></button>
+        <button show-in-finder>Show <span>in Finder</span></button>
+      </meta-tools>
+    </tool-bar>
+  </window-top>
+  <main>
+    <files-pane>
+      <div class="archived">
+        <h2>Archived</h2>
+        <h3>To avoid confusion, the files in an archived asset are not accessible.</h3>
+      </div>
+      <file-list class="scrollable"></file-list>
+    </files-pane>
+    <meta-pane>
+
+      <asset-thumbnail></asset-thumbnail>
+
+      <div id="details">
+        <asset-name class="field"></asset-name>
+
+        <tag-list></tag-list>
+        <tag-entry>
+          <input type="text" placeholder="Add Tag" autocomplete="off" autocorrect="off" autocapitalize="off">
+          <suggestion-list></suggestion-list>
+        </tag-entry>
+      </div>
+
+      <add-note>This big empty space on the right is reserved for a notes field and changelog. It'll be how we track the evolution of our assets (eg: who changed what, when), capture issues or change requests, and store other info.</add-note>
+      <asset-history></asset-history>
+    </meta-pane>
+    <no-data>
+      <h1>No Asset Data</h1>
+      <p>If you just created this asset, please wait while it's initialized.</p>
+      <p>If you just deleted this asset, you can just close this window.</p>
+    </no-data>
+  </main>
+</body>
+</html>

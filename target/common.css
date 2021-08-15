@@ -1,0 +1,819 @@
+:root {
+  /* COLORS **************************************************************************************/
+  /* SITE */
+  --bg-xxl: hsl(217, 70%, 70%);
+  --bg-xl: hsl(219, 60%, 57%);
+  --bg-l: hsl(220, 50%, 50%);
+  --bg-m: hsl(224, 47%, 45%);
+  --bg-d: hsl(227, 45%, 40%);
+  --bg-xd: hsl(230, 50%, 30%);
+  /* SHADE */
+  --mist: hsl(220, 10%, 92%);
+  --silver: hsl(220, 15%, 80%);
+  --grey: hsl(220, 9%, 52%);
+  --smoke: hsl(227, 15%, 25%);
+  --tar: hsl(233, 30%, 17%);
+  --onyx: hsl(240, 50%, 5%);
+  /* KEY */
+  --red: hsl(358, 80%, 55%);
+  --orange: hsl(24, 100%, 60%);
+  --yellow: hsl(43, 100%, 50%);
+  --green: hsl(130, 85%, 35%);
+  --blue: hsl(223, 45%, 45%);
+  --indigo: hsl(270, 50%, 58%);
+  --violet: hsl(330, 55%, 50%);
+  /* SPECIAL */
+  --blood-orange: hsl(18, 100%, 60%);
+  --blueberry: hsl(259, 65%, 65%);
+  --bronze: hsl(43, 50%, 70%);
+  --brown: hsl(23, 40%, 46%);
+  --mint: hsl(153, 80%, 41%);
+  --maroon: hsl(359, 65%, 40%);
+  --navy: hsl(233, 52%, 22%);
+  --navy-dark: hsl(235, 60%, 14%);
+  --olive: hsl(166, 90%, 20%);
+  --pink: hsl(357, 100%, 75%);
+  --purple: hsl(255, 49%, 37%);
+  --teal: hsl(180, 100%, 32%);
+  --fuscha: hsl(340, 60%, 50%);
+  --ghost: rgba(white, 0.05);
+  --demon: rgba(black, 0.05);
+  /* HYDRAULIC PRESSURE */
+  --atmospheric-pressure: #00F;
+  --no-pressure: #00F;
+  --low-pressure: #FF0;
+  --medium-pressure: #F70;
+  --high-pressure: #F00;
+  --vacuum-pressure: #F0F;
+  /* ELECTRICAL */
+  --ground-voltage: #000;
+  --min-voltage: #FFD800;
+  --medium-voltage: #7fd97f;
+  --max-voltage: #00DAFF;
+  --magnetic-field: #8D02FF;
+  /* OTHER */
+  --cdig-blue: #0063BE;
+  --dark-blue: #0045AF;
+  --light-blue: #0084AF;
+  --light-green: #99ff66;
+  --off-white: hsl(220, 45%, 96%);
+  /* GRADIENTS */
+  --bg-gradient: linear-gradient(to right, var(--bg-d), var(--bg-l), var(--bg-d));
+  /* COMMON **************************************************************************************/
+  /* FONTS */
+  --lbs-fonts: LBSLato, Lato, "Trebuchet MS", sans-serif;
+  --system-fonts: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  /* LBS */
+  --header-height: 48px;
+}
+
+html {
+  /* Don't re-scale our text on mobile. (Normalize) */
+  /* TODO: Verify that autoprefixer is generating -moz and -webkit prefixes for this. */
+  text-size-adjust: none;
+  /* Disable double-tap to zoom, and thus remove the 300ms click delay on tap. */
+  touch-action: manipulation;
+  /* TODO: This belongs in the framework, not the reset. */
+  /* Highlight taps */
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
+  /* TODO: This belongs in the framework, not the reset. */
+  /* Scale fonts more accurately, rather than rounding to the nearest integer size. */
+  /* Note that this might change or disable kerning, ligatures, and other features. */
+  text-rendering: geometricPrecision;
+}
+
+/* Remove the UA default margin that all browsers add (Normalize) */
+body {
+  margin: 0;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Remove the UA default margin (Normalize) */
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Allow us to declare subtrees as non-selectable, so they act like OS GUI rather than like documents */
+.ui, .ui * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  touch-action: manipulation;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Sometimes, we'll need a selectable subtree within a UI subtree */
+.selectable, .selectable * {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  cursor: auto;
+  touch-action: auto;
+}
+
+/* Apply a natural box layout model to all elements */
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Add the correct font weight in Chrome, Edge, and Safari. (Normalize) */
+b, strong {
+  font-weight: bolder;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* Add the correct font size in all browsers (Normalize) */
+small {
+  font-size: 80%;
+}
+
+/* Prevent `sub` and `sup` elements from affecting the line height in all browsers. (Normalize) */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* 1. Change the font styles in all browsers. (Normalize)
+   2. Remove the margin in Firefox and Safari. (Normalize) */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  /* 1 */
+  font-size: 100%;
+  /* 1 */
+  line-height: 1.15;
+  /* 1 */
+  margin: 0;
+  /* 2 */
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* Correct the inability to style clickable types in iOS and Safari. (Normalize) */
+button,
+[type=button],
+[type=reset],
+[type=submit] {
+  -webkit-appearance: button;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* Remove the inner border and padding in Firefox. (Normalize) */
+button::-moz-focus-inner,
+[type=button]::-moz-focus-inner,
+[type=reset]::-moz-focus-inner,
+[type=submit]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* Fix the cursor style for Chrome's increment/decrement buttons. For certain `font-size` values of the `input`, it causes the cursor style of the decrement button to change from `default` to `text`. (Normalize) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/* TODO: This belongs in the framework, not the reset. */
+/* TODO: Test that this is still needed. */
+/* 1. Correct the odd appearance in Chrome and Safari. (Normalize)
+   2. Correct the outline style in Safari. (Normalize) */
+[type=search] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  outline-offset: -2px;
+  /* 2 */
+}
+
+/* Remove the inner padding in Chrome and Safari on macOS. (Normalize) */
+[type=search]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+iframe,
+object,
+embed,
+canvas,
+progress {
+  width: 100%;
+  /* Make responsive (cd-reset) */
+  vertical-align: middle;
+  /* Remove the "baseline" space weirdness (cd-reset) */
+}
+
+video,
+img {
+  vertical-align: middle;
+  /* Remove the "baseline" space weirdness (cd-reset) */
+}
+
+/* Embedded contexts should be big and beefy! (cd-reset) */
+iframe,
+object,
+embed,
+canvas,
+progress,
+video {
+  display: block;
+}
+
+/* Remove the 2px border around iframes (cd-reset) */
+iframe {
+  border: 0;
+}
+
+.backdrop-filter {
+  position: relative;
+  color: var(--title-bar-text);
+  z-index: 2;
+}
+.backdrop-filter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
+  background: var(--tool-bar-bg);
+  z-index: -2;
+  pointer-events: none;
+  backdrop-filter: blur(12px) hue-rotate(50deg) saturate(400%);
+  -webkit-mask-image: linear-gradient(to top, transparent 50%, black 50%);
+}
+
+.basic-field {
+  outline: 0;
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+.basic-field[field-invalid] {
+  border-color: red;
+}
+
+body {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  color: var(--text-color);
+}
+
+.bubble {
+  display: inline-block;
+  margin: 0.2em;
+  margin-left: -0.4em;
+  padding: 0.4em 0.6em;
+  border-radius: 2em;
+  background-color: var(--bubble-bg);
+  font-weight: bold;
+}
+.bubble > * {
+  display: inline-block;
+  font-weight: 900;
+  margin-left: 0.3em;
+  background-image: linear-gradient(var(--bubble-text-a), var(--bubble-text-b));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.bubble a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--bubble-text-b);
+}
+
+button {
+  padding: calc(.4em - 2px) calc(.6em - 2px);
+  border: 2px solid transparent;
+  outline: none;
+  border-radius: 4px;
+  color: var(--button-text);
+  background-color: var(--button-bg);
+  user-select: none;
+  cursor: default;
+  transition: border-color 0.1s;
+}
+button:active:hover {
+  background-color: var(--button-active-bg);
+}
+button:disabled {
+  opacity: 0.5;
+}
+button:focus-visible {
+  border-color: var(--rainbow-focus);
+}
+
+html.blur button {
+  opacity: 0.5;
+}
+
+.buttonish[disabled] {
+  opacity: 0.5;
+}
+.buttonish:active {
+  opacity: 0.5;
+}
+
+.field {
+  position: relative;
+  display: inline-block;
+  box-shadow: 0 0.5em 1.25em -0.25em var(--page-bg);
+  mix-blend-mode: hard-light;
+  padding: 0.4em 0.8em;
+  outline: 0;
+  border-radius: 8px;
+  text-align: left;
+  font-weight: bold;
+  max-width: 100%;
+  word-wrap: break-word;
+  background: var(--page-bg);
+}
+.field[contenteditable] {
+  border: 2px solid #7771;
+}
+.field[contenteditable][field-invalid] {
+  border-color: red;
+}
+.field[contenteditable]:focus-visible {
+  border-color: var(--rainbow-focus);
+}
+
+gear-view {
+  display: inline-block;
+  position: relative;
+  width: 4em;
+  height: 4em;
+  pointer-events: none;
+  --black-gear: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTIwIDUyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJhIiBjeD0iNTAlIiBjeT0iMTAwJSIgcj0iNTAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzAwMCIgc3RvcC1vcGFjaXR5PSIuMiIvPgogICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDAwIiBzdG9wLW9wYWNpdHk9IjAiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyYWRpYWxHcmFkaWVudCBpZD0iYiIgY3g9IjUwJSIgY3k9IjAlIiByPSI1MCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMDAwIiBzdG9wLW9wYWNpdHk9Ii45Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMDAiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvcmFkaWFsR3JhZGllbnQ+CiAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMCAxIC0xIDAgNTIwIDApIj4KICAgIDxwYXRoIGQ9Im0yNTkgNTE5Yy0xNDMgMC0yNTktMTE2LTI1OS0yNjAgMC0xNDMgMTE2LTI1OSAyNTktMjU5IDE0NCAwIDI2MCAxMTYgMjYwIDI1OSAwIDE0NC0xMTYgMjYwLTI2MCAyNjB6bTAtNjdjMTA3IDAgMTkzLTg2IDE5My0xOTMgMC0xMDYtODYtMTkzLTE5My0xOTMtMTA2IDAtMTkzIDg3LTE5MyAxOTMgMCAxMDcgODcgMTkzIDE5MyAxOTN6IiBmaWxsPSJ1cmwoI2EpIi8+CiAgICA8cGF0aCBkPSJtMjQ3IDM4Ni0yNS01LTE4IDI4LTExLTUgNy0zMy0yMS0xNC0yOCAxOS04LTggMTgtMjgtMTQtMjEtMzIgNy01LTExIDI4LTE4LTUtMjUtMzMtNnYtMTJsMzMtNyA1LTI0LTI4LTE5IDUtMTEgMzIgNyAxNC0yMS0xOC0yNyA4LTkgMjggMTkgMjEtMTQtNy0zMyAxMS00IDE4IDI4IDI1LTUgNi0zM2gxMmw2IDMzIDI1IDUgMTgtMjggMTEgNC03IDMzIDIxIDE0IDI4LTE5IDggOS0xOCAyNyAxNCAyMSAzMi03IDUgMTEtMjggMTkgNSAyNCAzMyA3djEybC0zMyA2LTUgMjUgMjggMTgtNSAxMS0zMi03LTE0IDIxIDE4IDI4LTggOC0yOC0xOS0yMSAxNCA3IDMzLTExIDUtMTgtMjgtMjUgNS02IDMyaC0xMnoiIGZpbGw9InVybCgjYikiLz4KICA8L2c+Cjwvc3ZnPg==");
+  --white-gear: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNTIwIDUyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJhIiBjeD0iNTAlIiBjeT0iMTAwJSIgcj0iNTAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZmZiIgc3RvcC1vcGFjaXR5PSIuMiIvPgogICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9IjAiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxyYWRpYWxHcmFkaWVudCBpZD0iYiIgY3g9IjUwJSIgY3k9IjAlIiByPSI1MCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmZmIiBzdG9wLW9wYWNpdHk9Ii45Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNmZmYiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvcmFkaWFsR3JhZGllbnQ+CiAgPGcgdHJhbnNmb3JtPSJtYXRyaXgoMCAxIC0xIDAgNTIwIDApIj4KICAgIDxwYXRoIGQ9Im0yNTkgNTE5Yy0xNDMgMC0yNTktMTE2LTI1OS0yNjAgMC0xNDMgMTE2LTI1OSAyNTktMjU5IDE0NCAwIDI2MCAxMTYgMjYwIDI1OSAwIDE0NC0xMTYgMjYwLTI2MCAyNjB6bTAtNjdjMTA3IDAgMTkzLTg2IDE5My0xOTMgMC0xMDYtODYtMTkzLTE5My0xOTMtMTA2IDAtMTkzIDg3LTE5MyAxOTMgMCAxMDcgODcgMTkzIDE5MyAxOTN6IiBmaWxsPSJ1cmwoI2EpIi8+CiAgICA8cGF0aCBkPSJtMjQ3IDM4Ni0yNS01LTE4IDI4LTExLTUgNy0zMy0yMS0xNC0yOCAxOS04LTggMTgtMjgtMTQtMjEtMzIgNy01LTExIDI4LTE4LTUtMjUtMzMtNnYtMTJsMzMtNyA1LTI0LTI4LTE5IDUtMTEgMzIgNyAxNC0yMS0xOC0yNyA4LTkgMjggMTkgMjEtMTQtNy0zMyAxMS00IDE4IDI4IDI1LTUgNi0zM2gxMmw2IDMzIDI1IDUgMTgtMjggMTEgNC03IDMzIDIxIDE0IDI4LTE5IDggOS0xOCAyNyAxNCAyMSAzMi03IDUgMTEtMjggMTkgNSAyNCAzMyA3djEybC0zMyA2LTUgMjUgMjggMTgtNSAxMS0zMi03LTE0IDIxIDE4IDI4LTggOC0yOC0xOS0yMSAxNCA3IDMzLTExIDUtMTgtMjgtMjUgNS02IDMyaC0xMnoiIGZpbGw9InVybCgjYikiLz4KICA8L2c+Cjwvc3ZnPg==");
+}
+gear-view span {
+  display: block;
+  height: 100%;
+}
+gear-view div {
+  height: 100%;
+  animation: gear-spin 10s infinite linear;
+}
+gear-view.paused div {
+  animation-play-state: paused;
+}
+gear-view div {
+  background-image: var(--black-gear);
+}
+
+@keyframes gear-spin {
+  from {
+    transform: translate(-2.5%) scale(0.95) rotate(0deg);
+  }
+  50% {
+    transform: translate(-2.5%) scale(0.9) rotate(180deg);
+  }
+  to {
+    transform: translate(-2.5%) scale(0.95) rotate(360deg);
+  }
+}
+[hold-to-run] {
+  position: relative;
+}
+[hold-to-run][hold-active] {
+  opacity: 0;
+  transition: var(--hold-time) opacity linear;
+}
+[hold-to-run][hold-longer]::after {
+  content: "Press & Hold";
+  position: absolute;
+  bottom: calc(100% + .4em);
+  left: 50%;
+  padding: 0.4em 0.6em;
+  border-radius: 4px;
+  white-space: pre;
+  background: var(--meta-text);
+  color: var(--meta-bg);
+  transform: translateX(-50%);
+  animation: hold-to-run-longer 2s both;
+  pointer-events: none;
+}
+
+@keyframes hold-to-run-longer {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+html {
+  height: 100%;
+  font-family: var(--system-fonts);
+  background: var(--page-bg);
+  user-select: none;
+}
+
+.i-eye {
+  -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 80" fill="none" stroke="black" stroke-width="10"></svg>');
+  mask-repeat: no-repeat;
+}
+
+.icon {
+  display: inline-block;
+  stroke-width: 35px;
+  fill: none;
+  stroke: currentColor;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+[type=text],
+[type=search] {
+  display: block;
+  padding: 0.4em 0.8em;
+  border: 1px solid var(--ui-border);
+  border-radius: 8px;
+  outline: none;
+  background: var(--input-bg);
+  color: var(--input-text);
+  pointer-events: auto;
+  user-select: contain;
+}
+
+[type=range] {
+  margin: 0;
+  font-size: 1em;
+  vertical-align: middle;
+  background: none;
+  -webkit-appearance: none;
+}
+[type=range]:focus {
+  outline: none;
+}
+[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 0.5em;
+  background: var(--button-bg);
+  border-radius: 0.5em;
+  border: none;
+}
+[type=range]:focus-visible::-webkit-slider-runnable-track {
+  background: var(--rainbow-focus);
+}
+[type=range]::-webkit-slider-thumb {
+  height: 1em;
+  width: 1em;
+  margin-top: -0.25em;
+  border-radius: 0.5em;
+  background: var(--button-active-bg);
+  -webkit-appearance: none;
+}
+[type=range]:focus-visible::-webkit-slider-thumb {
+  background: var(--meta-text);
+}
+
+html.blur input {
+  opacity: 0.5;
+}
+
+job-status {
+  display: block;
+  margin-right: 8px;
+  text-align: right;
+}
+job-status div {
+  display: inline-block;
+}
+job-status :last-child {
+  min-width: 4em;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+main {
+  height: 100%;
+}
+
+:root {
+  --rainbow-before-delay: 0ms;
+}
+
+[rainbow-before]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8000px;
+  height: 100%;
+  background: linear-gradient(to right, var(--rainbow-a), transparent, transparent, var(--rainbow-a), transparent, transparent, var(--rainbow-a), transparent, transparent), linear-gradient(to right, transparent, var(--rainbow-b), transparent, transparent, var(--rainbow-b), transparent, transparent, var(--rainbow-b), transparent), linear-gradient(to right, transparent, transparent, var(--rainbow-c), transparent, transparent, var(--rainbow-c), transparent, transparent, var(--rainbow-c));
+  opacity: 0.2;
+  animation: rainbow-before 1s linear infinite;
+  animation-delay: var(--rainbow-before-delay);
+  animation-play-state: paused;
+}
+
+@keyframes rainbow-before {
+  from {
+    transform: translateX(-12.5%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+rainbow-clouds {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(32px) saturate(150%);
+}
+rainbow-clouds g {
+  transform-origin: center;
+  mix-blend-mode: screen;
+}
+@media (prefers-color-scheme: dark) {
+  rainbow-clouds g {
+    mix-blend-mode: multiply;
+  }
+}
+rainbow-clouds path {
+  transform-origin: 600px 600px;
+  will-change: transform;
+}
+rainbow-clouds .a {
+  fill: rgba(255, 85, 0, 0.6);
+  opacity: 0.7;
+}
+rainbow-clouds .a path {
+  animation: rainbow-clouds-spin 133s -20s infinite linear;
+}
+rainbow-clouds .b {
+  fill: rgba(0, 255, 213, 0.8);
+  opacity: 0.6;
+}
+rainbow-clouds .b path {
+  animation: rainbow-clouds-spin 171s -20s infinite linear reverse;
+}
+rainbow-clouds .c {
+  fill: rgba(43, 0, 255, 0.4);
+}
+rainbow-clouds .c path {
+  animation: rainbow-clouds-spin 217s -20s infinite linear;
+}
+
+@keyframes rainbow-clouds-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  min-height: 40px;
+  border: 2px solid var(--page-bg);
+  border-radius: 8px;
+  background-color: var(--scroll-thumb);
+}
+
+::-webkit-scrollbar-track {
+  margin: 38px 0 5px;
+  background: none;
+}
+
+::-webkit-scrollbar-corner {
+  background: none;
+}
+
+search-box {
+  position: relative;
+  flex: 1 1 100%;
+  display: block;
+}
+search-box input {
+  width: 100%;
+}
+search-box:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid var(--rainbow-focus);
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.1s;
+  pointer-events: none;
+}
+search-box:focus-within:after {
+  opacity: 1;
+}
+
+tag-list {
+  display: block;
+  color: var(--tag-text);
+}
+tag-list tag-item {
+  position: relative;
+  display: inline-block;
+  margin: 0.1em;
+  padding: 0.3em 0.6em;
+  border-radius: 4px;
+  vertical-align: middle;
+  line-height: 1em;
+  background: var(--meta-bg);
+}
+tag-list tag-item[special] {
+  font-style: italic;
+}
+tag-list tag-item .remove {
+  position: absolute;
+  display: none;
+  top: calc(50% - 1ex);
+  right: 0.2ex;
+  height: 2ex;
+  width: 2ex;
+  line-height: 1.5ex;
+  border-radius: 4px;
+  text-align: center;
+  color: var(--button-text);
+  background: var(--button-bg);
+  border: 1px solid var(--ui-border);
+}
+tag-list tag-item .remove:hover {
+  background: var(--button-active-bg);
+}
+tag-list tag-item:hover .remove {
+  display: inline-block;
+}
+
+title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 38px;
+  padding-left: 80px;
+  padding-right: 4px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+title-bar .left, title-bar .center, title-bar .right {
+  display: flex;
+}
+title-bar .left {
+  flex: 1 1 0;
+  justify-content: flex-start;
+}
+title-bar .center {
+  flex: 0 0 0;
+  justify-content: center;
+}
+title-bar .right {
+  flex: 1 1 76px;
+  justify-content: flex-end;
+}
+title-bar div.ui {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-left: 0.5em;
+}
+
+:root {
+  --browser-asset-size: 1em;
+  --browser-label-size: 1em;
+  --rainbow-focus: rgb(208, 115, 146);
+}
+
+html {
+  --bubble-bg: #e9e9e9;
+  --bubble-text-a: hsl(210, 0%, 50%);
+  --bubble-text-b: hsl(240, 0%, 50%);
+  --button-bg: #ddd;
+  --button-text: #000;
+  --button-active-bg: hsl(0, 0%, 53%);
+  --card-image-bg: #fff;
+  --card-image-hover-bg: #f2f2f2;
+  --card-image-hover-border: #fff;
+  --card-no-image-bg: #f7f7f7;
+  --card-no-image-text: #777;
+  --card-no-image-hover: #f7f7f7;
+  --input-bg: #fff0;
+  --input-text: #000;
+  --meta-bg: #e7e7e7;
+  --meta-text: #444;
+  --page-bg: #f2f2f2;
+  --scroll-thumb: #ccc;
+  --text-color: #272727;
+  --title-bar-text: #171717;
+  --tool-bar-bg: #f2f2f2cc;
+  --ui-border: #0002;
+}
+
+html.blur {
+  --title-bar-text: #a4a4a4;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    --bubble-bg: #111;
+    --bubble-text-a: hsl(46, 0%, 80%);
+    --bubble-text-b: hsl(34, 0%, 60%);
+    --button-bg: #555;
+    --button-text: #fff;
+    --button-active-bg: hsl(0, 0%, 53%);
+    --card-image-bg: #fff;
+    --card-image-hover-bg: #f2f2f2;
+    --card-image-hover-border: #444;
+    --card-no-image-bg: #f7f7f7;
+    --card-no-image-text: #aaa;
+    --card-no-image-hover: #f7f7f7;
+    --input-bg: #0004;
+    --input-text: #fff;
+    --meta-bg: #282828;
+    --meta-text: #ccc;
+    --page-bg: #1b1b1b;
+    --scroll-thumb: #333;
+    --text-color: #fff;
+    --title-bar-text: #eaeaea;
+    --tool-bar-bg: #1b1b1bd0;
+    --ui-border: #fff1;
+  }
+
+  html.blur {
+    --title-bar-text: #666;
+  }
+}
+window-top-rainbow {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent), radial-gradient(50% 100% at top, black, transparent);
+  -webkit-mask-composite: source-in;
+  pointer-events: none;
+}
+
+html.blur window-top-rainbow {
+  filter: grayscale(100%);
+}
+
+window-top.backdrop-filter {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  font-size: 15px;
+  -webkit-app-region: drag;
+}
+window-top.backdrop-filter .ui {
+  -webkit-app-region: no-drag;
+}
+window-top.backdrop-filter::before {
+  background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg) 110%);
+}
