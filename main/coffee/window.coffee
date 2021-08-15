@@ -114,7 +114,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     win = new BrowserWindow Object.assign {}, defaultWindow, bounds, background, props
     checkBounds win
     updateBounds type, index, win
-    win.loadFile "out/#{type}.html"
+    win.loadFile "target/#{type}.html"
     win.webContents.openDevTools() if tools and Env.isDev# or true
     win.once "ready-to-show", win.show if deferPaint
     win.on "move", (e)-> updateBounds type, index, win
