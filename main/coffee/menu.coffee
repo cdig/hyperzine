@@ -49,12 +49,16 @@ Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
       { type: "separator" }
       { label: "Find", accelerator: "CmdOrCtrl+F", click: ()-> IPC.toFocusedWindow "find" }
       { type: "separator" }
+      ...(if !Env.isMac then [
+        { type: "separator" }
+        { label: "Settings", click: Window.open.setupAssistant }
+      ] else [])
     ]
 
   template.push
     label: "View"
     submenu: [
-      ...(if Env.isDev then [
+      ...(if Env.isDev or !Env.isMac then [
         { role: "reload" }
         { role: "forceReload" }
         { role: "toggleDevTools" }
@@ -81,6 +85,10 @@ Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
   template.push
     role: "help"
     submenu: [
+      ...(if !Env.isMac then [
+        { role: "about" }
+        { type: "separator" }
+      ] else [])
       { label: "Hyperzine Guide", click: ()-> shell.openExternal "https://github.com/cdig/hyperzine/wiki/Hyperzine-Guide" }
       { type: "separator" }
       { label: "Report a Problem or Feature Request…", click: ()-> shell.openExternal "https://github.com/cdig/hyperzine/issues/new" }

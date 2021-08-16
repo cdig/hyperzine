@@ -3,16 +3,14 @@ title-bar {
   align-items: center;
   justify-content: space-between;
   height: 38px;
-  padding-left: 80px;
-  // padding-top: 4px;
-  padding-right: 4px;
+  padding: 0 4px;
   font-weight: 700;
   white-space: nowrap;
 
   .left, .center, .right { display: flex; }
-  .left   { flex: 1 1 0;    justify-content: flex-start; }
-  .center { flex: 0 0 0;    justify-content: center; }
-  .right  { flex: 1 1 76px; justify-content: flex-end; } // 80px - padding-right (80px being the size of the traffic lights)
+  .left   { flex: 1 1 0; justify-content: flex-start; }
+  .center { flex: 0 0 0; justify-content: center; }
+  .right  { flex: 1 1 0; justify-content: flex-end; }
 
   div.ui {
     flex: 0 0 auto;
@@ -21,4 +19,9 @@ title-bar {
     justify-content: space-around;
     margin-left: .5em;
   }
+}
+
+[env-mac="true"] title-bar {
+  padding-left: 80px; // Leave 80px for the traffic lights
+  .right  { flex: 1 1 76px; justify-content: flex-end; } // 80px - padding-right
 }

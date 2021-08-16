@@ -695,8 +695,7 @@ title-bar {
   align-items: center;
   justify-content: space-between;
   height: 38px;
-  padding-left: 80px;
-  padding-right: 4px;
+  padding: 0 4px;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -712,7 +711,7 @@ title-bar .center {
   justify-content: center;
 }
 title-bar .right {
-  flex: 1 1 76px;
+  flex: 1 1 0;
   justify-content: flex-end;
 }
 title-bar div.ui {
@@ -721,6 +720,14 @@ title-bar div.ui {
   align-items: center;
   justify-content: space-around;
   margin-left: 0.5em;
+}
+
+[env-mac=true] title-bar {
+  padding-left: 80px;
+}
+[env-mac=true] title-bar .right {
+  flex: 1 1 76px;
+  justify-content: flex-end;
 }
 
 :root {
