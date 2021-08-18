@@ -58,7 +58,7 @@ Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
   template.push
     label: "View"
     submenu: [
-      ...(if Env.isDev or !Env.isMac then [
+      ...(if Env.isDev or !Env.isMac or true then [
         { role: "reload" }
         { role: "forceReload" }
         { role: "toggleDevTools" }

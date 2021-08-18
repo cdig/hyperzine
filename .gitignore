@@ -1,4 +1,4 @@
-Hyperzine-darwin-arm64
-Hyperzine-darwin-x64
+.env
 node_modules
+out
 temp

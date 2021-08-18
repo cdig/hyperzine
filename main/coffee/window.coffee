@@ -116,7 +116,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     checkBounds win
     updateBounds type, index, win
     win.loadFile "target/#{type}.html"
-    win.webContents.openDevTools() if tools and Env.isDev# or true
+    win.webContents.openDevTools() if tools and Env.isDev
     win.once "ready-to-show", win.show if deferPaint
     win.on "move", (e)-> updateBounds type, index, win
     win.on "resize", (e)-> updateBounds type, index, win
@@ -135,7 +135,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     if db?
       db.show()
     else
-      db = newWindow "db", {tools: false}, title: "Debug Log", show: Env.isDev and false
+      db = newWindow "db", {tools: false}, title: "Debug Log", show: false #or Env.isDev
       db.on "close", (e)->
         unless aboutToQuit
           e.preventDefault()
@@ -173,3 +173,6 @@ Take ["Env", "MainState"], (Env, MainState)->
       unless BrowserWindow.getAllWindows().length > 1
         # TODO: If we're not done setup, open the Setup Assistant instead
         Window.open.browser()
+
+    aboutToQuit: ()->
+      aboutToQuit = true

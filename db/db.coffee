@@ -1,5 +1,8 @@
 Take ["Config", "DBState", "IPC", "Log"], (Config, DBState, IPC, Log)->
 
+  # Let the Main process know that the DB is open and it's safe to begin logging
+  IPC.send "db-open"
+
   # The DB process stores a cache of data in a file, to help it speed up launching. We load that first.
   DBState.init()
 

@@ -1,9 +1,12 @@
-Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Window"], (Env, Handlers, IPC, Log, Menu, MainState, Window)->
+Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Updates", "Window"], (Env, Handlers, IPC, Log, Menu, MainState, Updates, Window)->
   { app } = require "electron"
+
+  # Windows will launch the app multiple times during an update. We just need to quit.
+  return app.quit() if require "electron-squirrel-startup"
 
   # Just guessing that these might be nice. Haven't tested them at all.
   app.commandLine.appendSwitch "disable-renderer-backgrounding"
-  app.commandLine.appendSwitch "force_low_power_gpu"
+  # app.commandLine.appendSwitch "force_low_power_gpu" # Disabled while we test on Windows
 
   # Here's our custom config for the About box
   app.setAboutPanelOptions
@@ -39,6 +42,14 @@ Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Window"], (Env, Han
   # (We could just call them first, but it reads better this way)
   queueMicrotask Window.open.db
 
+  # When the DB window is open, we can begin logging lots of stuff
+  await IPC.promise.once "db-open"
+  Log "Env.version: #{Env.version}"
+  Log "Env.isDev: #{Env.isDev}"
+  Log "Env.isMac: #{Env.isMac}"
+  Log "Env.userData: #{Env.userData}"
+  Log "Env.home: #{Env.home}"
+
   # When the DB window first wakes up, it'll attempt to load saved user preferences.
   # If the DB fails to load this data, we need to open the Setup Assistant.
   # The Setup Assistant will collect user preferences and save them via the DB.
@@ -54,8 +65,8 @@ Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Window"], (Env, Han
   # Whenever we switch to the app, let the window manager know.
   app.on "activate", Window.activate
 
-  # setTimeout (()-> Window.open.asset "iMckelvie 1284"), 800
-  # setTimeout (()-> Window.open.asset "CDIG Touch 1"), 1000
-
-  # Don't pull the conditional out of the handler — we need to subscribe to this event to stop the default auto-close behaviour
+  # Don't move the `unless` outside the handler — we need to subscribe to this event to stop the default auto-close behaviour
   app.on "window-all-closed", ()-> app.quit() unless Env.isMac
+
+  # Set up automatic updates
+  Updates.setup()
