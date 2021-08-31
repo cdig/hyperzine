@@ -80,7 +80,6 @@
     "d3-color": "^3.0.1",
     "dotenv": "^10.0.0",
     "electron": "^13.1.9",
-    "electron-packager": "^15.3.0",
     "npm-run-all": "latest",
     "onchange": "latest",
     "sass": "^1.37.5",

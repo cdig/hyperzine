@@ -33,4 +33,4 @@ Take ["Env", "Log", "Window"], (Env, Log, Window)->
         autoUpdater.checkForUpdates() if doCheckForUpdates
 
       checkForUpdates()
-      setInterval checkForUpdates, 20 * 1000
+      setInterval checkForUpdates, 60 * 60 * 1000

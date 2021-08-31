@@ -1,5 +1,5 @@
 Take ["Env", "MainState"], (Env, MainState)->
-  { app, BrowserWindow, nativeTheme, screen } = require "electron"
+  { app, BrowserWindow, dialog, nativeTheme, screen } = require "electron"
 
   defaultWindow =
     title: "Hyperzine"
@@ -116,7 +116,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     checkBounds win
     updateBounds type, index, win
     win.loadFile "target/#{type}.html"
-    win.webContents.openDevTools() if tools and Env.isDev
+    .catch (err)-> dialog.showMessageBox message: err.message
     win.once "ready-to-show", win.show if deferPaint
     win.on "move", (e)-> updateBounds type, index, win
     win.on "resize", (e)-> updateBounds type, index, win
