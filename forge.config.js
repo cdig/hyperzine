@@ -7,7 +7,7 @@ module.exports = {
     appCategoryType: "public.app-category.developer-tools",
     derefSymlinks: false, // Check if this fixes the redundant copying of the Electron app when doing a Github Actions build
     icon: "resources/icon",
-    ignore: "/@|\.env|\.git|\.sass-cache|asset$|browser$|build$|common$|db$|lib$|main$|out$|resources$|setup-assistant$|submodule$|temp$|forge.config.js|README.md|yarn.lock",
+    ignore: "/@|\.env|\.git|\.sass-cache|asset$|browser$|common$|db$|lib$|main$|out$|resources$|setup-assistant$|submodule$|temp$|forge.config.js|README.md|yarn.lock",
     junk: true,
     osxSign: {
       identity: process.env.OSX_SIGN_IDENTITY,

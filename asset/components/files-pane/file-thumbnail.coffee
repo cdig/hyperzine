@@ -9,13 +9,15 @@ Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
       e.preventDefault()
       IPC.send "drag-file", file.path
 
-    if file.count?
-      elm.onclick = (e)->
-        State.update "fileList.#{file.relpath}.showChildren", (v)-> !v
-        # show = if DOOM(elm, "showChildren")? then null else ""
-        # DOOM elm, showChildren: show
-        # makeThumbnail elm, file # This doesn't seem to update on Render, so just do it manually
-        # Pub "Render"
+    elm.onclick = (e)->
+      if file.count?
+          State.update "fileList.#{file.relpath}.showChildren", (v)-> !v
+          # show = if DOOM(elm, "showChildren")? then null else ""
+          # DOOM elm, showChildren: show
+          # makeThumbnail elm, file # This doesn't seem to update on Render, so just do it manually
+          # Pub "Render"
+      else
+        IPC.send "preview-file", file.path
 
     # When the thumbnail first appears on screen, build its graphic
     OnScreen elm, onscreen file

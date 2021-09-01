@@ -60,3 +60,7 @@ do ()->
     IPC.handle "get-file-icon", ({sender}, path)->
       img = await app.getFileIcon path
       img.toDataURL()
+
+    IPC.on "preview-file", ({sender}, path)->
+      win = BrowserWindow.fromWebContents sender
+      win.previewFile path

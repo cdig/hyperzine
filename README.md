@@ -21,6 +21,10 @@ yarn start
 
 # And after that's done and begins watching, in another tab run:
 yarn electron
+
+# Package
+yarn electron-forge package
+yarn electron-forge package --arch=arm64 # for Apple Silicon
 ```
 
 ### Standards
