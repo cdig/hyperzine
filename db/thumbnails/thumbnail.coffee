@@ -59,10 +59,10 @@ Take ["Env", "IPC", "Job", "Log", "Memory", "Paths", "Read", "Write"], (Env, IPC
     # extension should be added to Paths.ext.icon)
     "Unable to render destination image"
     "Cannot extract image from file"
-    "Unable to retrieve thumbnail preview image for the given path"
   ]
   unimportantErrorMessages = [
     # Add messages to this list if we don't want to bother alerting the user about them
+    "Unable to retrieve thumbnail preview image for the given path"
   ]
 
   handleErr = (subpath, err)->
