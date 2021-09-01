@@ -1,4 +1,4 @@
-Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
+Take ["Env", "IPC", "Window"], (Env, IPC, Window)->
   { app, Menu, shell } = require "electron"
 
   template = []
@@ -25,11 +25,6 @@ Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
       { label: "New Asset", accelerator: "CmdOrCtrl+N", click: ()-> Take("DB")?.send "New Asset" }
       { label: "New Browser Window", accelerator: "CmdOrCtrl+Shift+N", click: Window.open.browser }
       { type: "separator" }
-      ...(if Env.isDev
-        [{ label: "Export App Folder", click: AppFolder.export }]
-      else
-        [{ label: "Open App Update…", click: AppFolder.import }]
-      )
       { label: "Show Config File", click: ()-> shell.showItemInFolder Env.configPath }
       { type: "separator" }
       { role: if Env.isMac then "close" else "quit" }
@@ -58,7 +53,7 @@ Take ["AppFolder", "Env", "IPC", "Window"], (AppFolder, Env, IPC, Window)->
   template.push
     label: "View"
     submenu: [
-      ...(if Env.isDev or !Env.isMac or true then [
+      ...(if Env.isDev or !Env.isMac then [
         { role: "reload" }
         { role: "forceReload" }
         { role: "toggleDevTools" }
