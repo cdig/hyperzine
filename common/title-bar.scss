@@ -25,3 +25,7 @@ title-bar {
   padding-left: 80px; // Leave 80px for the traffic lights
   .right  { flex: 1 1 76px; justify-content: flex-end; } // 80px - padding-right
 }
+
+[env-mac="false"] {
+  
+}

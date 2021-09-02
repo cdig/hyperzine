@@ -3,7 +3,7 @@ Take ["Env", "MainState"], (Env, MainState)->
 
   defaultWindow =
     title: "Hyperzine"
-    titleBarStyle: "hiddenInset"
+    titleBarStyle: if Env.isMac then "hiddenInset" else "hidden"
     titleBarOverlay: true
     minWidth: 340
     minHeight: 340

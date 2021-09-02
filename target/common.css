@@ -62,7 +62,7 @@
   /* COMMON **************************************************************************************/
   /* FONTS */
   --lbs-fonts: LBSLato, Lato, "Trebuchet MS", sans-serif;
-  --system-fonts: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --system-fonts: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   /* LBS */
   --header-height: 48px;
 }
