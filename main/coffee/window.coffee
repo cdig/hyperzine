@@ -5,8 +5,8 @@ Take ["Env", "MainState"], (Env, MainState)->
     title: "Hyperzine"
     titleBarStyle: if Env.isMac then "hiddenInset" else "hidden"
     titleBarOverlay: if Env.isMac then false else
-      color: if nativeTheme.shouldUseDarkColors then "#1b1b1b" else "#f2f2f2"
-      symbolColor: if nativeTheme.shouldUseDarkColors then "#fff" else "#000"
+      color: "#1b1b1b"
+      symbolColor: "#fff"
     # frame: if Env.isMac then true else false
     minWidth: 340
     minHeight: 340
