@@ -3,8 +3,9 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
 
   validPath = (v)->
     valid = true
-    v = v.replace /^[A-Z]:/, "" # Ignore the drive letter on Windows 
+    v = v.replace /^[A-Z]:/, "" # Ignore the drive letter on Windows
     valid = false if -1 isnt v.search /[<>:;,?"*|]/ # Exclude names we won't be able to roundtrip
+    valid = false if v.length <= 1
     if not valid then Log.err "#{v} is not a valid file path"
     return valid
 
@@ -23,9 +24,9 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
     return if opts.quiet
     return unless Write.logging
     if Memory ?= Take "Memory"
-      p = p.replace new RegExp(Memory("assetsFolder") + Read.sep, "g"), "" unless p is Memory("assetsFolder")
-      p = p.replace new RegExp(Memory("dataFolder") + Read.sep, "g"), "" unless p is Memory("dataFolder")
-    p = p.replace new RegExp(Env.home + Read.sep, "g"), "" unless p is Env.home
+      p = p.replace Memory("assetsFolder") + Read.sep, "" unless p is Memory("assetsFolder")
+      p = p.replace Memory("dataFolder") + Read.sep, "" unless p is Memory("dataFolder")
+    p = p.replace Env.home + Read.sep, "" unless p is Env.home
     Log "WRITE #{fn} #{p}"
 
   Write.sync.file = (path, data, opts)->
