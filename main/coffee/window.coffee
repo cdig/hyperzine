@@ -4,6 +4,7 @@ Take ["Env", "MainState"], (Env, MainState)->
   defaultWindow =
     title: "Hyperzine"
     titleBarStyle: "hiddenInset"
+    titleBarOverlay: true
     minWidth: 340
     minHeight: 340
     webPreferences:
