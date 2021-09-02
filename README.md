@@ -25,6 +25,9 @@ yarn electron
 # Package
 yarn electron-forge package
 yarn electron-forge package --arch=arm64 # for Apple Silicon
+
+# Deploy (publish) a new version
+yarn deploy
 ```
 
 ### Standards

@@ -1,4 +1,4 @@
-Take ["ADSR", "DOOM", "Env", "Memory", "State", "DOMContentLoaded"], (ADSR, DOOM, Env, Memory, State)->
+Take ["ADSR", "DOOM", "Env", "Memory", "SizeOnDisk", "State", "DOMContentLoaded"], (ADSR, DOOM, Env, Memory, SizeOnDisk, State)->
   { exec } = require "child_process"
 
   meta = document.querySelector "title-bar .meta"
@@ -11,7 +11,7 @@ Take ["ADSR", "DOOM", "Env", "Memory", "State", "DOMContentLoaded"], (ADSR, DOOM
         exec "du -sh '#{asset.path}'", (err, val)->
           resolve err or (val.split("\t")[0] + "B").replace("BB", "B")
     else
-      size = "Zarro B"
+      size = await SizeOnDisk.pretty asset.path
 
     frag = new DocumentFragment()
 

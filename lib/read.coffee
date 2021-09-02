@@ -47,6 +47,11 @@ Take [], ()->
       fs.stat folderPath, (err, stat)->
         resolve stat?.isDirectory()
 
+  Read.stat = (path)->
+    new Promise (resolve)->
+      fs.stat path, (err, stat)->
+        resolve stat
+
   Read.exists = (filePath)->
     return false unless filePath?.length
     new Promise (resolve)->
