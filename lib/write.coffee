@@ -19,8 +19,8 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
   Memory = null
 
   logWrite = (fn, p, opts = {})->
-    return if opts.quiet
-    return unless Write.logging
+    # return if opts.quiet
+    # return unless Write.logging
     if Memory ?= Take "Memory"
       p = p.replace new RegExp(Memory("assetsFolder") + Read.sep, "g"), "" unless p is Memory("assetsFolder")
       p = p.replace new RegExp(Memory("dataFolder") + Read.sep, "g"), "" unless p is Memory("dataFolder")
