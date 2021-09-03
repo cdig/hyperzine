@@ -735,10 +735,10 @@ title-bar div.ui {
 }
 
 [env-mac=false] title-bar {
-  padding-right: 160px;
+  padding-right: 138px;
 }
 [env-mac=false] title-bar .left {
-  flex: 1 1 196px;
+  flex: 1 1 134px;
   justify-content: flex-end;
 }
 
