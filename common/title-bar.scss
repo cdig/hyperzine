@@ -27,5 +27,6 @@ title-bar {
 }
 
 [env-mac="false"] {
-  
+  padding-right: 200px; // Leave 200px for the window controls
+  .left  { flex: 1 1 196px; justify-content: flex-end; } // 200px - padding-right
 }

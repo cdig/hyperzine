@@ -730,6 +730,14 @@ title-bar div.ui {
   justify-content: flex-end;
 }
 
+[env-mac=false] {
+  padding-right: 200px;
+}
+[env-mac=false] .left {
+  flex: 1 1 196px;
+  justify-content: flex-end;
+}
+
 :root {
   --browser-asset-size: 1em;
   --browser-label-size: 1em;
