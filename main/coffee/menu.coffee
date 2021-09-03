@@ -46,7 +46,7 @@ Take ["Env", "IPC", "Window"], (Env, IPC, Window)->
       { type: "separator" }
       ...(if !Env.isMac then [
         { type: "separator" }
-        { label: "Settings", click: Window.open.setupAssistant }
+        { label: "Settings", accelerator: "CmdOrCtrl+,", click: Window.open.setupAssistant }
       ] else [])
     ]
 
