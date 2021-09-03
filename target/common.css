@@ -735,7 +735,7 @@ title-bar div.ui {
 }
 
 [env-mac=false] title-bar {
-  padding-right: 200px;
+  padding-right: 160px;
 }
 [env-mac=false] title-bar .left {
   flex: 1 1 196px;
@@ -771,6 +771,7 @@ html {
   --title-bar-text: #171717;
   --tool-bar-bg: #f2f2f2cc;
   --ui-border: #0002;
+  --win-window-top: #e4e4e4;
 }
 
 html.blur {
@@ -801,6 +802,7 @@ html.blur {
     --title-bar-text: #eaeaea;
     --tool-bar-bg: #1b1b1bd0;
     --ui-border: #fff1;
+    --win-window-top: #333;
   }
 
   html.blur {
@@ -839,4 +841,8 @@ window-top.backdrop-filter .ui {
 }
 window-top.backdrop-filter::before {
   background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg) 110%);
+}
+
+[env-mac=false] window-top {
+  background: var(--win-window-top);
 }

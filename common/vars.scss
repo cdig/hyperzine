@@ -28,6 +28,7 @@ html {
   --title-bar-text: #171717;
   --tool-bar-bg: #f2f2f2cc;
   --ui-border: #0002;
+  --win-window-top: #e4e4e4;
 }
 html.blur {
   --title-bar-text: #a4a4a4;
@@ -57,6 +58,7 @@ html.blur {
     --title-bar-text: #eaeaea;
     --tool-bar-bg: #1b1b1bd0;
     --ui-border: #fff1;
+    --win-window-top: #333;
   }
   html.blur {
     --title-bar-text: #666;
