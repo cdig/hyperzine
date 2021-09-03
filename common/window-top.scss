@@ -1,4 +1,4 @@
-[env-mac="true"] window-top.backdrop-filter {
+window-top {
   position: fixed;
   display: block;
   top: 0;
@@ -8,7 +8,9 @@
   -webkit-app-region: drag;
 
   .ui { -webkit-app-region: no-drag; }
+}
 
+[env-mac="true"] window-top.backdrop-filter {
   &::before {
     background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg) 110%);
   }

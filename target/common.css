@@ -823,7 +823,7 @@ html.blur window-top-rainbow {
   display: none;
 }
 
-[env-mac=true] window-top.backdrop-filter {
+window-top {
   position: fixed;
   display: block;
   top: 0;
@@ -832,9 +832,10 @@ html.blur window-top-rainbow {
   font-size: 15px;
   -webkit-app-region: drag;
 }
-[env-mac=true] window-top.backdrop-filter .ui {
+window-top .ui {
   -webkit-app-region: no-drag;
 }
+
 [env-mac=true] window-top.backdrop-filter::before {
   background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg) 110%);
 }
