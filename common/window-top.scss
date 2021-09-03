@@ -5,6 +5,7 @@ window-top {
   left: 0;
   width: 100%;
   font-size: 15px;
+  z-index: 2;
   -webkit-app-region: drag;
 
   .ui { -webkit-app-region: no-drag; }
