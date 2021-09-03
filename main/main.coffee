@@ -6,8 +6,7 @@ Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Updates", "Window"]
 
   # Just guessing that these might be nice. Haven't tested them at all.
   app.commandLine.appendSwitch "disable-renderer-backgrounding"
-  # app.commandLine.appendSwitch "force_low_power_gpu" # Disabled while we test on Windows
-  app.commandLine.appendSwitch "force_high_power_gpu"
+  app.commandLine.appendSwitch "force_low_power_gpu"
 
   # Here's our custom config for the About box
   app.setAboutPanelOptions
