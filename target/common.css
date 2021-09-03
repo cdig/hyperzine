@@ -730,10 +730,10 @@ title-bar div.ui {
   justify-content: flex-end;
 }
 
-[env-mac=false] {
+[env-mac=false] title-bar {
   padding-right: 200px;
 }
-[env-mac=false] .left {
+[env-mac=false] title-bar .left {
   flex: 1 1 196px;
   justify-content: flex-end;
 }
