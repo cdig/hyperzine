@@ -30,9 +30,9 @@ module.exports = {
     {
       name: "@electron-forge/maker-squirrel",
       config: {
-        icon: "resources/icon/icon.ico",
+        icon: "resources/icon",
         setupExe: "Install Hyperzine",
-        setupIcon: "resources/icon/icon.ico",
+        setupIcon: "resources/icon",
       }
     },
     {
