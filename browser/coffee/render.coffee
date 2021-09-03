@@ -1,4 +1,4 @@
-Take ["AssetCard", "ADSR", "DOOM", "Frustration", "Iterated", "Log", "Memory", "Search", "State", "DOMContentLoaded"], (AssetCard, ADSR, DOOM, Frustration, Iterated, Log, Memory, Search, State)->
+Take ["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Memory", "Search", "State", "DOMContentLoaded"], (AssetCard, ADSR, DOOM, Env, Frustration, Iterated, Log, Memory, Search, State)->
   elm = document.querySelector "asset-list"
   noAssets = document.querySelector "no-assets"
   rainbowClouds = document.querySelector "rainbow-clouds"
@@ -36,8 +36,10 @@ Take ["AssetCard", "ADSR", "DOOM", "Frustration", "Iterated", "Log", "Memory", "
     DOOM assetCount, innerHTML: String.pluralize(assetsToRender.length, "%% <span>Asset") + "</span>"
 
     DOOM noAssets, display: if hasResults then "none" else "block"
-    DOOM rainbowClouds, display: if hasResults then "none" else "block"
-    rainbowClouds.style.animationPlayState = if hasResults then "paused" else "playing"
+
+    if Env.isMac
+      DOOM rainbowClouds, display: if hasResults then "none" else "block"
+      rainbowClouds.style.animationPlayState = if hasResults then "paused" else "playing"
 
     # Log renderCount
     DOOM noAssets.querySelector("h1"), textContent: Frustration renderCount unless hasResults

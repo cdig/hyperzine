@@ -230,13 +230,10 @@ no-assets h1::before {
     transform: rotateX(15deg) rotateY(0deg) translateZ(30px);
   }
 }
-rainbow-clouds {
-  display: none;
-}
-rainbow-clouds svg {
+[env-mac=true] rainbow-clouds svg {
   transform: rotate(0deg) translate(0, -30vh);
 }
-rainbow-clouds svg g {
+[env-mac=true] rainbow-clouds svg g {
   transform-origin: center bottom;
   transform: translate(0, 200px) scale(1, 8);
 }
