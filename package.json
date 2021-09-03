@@ -1,6 +1,6 @@
 {
   "name": "Hyperzine",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "license": "UNLICENSED",
   "main": "target/main.js",
   "scripts": {
@@ -79,7 +79,7 @@
     "coffeescript": "^2.5.1",
     "d3-color": "^3.0.1",
     "dotenv": "^10.0.0",
-    "electron": "^13.1.9",
+    "electron": "^15.0.0-alpha.10",
     "npm-run-all": "latest",
     "onchange": "latest",
     "sass": "^1.37.5",
