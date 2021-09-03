@@ -33,10 +33,9 @@ jobs:
       #     fileName: 'win-certificate.pfx'
       #     encodedString: ${{ secrets.CERTIFICATE_WINDOWS_PFX }}
       - name: Package
-        run: yarn package
-      - uses: actions/upload-artifact@v2
-        with:
-          path: out
+        run: yarn electron-forge publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # env:
         #   APPLE_ID: ${{ secrets.APPLE_ID }}
         #   APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
