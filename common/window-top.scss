@@ -1,4 +1,4 @@
-window-top.backdrop-filter {
+[env-mac="true"] window-top.backdrop-filter {
   position: fixed;
   display: block;
   top: 0;
@@ -12,8 +12,4 @@ window-top.backdrop-filter {
   &::before {
     background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg) 110%);
   }
-}
-
-[env-mac="false"] window-top {
-  background: var(--win-window-top);
 }

@@ -248,12 +248,12 @@ iframe {
   border: 0;
 }
 
-.backdrop-filter {
+[env-mac=true] .backdrop-filter {
   position: relative;
   color: var(--title-bar-text);
   z-index: 2;
 }
-.backdrop-filter::before {
+[env-mac=true] .backdrop-filter::before {
   content: "";
   position: absolute;
   top: 0;
@@ -265,10 +265,6 @@ iframe {
   pointer-events: none;
   backdrop-filter: blur(12px) hue-rotate(50deg) saturate(400%);
   -webkit-mask-image: linear-gradient(to top, transparent 50%, black 50%);
-}
-
-[env-mac=false] .backdrop-filter {
-  background: var(--page-bg);
 }
 
 .basic-field {
@@ -827,7 +823,7 @@ html.blur window-top-rainbow {
   display: none;
 }
 
-window-top.backdrop-filter {
+[env-mac=true] window-top.backdrop-filter {
   position: fixed;
   display: block;
   top: 0;
@@ -836,13 +832,9 @@ window-top.backdrop-filter {
   font-size: 15px;
   -webkit-app-region: drag;
 }
-window-top.backdrop-filter .ui {
+[env-mac=true] window-top.backdrop-filter .ui {
   -webkit-app-region: no-drag;
 }
-window-top.backdrop-filter::before {
+[env-mac=true] window-top.backdrop-filter::before {
   background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg) 110%);
-}
-
-[env-mac=false] window-top {
-  background: var(--win-window-top);
 }
