@@ -3,7 +3,7 @@ Take ["Env", "MainState"], (Env, MainState)->
 
   defaultWindow =
     title: "Hyperzine"
-    titleBarStyle: if Env.isMac then "hiddenInset" else "hidden"
+    titleBarStyle: if Env.isMac then "hiddenInset" else "default"
     titleBarOverlay: if Env.isMac then false else
       color: "#333"
       symbolColor: "#fff"
