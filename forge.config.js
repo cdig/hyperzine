@@ -28,7 +28,12 @@ module.exports = {
   },
   makers: [
     {
-      name: "@electron-forge/maker-squirrel"
+      name: "@electron-forge/maker-squirrel",
+      config: {
+        icon: "resources/icon/icon.ico",
+        setupExe: "Install Hyperzine",
+        setupIcon: "resources/icon/icon.ico",
+      }
     },
     {
       name: "@electron-forge/maker-zip"
