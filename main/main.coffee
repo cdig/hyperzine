@@ -65,8 +65,8 @@ Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Updates", "Window"]
   # Whenever we switch to the app, let the window manager know.
   app.on "activate", Window.activate
 
-  # Don't move the `unless` outside the handler — we need to subscribe to this event to stop the default auto-close behaviour
-  app.on "window-all-closed", ()-> app.quit() unless Env.isMac
+  # Replace the default "exit" behaviour — we implement our own in window.coffee
+  app.on "window-all-closed", ()->
 
   # Set up automatic updates
   Updates.setup()

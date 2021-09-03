@@ -124,6 +124,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     win.on "move", (e)-> updateBounds type, index, win
     win.on "resize", (e)-> updateBounds type, index, win
     win.on "closed", (e)-> clearIndex type, index
+    win.on "closed", (e)-> checkForExit()
     win
 
   openAsset = (assetId)->
@@ -154,6 +155,8 @@ Take ["Env", "MainState"], (Env, MainState)->
       setupAssistant.on "close", (e)-> setupAssistant = null
     return setupAssistant
 
+  checkForExit = ()->
+    app.quit() if !Env.isMac and BrowserWindow.getAllWindows().length <= 1
 
 
   Make "Window", Window =
