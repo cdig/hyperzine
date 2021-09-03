@@ -13,3 +13,7 @@ window-top-rainbow {
 html.blur window-top-rainbow {
   filter: grayscale(100%);
 }
+
+[env-mac="false"] window-top-rainbow {
+  display: none;
+}

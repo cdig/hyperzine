@@ -267,6 +267,10 @@ iframe {
   -webkit-mask-image: linear-gradient(to top, transparent 50%, black 50%);
 }
 
+[env-mac=false] .backdrop-filter {
+  background: var(--page-bg);
+}
+
 .basic-field {
   outline: 0;
   border-radius: 8px;
@@ -815,6 +819,10 @@ window-top-rainbow {
 
 html.blur window-top-rainbow {
   filter: grayscale(100%);
+}
+
+[env-mac=false] window-top-rainbow {
+  display: none;
 }
 
 window-top.backdrop-filter {

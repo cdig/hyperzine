@@ -22,3 +22,7 @@
     -webkit-mask-image: linear-gradient(to top, transparent 50%, black 50%);
   }
 }
+
+[env-mac="false"] .backdrop-filter {
+  background: var(--page-bg);
+}
