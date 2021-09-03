@@ -838,3 +838,7 @@ html.blur window-top-rainbow {
 [env-mac=true] window-top.backdrop-filter::before {
   background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg) 110%);
 }
+
+[env-mac=false] window-top {
+  background-color: var(--win-window-top);
+}
