@@ -3,6 +3,8 @@
   "version": "0.4.2",
   "license": "UNLICENSED",
   "main": "target/main.js",
+  "authors": "Ivan Reese",
+  "description": "An asset management tool",
   "scripts": {
     "asset-coffee:assemble": "fd . -e coffee asset | xargs awk '(FNR==1){print \"\\n\\n# \" FILENAME}1' > temp/asset.coffee",
     "asset-coffee:compiler": "coffee --bare --inline-map --output target/asset.js --compile temp/asset.coffee",
