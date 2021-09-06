@@ -1,11 +1,5 @@
-do ()->
+Take ["Env", "IPC", "Log", "Printer", "Window"], (Env, IPC, Log, Printer, Window)->
   { app, BrowserWindow, dialog, MessageChannelMain } = require "electron"
-
-  # In additon to the IPC handlers below, we also set up some app event handlers for our windows
-  app.on "browser-window-focus", (event, win)-> win.webContents.send "focus"
-  app.on "browser-window-blur", (event, win)-> win.webContents.send "blur"
-
-  { Env, IPC, Log, Printer, Window } = await Take.async ["Env", "IPC", "Log", "Printer", "Window"]
 
   Make "Handlers", Handlers = setup: ()->
 
@@ -36,6 +30,15 @@ do ()->
 
     IPC.on "close-window", ({sender})->
       BrowserWindow.fromWebContents(sender)?.close()
+
+    IPC.on "minimize-window", ({sender})->
+      BrowserWindow.fromWebContents(sender)?.minimize()
+
+    IPC.on "maximize-window", ({sender})->
+      BrowserWindow.fromWebContents(sender)?.maximize()
+
+    IPC.on "unmaximize-window", ({sender})->
+      BrowserWindow.fromWebContents(sender)?.unmaximize()
 
     IPC.on "set-window-title", ({sender}, name)->
       BrowserWindow.fromWebContents(sender).setTitle name

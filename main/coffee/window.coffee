@@ -4,9 +4,9 @@ Take ["Env", "MainState"], (Env, MainState)->
   defaultWindow =
     title: "Hyperzine"
     titleBarStyle: if Env.isMac then "hiddenInset" else "hidden"
-    titleBarOverlay: if Env.isMac then false else
-      color: "#333"
-      symbolColor: "#fff"
+    # titleBarOverlay: if Env.isMac then false else
+    #   color: "#333"
+    #   symbolColor: "#fff"
     minWidth: 340
     minHeight: 340
     webPreferences:
@@ -125,6 +125,13 @@ Take ["Env", "MainState"], (Env, MainState)->
     win.on "resize", (e)-> updateBounds type, index, win
     win.on "closed", (e)-> clearIndex type, index
     win.on "closed", (e)-> checkForExit()
+
+    # Notify IPC handlers in common/window-events.coffee when certain window events happen
+    win.on "focus", (e)-> win.webContents.send "focus"
+    win.on "blur", (e)-> win.webContents.send "blur"
+    win.on "maximize", (e)-> win.webContents.send "maximize"
+    win.on "unmaximize", (e)-> win.webContents.send "unmaximize"
+
     win
 
   openAsset = (assetId)->

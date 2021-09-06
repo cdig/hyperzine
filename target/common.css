@@ -720,22 +720,19 @@ title-bar div.ui {
   align-items: center;
   justify-content: space-around;
   margin-left: 0.5em;
+  height: 100%;
 }
 
 [env-mac=true] title-bar {
   padding-left: 80px;
+  padding-right: 0;
 }
 [env-mac=true] title-bar .right {
   flex: 1 1 76px;
-  justify-content: flex-end;
 }
 
 [env-mac=false] title-bar {
-  padding-right: 138px;
-}
-[env-mac=false] title-bar .left {
-  flex: 1 1 134px;
-  justify-content: flex-end;
+  padding-right: 0;
 }
 
 :root {
@@ -843,4 +840,81 @@ window-top .ui {
 
 [env-mac=false] window-top {
   background-color: var(--win-window-top);
+}
+
+windows-menu {
+  display: grid;
+  grid-template-columns: repeat(3, 46px);
+  gap: 1px;
+  margin: 1px;
+  height: 100%;
+}
+windows-menu > div {
+  grid-row: 1/span 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  cursor: default;
+  transition: background-color 0.2s linear;
+}
+windows-menu > div:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+windows-menu > div:hover:active {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+@media (prefers-color-scheme: dark) {
+  windows-menu > div:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  windows-menu > div:hover:active {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  windows-menu img {
+    filter: invert(1);
+  }
+}
+@media (-webkit-device-pixel-ratio: 1.5), (-webkit-device-pixel-ratio: 2), (-webkit-device-pixel-ratio: 3) {
+  windows-menu img {
+    width: 10px;
+    height: 10px;
+  }
+}
+windows-menu #close:hover {
+  background-color: #E81123;
+}
+windows-menu #close:hover img {
+  filter: invert(1);
+}
+@media (prefers-color-scheme: dark) {
+  windows-menu #close:hover img {
+    filter: none;
+  }
+}
+windows-menu #close:active {
+  background-color: #F1707A;
+}
+windows-menu #min {
+  grid-column: 1;
+}
+windows-menu #max, windows-menu #restore {
+  grid-column: 2;
+}
+windows-menu #close {
+  grid-column: 3;
+}
+windows-menu #restore {
+  display: none;
+}
+
+.maximize windows-menu #restore {
+  display: flex;
+}
+.maximize windows-menu #max {
+  display: none;
 }

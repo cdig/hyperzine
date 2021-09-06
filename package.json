@@ -1,6 +1,6 @@
 {
   "name": "Hyperzine",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "license": "UNLICENSED",
   "main": "target/main.js",
   "authors": "Ivan Reese",
@@ -61,12 +61,13 @@
     "setup-assistant-scss:observer": "onchange 'setup-assistant/**/*.scss' -- npm run setup-assistant-scss:generate",
     "deploy": "electron-forge publish --arch=x64,arm64",
     "deps": "cp node_modules/d3-color/dist/d3-color.min.js target",
+    "static": "cp -R static target/static",
     "bump": "yarn version --patch --no-git-tag-version",
     "open": "open ./Hyperzine-darwin-arm64/Hyperzine.app",
     "clean": "rm -r target temp",
     "init": "mkdir -p target temp",
     "electron": "electron .",
-    "build": "npm-run-all init deps *:generate",
+    "build": "npm-run-all init deps static *:generate",
     "watch": "npm-run-all --parallel *:observer",
     "start": "npm-run-all build watch"
   },

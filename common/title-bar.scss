@@ -18,15 +18,18 @@ title-bar {
     align-items: center;
     justify-content: space-around;
     margin-left: .5em;
+    height: 100%;
   }
 }
 
 [env-mac="true"] title-bar {
   padding-left: 80px; // Leave 80px for the traffic lights
-  .right  { flex: 1 1 76px; justify-content: flex-end; } // 80px - padding-right
+  .right { flex: 1 1 76px; } // 80px - padding-right
+
+  padding-right: 0;
 }
 
 [env-mac="false"] title-bar {
-  padding-right: 138px; // Leave 138px for the window controls
-  .left  { flex: 1 1 134px; justify-content: flex-end; } // 138px - padding-right
+  padding-right: 0;
+  // .left { flex: 1 1 0; justify-content: flex-start; } // 138px - padding-right
 }
