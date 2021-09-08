@@ -842,14 +842,18 @@ window-top .ui {
   background-color: var(--win-window-top);
 }
 
-windows-menu {
+[env-mac=true] windows-menu {
+  display: none;
+}
+
+[env-mac=false] windows-menu {
   display: grid;
   grid-template-columns: repeat(3, 46px);
   gap: 1px;
   margin: 1px;
   height: 100%;
 }
-windows-menu > div {
+[env-mac=false] windows-menu > div {
   grid-row: 1/span 1;
   display: flex;
   justify-content: center;
@@ -860,55 +864,55 @@ windows-menu > div {
   cursor: default;
   transition: background-color 0.2s linear;
 }
-windows-menu > div:hover {
+[env-mac=false] windows-menu > div:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
-windows-menu > div:hover:active {
+[env-mac=false] windows-menu > div:hover:active {
   background-color: rgba(0, 0, 0, 0.2);
 }
 @media (prefers-color-scheme: dark) {
-  windows-menu > div:hover {
+  [env-mac=false] windows-menu > div:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
-  windows-menu > div:hover:active {
+  [env-mac=false] windows-menu > div:hover:active {
     background-color: rgba(255, 255, 255, 0.2);
   }
 }
 @media (prefers-color-scheme: dark) {
-  windows-menu img {
+  [env-mac=false] windows-menu img {
     filter: invert(1);
   }
 }
 @media (-webkit-device-pixel-ratio: 1.5), (-webkit-device-pixel-ratio: 2), (-webkit-device-pixel-ratio: 3) {
-  windows-menu img {
+  [env-mac=false] windows-menu img {
     width: 10px;
     height: 10px;
   }
 }
-windows-menu #close:hover {
+[env-mac=false] windows-menu #close:hover {
   background-color: #E81123;
 }
-windows-menu #close:hover img {
+[env-mac=false] windows-menu #close:hover img {
   filter: invert(1);
 }
 @media (prefers-color-scheme: dark) {
-  windows-menu #close:hover img {
+  [env-mac=false] windows-menu #close:hover img {
     filter: none;
   }
 }
-windows-menu #close:active {
+[env-mac=false] windows-menu #close:active {
   background-color: #F1707A;
 }
-windows-menu #min {
+[env-mac=false] windows-menu #min {
   grid-column: 1;
 }
-windows-menu #max, windows-menu #restore {
+[env-mac=false] windows-menu #max, [env-mac=false] windows-menu #restore {
   grid-column: 2;
 }
-windows-menu #close {
+[env-mac=false] windows-menu #close {
   grid-column: 3;
 }
-windows-menu #restore {
+[env-mac=false] windows-menu #restore {
   display: none;
 }
 
@@ -917,4 +921,11 @@ windows-menu #restore {
 }
 .maximize windows-menu #max {
   display: none;
+}
+
+html.blur windows-menu > div img {
+  opacity: 0.5;
+}
+html.blur windows-menu > div:hover img {
+  opacity: 1;
 }

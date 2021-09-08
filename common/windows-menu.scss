@@ -1,4 +1,8 @@
-windows-menu {
+[env-mac="true"] windows-menu {
+  display: none;
+}
+
+[env-mac="false"] windows-menu {
   display: grid;
   grid-template-columns: repeat(3, 46px);
   gap: 1px;
@@ -55,4 +59,9 @@ windows-menu {
 .maximize windows-menu {
   #restore { display: flex; }
   #max { display: none; }
+}
+
+html.blur windows-menu > div {
+  img { opacity: .5 }
+  &:hover img { opacity: 1 }
 }
