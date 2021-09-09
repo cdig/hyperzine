@@ -42,14 +42,14 @@
 file-list {
   position: relative;
   display: block;
-  padding-top: 86px;
+  padding-top: calc(86px + .5em);
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
 }
 file-list::-webkit-scrollbar-track {
-  margin: 86px 0 0;
+  margin: calc(86px + .5em) 0 0;
 }
 
 [is-archived] file-list {
@@ -170,7 +170,7 @@ meta-pane {
   display: block;
   max-width: 60%;
   flex: 1 1 50%;
-  padding: 86px 1em 0;
+  padding: calc(86px + .5em) 1em 0;
   border-left: 1px solid var(--tool-bar-bg);
 }
 meta-pane tag-list {
@@ -296,6 +296,10 @@ file-tools [file-count] {
 file-tools [add-files] {
   flex: 0 0 auto;
   margin-left: 0.5em;
+}
+
+[magic-button] {
+  display: none;
 }
 
 meta-tools {

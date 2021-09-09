@@ -1,8 +1,6 @@
 .field {
   position: relative;
   display: inline-block;
-  box-shadow: 0 .5em 1.25em -.25em var(--page-bg);
-  mix-blend-mode: hard-light;
   padding: .4em .8em;
   outline: 0;
   border-radius: 8px;
@@ -21,4 +19,9 @@
       border-color: var(--rainbow-focus);
     }
   }
+}
+
+[env-mac="true"] .field {
+  box-shadow: 0 .5em 1.25em -.25em var(--page-bg);
+  mix-blend-mode: hard-light;
 }

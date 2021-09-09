@@ -2,5 +2,8 @@ body {
   position: relative;
   height: 100%;
   overflow: hidden;
+  font-family: var(--system-fonts);
   color: var(--text-color);
+  background: var(--page-bg);
+  user-select: none;
 }

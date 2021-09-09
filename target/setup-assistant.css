@@ -64,11 +64,14 @@ body.setup-done #bg svg g {
 
 #setup-done h1 {
   font-size: 10em;
-  mix-blend-mode: overlay;
 }
 #setup-done h3 {
   font-size: 1.2em;
   margin: 7em 0 1em;
+}
+
+[env-mac=true] #setup-done h1 {
+  mix-blend-mode: overlay;
 }
 
 a {
@@ -76,6 +79,28 @@ a {
   margin-top: 2em;
   text-decoration: underline;
   opacity: 0;
+}
+
+body {
+  text-align: center;
+  -webkit-app-region: drag;
+}
+body .ui, body setup-button, body a, body input {
+  -webkit-app-region: no-drag;
+}
+
+body[env-mac=true] {
+  --page-bg: #fff;
+}
+@media (prefers-color-scheme: dark) {
+  body[env-mac=true] {
+    --page-bg: #1a1a1a;
+  }
+}
+
+body[env-mac=false] {
+  background: #0063be;
+  color: white;
 }
 
 .buttons {
@@ -89,6 +114,10 @@ a {
   margin-top: 0.3em;
   margin-bottom: 0.7em;
   opacity: 0;
+}
+
+[env-mac=false] .field {
+  color: var(--text-color);
 }
 
 gear-view {
@@ -122,27 +151,16 @@ h1 {
   width: 100%;
   font-size: 3em;
   font-weight: 900;
-  mix-blend-mode: overlay;
   opacity: 0;
+}
+
+[env-mac=true] h1 {
+  mix-blend-mode: overlay;
 }
 
 h3 {
   margin-bottom: 1.5em;
   opacity: 0;
-}
-
-html {
-  text-align: center;
-  -webkit-app-region: drag;
-  --page-bg: #fff;
-}
-html .ui, html setup-button, html a, html input {
-  -webkit-app-region: no-drag;
-}
-@media (prefers-color-scheme: dark) {
-  html {
-    --page-bg: #1a1a1a;
-  }
 }
 
 #local-name .field {
@@ -191,15 +209,22 @@ setup-button {
   padding: 0.4em 0.6em;
   border-radius: 4px;
   border: 1px solid currentColor;
-  color: var(--button-text);
-  background: var(--page-bg);
-  mix-blend-mode: overlay;
   user-select: none;
   cursor: default;
   opacity: 0;
 }
-setup-button:active:hover {
+
+[env-mac=true] setup-button {
+  mix-blend-mode: overlay;
+  color: var(--button-text);
+  background: var(--page-bg);
+}
+[env-mac=true] setup-button:active:hover {
   background-color: var(--button-active-bg);
+}
+
+[env-mac=false] setup-button:active:hover {
+  background-color: #fff2;
 }
 
 :root {

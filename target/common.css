@@ -248,25 +248,6 @@ iframe {
   border: 0;
 }
 
-[env-mac=true] .backdrop-filter {
-  position: relative;
-  color: var(--title-bar-text);
-  z-index: 2;
-}
-[env-mac=true] .backdrop-filter::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 200%;
-  background: var(--tool-bar-bg);
-  z-index: -2;
-  pointer-events: none;
-  backdrop-filter: blur(12px) hue-rotate(50deg) saturate(400%);
-  -webkit-mask-image: linear-gradient(to top, transparent 50%, black 50%);
-}
-
 .basic-field {
   outline: 0;
   border-radius: 8px;
@@ -280,7 +261,10 @@ body {
   position: relative;
   height: 100%;
   overflow: hidden;
+  font-family: var(--system-fonts);
   color: var(--text-color);
+  background: var(--page-bg);
+  user-select: none;
 }
 
 .bubble {
@@ -341,8 +325,6 @@ html.blur button {
 .field {
   position: relative;
   display: inline-block;
-  box-shadow: 0 0.5em 1.25em -0.25em var(--page-bg);
-  mix-blend-mode: hard-light;
   padding: 0.4em 0.8em;
   outline: 0;
   border-radius: 8px;
@@ -360,6 +342,11 @@ html.blur button {
 }
 .field[contenteditable]:focus-visible {
   border-color: var(--rainbow-focus);
+}
+
+[env-mac=true] .field {
+  box-shadow: 0 0.5em 1.25em -0.25em var(--page-bg);
+  mix-blend-mode: hard-light;
 }
 
 gear-view {
@@ -435,9 +422,6 @@ gear-view div {
 }
 html {
   height: 100%;
-  font-family: var(--system-fonts);
-  background: var(--page-bg);
-  user-select: none;
 }
 
 .i-eye {
@@ -618,7 +602,7 @@ rainbow-clouds .c path {
 }
 
 ::-webkit-scrollbar-track {
-  margin: 38px 0 5px;
+  margin: calc(38px + 1em) 0 5px;
   background: none;
 }
 
@@ -725,7 +709,6 @@ title-bar div.ui {
 
 [env-mac=true] title-bar {
   padding-left: 80px;
-  padding-right: 0;
 }
 [env-mac=true] title-bar .right {
   flex: 1 1 76px;
@@ -733,6 +716,12 @@ title-bar div.ui {
 
 [env-mac=false] title-bar {
   padding-right: 0;
+}
+[env-mac=false] title-bar .left {
+  flex: 1 1 140px;
+}
+[env-mac=false] title-bar .right {
+  flex: 1 0 140px;
 }
 
 :root {
@@ -764,7 +753,7 @@ html {
   --title-bar-text: #171717;
   --tool-bar-bg: #f2f2f2cc;
   --ui-border: #0002;
-  --win-window-top: #e4e4e4;
+  --win-window-top: #fff;
 }
 
 html.blur {
@@ -834,8 +823,21 @@ window-top .ui {
   -webkit-app-region: no-drag;
 }
 
-[env-mac=true] window-top.backdrop-filter::before {
+[env-mac=true] window-top {
+  color: var(--title-bar-text);
+}
+[env-mac=true] window-top::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200%;
   background: linear-gradient(to top, var(--tool-bar-bg) 50%, var(--page-bg) 110%);
+  z-index: -2;
+  pointer-events: none;
+  backdrop-filter: blur(12px) hue-rotate(50deg) saturate(400%);
+  -webkit-mask-image: linear-gradient(to top, transparent 50%, black 50%);
 }
 
 [env-mac=false] window-top {
@@ -847,11 +849,15 @@ window-top .ui {
 }
 
 [env-mac=false] windows-menu {
+  position: absolute;
+  right: 0;
+  top: 0;
   display: grid;
   grid-template-columns: repeat(3, 46px);
   gap: 1px;
-  margin: 1px;
-  height: 100%;
+  height: 38px;
+  z-index: 100;
+  background-color: var(--win-window-top);
 }
 [env-mac=false] windows-menu > div {
   grid-row: 1/span 1;

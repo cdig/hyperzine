@@ -1,12 +1,19 @@
-html {
+body {
   text-align: center;
 
   -webkit-app-region: drag;
   .ui, setup-button, a, input { -webkit-app-region: no-drag; }
+}
 
+body[env-mac="true"] {
   --page-bg: #fff;
 
   @media (prefers-color-scheme: dark) {
     --page-bg: #1a1a1a;
   }
+}
+
+body[env-mac="false"] {
+  background: #0063be;
+  color: white;
 }

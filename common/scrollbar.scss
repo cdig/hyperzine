@@ -10,7 +10,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  margin: 38px 0 5px;
+  margin: calc(38px + 1em) 0 5px;
   background: none;
 }
 

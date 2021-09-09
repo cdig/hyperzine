@@ -25,11 +25,10 @@ title-bar {
 [env-mac="true"] title-bar {
   padding-left: 80px; // Leave 80px for the traffic lights
   .right { flex: 1 1 76px; } // 80px - padding-right
-
-  padding-right: 0;
 }
 
 [env-mac="false"] title-bar {
   padding-right: 0;
-  // .left { flex: 1 1 0; justify-content: flex-start; } // 138px - padding-right
+  .left { flex: 1 1 140px; }
+  .right  { flex: 1 0 140px; }
 }

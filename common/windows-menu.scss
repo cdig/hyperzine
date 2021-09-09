@@ -3,11 +3,15 @@
 }
 
 [env-mac="false"] windows-menu {
+  position: absolute;
+  right: 0;
+  top: 0;
   display: grid;
   grid-template-columns: repeat(3, 46px);
   gap: 1px;
-  margin: 1px;
-  height: 100%;
+  height: 38px;
+  z-index: 100;
+  background-color: var(--win-window-top);
 
   & > div {
     grid-row: 1 / span 1;

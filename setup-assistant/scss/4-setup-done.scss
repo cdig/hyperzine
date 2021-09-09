@@ -8,11 +8,14 @@ body.setup-done {
 #setup-done {
   h1 {
     font-size: 10em;
-    mix-blend-mode: overlay;
   }
 
   h3 {
     font-size: 1.2em;
     margin: 7em 0 1em
   }
+}
+
+[env-mac="true"] #setup-done h1 {
+  mix-blend-mode: overlay;
 }

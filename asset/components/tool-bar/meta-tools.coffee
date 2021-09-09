@@ -1,9 +1,12 @@
-Take ["DB", "DOOM", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write", "DOMContentLoaded"], (DB, DOOM, HoldToRun, IPC, Memory, Paths, State, Write)->
+Take ["DB", "DOOM", "Env", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write", "DOMContentLoaded"], (DB, DOOM, Env, HoldToRun, IPC, Memory, Paths, State, Write)->
   { shell } = require "electron"
 
   pinUnpin = document.querySelector "[pin-unpin]"
   deleteAsset = document.querySelector "[delete-asset]"
   showInFinder = document.querySelector "[show-in-finder]"
+
+  if !Env.isMac
+    showInFinder.querySelector("span").textContent = "in Explorer"
 
   showInFinder.onclick = ()->
     shell.showItemInFolder State("asset").path

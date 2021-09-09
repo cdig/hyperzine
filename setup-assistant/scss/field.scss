@@ -3,3 +3,7 @@
   margin-bottom: .7em;
   opacity: 0;
 }
+
+[env-mac="false"] .field {
+  color: var(--text-color);
+}

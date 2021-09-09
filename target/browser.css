@@ -108,7 +108,7 @@ asset-list {
   align-items: flex-start;
   text-align: center;
   height: 100%;
-  padding: calc(38px + 1.5em) 1em 0;
+  padding: calc(38px + 1em) 1em 0;
   font-size: var(--browser-asset-size);
   overflow-y: scroll;
   overscroll-behavior: contain;
