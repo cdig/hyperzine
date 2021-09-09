@@ -542,43 +542,46 @@ main {
 }
 rainbow-clouds {
   display: none;
+}
+
+[env-mac=true] rainbow-clouds {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   filter: blur(32px) saturate(150%);
 }
-rainbow-clouds g {
+[env-mac=true] rainbow-clouds g {
   transform-origin: center;
   mix-blend-mode: screen;
 }
 @media (prefers-color-scheme: dark) {
-  rainbow-clouds g {
+  [env-mac=true] rainbow-clouds g {
     mix-blend-mode: multiply;
   }
 }
-rainbow-clouds path {
+[env-mac=true] rainbow-clouds path {
   transform-origin: 600px 600px;
   will-change: transform;
 }
-rainbow-clouds .a {
+[env-mac=true] rainbow-clouds .a {
   fill: rgba(255, 85, 0, 0.6);
   opacity: 0.7;
 }
-rainbow-clouds .a path {
+[env-mac=true] rainbow-clouds .a path {
   animation: rainbow-clouds-spin 133s -20s infinite linear;
 }
-rainbow-clouds .b {
+[env-mac=true] rainbow-clouds .b {
   fill: rgba(0, 255, 213, 0.8);
   opacity: 0.6;
 }
-rainbow-clouds .b path {
+[env-mac=true] rainbow-clouds .b path {
   animation: rainbow-clouds-spin 171s -20s infinite linear reverse;
 }
-rainbow-clouds .c {
+[env-mac=true] rainbow-clouds .c {
   fill: rgba(43, 0, 255, 0.4);
 }
-rainbow-clouds .c path {
+[env-mac=true] rainbow-clouds .c path {
   animation: rainbow-clouds-spin 217s -20s infinite linear;
 }
 
