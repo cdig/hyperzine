@@ -19,17 +19,37 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (DB
         continue if tag in asset.tags
         matches.push tag
 
-      frag = new DocumentFragment()
-      highlightIndex = (highlightIndex + matches.length+1) % (matches.length+1)
+      matches = Array.sortAlphabetic matches
+      truncatedMatches = matches[...10]
 
-      for tag, i in Array.sortAlphabetic matches
-        tagElm = DOOM.create "div", frag, rainbowBefore: if i+1 is highlightIndex then "" else null
-        DOOM.create "span", tagElm, textContent: tag
+      frag = new DocumentFragment()
+      highlightIndex = (highlightIndex + truncatedMatches.length+1) % (truncatedMatches.length+1)
+
+      for tag, i in truncatedMatches
+        do (tag, i)->
+          tagElm = DOOM.create "div", frag, rainbowBefore: if i+1 is highlightIndex then "" else null
+          DOOM.create "span", tagElm, textContent: tag
+          tagElm.addEventListener "mousemove", (e)->
+            highlightIndex = i + 1
+            update()
+          tagElm.addEventListener "mousedown", (e)->
+            setValue tag
+
+      if matches.length > truncatedMatches.length
+        truncElm = DOOM.create "span", frag, class: "truncated", textContent: "…"
+
       suggestionList.replaceChildren frag
 
     show = focused and hasInput and matches.length > 0
     suggestionList.style.display = if show then "block" else "none"
     highlightIndex = 0 unless show
+
+  setValue = (value)->
+    if value?.length > 0
+      asset = State "asset"
+      DB.send "Add Tag", asset.id, value
+      Memory "tags.#{value}", value
+      input.value = ""
 
 
   highlightNext = ()->
@@ -40,6 +60,9 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (DB
     highlightIndex--
     update()
 
+  input.addEventListener "mousemove", (e)->
+    highlightIndex = 0
+    update()
 
   input.addEventListener "focus", (e)->
     focused = true
@@ -57,16 +80,14 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (DB
     switch e.keyCode
       when 13 # return
         e.preventDefault()
-        value = input.value
 
-        if highlighted = suggestionList.querySelector "[rainbow-before]"
-          value = highlighted.textContent
+        value = if highlighted = suggestionList.querySelector "[rainbow-before]"
+          highlighted.textContent
+        else
+          input.value
 
-        if value?.length > 0
-          asset = State "asset"
-          DB.send "Add Tag", asset.id, value
-          Memory "tags.#{value}", value
-          input.value = ""
+
+        setValue value
 
         highlightIndex = 0
         update()

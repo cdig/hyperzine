@@ -53,6 +53,11 @@ tag-entry {
       }
     }
 
+    .truncated {
+      padding: .2em .4em;
+      opacity: .5;
+    }
+
     [rainbow-before] {
       border-radius: 4px;
       overflow: hidden;
