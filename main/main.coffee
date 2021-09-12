@@ -4,6 +4,13 @@ Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Updates", "Window"]
   # Windows will launch the app multiple times during an update. We just need to quit.
   return app.quit() if require "electron-squirrel-startup"
 
+  # Only continue launching if there's no other instance of the app that's already running
+  if not app.requestSingleInstanceLock()
+    app.quit()
+  else
+    app.on "second-instance", (event, commandLine, workingDirectory)->
+      Window.activate()
+
   # Just guessing that these might be nice. Haven't tested them at all.
   app.commandLine.appendSwitch "disable-renderer-backgrounding"
   app.commandLine.appendSwitch "force_low_power_gpu"
@@ -57,6 +64,8 @@ Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Updates", "Window"]
 
   # Wait until either the DB has loaded the saved prefs, or the Setup Assistant has finished
   await IPC.promise.once "config-ready"
+
+  Window.setupDone()
 
   # Everything is ready — open a browser window.
   # Eventually, we might want to restore whichever windows were open when we last quit

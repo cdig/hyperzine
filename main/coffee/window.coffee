@@ -31,6 +31,8 @@ Take ["Env", "MainState"], (Env, MainState)->
   db = null
   setupAssistant = null
 
+  # Local state
+  setupDone = false
   aboutToQuit = false
   app.on "before-quit", ()-> aboutToQuit = true
 
@@ -183,9 +185,15 @@ Take ["Env", "MainState"], (Env, MainState)->
       setupAssistant: openSetupAssistant
 
     activate: ()->
-      unless BrowserWindow.getAllWindows().length > 1
-        # TODO: If we're not done setup, open the Setup Assistant instead
+      if BrowserWindow.getAllWindows().length is 0
+        Window.open.db()
+      else if setupDone
         Window.open.browser()
+      else
+        Window.open.setupAssistant()
+      win = Array.last(BrowserWindow.getAllWindows())
+      win.restore() if win.isMinimized()
+      win.focus()
 
-    aboutToQuit: ()->
-      aboutToQuit = true
+    setupDone: ()-> setupDone = true
+    aboutToQuit: ()-> aboutToQuit = true
