@@ -115,7 +115,7 @@ file-list::-webkit-scrollbar-track {
 }
 
 files-pane {
-  flex: 1 1 50%;
+  display: block;
   height: 100%;
   overflow: hidden;
 }
@@ -136,9 +136,7 @@ files-pane {
 
 add-note {
   display: block;
-  margin-top: 2em;
-  color: var(--meta-text);
-  opacity: 0.1;
+  margin: 2em 1em 0;
 }
 
 meta-pane asset-name.field {
@@ -150,6 +148,7 @@ meta-pane asset-name.field {
 
 meta-pane asset-thumbnail {
   display: inline-block;
+  margin: 0 1em;
   vertical-align: top;
 }
 meta-pane asset-thumbnail img {
@@ -164,17 +163,13 @@ meta-pane asset-thumbnail img {
 
 #details {
   display: inline-block;
+  margin: 0 1em;
 }
 
 meta-pane {
   display: block;
-  max-width: 60%;
-  flex: 1 1 50%;
-  padding: calc(86px + .5em) 1em 0;
-  border-left: 1px solid var(--tool-bar-bg);
-}
-meta-pane tag-list {
-  margin-top: 0.9em;
+  padding-top: calc(86px + .5em);
+  overflow: hidden;
 }
 
 tag-entry {
@@ -234,6 +229,10 @@ tag-entry suggestion-list [rainbow-before] {
 }
 tag-entry suggestion-list [rainbow-before]::before {
   opacity: 0.3;
+}
+
+tag-list {
+  margin-top: 0.9em;
 }
 
 .gears {
@@ -317,6 +316,17 @@ meta-tools button {
   margin-left: 0.5em;
 }
 
+pane-split {
+  display: block;
+  width: 6px;
+  height: calc(100% - 86px - 1em);
+  margin-top: calc(86px + .5em);
+  border-radius: 3px;
+  background-color: var(--ui-border);
+  opacity: 0.4;
+  cursor: col-resize;
+}
+
 [thumbnail-size] {
   display: inline-block;
   margin: 0 8px;
@@ -355,7 +365,8 @@ tool-bar {
 }
 
 main {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 6px 1fr;
 }
 
 no-data {

@@ -1,0 +1,10 @@
+pane-split {
+  display: block;
+  width: 6px;
+  height: calc(100% - 86px - 1em);
+  margin-top: calc(86px + .5em);
+  border-radius: 3px;
+  background-color: var(--ui-border);
+  opacity: .4;
+  cursor: col-resize;
+}

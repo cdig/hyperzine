@@ -3654,6 +3654,11 @@ speedometer@~0.1.2:
   resolved "https://registry.yarnpkg.com/speedometer/-/speedometer-0.1.4.tgz#9876dbd2a169d3115402d48e6ea6329c8816a50d"
   integrity sha1-mHbb0qFp0xFUAtSObqYynIgWpQ0=
 
+split-grid@^1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/split-grid/-/split-grid-1.0.11.tgz#2df26ac4fd4153f23a42471ab2f618ade81b69fd"
+  integrity sha512-ELtFtxc3r5we5GZfe6Fi0BFFxIi2M6BY1YEntBscKRDD3zx4JVHqx2VnTRSQu1BixCYSTH3MTjKd4esI2R7EgQ==
+
 sprintf-js@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.1.2.tgz#da1765262bf8c0f571749f2ad6c26300207ae673"

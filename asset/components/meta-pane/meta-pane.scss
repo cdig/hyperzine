@@ -1,12 +1,5 @@
 meta-pane {
   display: block;
-  // flex: 0 0 30rem;
-  max-width: 60%;
-  flex: 1 1 50%;
-  padding: calc(86px + .5em) 1em 0;
-  border-left: 1px solid var(--tool-bar-bg);
-
-  tag-list {
-    margin-top: .9em; // 1em minus the .1em from the top of tag-items
-  }
+  padding-top: calc(86px + .5em);
+  overflow: hidden;
 }

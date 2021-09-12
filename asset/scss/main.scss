@@ -1,3 +1,4 @@
 main {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 6px 1fr;
 }
