@@ -1,4 +1,4 @@
 main {
   display: grid;
-  grid-template-columns: 1fr 6px 1fr;
+  grid-template-columns: 1fr 6px 1fr; // Must mirror the value in pane-split.coffee
 }
