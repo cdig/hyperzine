@@ -70,9 +70,9 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
         name = await Read.async(Paths.names asset).then first
         (name or asset.id).trim()
       shot: (asset)->
-        shot = Read.async(Paths.shots asset).then first
+        Read.async(Paths.shots asset).then first
       newShot: (asset)->
-        shot = await Read.async(Paths.newShots asset).then first
+        Read.async(Paths.newShots asset).then first
       tags: (asset)->
         assetTags = await Read.async(Paths.tags asset).then arrayPun
         Memory "tags.#{tag}", tag for tag in assetTags
