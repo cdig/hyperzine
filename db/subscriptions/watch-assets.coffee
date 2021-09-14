@@ -1,4 +1,4 @@
-Take ["Asset", "ADSR", "Job", "Log", "Memory", "Read", "Thumbnails"], (Asset, ADSR, Job, Log, Memory, Read, Thumbnails)->
+Take ["Asset", "ADSR", "Job", "Log", "Memory", "Read"], (Asset, ADSR, Job, Log, Memory, Read)->
 
   watcher = null
 
@@ -23,8 +23,11 @@ Take ["Asset", "ADSR", "Job", "Log", "Memory", "Read", "Thumbnails"], (Asset, AD
       Log "Reloading Asset: #{assetId}", color: "hsl(333, 50%, 50%)"
       prevNewShot = asset.newShot
       await Asset.loadFields asset
+      Log asset.newShot, background: "hsl(150, 60%, 60%)"
+      Log prevNewShot, background: "hsl(250, 100%, 80%)"
       if asset.newShot isnt prevNewShot
-        await Thumbnails.populate asset # This could create an infinite loop if it has bugs, since it writes files that watcher picks up on
+        await Job 1, "Rebuild Asset Thumbnail", asset, true
+      await Job 1, "Rebuild File Thumbnails", asset, true
     else
       asset = null
     Memory "assets.#{assetId}", asset
@@ -47,6 +50,7 @@ Take ["Asset", "ADSR", "Job", "Log", "Memory", "Read", "Thumbnails"], (Asset, AD
     touchedAssets = {} # Clear any changes queued up for the debounced update, since they'll no longer resolve properly
     assetsFolder = Memory "assetsFolder"
     paused = Memory "Pause Watching"
+    Log "Watcher paused: #{paused}"
     if assetsFolder? and not paused
       watcher = Read.watch assetsFolder, {recursive: true, persistent: false}, change
 

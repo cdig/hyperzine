@@ -1,4 +1,4 @@
-Take ["Asset", "FileTree", "IPC", "Log", "Memory", "Paths", "Ports", "Read", "Write"], (Asset, FileTree, IPC, Log, Memory, Paths, Ports, Read, Write)->
+Take ["Asset", "FileTree", "IPC", "Job", "Log", "Memory", "Paths", "Ports", "Read", "Write"], (Asset, FileTree, IPC, Job, Log, Memory, Paths, Ports, Read, Write)->
 
   Ports.on "New Asset", ()->
     assetsFolder = Memory "assetsFolder"
@@ -63,3 +63,7 @@ Take ["Asset", "FileTree", "IPC", "Log", "Memory", "Paths", "Ports", "Read", "Wr
     Write.sync.rm newShotsFolder
     Write.sync.mkdir newShotsFolder
     Write.sync.copyFile file.path, Read.path newShotsFolder, Read.last file.path
+
+  Ports.on "Rebuild Thumbnail", (assetId)->
+    return unless asset = Memory "assets.#{assetId}"
+    Job 1, "Rebuild Asset Thumbnail", asset, true

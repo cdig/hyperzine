@@ -1,6 +1,6 @@
 Take ["Job", "Log", "Paths", "Read", "Thumbnail", "Write"], (Job, Log, Paths, Read, Thumbnail, Write)->
 
-  Job.handler "Rebuild Asset Thumbnails", (asset, overwrite = false)->
+  Job.handler "Rebuild Asset Thumbnail", (asset, overwrite = false)->
     msg = "Thumbnails for #{asset.id} —"
 
     if not overwrite
