@@ -49,11 +49,8 @@ Take ["Asset", "ADSR", "Job", "Log", "Memory", "Read"], (Asset, ADSR, Job, Log, 
     watcher?.close()
     touchedAssets = {} # Clear any changes queued up for the debounced update, since they'll no longer resolve properly
     assetsFolder = Memory "assetsFolder"
-    paused = Memory "Pause Watching"
-    Log "Watcher paused: #{paused}"
     if assetsFolder? and not paused
       watcher = Read.watch assetsFolder, {recursive: true, persistent: false}, change
 
 
-  Memory.subscribe "Pause Watching", false, setup
   Memory.subscribe "assetsFolder", true, setup
