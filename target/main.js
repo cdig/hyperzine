@@ -1353,8 +1353,6 @@ Take(["Read"], function(Read) {
     var exp, len, size, suffix;
     size = (await SizeOnDisk(path));
     len = size.toString().length;
-    console.log(size / 1000);
-    console.log(len);
     switch (false) {
       case !(len < 3):
         suffix = "B";

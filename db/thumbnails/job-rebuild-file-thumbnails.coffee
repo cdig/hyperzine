@@ -19,6 +19,7 @@ Take ["FileTree", "Job", "Log", "Memory", "Paths", "Read", "Thumbnail", "Write"]
       toDelete = {}
 
     for thumb of toDelete
+      Log "Delete File Thumbnail: #{Paths.thumbnail asset, thumb}"
       Write.sync.rm Paths.thumbnail asset, thumb
 
     promises = for thumb, file of toCreate when file.ext? and not Paths.ext.icon[file.ext]

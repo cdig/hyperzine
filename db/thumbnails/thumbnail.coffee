@@ -26,6 +26,7 @@ Take ["Env", "IPC", "Job", "Log", "Memory", "Paths", "Read", "Write"], (Env, IPC
 
   Job.handler "SipsThumbnail", (source, dest, size, subpath)->
     new Promise (resolve)->
+      Log "Sips Thumbnail: #{source}"
       childProcess ?= require "child_process"
       childProcess.exec "sips -s format jpeg -s formatOptions 91 -Z #{size} \"#{source}\" --out \"#{dest}\"", (err)->
         if err?
@@ -39,6 +40,7 @@ Take ["Env", "IPC", "Job", "Log", "Memory", "Paths", "Read", "Write"], (Env, IPC
 
   Job.handler "NativeThumbnail", (source, dest, size, subpath)->
     new Promise (resolve)->
+      Log "Native Thumbnail: #{source}"
       try
         nativeImage ?= require("electron").nativeImage
         image = await nativeImage.createThumbnailFromPath source, {width: size, height: size}

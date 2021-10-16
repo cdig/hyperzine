@@ -19,8 +19,6 @@ Take ["Read"], (Read)->
   SizeOnDisk.pretty = (path)->
     size = await SizeOnDisk path
     len = size.toString().length
-    console.log size/1000
-    console.log len
 
     switch
       when len < 3

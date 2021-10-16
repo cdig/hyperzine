@@ -49,7 +49,7 @@ Take ["Asset", "ADSR", "Job", "Log", "Memory", "Read"], (Asset, ADSR, Job, Log, 
     watcher?.close()
     touchedAssets = {} # Clear any changes queued up for the debounced update, since they'll no longer resolve properly
     assetsFolder = Memory "assetsFolder"
-    if assetsFolder? and not paused
+    if assetsFolder?
       watcher = Read.watch assetsFolder, {recursive: true, persistent: false}, change
 
 

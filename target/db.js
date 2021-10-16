@@ -782,7 +782,7 @@ Take(["Asset", "ADSR", "Job", "Log", "Memory", "Read"], function(Asset, ADSR, Jo
     }
     touchedAssets = {}; // Clear any changes queued up for the debounced update, since they'll no longer resolve properly
     assetsFolder = Memory("assetsFolder");
-    if ((assetsFolder != null) && !paused) {
+    if (assetsFolder != null) {
       return watcher = Read.watch(assetsFolder, {
         recursive: true,
         persistent: false
@@ -955,6 +955,7 @@ Take(["FileTree", "Job", "Log", "Memory", "Paths", "Read", "Thumbnail", "Write"]
       toDelete = {};
     }
     for (thumb in toDelete) {
+      Log(`Delete File Thumbnail: ${Paths.thumbnail(asset, thumb)}`);
       Write.sync.rm(Paths.thumbnail(asset, thumb));
     }
     promises = (function() {
@@ -997,6 +998,7 @@ Take(["Env", "IPC", "Job", "Log", "Memory", "Paths", "Read", "Write"], function(
   childProcess = null;
   Job.handler("SipsThumbnail", function(source, dest, size, subpath) {
     return new Promise(function(resolve) {
+      Log(`Sips Thumbnail: ${source}`);
       if (childProcess == null) {
         childProcess = require("child_process");
       }
@@ -1014,6 +1016,7 @@ Take(["Env", "IPC", "Job", "Log", "Memory", "Paths", "Read", "Write"], function(
   Job.handler("NativeThumbnail", function(source, dest, size, subpath) {
     return new Promise(async function(resolve) {
       var buf, err, image;
+      Log(`Native Thumbnail: ${source}`);
       try {
         if (nativeImage == null) {
           nativeImage = require("electron").nativeImage;
