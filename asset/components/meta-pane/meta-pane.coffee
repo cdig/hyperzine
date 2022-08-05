@@ -1,4 +1,4 @@
-Take ["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList", "Validations", "DOMContentLoaded"], (DB, ADSR, DOOM, Memory, MemoryField, MetaTools, Paths, State, TagList, Validations)->
+Take ["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList", "Validations"], (DB, ADSR, DOOM, Memory, MemoryField, MetaTools, Paths, State, TagList, Validations)->
   metaPane = document.querySelector "meta-pane"
   assetThumbnail = metaPane.querySelector "asset-thumbnail"
   assetName = metaPane.querySelector "asset-name"

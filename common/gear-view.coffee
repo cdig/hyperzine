@@ -1,4 +1,4 @@
-Take ["DOOM", "DOMContentLoaded"], (DOOM)->
+Take ["DOOM"], (DOOM)->
 
   Make "GearView", (depth = 30, offset = -10, attrs = {})->
     gearsElm = document.querySelector "gear-view"

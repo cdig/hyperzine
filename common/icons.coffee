@@ -1,4 +1,4 @@
-Take ["DOOM", "DOMContentLoaded"], (DOOM)->
+Take ["DOOM"], (DOOM)->
   DOOM.create "svg", document.body,
     id: "icons"
     innerHTML:"""

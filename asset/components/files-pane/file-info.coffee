@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "EditableField", "HoldToRun", "Log", "Paths", "State", "Validations", "DOMContentLoaded"], (DB, DOOM, EditableField, HoldToRun, Log, Paths, State, Validations)->
+Take ["DB", "DOOM", "EditableField", "HoldToRun", "Log", "Paths", "State", "Validations"], (DB, DOOM, EditableField, HoldToRun, Log, Paths, State, Validations)->
   { shell } = require "electron"
 
   Make.async "FileInfo", FileInfo = (parent, file)->

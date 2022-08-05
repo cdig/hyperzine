@@ -1,4 +1,4 @@
-Take ["DOOM", "FileInfo", "FileThumbnail", "Log", "DOMContentLoaded"], (DOOM, FileInfo, FileThumbnail, Log)->
+Take ["DOOM", "FileInfo", "FileThumbnail", "Log"], (DOOM, FileInfo, FileThumbnail, Log)->
 
   Make.async "File", File = (file)->
     elm = DOOM.create "div", null,

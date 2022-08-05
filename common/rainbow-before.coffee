@@ -1,4 +1,4 @@
-Take ["ADSR", "Rainbow", "DOMContentLoaded"], (ADSR, Rainbow)->
+Take ["ADSR", "Rainbow"], (ADSR, Rainbow)->
 
   scroll = ADSR 1, 1, ()->
     Rainbow.move 0.5

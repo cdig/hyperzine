@@ -1,4 +1,4 @@
-Take ["DOOM", "Ports", "DOMContentLoaded"], (DOOM, Ports)->
+Take ["DOOM", "Ports"], (DOOM, Ports)->
 
   maxLogLines = 5000
   printer = document.querySelector "log-printer"

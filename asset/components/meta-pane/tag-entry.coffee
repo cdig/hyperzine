@@ -1,4 +1,4 @@
-Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], (DB, ADSR, DOOM, Memory, Paths, State)->
+Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], (DB, ADSR, DOOM, Memory, Paths, State)->
 
   input = document.querySelector "tag-entry input"
   suggestionList = document.querySelector "tag-entry suggestion-list"

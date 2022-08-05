@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "Env", "Log", "State", "DOMContentLoaded"], (DB, DOOM, Env, Log, State)->
+Take ["DB", "DOOM", "Env", "Log", "State"], (DB, DOOM, Env, Log, State)->
 
   return unless Env.isDev
 

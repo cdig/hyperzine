@@ -1,4 +1,4 @@
-Take ["DOOM", "Memory", "State", "DOMContentLoaded"], (DOOM, Memory, State)->
+Take ["DOOM", "Memory", "State"], (DOOM, Memory, State)->
 
   fileTools = document.querySelector "file-tools"
   fileCount = fileTools.querySelector "[file-count]"

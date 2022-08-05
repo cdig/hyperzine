@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "IPC", "Log", "Memory", "DOMContentLoaded"], (DB, DOOM, IPC, Log, Memory)->
+Take ["DB", "DOOM", "IPC", "Log", "Memory"], (DB, DOOM, IPC, Log, Memory)->
 
   elm = document.querySelector "[new-asset]"
 

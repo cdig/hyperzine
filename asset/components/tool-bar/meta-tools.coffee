@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "Env", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write", "DOMContentLoaded"], (DB, DOOM, Env, HoldToRun, IPC, Memory, Paths, State, Write)->
+Take ["DB", "DOOM", "Env", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write"], (DB, DOOM, Env, HoldToRun, IPC, Memory, Paths, State, Write)->
   { shell } = require "electron"
 
   pinUnpin = document.querySelector "[pin-unpin]"

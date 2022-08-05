@@ -1,4 +1,4 @@
-Take ["IPC", "Log", "DOMContentLoaded"], (IPC, Log)->
+Take ["IPC", "Log"], (IPC, Log)->
 
   min = document.querySelector "windows-menu #min"
   max = document.querySelector "windows-menu #max"

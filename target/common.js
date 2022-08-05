@@ -2171,7 +2171,7 @@ Take(["IPC", "PubSub"], function(IPC, {Pub, Sub}) {
 });
 
 // common/gear-view.coffee
-Take(["DOOM", "DOMContentLoaded"], function(DOOM) {
+Take(["DOOM"], function(DOOM) {
   return Make("GearView", function(depth = 30, offset = -10, attrs = {}) {
     var gearElm, gearsElm, i, m, ref;
     gearsElm = document.querySelector("gear-view");
@@ -2187,7 +2187,7 @@ Take(["DOOM", "DOMContentLoaded"], function(DOOM) {
 });
 
 // common/hold-to-run.coffee
-Take(["DOOM", "DOMContentLoaded"], function(DOOM) {
+Take(["DOOM"], function(DOOM) {
   var HoldToRun, down, isDown, run, timeout, up;
   isDown = null;
   timeout = null;
@@ -2230,7 +2230,7 @@ Take(["DOOM", "DOMContentLoaded"], function(DOOM) {
 });
 
 // common/icons.coffee
-Take(["DOOM", "DOMContentLoaded"], function(DOOM) {
+Take(["DOOM"], function(DOOM) {
   return DOOM.create("svg", document.body, {
     id: "icons",
     innerHTML: `<defs>
@@ -2636,7 +2636,7 @@ Take([], function() {
 });
 
 // common/rainbow-before.coffee
-Take(["ADSR", "Rainbow", "DOMContentLoaded"], function(ADSR, Rainbow) {
+Take(["ADSR", "Rainbow"], function(ADSR, Rainbow) {
   var len1, m, ref, results1, scroll, scrollable;
   scroll = ADSR(1, 1, function() {
     return Rainbow.move(0.5);
@@ -2682,7 +2682,7 @@ Take(["State"], function(State) {
 });
 
 // common/search-box.coffee
-Take(["ADSR", "PubSub", "State", "DOMContentLoaded"], function(ADSR, {Pub, Sub}, State) {
+Take(["ADSR", "PubSub", "State"], function(ADSR, {Pub, Sub}, State) {
   var change, elm, focused;
   elm = document.querySelector("search-box input");
   if (elm == null) {
@@ -2806,7 +2806,7 @@ Take(["IPC"], function(IPC) {
 });
 
 // common/windows-menu.coffee
-Take(["IPC", "Log", "DOMContentLoaded"], function(IPC, Log) {
+Take(["IPC", "Log"], function(IPC, Log) {
   var close, max, min, restore;
   min = document.querySelector("windows-menu #min");
   max = document.querySelector("windows-menu #max");

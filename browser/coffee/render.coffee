@@ -1,4 +1,4 @@
-Take ["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Memory", "Search", "State", "DOMContentLoaded"], (AssetCard, ADSR, DOOM, Env, Frustration, Iterated, Log, Memory, Search, State)->
+Take ["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Memory", "Search", "State"], (AssetCard, ADSR, DOOM, Env, Frustration, Iterated, Log, Memory, Search, State)->
   elm = document.querySelector "asset-list"
   noAssets = document.querySelector "no-assets"
   rainbowClouds = document.querySelector "rainbow-clouds"

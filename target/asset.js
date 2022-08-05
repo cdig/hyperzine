@@ -31,7 +31,7 @@ Take(["IPC", "Log", "Memory", "PubSub", "Render", "State"], async function(IPC, 
 });
 
 // asset/coffee/render.coffee
-Take(["ArchivedStyle", "FileList", "FileTools", "MetaPane", "MetaTools", "State", "DOMContentLoaded"], function(ArchivedStyle, FileList, FileTools, MetaPane, MetaTools, State) {
+Take(["ArchivedStyle", "FileList", "FileTools", "MetaPane", "MetaTools", "State"], function(ArchivedStyle, FileList, FileTools, MetaPane, MetaTools, State) {
   var Render;
   return Make("Render", Render = function() {
     if (!State("asset")) {
@@ -62,7 +62,7 @@ Take(["DOOM", "State"], function(DOOM, State) {
 });
 
 // asset/components/files-pane/file-info.coffee
-Take(["DB", "DOOM", "EditableField", "HoldToRun", "Log", "Paths", "State", "Validations", "DOMContentLoaded"], function(DB, DOOM, EditableField, HoldToRun, Log, Paths, State, Validations) {
+Take(["DB", "DOOM", "EditableField", "HoldToRun", "Log", "Paths", "State", "Validations"], function(DB, DOOM, EditableField, HoldToRun, Log, Paths, State, Validations) {
   var FileInfo, deleteFile, renameFile, setThumbnail, shell;
   ({shell} = require("electron"));
   Make.async("FileInfo", FileInfo = function(parent, file) {
@@ -157,7 +157,7 @@ Take(["DB", "DOOM", "EditableField", "HoldToRun", "Log", "Paths", "State", "Vali
 });
 
 // asset/components/files-pane/file-list.coffee
-Take(["DOOM", "File", "State", "DOMContentLoaded"], function(DOOM, File, State) {
+Take(["DOOM", "File", "State"], function(DOOM, File, State) {
   var FileList, fileElms, fileList, makeTreeElm, toggle;
   fileList = document.querySelector("file-list");
   fileElms = {};
@@ -224,7 +224,7 @@ Take(["DOOM", "File", "State", "DOMContentLoaded"], function(DOOM, File, State) 
 });
 
 // asset/components/files-pane/file-thumbnail.coffee
-Take(["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Paths", "PubSub", "Read", "State", "Validations", "Write", "DOMContentLoaded"], function(DB, DOOM, HoldToRun, IPC, Log, EditableField, OnScreen, Paths, {Pub}, Read, State, Validations, Write) {
+Take(["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Paths", "PubSub", "Read", "State", "Validations", "Write"], function(DB, DOOM, HoldToRun, IPC, Log, EditableField, OnScreen, Paths, {Pub}, Read, State, Validations, Write) {
   var makeErrorGraphic, makeFolderGraphic, makeIconGraphic, makeImageGraphic, makeVideoGraphic, onscreen;
   Make.async("FileThumbnail", function(parent, file) {
     var elm;
@@ -351,7 +351,7 @@ Take(["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Pat
 });
 
 // asset/components/files-pane/file.coffee
-Take(["DOOM", "FileInfo", "FileThumbnail", "Log", "DOMContentLoaded"], function(DOOM, FileInfo, FileThumbnail, Log) {
+Take(["DOOM", "FileInfo", "FileThumbnail", "Log"], function(DOOM, FileInfo, FileThumbnail, Log) {
   var File;
   Make.async("File", File = function(file) {
     var elm;
@@ -366,7 +366,7 @@ Take(["DOOM", "FileInfo", "FileThumbnail", "Log", "DOMContentLoaded"], function(
 });
 
 // asset/components/meta-pane/meta-pane.coffee
-Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList", "Validations", "DOMContentLoaded"], function(DB, ADSR, DOOM, Memory, MemoryField, MetaTools, Paths, State, TagList, Validations) {
+Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList", "Validations"], function(DB, ADSR, DOOM, Memory, MemoryField, MetaTools, Paths, State, TagList, Validations) {
   var MetaPane, addNote, assetHistory, assetName, assetThumbnail, metaPane, removeTag, renameAsset, tagList;
   metaPane = document.querySelector("meta-pane");
   assetThumbnail = metaPane.querySelector("asset-thumbnail");
@@ -406,7 +406,7 @@ Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "Stat
 });
 
 // asset/components/meta-pane/tag-entry.coffee
-Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], function(DB, ADSR, DOOM, Memory, Paths, State) {
+Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM, Memory, Paths, State) {
   var focused, highlightIndex, highlightNext, highlightPrev, input, setValue, suggestionList, update;
   input = document.querySelector("tag-entry input");
   suggestionList = document.querySelector("tag-entry suggestion-list");
@@ -524,7 +524,7 @@ Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State", "DOMContentLoaded"], fun
 });
 
 // asset/components/title-bar/meta.coffee
-Take(["ADSR", "DOOM", "Env", "Memory", "SizeOnDisk", "State", "DOMContentLoaded"], function(ADSR, DOOM, Env, Memory, SizeOnDisk, State) {
+Take(["ADSR", "DOOM", "Env", "Memory", "SizeOnDisk", "State"], function(ADSR, DOOM, Env, Memory, SizeOnDisk, State) {
   var exec, meta;
   ({exec} = require("child_process"));
   meta = document.querySelector("title-bar .meta");
@@ -561,7 +561,7 @@ Take(["ADSR", "DOOM", "Env", "Memory", "SizeOnDisk", "State", "DOMContentLoaded"
 });
 
 // asset/components/tool-bar/add-files.coffee
-Take(["DB", "Env", "IPC", "Log", "Paths", "State", "Write", "DOMContentLoaded"], function(DB, Env, IPC, Log, Paths, State, Write) {
+Take(["DB", "Env", "IPC", "Log", "Paths", "State", "Write"], function(DB, Env, IPC, Log, Paths, State, Write) {
   var elm;
   elm = document.querySelector("[add-files]");
   return elm.onclick = async function() {
@@ -586,7 +586,7 @@ Take(["DB", "Env", "IPC", "Log", "Paths", "State", "Write", "DOMContentLoaded"],
 });
 
 // asset/components/tool-bar/file-tools.coffee
-Take(["DOOM", "Memory", "State", "DOMContentLoaded"], function(DOOM, Memory, State) {
+Take(["DOOM", "Memory", "State"], function(DOOM, Memory, State) {
   var FileTools, fileCount, fileTools, render, searchBox;
   fileTools = document.querySelector("file-tools");
   fileCount = fileTools.querySelector("[file-count]");
@@ -602,7 +602,7 @@ Take(["DOOM", "Memory", "State", "DOMContentLoaded"], function(DOOM, Memory, Sta
 });
 
 // asset/components/tool-bar/magic-button.coffee
-Take(["DB", "DOOM", "Env", "Log", "State", "DOMContentLoaded"], function(DB, DOOM, Env, Log, State) {
+Take(["DB", "DOOM", "Env", "Log", "State"], function(DB, DOOM, Env, Log, State) {
   var button;
   if (!Env.isDev) {
     return;
@@ -620,7 +620,7 @@ Take(["DB", "DOOM", "Env", "Log", "State", "DOMContentLoaded"], function(DB, DOO
 });
 
 // asset/components/tool-bar/meta-tools.coffee
-Take(["DB", "DOOM", "Env", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write", "DOMContentLoaded"], function(DB, DOOM, Env, HoldToRun, IPC, Memory, Paths, State, Write) {
+Take(["DB", "DOOM", "Env", "HoldToRun", "IPC", "Memory", "Paths", "State", "Write"], function(DB, DOOM, Env, HoldToRun, IPC, Memory, Paths, State, Write) {
   var MetaTools, deleteAsset, pinUnpin, render, shell, showInFinder;
   ({shell} = require("electron"));
   pinUnpin = document.querySelector("[pin-unpin]");
@@ -674,7 +674,7 @@ Take([], function() {
 });
 
 // asset/components/tool-bar/thumbnail-size.coffee
-Take(["ADSR", "DOOM", "Memory", "DOMContentLoaded"], function(ADSR, DOOM, Memory) {
+Take(["ADSR", "DOOM", "Memory"], function(ADSR, DOOM, Memory) {
   var newSize, oldSize, scroller, slider, update;
   newSize = 1;
   oldSize = 1;

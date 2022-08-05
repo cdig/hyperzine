@@ -1,4 +1,4 @@
-Take ["ArchivedStyle", "FileList", "FileTools", "MetaPane", "MetaTools", "State", "DOMContentLoaded"], (ArchivedStyle, FileList, FileTools, MetaPane, MetaTools, State)->
+Take ["ArchivedStyle", "FileList", "FileTools", "MetaPane", "MetaTools", "State"], (ArchivedStyle, FileList, FileTools, MetaPane, MetaTools, State)->
 
   Make "Render", Render = ()->
     return unless State "asset"

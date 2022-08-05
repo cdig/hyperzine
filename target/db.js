@@ -466,7 +466,7 @@ Take(["IPC", "Log"], function(IPC, Log) {
 //   delete ports[id]
 
 // db/coffee/printer.coffee
-Take(["DOOM", "Ports", "DOMContentLoaded"], function(DOOM, Ports) {
+Take(["DOOM", "Ports"], function(DOOM, Ports) {
   var Printer, maxLogLines, printer;
   maxLogLines = 5000;
   printer = document.querySelector("log-printer");

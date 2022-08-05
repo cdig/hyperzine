@@ -5,7 +5,7 @@ Take(["Log", "Memory", "PubSub", "Render"], function(Log, Memory, {Pub, Sub}, Re
 });
 
 // browser/coffee/render.coffee
-Take(["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Memory", "Search", "State", "DOMContentLoaded"], function(AssetCard, ADSR, DOOM, Env, Frustration, Iterated, Log, Memory, Search, State) {
+Take(["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Memory", "Search", "State"], function(AssetCard, ADSR, DOOM, Env, Frustration, Iterated, Log, Memory, Search, State) {
   var Render, assetCount, assetsToRender, elm, first, lastQuery, noAssets, rainbowClouds, renderCount, update;
   elm = document.querySelector("asset-list");
   noAssets = document.querySelector("no-assets");
@@ -411,7 +411,7 @@ Take(["Env"], function(Env) {
 });
 
 // browser/components/asset-card.coffee
-Take(["DB", "DOOM", "Env", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScreen", "Paths", "PubSub", "Read", "State", "TagList", "Validations", "DOMContentLoaded"], function(DB, DOOM, Env, Frustration, IPC, Log, Memory, MemoryField, OnScreen, Paths, {Sub}, Read, State, TagList, Validations) {
+Take(["DB", "DOOM", "Env", "Frustration", "IPC", "Log", "Memory", "MemoryField", "OnScreen", "Paths", "PubSub", "Read", "State", "TagList", "Validations"], function(DB, DOOM, Env, Frustration, IPC, Log, Memory, MemoryField, OnScreen, Paths, {Sub}, Read, State, TagList, Validations) {
   var AssetCard, assetChanged, build, cards, frustration, loadImage, onScreen, rebuildCard, unbuild, unloadImage, update;
   cards = {};
   unloadImage = function(card) {
@@ -587,7 +587,7 @@ Take(["DB", "DOOM", "Env", "Frustration", "IPC", "Log", "Memory", "MemoryField",
 });
 
 // browser/components/asset-size.coffee
-Take(["ADSR", "DOOM", "Memory", "PubSub", "DOMContentLoaded"], function(ADSR, DOOM, Memory, {Pub}) {
+Take(["ADSR", "DOOM", "Memory", "PubSub"], function(ADSR, DOOM, Memory, {Pub}) {
   var newSize, oldSize, scroller, slider, update;
   newSize = 1;
   oldSize = 1;
@@ -625,7 +625,7 @@ Take(["ADSR", "DOOM", "Memory", "PubSub", "DOMContentLoaded"], function(ADSR, DO
 });
 
 // browser/components/new-asset.coffee
-Take(["DB", "DOOM", "IPC", "Log", "Memory", "DOMContentLoaded"], function(DB, DOOM, IPC, Log, Memory) {
+Take(["DB", "DOOM", "IPC", "Log", "Memory"], function(DB, DOOM, IPC, Log, Memory) {
   var elm;
   elm = document.querySelector("[new-asset]");
   return elm.onclick = function() {

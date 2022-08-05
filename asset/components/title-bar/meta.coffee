@@ -1,4 +1,4 @@
-Take ["ADSR", "DOOM", "Env", "Memory", "SizeOnDisk", "State", "DOMContentLoaded"], (ADSR, DOOM, Env, Memory, SizeOnDisk, State)->
+Take ["ADSR", "DOOM", "Env", "Memory", "SizeOnDisk", "State"], (ADSR, DOOM, Env, Memory, SizeOnDisk, State)->
   { exec } = require "child_process"
 
   meta = document.querySelector "title-bar .meta"

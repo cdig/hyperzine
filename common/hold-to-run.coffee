@@ -1,4 +1,4 @@
-Take ["DOOM", "DOMContentLoaded"], (DOOM)->
+Take ["DOOM"], (DOOM)->
 
   isDown = null
   timeout = null

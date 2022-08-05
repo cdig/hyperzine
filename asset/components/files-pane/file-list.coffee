@@ -1,4 +1,4 @@
-Take ["DOOM", "File", "State", "DOMContentLoaded"], (DOOM, File, State)->
+Take ["DOOM", "File", "State"], (DOOM, File, State)->
   fileList = document.querySelector "file-list"
 
   fileElms = {}

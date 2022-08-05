@@ -7,7 +7,7 @@ Take(["GearView"], function(GearView) {
 });
 
 // setup-assistant/setup-assistant.coffee
-Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], function(DOOM, Env, IPC, Log, Memory, Read) {
+Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read"], function(DOOM, Env, IPC, Log, Memory, Read) {
   var clearFocus, click, elm, elms, focus, i, inputIsFocused, inputs, len, localNameValid, n, previousInputValue, q, ref, resetValue, to, wait;
   previousInputValue = null;
   q = function(k) {

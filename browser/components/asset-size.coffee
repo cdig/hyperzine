@@ -1,4 +1,4 @@
-Take ["ADSR", "DOOM", "Memory", "PubSub", "DOMContentLoaded"], (ADSR, DOOM, Memory, {Pub})->
+Take ["ADSR", "DOOM", "Memory", "PubSub"], (ADSR, DOOM, Memory, {Pub})->
 
   newSize = 1
   oldSize = 1

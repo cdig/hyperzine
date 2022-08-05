@@ -1,4 +1,4 @@
-Take ["ADSR", "PubSub", "State", "DOMContentLoaded"], (ADSR, {Pub, Sub}, State)->
+Take ["ADSR", "PubSub", "State"], (ADSR, {Pub, Sub}, State)->
 
   elm = document.querySelector "search-box input"
   return unless elm?

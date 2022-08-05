@@ -1,4 +1,4 @@
-Take ["DB", "Env", "IPC", "Log", "Paths", "State", "Write", "DOMContentLoaded"], (DB, Env, IPC, Log, Paths, State, Write)->
+Take ["DB", "Env", "IPC", "Log", "Paths", "State", "Write"], (DB, Env, IPC, Log, Paths, State, Write)->
 
   elm = document.querySelector "[add-files]"
 

@@ -1,4 +1,4 @@
-Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read", "DOMContentLoaded"], (DOOM, Env, IPC, Log, Memory, Read)->
+Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read"], (DOOM, Env, IPC, Log, Memory, Read)->
 
   previousInputValue = null
 
