@@ -1,3 +1,4 @@
+/* submodule/house-style/vars.css */
 :root {
   /* COLORS **************************************************************************************/
   /* SITE */
@@ -67,6 +68,7 @@
   --header-height: 48px;
 }
 
+/* submodule/house-style/reset.css */
 html {
   /* Don't re-scale our text on mobile. (Normalize) */
   /* TODO: Verify that autoprefixer is generating -moz and -webkit prefixes for this. */
@@ -248,6 +250,7 @@ iframe {
   border: 0;
 }
 
+/* common/basic-field.scss */
 .basic-field {
   outline: 0;
   border-radius: 8px;
@@ -257,6 +260,7 @@ iframe {
   border-color: red;
 }
 
+/* common/body.scss */
 body {
   position: relative;
   height: 100%;
@@ -267,6 +271,7 @@ body {
   user-select: none;
 }
 
+/* common/bubble.scss */
 .bubble {
   display: inline-block;
   margin: 0.2em;
@@ -290,6 +295,7 @@ body {
   border-bottom: 1.5px solid var(--bubble-text-b);
 }
 
+/* common/button.scss */
 button {
   padding: calc(0.4em - 2px) calc(0.6em - 2px);
   border: 2px solid transparent;
@@ -315,6 +321,7 @@ html.blur button {
   opacity: 0.5;
 }
 
+/* common/buttonish.scss */
 .buttonish[disabled] {
   opacity: 0.5;
 }
@@ -322,6 +329,7 @@ html.blur button {
   opacity: 0.5;
 }
 
+/* common/field.scss */
 .field {
   position: relative;
   display: inline-block;
@@ -349,6 +357,7 @@ html.blur button {
   mix-blend-mode: hard-light;
 }
 
+/* common/gear-view.scss */
 gear-view {
   display: inline-block;
   position: relative;
@@ -384,6 +393,7 @@ gear-view div {
     transform: translate(-2.5%) scale(0.95) rotate(360deg);
   }
 }
+/* common/hold-to-run.scss */
 [hold-to-run] {
   position: relative;
 }
@@ -420,10 +430,12 @@ gear-view div {
     opacity: 0;
   }
 }
+/* common/html.scss */
 html {
   height: 100%;
 }
 
+/* common/icons.scss */
 .i-eye {
   -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 80" fill="none" stroke="black" stroke-width="10"></svg>');
   mask-repeat: no-repeat;
@@ -436,11 +448,13 @@ html {
   stroke: currentColor;
 }
 
+/* common/img.scss */
 img {
   -webkit-user-drag: none;
   user-drag: none;
 }
 
+/* common/input.scss */
 [type=text],
 [type=search] {
   display: block;
@@ -490,6 +504,7 @@ html.blur input {
   opacity: 0.5;
 }
 
+/* common/job-status.scss */
 job-status {
   display: block;
   margin-right: 8px;
@@ -502,6 +517,7 @@ job-status :last-child {
   min-width: 4em;
 }
 
+/* common/keyframes.scss */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -510,10 +526,12 @@ job-status :last-child {
     opacity: 1;
   }
 }
+/* common/main.scss */
 main {
   height: 100%;
 }
 
+/* common/rainbow-before.scss */
 :root {
   --rainbow-before-delay: 0ms;
 }
@@ -540,6 +558,7 @@ main {
     transform: translateX(-50%);
   }
 }
+/* common/rainbow-clouds.scss */
 rainbow-clouds {
   display: none;
 }
@@ -593,6 +612,7 @@ rainbow-clouds {
     transform: rotate(360deg);
   }
 }
+/* common/scrollbar.scss */
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -613,6 +633,7 @@ rainbow-clouds {
   background: none;
 }
 
+/* common/search-box.scss */
 search-box {
   position: relative;
   flex: 1 1 100%;
@@ -639,6 +660,7 @@ search-box:focus-within:after {
   opacity: 1;
 }
 
+/* common/tag-list.scss */
 tag-list {
   display: block;
   color: var(--tag-text);
@@ -677,6 +699,7 @@ tag-list tag-item:hover .remove {
   display: inline-block;
 }
 
+/* common/title-bar.scss */
 title-bar {
   display: flex;
   align-items: center;
@@ -727,6 +750,7 @@ title-bar div.ui {
   flex: 1 0 140px;
 }
 
+/* common/vars.scss */
 :root {
   --browser-asset-size: 1em;
   --browser-label-size: 1em;
@@ -794,6 +818,7 @@ html.blur {
     --title-bar-text: #666;
   }
 }
+/* common/window-top-rainbow.scss */
 window-top-rainbow {
   display: block;
   position: absolute;
@@ -812,6 +837,7 @@ html.blur window-top-rainbow {
   display: none;
 }
 
+/* common/window-top.scss */
 window-top {
   position: fixed;
   display: block;
@@ -847,6 +873,7 @@ window-top .ui {
   background-color: var(--win-window-top);
 }
 
+/* common/windows-menu.scss */
 [env-mac=true] windows-menu {
   display: none;
 }

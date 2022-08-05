@@ -62,7 +62,7 @@ Compilers = {}
 Compilers.coffee = (paths, name)->
   start = performance.now()
   contents = readFiles paths
-  concatenated = prependFilenames("# %%", paths, contents).join "\n\n"
+  concatenated = prependFilenames("# %%", paths, contents).join "\n\n\n"
   try
     compiled = coffeescript.compile concatenated, bare: true#, inlineMap: true
     fs.writeFileSync "target/#{name}.js", compiled
@@ -85,16 +85,15 @@ Compilers.html = (paths, name)->
   start = performance.now()
   contents = readFiles paths
   contents = prependFilenames("<!-- %% -->", paths, contents) if contents.length > 1
-  fs.writeFileSync "target/#{name}.html", contents.join("\n\n")
+  fs.writeFileSync "target/#{name}.html", contents.join "\n\n"
   log "Compiled #{name}.html " + blue "(#{Math.ceil performance.now() - start}ms)"
 
 Compilers.scss = (paths, name)->
   start = performance.now()
   contents = readFiles paths
-  concatenated = prependFilenames("// %%", paths, contents).join "\n\n"
+  concatenated = prependFilenames("/* %% */", paths, contents).join "\n\n"
   try
     compiled = sass.compileString(concatenated, sourceMap: false).css
-    compiled += "\n" # Add the trailing newline, since it seems to go missing
     fs.writeFileSync "target/#{name}.css", compiled
     log "Compiled #{name}.scss " + blue "(#{Math.ceil performance.now() - start}ms)"
   catch outerError
