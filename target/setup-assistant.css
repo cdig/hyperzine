@@ -167,7 +167,13 @@ h1 {
 }
 
 [env-mac=true] h1 {
-  mix-blend-mode: overlay;
+  color: #333;
+  mix-blend-mode: color-dodge;
+}
+@media (prefers-color-scheme: dark) {
+  [env-mac=true] h1 {
+    color: #bbb;
+  }
 }
 
 /* setup-assistant/scss/h3.scss */
@@ -192,20 +198,67 @@ p + p {
 }
 
 /* setup-assistant/scss/rainbow-clouds.scss */
+rainbow-clouds {
+  display: none;
+}
+
 [env-mac=true] rainbow-clouds {
   display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(32px) saturate(150%);
 }
 [env-mac=true] rainbow-clouds svg {
   transform: rotate(0deg) translate(0, 0px);
   will-change: transform;
 }
-[env-mac=true] rainbow-clouds svg g {
+[env-mac=true] rainbow-clouds g {
   opacity: 1;
   transform: translate(0, -100px) scale(1, 1);
   transform-origin: center bottom;
+  mix-blend-mode: overlay;
   will-change: transform;
 }
+@media (prefers-color-scheme: dark) {
+  [env-mac=true] rainbow-clouds g {
+    mix-blend-mode: multiply;
+  }
+}
+[env-mac=true] rainbow-clouds path {
+  transform-origin: 600px 600px;
+  will-change: transform;
+}
+[env-mac=true] rainbow-clouds .a {
+  fill: hsla(20deg, 100%, 50%, 0.6);
+  opacity: 0.7;
+}
+[env-mac=true] rainbow-clouds .a path {
+  animation: rainbow-clouds-spin 133s -20s infinite linear;
+}
+[env-mac=true] rainbow-clouds .b {
+  fill: hsla(170deg, 100%, 50%, 0.8);
+  opacity: 0.6;
+}
+[env-mac=true] rainbow-clouds .b path {
+  animation: rainbow-clouds-spin 171s -20s infinite linear reverse;
+}
+[env-mac=true] rainbow-clouds .c {
+  fill: hsla(250deg, 100%, 50%, 0.4);
+}
+[env-mac=true] rainbow-clouds .c path {
+  animation: rainbow-clouds-spin 217s -20s infinite linear;
+}
 
+@keyframes rainbow-clouds-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 /* setup-assistant/scss/screen.scss */
 .screen {
   position: absolute;
@@ -266,7 +319,7 @@ setup-button {
 }
 .screen h1 {
   opacity: 0;
-  transition: opacity 0.6s 0.8s linear, color 0.4s linear;
+  transition: opacity 0.6s 0.8s linear;
 }
 .screen p {
   opacity: 0;
@@ -290,9 +343,6 @@ setup-button {
 }
 .screen a[back-button] {
   transition: opacity 0.2s 0s linear;
-}
-.screen h1 {
-  color: var(--page-bg);
 }
 
 .screen[is-showing] gear-view span {
@@ -328,7 +378,4 @@ setup-button {
 }
 .screen[is-showing] a[back-button] {
   transition: opacity 0.6s calc(var(--time) - 0s) linear;
-}
-.screen[is-showing] h1 {
-  color: #eee;
 }

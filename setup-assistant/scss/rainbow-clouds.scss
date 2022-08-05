@@ -1,14 +1,56 @@
+rainbow-clouds {
+  display: none;
+}
+
 [env-mac="true"] rainbow-clouds {
   display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(32px) saturate(150%);
+
   svg {
     transform: rotate(0deg) translate(0, 0px);
     will-change: transform;
+  }
 
-    g {
-      opacity: 1;
-      transform: translate(0, -100px) scale(1, 1);
-      transform-origin: center bottom;
-      will-change: transform;
+  g {
+    opacity: 1;
+    transform: translate(0, -100px) scale(1, 1);
+    transform-origin: center bottom;
+    mix-blend-mode: overlay;
+    will-change: transform;
+
+    @media (prefers-color-scheme: dark) {
+      mix-blend-mode: multiply;
     }
   }
+
+  path {
+    transform-origin: 600px 600px;
+    will-change: transform;
+  }
+
+  .a {
+    fill: hsla(20, 100%, 50%, .6);
+    opacity: .7;
+    path { animation: rainbow-clouds-spin 133s -20s infinite linear; }
+  }
+
+  .b {
+    fill: hsla(170, 100%, 50%, .8);
+    opacity: .6;
+    path { animation: rainbow-clouds-spin 171s -20s infinite linear reverse; }
+  }
+
+  .c {
+    fill: hsla(250, 100%, 50%, .4);
+    path { animation: rainbow-clouds-spin 217s -20s infinite linear; }
+  }
+}
+
+@keyframes rainbow-clouds-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

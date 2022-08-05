@@ -1,9 +1,38 @@
-[env-mac="true"] rainbow-clouds {
-  svg {
-    transform: rotate(0deg) translate(0, -30vh);
-    g {
-      transform-origin: center bottom;
-      transform: translate(0, 200px) scale(1, 8);
-    }
+rainbow-clouds {
+  filter: blur(32px) saturate(150%);
+
+  div {
+    position: absolute;
+    top: calc(200px - 70vh - 600px);
+    left: calc(50vw - 600px);
+    width: 1200px;
+    height: 1200px;
+    transform-origin: center bottom;
+    transform: scale(1, 8);
+    mix-blend-mode: color-dodge;
   }
+
+  img {
+    transform-origin: 600px 600px;
+    will-change: transform;
+  }
+
+  .a {
+    opacity: .7;
+    img { animation: rainbow-clouds-spin 133s -20s infinite linear; }
+  }
+
+  .b {
+    opacity: .6;
+    img { animation: rainbow-clouds-spin 171s -20s infinite linear reverse; }
+  }
+
+  .c {
+    img { animation: rainbow-clouds-spin 217s -20s infinite linear; }
+  }
+}
+
+@keyframes rainbow-clouds-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

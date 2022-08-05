@@ -5,10 +5,13 @@ h1 {
   width: 100%;
   font-size: 3em;
   font-weight: 900;
-  // color: #eee;
   opacity: 0;
 }
 
 [env-mac="true"] h1 {
-  mix-blend-mode: overlay;
+  color: #333;
+  mix-blend-mode: color-dodge;
+  @media (prefers-color-scheme: dark) {
+    color: #bbb;
+  }
 }

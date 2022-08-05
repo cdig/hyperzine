@@ -241,10 +241,44 @@ no-assets h1::before {
   }
 }
 /* browser/components/rainbow-clouds.scss */
-[env-mac=true] rainbow-clouds svg {
-  transform: rotate(0deg) translate(0, -30vh);
+rainbow-clouds {
+  filter: blur(32px) saturate(150%);
 }
-[env-mac=true] rainbow-clouds svg g {
+rainbow-clouds div {
+  position: absolute;
+  top: calc(200px - 70vh - 600px);
+  left: calc(50vw - 600px);
+  width: 1200px;
+  height: 1200px;
   transform-origin: center bottom;
-  transform: translate(0, 200px) scale(1, 8);
+  transform: scale(1, 8);
+  mix-blend-mode: color-dodge;
+}
+rainbow-clouds img {
+  transform-origin: 600px 600px;
+  will-change: transform;
+}
+rainbow-clouds .a {
+  opacity: 0.7;
+}
+rainbow-clouds .a img {
+  animation: rainbow-clouds-spin 133s -20s infinite linear;
+}
+rainbow-clouds .b {
+  opacity: 0.6;
+}
+rainbow-clouds .b img {
+  animation: rainbow-clouds-spin 171s -20s infinite linear reverse;
+}
+rainbow-clouds .c img {
+  animation: rainbow-clouds-spin 217s -20s infinite linear;
+}
+
+@keyframes rainbow-clouds-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
