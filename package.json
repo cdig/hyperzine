@@ -20,7 +20,7 @@
     "coffeescript": "2.5.1",
     "d3-color": "3.0.1",
     "dotenv": "10.0.0",
-    "electron": "15.0.0-alpha.10",
+    "electron": "15.5.5",
     "glob": "7.1.7",
     "sass": "1.45.0",
     "take-and-make": "cdig/take-and-make"
