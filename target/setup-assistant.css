@@ -233,7 +233,6 @@ setup-button {
 }
 
 [env-mac=true] setup-button {
-  mix-blend-mode: overlay;
   color: var(--button-text);
   background: var(--page-bg);
 }

@@ -9,7 +9,7 @@ setup-button {
 }
 
 [env-mac="true"] setup-button {
-  mix-blend-mode: overlay;
+  // mix-blend-mode: overlay; // Seems to not render correctly
   color: var(--button-text);
   background: var(--page-bg);
   &:active:hover { background-color: var(--button-active-bg); }
