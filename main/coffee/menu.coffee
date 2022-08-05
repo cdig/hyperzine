@@ -27,6 +27,9 @@ Take ["Env", "IPC", "Window"], (Env, IPC, Window)->
       { type: "separator" }
       { label: "Show Config File", click: ()-> shell.showItemInFolder Env.configPath }
       { type: "separator" }
+      ...(if Env.isDev then [
+        { label: "Rebuild All Thumbnails", click: ()-> Take("DB")?.send "Rebuild All Thumbnails" }
+      ] else [])
       { role: if Env.isMac then "close" else "quit" }
     ]
 

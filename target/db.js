@@ -648,6 +648,20 @@ Take(["Log", "Memory", "Ports", "Thumbnail"], function(Log, Memory, Ports, Thumb
   });
 });
 
+// db/ports-handlers/debug-handlers.coffee
+Take(["Job", "Log", "Memory", "Ports"], function(Job, Log, Memory, Ports) {
+  return Ports.on("Rebuild All Thumbnails", function() {
+    var asset, id, ref, results;
+    ref = Memory("assets");
+    results = [];
+    for (id in ref) {
+      asset = ref[id];
+      results.push(Job("Rebuild Asset Thumbnail", asset, true));
+    }
+    return results;
+  });
+});
+
 // db/subscriptions/assets-folder.coffee
 Take(["LoadAssets", "Log", "Memory", "Read", "Write"], function(LoadAssets, Log, Memory, Read, Write) {
   return Memory.subscribe("dataFolder", true, function(dataFolder) {

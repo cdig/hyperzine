@@ -2005,6 +2005,15 @@ Take(["Env", "IPC", "Window"], function(Env, IPC, Window) {
       {
         type: "separator"
       },
+      ...(Env.isDev ? [
+        {
+          label: "Rebuild All Thumbnails",
+          click: function() {
+            var ref;
+            return (ref = Take("DB")) != null ? ref.send("Rebuild All Thumbnails") : void 0;
+          }
+        }
+      ] : []),
       {
         role: Env.isMac ? "close" : "quit"
       }
