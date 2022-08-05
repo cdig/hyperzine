@@ -1,3 +1,4 @@
+/* asset/components/files-pane/file-info.scss */
 .file .info {
   flex: 1 1 auto;
 }
@@ -39,6 +40,7 @@
   background: var(--rainbow-focus);
 }
 
+/* asset/components/files-pane/file-list.scss */
 file-list {
   position: relative;
   display: block;
@@ -56,6 +58,7 @@ file-list::-webkit-scrollbar-track {
   display: none;
 }
 
+/* asset/components/files-pane/file-thumbnail.scss */
 .file .thumbnail {
   flex: 0 0 8em;
   align-self: stretch;
@@ -108,18 +111,21 @@ file-list::-webkit-scrollbar-track {
   display: none;
 }
 
+/* asset/components/files-pane/file.scss */
 .file {
   display: flex;
   align-items: center;
   margin: 0 0.5em 0.5em;
 }
 
+/* asset/components/files-pane/files-pane.scss */
 files-pane {
   display: block;
   height: 100%;
   overflow: hidden;
 }
 
+/* asset/components/files-pane/tree.scss */
 .tree {
   position: relative;
   overflow: hidden;
@@ -134,11 +140,13 @@ files-pane {
   display: block;
 }
 
+/* asset/components/meta-pane/add-note.scss */
 add-note {
   display: block;
   margin: 2em 1em 0;
 }
 
+/* asset/components/meta-pane/asset-name.scss */
 meta-pane asset-name.field {
   font-size: 1.2em;
   mix-blend-mode: unset;
@@ -146,6 +154,7 @@ meta-pane asset-name.field {
   word-wrap: break-word;
 }
 
+/* asset/components/meta-pane/asset-thumbnail.scss */
 meta-pane asset-thumbnail {
   display: inline-block;
   margin: 0 1em;
@@ -161,17 +170,20 @@ meta-pane asset-thumbnail img {
   object-position: top left;
 }
 
+/* asset/components/meta-pane/details.scss */
 #details {
   display: inline-block;
   margin: 0 1em;
 }
 
+/* asset/components/meta-pane/meta-pane.scss */
 meta-pane {
   display: block;
   padding-top: calc(86px + 0.5em);
   overflow: hidden;
 }
 
+/* asset/components/meta-pane/tag-entry.scss */
 tag-entry {
   position: relative;
   display: block;
@@ -231,10 +243,12 @@ tag-entry suggestion-list [rainbow-before]::before {
   opacity: 0.3;
 }
 
+/* asset/components/meta-pane/tag-list.scss */
 tag-list {
   margin-top: 0.9em;
 }
 
+/* asset/components/title-bar/gears.scss */
 .gears {
   margin-right: -2px;
 }
@@ -243,6 +257,7 @@ tag-list {
   height: 32px;
 }
 
+/* asset/components/title-bar/meta.scss */
 title-bar .meta div {
   display: inline-block;
   margin: 0.2em;
@@ -273,6 +288,7 @@ html.blur title-bar .meta div > * {
   color: var(--text-color);
 }
 
+/* asset/components/tool-bar/file-tools.scss */
 file-tools {
   flex: 1 1 auto;
   display: flex;
@@ -301,10 +317,12 @@ file-tools [add-files] {
   margin-left: 0.5em;
 }
 
+/* asset/components/tool-bar/magic-button.scss */
 [magic-button] {
   display: none;
 }
 
+/* asset/components/tool-bar/meta-tools.scss */
 meta-tools {
   flex: 0 0 auto;
   padding-right: 0.5em;
@@ -316,6 +334,7 @@ meta-tools button {
   margin-left: 0.5em;
 }
 
+/* asset/components/tool-bar/pane-split.scss */
 pane-split {
   display: block;
   width: 6px;
@@ -327,6 +346,7 @@ pane-split {
   cursor: col-resize;
 }
 
+/* asset/components/tool-bar/thumbnail-size.scss */
 [thumbnail-size] {
   display: inline-block;
   margin: 0 8px;
@@ -337,6 +357,7 @@ pane-split {
   }
 }
 
+/* asset/components/tool-bar/tool-bar.scss */
 tool-bar {
   display: flex;
   align-items: center;
@@ -349,6 +370,7 @@ tool-bar {
   }
 }
 
+/* asset/scss/archived.scss */
 .archived {
   display: none;
   text-align: center;
@@ -360,15 +382,18 @@ tool-bar {
   display: block;
 }
 
+/* asset/scss/is-archived.scss */
 [is-archived] {
   filter: grayscale(50%) contrast(75%) sepia(40%);
 }
 
+/* asset/scss/main.scss */
 main {
   display: grid;
   grid-template-columns: 1fr 6px 1fr;
 }
 
+/* asset/scss/no-data.scss */
 no-data {
   display: none;
   position: absolute;

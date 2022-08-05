@@ -1,3 +1,4 @@
+/* browser/components/asset-card.scss */
 asset-card {
   display: inline-block;
   width: 16em;
@@ -6,6 +7,7 @@ asset-card {
   overflow: hidden;
 }
 
+/* browser/components/asset-count.scss */
 asset-count {
   display: block;
   flex: 0 0 7.2em;
@@ -21,6 +23,7 @@ asset-count {
   }
 }
 
+/* browser/components/asset-image.scss */
 asset-image {
   display: flex;
   justify-content: center;
@@ -95,11 +98,13 @@ asset-image .frustration span {
   line-height: 16em;
 }
 
+/* browser/components/asset-label.scss */
 asset-label {
   display: block;
   font-size: var(--browser-label-size);
 }
 
+/* browser/components/asset-list.scss */
 asset-list {
   display: flex;
   flex-flow: row wrap;
@@ -118,6 +123,7 @@ asset-list {
   display: block;
 }
 
+/* browser/components/asset-name.scss */
 asset-name {
   display: block;
   margin: 0.3em 0.3em;
@@ -134,6 +140,7 @@ asset-name:focus-visible {
   display: none;
 }
 
+/* browser/components/asset-size.scss */
 [asset-size] {
   display: inline-block;
   margin: 0 8px;
@@ -144,6 +151,7 @@ asset-name:focus-visible {
   }
 }
 
+/* browser/components/meta-list.scss */
 tag-list {
   position: relative;
   text-align: center;
@@ -161,12 +169,14 @@ tag-list file-count {
   display: none;
 }
 
+/* browser/components/new-asset.scss */
 @media (max-width: 600px) {
   [new-asset] span {
     display: none;
   }
 }
 
+/* browser/components/no-assets.scss */
 no-assets {
   display: none;
   position: absolute;
@@ -230,6 +240,7 @@ no-assets h1::before {
     transform: rotateX(15deg) rotateY(0deg) translateZ(30px);
   }
 }
+/* browser/components/rainbow-clouds.scss */
 [env-mac=true] rainbow-clouds svg {
   transform: rotate(0deg) translate(0, -30vh);
 }
