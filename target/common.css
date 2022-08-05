@@ -163,14 +163,10 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: inherit;
-  /* 1 */
-  font-size: 100%;
-  /* 1 */
-  line-height: 1.15;
-  /* 1 */
-  margin: 0;
-  /* 2 */
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
 }
 
 /* TODO: This belongs in the framework, not the reset. */
@@ -207,10 +203,8 @@ input[type=number]::-webkit-outer-spin-button {
 /* 1. Correct the odd appearance in Chrome and Safari. (Normalize)
    2. Correct the outline style in Safari. (Normalize) */
 [type=search] {
-  -webkit-appearance: textfield;
-  /* 1 */
-  outline-offset: -2px;
-  /* 2 */
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
 }
 
 /* Remove the inner padding in Chrome and Safari on macOS. (Normalize) */
@@ -223,16 +217,13 @@ object,
 embed,
 canvas,
 progress {
-  width: 100%;
-  /* Make responsive (cd-reset) */
-  vertical-align: middle;
-  /* Remove the "baseline" space weirdness (cd-reset) */
+  width: 100%; /* Make responsive (cd-reset) */
+  vertical-align: middle; /* Remove the "baseline" space weirdness (cd-reset) */
 }
 
 video,
 img {
-  vertical-align: middle;
-  /* Remove the "baseline" space weirdness (cd-reset) */
+  vertical-align: middle; /* Remove the "baseline" space weirdness (cd-reset) */
 }
 
 /* Embedded contexts should be big and beefy! (cd-reset) */
@@ -343,7 +334,7 @@ html.blur button {
   background: var(--page-bg);
 }
 .field[contenteditable] {
-  border: 2px solid #7771;
+  border: 2px solid rgba(119, 119, 119, 0.0666666667);
 }
 .field[contenteditable][field-invalid] {
   border-color: red;
@@ -584,21 +575,21 @@ rainbow-clouds {
   will-change: transform;
 }
 [env-mac=true] rainbow-clouds .a {
-  fill: rgba(255, 85, 0, 0.6);
+  fill: hsla(20deg, 100%, 50%, 0.6);
   opacity: 0.7;
 }
 [env-mac=true] rainbow-clouds .a path {
   animation: rainbow-clouds-spin 133s -20s infinite linear;
 }
 [env-mac=true] rainbow-clouds .b {
-  fill: rgba(0, 255, 213, 0.8);
+  fill: hsla(170deg, 100%, 50%, 0.8);
   opacity: 0.6;
 }
 [env-mac=true] rainbow-clouds .b path {
   animation: rainbow-clouds-spin 171s -20s infinite linear reverse;
 }
 [env-mac=true] rainbow-clouds .c {
-  fill: rgba(43, 0, 255, 0.4);
+  fill: hsla(250deg, 100%, 50%, 0.4);
 }
 [env-mac=true] rainbow-clouds .c path {
   animation: rainbow-clouds-spin 217s -20s infinite linear;
@@ -813,7 +804,6 @@ html.blur {
     --ui-border: #fff1;
     --win-window-top: #333;
   }
-
   html.blur {
     --title-bar-text: #666;
   }

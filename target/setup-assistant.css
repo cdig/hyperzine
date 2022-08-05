@@ -242,7 +242,7 @@ setup-button {
 }
 
 [env-mac=false] setup-button:active:hover {
-  background-color: #fff2;
+  background-color: rgba(255, 255, 255, 0.1333333333);
 }
 
 /* setup-assistant/scss/transitions.scss */

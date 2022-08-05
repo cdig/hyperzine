@@ -6,7 +6,7 @@
   display: inline-block;
   padding: 0.2em 0.4em;
   margin-bottom: 0.2em;
-  border: 2px solid #7771;
+  border: 2px solid rgba(119, 119, 119, 0.0666666667);
 }
 .file .info .name .basic-field:focus-visible {
   border-color: var(--rainbow-focus);
@@ -269,7 +269,7 @@ title-bar .meta div > * {
   display: inline-block;
   font-weight: 900;
   margin-left: 0.3em;
-  background-image: linear-gradient(#0002, #0002);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1333333333), rgba(0, 0, 0, 0.1333333333));
   color: transparent;
   backdrop-filter: brightness(50%) saturate(1000%);
   -webkit-mask-image: linear-gradient(white, white);
