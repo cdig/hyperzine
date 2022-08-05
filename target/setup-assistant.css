@@ -278,7 +278,7 @@ setup-button {
 }
 
 .screen[is-showing] gear-view span {
-  transition: transform 3.2s calc(var(--time) - 2.0s) cubic-bezier(0, 1, 0.5, 1);
+  transition: transform 3.2s calc(var(--time) - 2s) cubic-bezier(0, 1, 0.5, 1);
 }
 .screen[is-showing] gear-view {
   opacity: 1;
@@ -309,7 +309,7 @@ setup-button {
   transition: opacity 0.6s calc(var(--time) - 0.1s) linear;
 }
 .screen[is-showing] a[back-button] {
-  transition: opacity 0.6s calc(var(--time) - 0.0s) linear;
+  transition: opacity 0.6s calc(var(--time) - 0s) linear;
 }
 .screen[is-showing] h1 {
   color: #eee;

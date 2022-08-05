@@ -24,7 +24,7 @@
 }
 .file .info .i-eye {
   width: 1em;
-  height: calc(1em * 80 / 112);
+  height: 0.7142857143em;
   background-color: currentColor;
 }
 .file .info .icon {
@@ -42,14 +42,14 @@
 file-list {
   position: relative;
   display: block;
-  padding-top: calc(86px + .5em);
+  padding-top: calc(86px + 0.5em);
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   overscroll-behavior: contain;
 }
 file-list::-webkit-scrollbar-track {
-  margin: calc(86px + .5em) 0 0;
+  margin: calc(86px + 0.5em) 0 0;
 }
 
 [is-archived] file-list {
@@ -168,7 +168,7 @@ meta-pane asset-thumbnail img {
 
 meta-pane {
   display: block;
-  padding-top: calc(86px + .5em);
+  padding-top: calc(86px + 0.5em);
   overflow: hidden;
 }
 
@@ -320,7 +320,7 @@ pane-split {
   display: block;
   width: 6px;
   height: calc(100% - 86px - 1em);
-  margin-top: calc(86px + .5em);
+  margin-top: calc(86px + 0.5em);
   border-radius: 3px;
   background-color: var(--ui-border);
   opacity: 0.4;

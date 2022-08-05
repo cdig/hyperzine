@@ -1,7 +1,7 @@
 log-printer {
   display: block;
   height: 100%;
-  padding: calc(37px + .1em) 0.8em 0.5em;
+  padding: calc(37px + 0.1em) 0.8em 0.5em;
   line-height: 0.9;
   overflow-y: auto;
   overscroll-behavior: contain;
