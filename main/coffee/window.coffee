@@ -185,15 +185,25 @@ Take ["Env", "MainState"], (Env, MainState)->
       setupAssistant: openSetupAssistant
 
     activate: ()->
-      if BrowserWindow.getAllWindows().length is 0
+      windows = BrowserWindow.getAllWindows()
+
+      if windows.length is 0
         Window.open.db()
-      else if setupDone
-        Window.open.browser()
+
+      else if windows.length is 1
+        if setupDone
+          Window.open.browser()
+        else
+          Window.open.setupAssistant()
+
+      else if windows[1..].every (win)-> win.isMinimized()
+        win = windows[1]
+        win.restore()
+        win.focus()
+
       else
-        Window.open.setupAssistant()
-      win = Array.last(BrowserWindow.getAllWindows())
-      win.restore() if win.isMinimized()
-      win.focus()
+        win = Array.last(windows)
+        win.focus()
 
     setupDone: ()-> setupDone = true
     aboutToQuit: ()-> aboutToQuit = true

@@ -2485,19 +2485,26 @@ Take(["Env", "MainState"], function(Env, MainState) {
       setupAssistant: openSetupAssistant
     },
     activate: function() {
-      var win;
-      if (BrowserWindow.getAllWindows().length === 0) {
-        Window.open.db();
-      } else if (setupDone) {
-        Window.open.browser();
-      } else {
-        Window.open.setupAssistant();
-      }
-      win = Array.last(BrowserWindow.getAllWindows());
-      if (win.isMinimized()) {
+      var win, windows;
+      windows = BrowserWindow.getAllWindows();
+      if (windows.length === 0) {
+        return Window.open.db();
+      } else if (windows.length === 1) {
+        if (setupDone) {
+          return Window.open.browser();
+        } else {
+          return Window.open.setupAssistant();
+        }
+      } else if (windows.slice(1).every(function(win) {
+        return win.isMinimized();
+      })) {
+        win = windows[1];
         win.restore();
+        return win.focus();
+      } else {
+        win = Array.last(windows);
+        return win.focus();
       }
-      return win.focus();
     },
     setupDone: function() {
       return setupDone = true;
