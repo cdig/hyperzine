@@ -6,7 +6,7 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], (DB, ADSR, DOOM, Memory
   focused = false
   highlightIndex = 0
   firstIndex = 0
-  lastIndex = 10
+  lastIndex = 7
 
   tagHints = {
     "CDIG At Work": "Images of CDIG employees doing their jobs, either in the office or on site."
@@ -30,7 +30,7 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], (DB, ADSR, DOOM, Memory
     frag = new DocumentFragment()
     highlightIndex = (highlightIndex + matches.length) % (matches.length)
 
-    truncateLimit = 10 # how many results to show before truncating the list
+    truncateLimit = 7 # how many results to show before truncating the list
     scrollLimit = 2 # when truncated, scroll the list if the highlight is this many spaces from the top
 
     if highlightIndex + scrollLimit >= lastIndex

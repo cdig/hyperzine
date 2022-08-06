@@ -413,7 +413,7 @@ Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM
   focused = false;
   highlightIndex = 0;
   firstIndex = 0;
-  lastIndex = 10;
+  lastIndex = 7;
   tagHints = {
     "CDIG At Work": "Images of CDIG employees doing their jobs, either in the office or on site.",
     "Cartoon": "Things drawn in cartoon style — i.e. not photos, not drafting-style drawings."
@@ -436,7 +436,7 @@ Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM
     matches = Array.sortAlphabetic(matches);
     frag = new DocumentFragment();
     highlightIndex = (highlightIndex + matches.length) % matches.length;
-    truncateLimit = 10; // how many results to show before truncating the list
+    truncateLimit = 7; // how many results to show before truncating the list
     scrollLimit = 2; // when truncated, scroll the list if the highlight is this many spaces from the top
     if (highlightIndex + scrollLimit >= lastIndex) {
       lastIndex = Math.min(highlightIndex + scrollLimit, matches.length - 1);
