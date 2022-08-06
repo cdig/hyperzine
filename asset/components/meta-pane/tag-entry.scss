@@ -43,24 +43,32 @@ tag-entry {
     padding: 2.4em .4em .4em;
     z-index: 1;
 
-    div {
+    .tag {
       position: relative;
-      padding: .2em .4em;
+      .rainbow {
+        padding: .2em .4em;
+      }
 
       span {
         position: relative;
-        z-index: 2;
+      }
+
+      .hint {
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 1.6em .4em .2em;
+        background: var(--meta-bg);
+        z-index: 3;
       }
     }
 
-    .truncated {
-      padding: .2em .4em;
-      opacity: .5;
-    }
-
     [rainbow-before] {
+      position: relative;
       border-radius: 4px;
       overflow: hidden;
+      z-index: 4;
       &::before {
         opacity: .3;
       }

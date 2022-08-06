@@ -223,21 +223,29 @@ tag-entry suggestion-list {
   padding: 2.4em 0.4em 0.4em;
   z-index: 1;
 }
-tag-entry suggestion-list div {
+tag-entry suggestion-list .tag {
   position: relative;
+}
+tag-entry suggestion-list .tag .rainbow {
   padding: 0.2em 0.4em;
 }
-tag-entry suggestion-list div span {
+tag-entry suggestion-list .tag span {
   position: relative;
-  z-index: 2;
 }
-tag-entry suggestion-list .truncated {
-  padding: 0.2em 0.4em;
-  opacity: 0.5;
+tag-entry suggestion-list .tag .hint {
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 1.6em 0.4em 0.2em;
+  background: var(--meta-bg);
+  z-index: 3;
 }
 tag-entry suggestion-list [rainbow-before] {
+  position: relative;
   border-radius: 4px;
   overflow: hidden;
+  z-index: 4;
 }
 tag-entry suggestion-list [rainbow-before]::before {
   opacity: 0.3;

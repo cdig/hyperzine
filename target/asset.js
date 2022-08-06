@@ -407,64 +407,89 @@ Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "Stat
 
 // asset/components/meta-pane/tag-entry.coffee
 Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM, Memory, Paths, State) {
-  var focused, highlightIndex, highlightNext, highlightPrev, input, setValue, suggestionList, update;
+  var fastUpdate, firstIndex, focused, highlightIndex, highlightNext, highlightPrev, input, lastIndex, setValue, slowUpdate, suggestionList, tagHints, update;
   input = document.querySelector("tag-entry input");
   suggestionList = document.querySelector("tag-entry suggestion-list");
   focused = false;
   highlightIndex = 0;
-  update = ADSR(1, 1, function() {
-    var asset, frag, hasInput, i, j, len, matches, ref, show, tag, truncElm, truncatedMatches, value;
+  firstIndex = 0;
+  lastIndex = 10;
+  tagHints = {
+    "CDIG At Work": "Images of CDIG employees doing their jobs, either in the office or on site.",
+    "Cartoon": "Things drawn in cartoon style — i.e. not photos, not drafting-style drawings."
+  };
+  update = function() {
+    var asset, frag, hasInput, i, j, len, matches, ref, scrollLimit, show, tag, truncateLimit, value;
     hasInput = ((ref = input.value) != null ? ref.length : void 0) > 0;
     matches = [];
-    if (hasInput) {
-      asset = State("asset");
-      value = input.value.toLowerCase();
-      for (tag in Memory("tags")) {
-        if (!tag.toLowerCase().startsWith(value)) {
-          continue;
-        }
-        if (indexOf.call(asset.tags, tag) >= 0) {
-          continue;
-        }
-        matches.push(tag);
+    asset = State("asset");
+    value = input.value.toLowerCase();
+    for (tag in Memory("tags")) {
+      if (hasInput && tag.toLowerCase().indexOf(value) === -1) {
+        continue;
       }
-      matches = Array.sortAlphabetic(matches);
-      truncatedMatches = matches.slice(0, 10);
-      frag = new DocumentFragment();
-      highlightIndex = (highlightIndex + truncatedMatches.length + 1) % (truncatedMatches.length + 1);
-      for (i = j = 0, len = truncatedMatches.length; j < len; i = ++j) {
-        tag = truncatedMatches[i];
+      if (indexOf.call(asset.tags, tag) >= 0) {
+        continue;
+      }
+      matches.push(tag);
+    }
+    matches = Array.sortAlphabetic(matches);
+    frag = new DocumentFragment();
+    highlightIndex = (highlightIndex + matches.length) % matches.length;
+    truncateLimit = 10; // how many results to show before truncating the list
+    scrollLimit = 2; // when truncated, scroll the list if the highlight is this many spaces from the top
+    if (highlightIndex + scrollLimit >= lastIndex) {
+      lastIndex = Math.min(highlightIndex + scrollLimit, matches.length - 1);
+      firstIndex = Math.max(0, lastIndex - truncateLimit);
+    }
+    if (highlightIndex < firstIndex + scrollLimit) {
+      firstIndex = Math.max(0, highlightIndex - scrollLimit);
+    }
+    // lastIndex = Math.min highlightIndex + truncateLimit, matches.length
+
+    // firstIndex = Math.max(0, highlightIndex - scrollLimit)
+    lastIndex = Math.min(firstIndex + truncateLimit, matches.length - 1);
+    for (i = j = 0, len = matches.length; j < len; i = ++j) {
+      tag = matches[i];
+      if (i >= firstIndex && i <= lastIndex) {
         (function(tag, i) {
-          var tagElm;
+          var rainbowElm, tagElm;
           tagElm = DOOM.create("div", frag, {
-            rainbowBefore: i + 1 === highlightIndex ? "" : null
+            class: "tag"
           });
-          DOOM.create("span", tagElm, {
+          rainbowElm = DOOM.create("div", tagElm, {
+            class: "rainbow",
+            rainbowBefore: i === highlightIndex ? "" : null
+          });
+          DOOM.create("span", rainbowElm, {
             textContent: tag
           });
           tagElm.addEventListener("mousemove", function(e) {
-            highlightIndex = i + 1;
-            return update();
+            highlightIndex = i;
+            return slowUpdate();
           });
-          return tagElm.addEventListener("mousedown", function(e) {
+          tagElm.addEventListener("mousedown", function(e) {
             return setValue(tag);
           });
+          if (i === highlightIndex && tagHints[tag]) {
+            return DOOM.create("div", tagElm, {
+              class: "hint",
+              textContent: tagHints[tag],
+              rainbowBefore: ""
+            });
+          }
         })(tag, i);
       }
-      if (matches.length > truncatedMatches.length) {
-        truncElm = DOOM.create("span", frag, {
-          class: "truncated",
-          textContent: "…"
-        });
-      }
-      suggestionList.replaceChildren(frag);
     }
-    show = focused && hasInput && matches.length > 0;
+    suggestionList.replaceChildren(frag);
+    show = focused && matches.length > 0;
     suggestionList.style.display = show ? "block" : "none";
     if (!show) {
-      return highlightIndex = 0;
+      return firstIndex = highlightIndex = 0;
     }
-  });
+  };
+  fastUpdate = ADSR(10, update);
+  slowUpdate = ADSR(20, 20, update);
   setValue = function(value) {
     var asset;
     if ((value != null ? value.length : void 0) > 0) {
@@ -476,27 +501,23 @@ Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM
   };
   highlightNext = function() {
     highlightIndex++;
-    return update();
+    return fastUpdate();
   };
   highlightPrev = function() {
     highlightIndex--;
-    return update();
+    return fastUpdate();
   };
-  input.addEventListener("mousemove", function(e) {
-    highlightIndex = 0;
-    return update();
-  });
   input.addEventListener("focus", function(e) {
     focused = true;
-    highlightIndex = 0;
-    return update();
+    firstIndex = highlightIndex = 0;
+    return fastUpdate();
   });
   input.addEventListener("blur", function(e) {
     focused = false;
-    return update();
+    return fastUpdate();
   });
-  input.addEventListener("change", update);
-  input.addEventListener("input", update);
+  input.addEventListener("change", fastUpdate);
+  input.addEventListener("input", fastUpdate);
   return input.addEventListener("keydown", function(e) {
     var highlighted, value;
     switch (e.keyCode) {
@@ -504,10 +525,10 @@ Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM
         e.preventDefault();
         value = (highlighted = suggestionList.querySelector("[rainbow-before]")) ? highlighted.textContent : input.value;
         setValue(value);
-        highlightIndex = 0;
-        return update();
+        firstIndex = highlightIndex = 0;
+        return fastUpdate();
       case 27: // esc
-        highlightIndex = 0;
+        firstIndex = highlightIndex = 0;
         input.value = "";
         return input.blur();
       case 38: // up
@@ -516,12 +537,13 @@ Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM
       case 40: // down
         e.preventDefault();
         return highlightNext();
-      default:
-        highlightIndex = 0;
-        return update();
     }
   });
 });
+
+// else
+//   firstIndex = highlightIndex = 0
+//   fastUpdate()
 
 // asset/components/title-bar/meta.coffee
 Take(["ADSR", "DOOM", "Env", "Memory", "SizeOnDisk", "State"], function(ADSR, DOOM, Env, Memory, SizeOnDisk, State) {

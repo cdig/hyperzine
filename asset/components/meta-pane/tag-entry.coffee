@@ -5,44 +5,75 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], (DB, ADSR, DOOM, Memory
 
   focused = false
   highlightIndex = 0
+  firstIndex = 0
+  lastIndex = 10
 
-  update = ADSR 1, 1, ()->
+  tagHints = {
+    "CDIG At Work": "Images of CDIG employees doing their jobs, either in the office or on site."
+    "Cartoon": "Things drawn in cartoon style — i.e. not photos, not drafting-style drawings."
+  }
+
+  update = ()->
     hasInput = input.value?.length > 0
 
     matches = []
 
-    if hasInput
-      asset = State "asset"
-      value = input.value.toLowerCase()
-      for tag of Memory "tags"
-        continue unless tag.toLowerCase().startsWith value
-        continue if tag in asset.tags
-        matches.push tag
+    asset = State "asset"
+    value = input.value.toLowerCase()
+    for tag of Memory "tags"
+      continue if hasInput and tag.toLowerCase().indexOf(value) is -1
+      continue if tag in asset.tags
+      matches.push tag
 
-      matches = Array.sortAlphabetic matches
-      truncatedMatches = matches[...10]
+    matches = Array.sortAlphabetic matches
 
-      frag = new DocumentFragment()
-      highlightIndex = (highlightIndex + truncatedMatches.length+1) % (truncatedMatches.length+1)
+    frag = new DocumentFragment()
+    highlightIndex = (highlightIndex + matches.length) % (matches.length)
 
-      for tag, i in truncatedMatches
-        do (tag, i)->
-          tagElm = DOOM.create "div", frag, rainbowBefore: if i+1 is highlightIndex then "" else null
-          DOOM.create "span", tagElm, textContent: tag
-          tagElm.addEventListener "mousemove", (e)->
-            highlightIndex = i + 1
-            update()
-          tagElm.addEventListener "mousedown", (e)->
-            setValue tag
+    truncateLimit = 10 # how many results to show before truncating the list
+    scrollLimit = 2 # when truncated, scroll the list if the highlight is this many spaces from the top
 
-      if matches.length > truncatedMatches.length
-        truncElm = DOOM.create "span", frag, class: "truncated", textContent: "…"
+    if highlightIndex + scrollLimit >= lastIndex
+      lastIndex = Math.min highlightIndex + scrollLimit, matches.length-1
+      firstIndex = Math.max 0, lastIndex - truncateLimit
 
-      suggestionList.replaceChildren frag
+    if highlightIndex < firstIndex + scrollLimit
+      firstIndex = Math.max 0, highlightIndex - scrollLimit
+      # lastIndex = Math.min highlightIndex + truncateLimit, matches.length
 
-    show = focused and hasInput and matches.length > 0
+    # firstIndex = Math.max(0, highlightIndex - scrollLimit)
+    lastIndex = Math.min firstIndex + truncateLimit, matches.length-1
+
+    for tag, i in matches when i >= firstIndex and i <= lastIndex
+      do (tag, i)->
+        tagElm = DOOM.create "div", frag,
+          class: "tag"
+        rainbowElm = DOOM.create "div", tagElm,
+          class: "rainbow"
+          rainbowBefore: if i is highlightIndex then "" else null
+        DOOM.create "span", rainbowElm,
+          textContent: tag
+        tagElm.addEventListener "mousemove", (e)->
+          highlightIndex = i
+          slowUpdate()
+        tagElm.addEventListener "mousedown", (e)->
+          setValue tag
+
+        if i is highlightIndex and tagHints[tag]
+          DOOM.create "div", tagElm,
+            class: "hint",
+            textContent: tagHints[tag]
+            rainbowBefore: ""
+
+    suggestionList.replaceChildren frag
+
+    show = focused and matches.length > 0
     suggestionList.style.display = if show then "block" else "none"
-    highlightIndex = 0 unless show
+    firstIndex = highlightIndex = 0 unless show
+
+
+  fastUpdate = ADSR 10, update
+  slowUpdate = ADSR 20, 20, update
 
   setValue = (value)->
     if value?.length > 0
@@ -54,27 +85,23 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], (DB, ADSR, DOOM, Memory
 
   highlightNext = ()->
     highlightIndex++
-    update()
+    fastUpdate()
 
   highlightPrev = ()->
     highlightIndex--
-    update()
-
-  input.addEventListener "mousemove", (e)->
-    highlightIndex = 0
-    update()
+    fastUpdate()
 
   input.addEventListener "focus", (e)->
     focused = true
-    highlightIndex = 0
-    update()
+    firstIndex = highlightIndex = 0
+    fastUpdate()
 
   input.addEventListener "blur", (e)->
     focused = false
-    update()
+    fastUpdate()
 
-  input.addEventListener "change", update
-  input.addEventListener "input", update
+  input.addEventListener "change", fastUpdate
+  input.addEventListener "input", fastUpdate
 
   input.addEventListener "keydown", (e)->
     switch e.keyCode
@@ -86,14 +113,13 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], (DB, ADSR, DOOM, Memory
         else
           input.value
 
-
         setValue value
 
-        highlightIndex = 0
-        update()
+        firstIndex = highlightIndex = 0
+        fastUpdate()
 
       when 27 # esc
-        highlightIndex = 0
+        firstIndex = highlightIndex = 0
         input.value = ""
         input.blur()
 
@@ -105,6 +131,6 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], (DB, ADSR, DOOM, Memory
         e.preventDefault()
         highlightNext()
 
-      else
-        highlightIndex = 0
-        update()
+      # else
+      #   firstIndex = highlightIndex = 0
+      #   fastUpdate()
