@@ -1,9 +1,16 @@
+autoprefixer = require "autoprefixer"
 chokidar = require "chokidar"
 coffeescript = require "coffeescript"
 fs = require "fs"
 glob = require "glob"
+postcss = require "postcss"
 sass = require "sass"
 {execSync, exec} = require "child_process"
+
+cssProcessor = postcss [
+  autoprefixer
+    overrideBrowserslist: ["Chrome >= 104"]
+]
 
 
 # HELPERS #########################################################################################
@@ -94,7 +101,9 @@ Compilers.scss = (paths, name)->
   concatenated = prependFilenames("/* %% */", paths, contents).join "\n\n"
   try
     compiled = sass.compileString(concatenated, sourceMap: false).css
-    fs.writeFileSync "target/#{name}.css", compiled
+    result = cssProcessor.process compiled
+    log red warn.toString() for warning in result.warnings()
+    fs.writeFileSync "target/#{name}.css", result.css
     log "Compiled #{name}.scss " + blue "(#{Math.ceil performance.now() - start}ms)"
   catch outerError
     # We hit an error while compiling. To improve the error message, try to compile each
@@ -145,6 +154,7 @@ projects =
         "submodule/bucket/{adsr,monkey-patch,test}.coffee"
         "lib/*.coffee"
       ]
+  worklets: {}
 
 compileAll = (opts)->
   execSync "mkdir -p target"

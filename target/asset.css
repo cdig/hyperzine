@@ -74,6 +74,8 @@ file-list::-webkit-scrollbar-track {
   max-width: 100%;
   max-height: 100%;
   border-radius: 4px;
+  -webkit-mask-image: paint(superellipse);
+          mask-image: paint(superellipse);
   object-fit: scale-down;
   background: var(--card-image-bg);
 }
@@ -166,6 +168,8 @@ meta-pane asset-thumbnail img {
   margin-bottom: 1em;
   margin-right: 1em;
   border-radius: 8px;
+  -webkit-mask-image: paint(superellipse);
+          mask-image: paint(superellipse);
   object-fit: contain;
   object-position: top left;
 }
@@ -253,6 +257,7 @@ tag-entry suggestion-list [rainbow-before]::before {
 
 /* asset/components/meta-pane/tag-list.scss */
 tag-list {
+  max-width: 30em;
   margin-top: 0.9em;
 }
 

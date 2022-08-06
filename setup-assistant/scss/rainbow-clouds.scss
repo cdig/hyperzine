@@ -11,13 +11,12 @@ rainbow-clouds {
   filter: blur(32px) saturate(150%);
 
   svg {
-    transform: rotate(0deg) translate(0, 0px);
     will-change: transform;
   }
 
   g {
     opacity: 1;
-    transform: translate(0, -100px) scale(1, 1);
+    transform: translate(0, -80%);
     transform-origin: center bottom;
     mix-blend-mode: overlay;
     will-change: transform;

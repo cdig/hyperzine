@@ -157,6 +157,7 @@ tag-list {
   text-align: center;
   font-size: 0.6em;
 }
+tag-list search-points,
 tag-list file-count {
   display: inline-block;
   vertical-align: middle;
@@ -242,6 +243,7 @@ no-assets h1::before {
 }
 /* browser/components/rainbow-clouds.scss */
 rainbow-clouds {
+  display: none;
   filter: blur(32px) saturate(150%);
 }
 rainbow-clouds div {

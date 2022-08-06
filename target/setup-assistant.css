@@ -147,6 +147,16 @@ gear-view span {
   transform: scale(0.2) rotate(360deg);
 }
 
+[env-mac=true] gear-view {
+  mix-blend-mode: plus-lighter;
+  filter: drop-shadow(0px 0px 12px #AAA);
+}
+@media (prefers-color-scheme: dark) {
+  [env-mac=true] gear-view div {
+    background-image: var(--black-gear);
+  }
+}
+
 @keyframes outer-spin {
   from {
     transform: rotate(0deg);
@@ -211,12 +221,11 @@ rainbow-clouds {
   filter: blur(32px) saturate(150%);
 }
 [env-mac=true] rainbow-clouds svg {
-  transform: rotate(0deg) translate(0, 0px);
   will-change: transform;
 }
 [env-mac=true] rainbow-clouds g {
   opacity: 1;
-  transform: translate(0, -100px) scale(1, 1);
+  transform: translate(0, -80%);
   transform-origin: center bottom;
   mix-blend-mode: overlay;
   will-change: transform;
@@ -287,10 +296,9 @@ setup-button {
 
 [env-mac=true] setup-button {
   color: var(--button-text);
-  background: var(--page-bg);
 }
 [env-mac=true] setup-button:active:hover {
-  background-color: var(--button-active-bg);
+  background-color: rgba(153, 153, 153, 0.0666666667);
 }
 
 [env-mac=false] setup-button:active:hover {
@@ -299,7 +307,7 @@ setup-button {
 
 /* setup-assistant/scss/transitions.scss */
 :root {
-  --time: 3.5s;
+  --time: 3.0s;
 }
 
 #bg g {
@@ -378,4 +386,13 @@ setup-button {
 }
 .screen[is-showing] a[back-button] {
   transition: opacity 0.6s calc(var(--time) - 0s) linear;
+}
+
+[env-mac=true] .screen[is-showing] gear-view {
+  opacity: 0.4;
+}
+@media (prefers-color-scheme: dark) {
+  [env-mac=true] .screen[is-showing] gear-view {
+    opacity: 0.7;
+  }
 }

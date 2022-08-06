@@ -9,6 +9,7 @@ meta-pane asset-thumbnail {
     margin-bottom: 1em;
     margin-right: 1em;
     border-radius: 8px;
+    mask-image: paint(superellipse);
     object-fit: contain;
     object-position: top left;
   }

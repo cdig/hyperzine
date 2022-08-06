@@ -2828,3 +2828,6 @@ Take(["IPC", "Log"], function(IPC, Log) {
     return IPC.send("close-window");
   });
 });
+
+// common/worklets.coffee
+CSS.paintWorklet.addModule("worklets.js");

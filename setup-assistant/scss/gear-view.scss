@@ -16,6 +16,14 @@ gear-view {
   }
 }
 
+[env-mac="true"] gear-view {
+  mix-blend-mode: plus-lighter;
+  filter: drop-shadow(0px 0px 12px #AAA);
+  div {
+    @media(prefers-color-scheme: dark) { background-image: var(--black-gear); }
+  }
+}
+
 @keyframes outer-spin {
   from { transform: rotate(0deg) }
   to { transform: rotate(-360deg) }

@@ -10,8 +10,8 @@ setup-button {
 
 [env-mac="true"] setup-button {
   color: var(--button-text);
-  background: var(--page-bg);
-  &:active:hover { background-color: var(--button-active-bg); }
+  // background: var(--page-bg);
+  &:active:hover { background-color: #9991; }
 }
 
 [env-mac="false"] setup-button {
