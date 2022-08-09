@@ -1,7 +1,8 @@
 gear-view {
+  position: absolute;
+  left: calc(50% - 7em);
   width: 14em;
   height: 14em;
-  margin: 1em 0 .3em;
   animation: outer-spin 31s infinite linear;
   opacity: 0;
 
@@ -12,13 +13,13 @@ gear-view {
 
   span {
     will-change: transform;
-    transform: scale(.2) rotate(360deg);
+    transform: scale(.2) rotate(360deg); // Applies when not on the welcome screen (ie: hidden)
   }
 }
 
 [env-mac="true"] gear-view {
   mix-blend-mode: plus-lighter;
-  filter: drop-shadow(0px 0px 12px #AAA);
+  filter: drop-shadow(0px 0px 32px #AAA);
   div {
     @media(prefers-color-scheme: dark) { background-image: var(--black-gear); }
   }

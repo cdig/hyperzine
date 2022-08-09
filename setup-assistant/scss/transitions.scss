@@ -1,8 +1,10 @@
 :root { --time: 3.0s; }
 
-#bg g   { transition: transform calc(var(--time) + 2s) cubic-bezier(.2,0,.2,1), fill calc(var(--time) - 1s) linear; }
 #bg svg { transition: transform calc(var(--time) + 2s) cubic-bezier(.6,0,.7,1); }
+#bg g   { transition: transform calc(var(--time) + 2s) cubic-bezier(.2,0,.2,1), fill calc(var(--time) - 1s) linear; }
+.screen::after { transition: opacity calc(var(--time) + 1s) cubic-bezier(.2,0,.2,1); }
 
+// Transition timing as we leave a screen
 .screen {
   gear-view span {             transition: transform 2.4s 0.0s cubic-bezier(.5, 0, 1, 0); }
   gear-view      { opacity: 0; transition: opacity   1.2s 0.8s linear; }
@@ -15,6 +17,7 @@
   a[back-button] {             transition: opacity   0.2s 0.0s linear; }
 }
 
+// Transition timing as we enter a screen
 .screen[is-showing] {
   gear-view span {             transition: transform 3.2s calc(var(--time) - 2.0s) cubic-bezier(0, 1, 0.5, 1); }
   gear-view      { opacity: 1; transition: opacity   2.8s calc(var(--time) - 1.6s) linear; }
@@ -25,9 +28,4 @@
   setup-button   { opacity: 1; transition: opacity   0.8s calc(var(--time) - 0.2s) linear; }
   a              { opacity: 1; transition: opacity   0.6s calc(var(--time) - 0.1s) linear; }
   a[back-button] {             transition: opacity   0.6s calc(var(--time) - 0.0s) linear; }
-}
-
-[env-mac="true"] .screen[is-showing] gear-view {
-  opacity: .4;
-  @media(prefers-color-scheme: dark) { opacity: .7; }
 }

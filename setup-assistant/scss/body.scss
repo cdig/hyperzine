@@ -3,6 +3,8 @@ body {
 
   -webkit-app-region: drag;
   .ui, setup-button, a, input { -webkit-app-region: no-drag; }
+
+  transition: background-color calc(var(--time)) linear;
 }
 
 body[env-mac="true"] {

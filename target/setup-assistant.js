@@ -1,14 +1,17 @@
-// setup-assistant/coffee/gear-view.coffee
-// We keep this separate from the main setup-assistant.coffee so that it can run immediately, and not wait on other systems like IPC
-var indexOf = [].indexOf;
+  // setup-assistant/coffee/gear-view.coffee
+  // We keep this separate from the main setup-assistant.coffee so that it can run immediately, and not wait on other systems like IPC
+var shell,
+  indexOf = [].indexOf;
 
 Take(["GearView"], function(GearView) {
   return GearView(60, -99);
 });
 
 // setup-assistant/setup-assistant.coffee
+({shell} = require("electron"));
+
 Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read"], function(DOOM, Env, IPC, Log, Memory, Read) {
-  var clearFocus, click, elm, elms, focus, i, inputIsFocused, inputs, len, localNameValid, n, previousInputValue, q, ref, resetValue, to, wait;
+  var apiTokenValid, clearFocus, click, elm, elms, fieldHint, focus, i, inputIsFocused, inputs, len, localNameValid, n, previousInputValue, q, ref, resetValue, to, updateApiTokenButtons, wait;
   previousInputValue = null;
   q = function(k) {
     return document.querySelector(k); // Ugh so repetitive
@@ -17,6 +20,7 @@ Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read"], function(DOOM, Env, IPC, L
     pathReason: q("[path-reason]"),
     dataFolder: q("[data-folder]"),
     localName: q("[local-name]"),
+    apiToken: q("[api-token]"),
     existingAssets: q("[existing-assets]")
   };
   inputs = [];
@@ -167,10 +171,51 @@ Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read"], function(DOOM, Env, IPC, L
     }
     // TODO: check whether any assets already exist using the local name. If so, show a warning. Otherwise...
     Memory.change("localName", v);
+    return to("api-token")();
+  });
+  // API Token
+  click("#api-token [back-button]", to("local-name"));
+  fieldHint = "Paste API Token Here";
+  apiTokenValid = function() {
+    var v;
+    v = elms.apiToken.textContent.trim();
+    return v !== "" && v !== fieldHint;
+  };
+  updateApiTokenButtons = function(e) {
+    var valid;
+    valid = apiTokenValid();
+    DOOM(q("#api-token [get-a-token]"), {
+      display: valid ? "none" : "block"
+    });
+    return DOOM(q("#api-token [next-button]"), {
+      display: valid ? "block" : "none"
+    });
+  };
+  elms.apiToken.addEventListener("focus", function() {
+    if (!apiTokenValid()) {
+      return elms.apiToken.textContent = "";
+    }
+  });
+  elms.apiToken.addEventListener("blur", function() {
+    if (!apiTokenValid()) {
+      return elms.apiToken.textContent = fieldHint;
+    }
+  });
+  elms.apiToken.addEventListener("input", updateApiTokenButtons);
+  elms.apiToken.addEventListener("change", updateApiTokenButtons);
+  Memory.subscribe("apiToken", true, function(v) {
+    elms.apiToken.textContent = v || fieldHint;
+    return updateApiTokenButtons();
+  });
+  click("#api-token [get-a-token]", function() {
+    return shell.openExternal("https://www.lunchboxsessions.com/admin/api-tokens");
+  });
+  click("#api-token [next-button]", function() {
+    Memory.change("apiToken", elms.apiToken.textContent.trim());
     return to("setup-done")();
   });
   // Setup Done
-  click("#setup-done [back-button]", to("local-name"));
+  click("#setup-done [back-button]", to("api-token"));
   return click("#setup-done [next-button]", function() {
     Memory.change("setupDone", true);
     IPC.send("config-ready");

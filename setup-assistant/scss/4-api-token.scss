@@ -1,0 +1,46 @@
+body.api-token {
+  .screen::after { // LBS blue gradient background
+    opacity: 1;
+    transition: opacity calc(var(--time) + 5s) cubic-bezier(.6,0,.7,1);
+  }
+
+  #bg svg {
+    transform: rotate(0deg) translate(0, 0);
+    .a { transform: translate(-390px, -720px) scale(.5, .25); }
+    .b { transform: translate(360px, 660px) scale(.5, 1); fill: #f0f5 }
+    .c { transform: translate(-160px, -810px) scale(.5, .25); fill: #0f05; }
+  }
+}
+
+#api-token {
+  font-family: "LBSLato";
+
+  h1, p, a, setup-button {
+    color: white;
+    mix-blend-mode: normal;
+  }
+
+  .field {
+    width: 28em;
+    height: 48px;
+    font-size: 1.1em;
+    font-family: monospace;
+    text-align: center;
+    word-break: break-all;
+    color: black;
+    background: white;
+    box-shadow: none;
+  }
+
+  setup-button {
+    border: none;
+    padding: .6em .8em;
+    background-color: var(--bg-xl);
+  }
+
+  [next-button] {
+    display: none;
+    color: black;
+    background-color: var(--yellow);
+  }
+}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.lunchboxsessions.com http://localhost:* ws://localhost:* data: 'unsafe-inline' 'unsafe-eval'">
   <link href="common.css" rel="stylesheet">
   <link href="setup-assistant.css" rel="stylesheet">
   <script src="d3-color.min.js" defer></script>
@@ -22,7 +22,7 @@
   </rainbow-clouds>
 
   <div class="screen" id="welcome">
-    <div><gear-view></gear-view></div>
+    <gear-view></gear-view>
     <h1>Hyperzine</h1>
     <div class="buttons">
       <setup-button back-button quit-button>Quit</setup-button>
@@ -32,9 +32,9 @@
 
   <div class="screen" id="data-folder">
     <h1>Data Folder</h1>
-      <p>Hyperzine needs a place to store data.</p>
-      <p path-reason></p>
-      <div class="field" data-folder></div>
+    <p>Hyperzine needs a place to store data.</p>
+    <p path-reason></p>
+    <div class="field" data-folder></div>
     <setup-button next-button>Looks Good To Me</setup-button>
     <a select-folder>Select a different folder?</a>
     <div class="buttons">
@@ -44,11 +44,11 @@
 
   <div class="screen" id="path-error">
     <h1>Nietzsche!</h1>
-      <h3>You selected a folder that doesn't exist.</h3>
-      <p>Please go back and select a different folder.</p>
-      <br>
-      <p><small>"How do you give a solipsist an existential crisis?<br>
-      ...You tell me."</small></p>
+    <h3>You selected a folder that doesn't exist.</h3>
+    <p>Please go back and select a different folder.</p>
+    <br>
+    <p><small>"How do you give a solipsist an existential crisis?<br>
+    ...You tell me."</small></p>
     <div class="buttons">
       <a back-button>Back</a>
     </div>
@@ -56,10 +56,10 @@
 
   <div class="screen" id="existing-assets">
     <h1>Existing Assets</h1>
-      <p>Hyperzine has scanned the selected folder for assets.</p>
-      <p>If everything looks good, you can proceed.</p>
-      <h3 existing-assets></h3>
-      <setup-button next-button>Seems Good</setup-button>
+    <p>Hyperzine has scanned the data folder for assets.</p>
+    <p>If everything looks good, you can proceed.</p>
+    <h3 existing-assets></h3>
+    <setup-button next-button>Seems Good</setup-button>
     <div class="buttons">
       <a back-button>Back</a>
     </div>
@@ -67,23 +67,38 @@
 
   <div class="screen" id="local-name">
     <h1>Local Name</h1>
-      <p>
-        Hyperzine needs a unique name on each computer.<br>
-        If the same name is used on two computers,<br>
-        this can lead to sync conflicts.
-      </p>
-      <p>Enter a unique name for this computer:</p>
-      <div class="field" local-name contenteditable autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+    <p>
+      Hyperzine needs a unique name on each computer.<br>
+      If the same name is used on two computers,<br>
+      this can lead to sync conflicts.
+    </p>
+    <p>Enter a unique name:</p>
+    <div class="field" local-name contenteditable autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
     <setup-button next-button>That's My Name</setup-button>
     <div class="buttons">
       <a back-button>Back</a>
     </div>
   </div>
 
+  <div class="screen" id="api-token">
+    <h1>API Token</h1>
+    <p>
+      To integrate with LunchBox Sessions,<br>
+      Hyperzine needs your API token.<br>
+      Ask Ivan or Owen for help.
+    </p>
+    <div class="field" api-token contenteditable autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+    <setup-button get-a-token>Get Your Token</setup-button>
+    <setup-button next-button>Secret Handshake</setup-button>
+    <div class="buttons">
+      <a back-button>Back</a>
+    </div>
+  </div>
+
+
   <div class="screen" id="setup-done">
-    <h1>🍰</h1>
-    <h3>Hyperzine is Ready</h3>
-    <setup-button next-button>Piece of Cake!</setup-button>
+    <gear-view></gear-view>
+    <setup-button next-button>Finish Setup</setup-button>
     <div class="buttons">
       <a back-button>Back</a>
     </div>

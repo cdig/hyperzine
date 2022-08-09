@@ -1,9 +1,10 @@
 .field {
+  width: auto;
+  max-width: 100%;
   margin-top: .3em;
-  margin-bottom: .7em;
+  margin-bottom: 1.5em;
   opacity: 0;
-}
 
-[env-mac="false"] .field {
-  color: var(--text-color);
+  --page-bg: white;
+  @media(prefers-color-scheme: dark) { --page-bg: black; }
 }

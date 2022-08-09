@@ -2,5 +2,11 @@ body.data-folder {
   #bg svg {
     transform: rotate(-20deg) translate(0, 250px);
     g { transform: translate(0, -550px) scale(5); }
+
+    @media(prefers-color-scheme: dark) {
+      // Give the gears a little more time to disappear
+      transition: transform calc(var(--time) + 15s) cubic-bezier(.6,0,.7,1);
+      g   { transition: transform calc(var(--time) + 15s) cubic-bezier(.2,0,.2,1), fill calc(var(--time) - 1s) linear; }
+    }
   }
 }

@@ -143,11 +143,29 @@ files-pane {
 }
 
 /* asset/components/meta-pane/add-note.scss */
-add-note {
-  display: block;
-  margin: 2em 1em 0;
+[add-note] {
+  margin: 2em 0 0;
 }
 
+/* asset/components/meta-pane/asset-history.scss */
+asset-history {
+  display: block;
+}
+asset-history .note {
+  margin: 0.5em 0;
+  padding: 0.2em;
+}
+asset-history .note .meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em 0 0;
+  font-size: 0.85em;
+  color: var(--meta-text);
+}
+asset-history .note .meta .date {
+  display: inline-block;
+  margin-left: 1em;
+}
 /* asset/components/meta-pane/asset-name.scss */
 meta-pane asset-name.field {
   font-size: 1.2em;
@@ -176,8 +194,8 @@ meta-pane asset-thumbnail img {
 
 /* asset/components/meta-pane/details.scss */
 #details {
-  display: inline-block;
   margin: 0 1em;
+  min-width: 18em;
 }
 
 /* asset/components/meta-pane/meta-pane.scss */
@@ -185,6 +203,14 @@ meta-pane {
   display: block;
   padding-top: calc(86px + 0.5em);
   overflow: hidden;
+  overflow-y: scroll;
+}
+meta-pane input {
+  position: relative;
+  width: 100%;
+}
+meta-pane input:focus {
+  z-index: 2;
 }
 
 /* asset/components/meta-pane/tag-entry.scss */
@@ -192,11 +218,6 @@ tag-entry {
   position: relative;
   display: block;
   margin-top: 0.4em;
-}
-tag-entry input {
-  position: relative;
-  width: 100%;
-  z-index: 2;
 }
 tag-entry:after {
   content: "";
@@ -237,11 +258,11 @@ tag-entry suggestion-list .tag span {
   position: relative;
 }
 tag-entry suggestion-list .tag .hint {
-  display: inline-block;
   position: absolute;
   left: 0;
   top: 0;
-  padding: 1.6em 0.4em 0.2em;
+  width: 100%;
+  padding: 1.8em 0.4em 0.2em;
   background: var(--meta-bg);
   z-index: 3;
 }
@@ -258,7 +279,7 @@ tag-entry suggestion-list [rainbow-before]::before {
 /* asset/components/meta-pane/tag-list.scss */
 tag-list {
   max-width: 30em;
-  margin-top: 0.9em;
+  margin-top: 1.9em;
 }
 
 /* asset/components/title-bar/gears.scss */

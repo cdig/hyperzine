@@ -5,6 +5,14 @@ body.welcome #bg svg {
 body.welcome #bg svg g {
   transform: translate(0, -460px) scale(2, 0.8);
 }
+body.welcome #welcome gear-view {
+  opacity: 0.4;
+}
+@media (prefers-color-scheme: dark) {
+  body.welcome #welcome gear-view {
+    opacity: 0.7;
+  }
+}
 body.welcome #welcome gear-view span {
   transform: scale(1) rotate(0deg);
 }
@@ -12,11 +20,26 @@ body.welcome #welcome gear-view span {
 #welcome {
   display: block;
 }
+#welcome gear-view {
+  top: 1.5em;
+}
 #welcome h1 {
-  top: 5.5em;
+  top: 16rem;
+  font-size: 3.5em;
 }
 #welcome setup-button {
   font-size: 1.2em;
+}
+
+[env-mac=true] #welcome h1 {
+  color: #333;
+  mix-blend-mode: color-dodge;
+}
+@media (prefers-color-scheme: dark) {
+  [env-mac=true] #welcome h1 {
+    color: #bbb;
+    mix-blend-mode: color-dodge;
+  }
 }
 
 /* setup-assistant/scss/1-data-folder.scss */
@@ -25,6 +48,14 @@ body.data-folder #bg svg {
 }
 body.data-folder #bg svg g {
   transform: translate(0, -550px) scale(5);
+}
+@media (prefers-color-scheme: dark) {
+  body.data-folder #bg svg {
+    transition: transform calc(var(--time) + 15s) cubic-bezier(0.6, 0, 0.7, 1);
+  }
+  body.data-folder #bg svg g {
+    transition: transform calc(var(--time) + 15s) cubic-bezier(0.2, 0, 0.2, 1), fill calc(var(--time) - 1s) linear;
+  }
 }
 
 /* setup-assistant/scss/1a-path-error.scss */
@@ -60,24 +91,102 @@ body.local-name #bg svg g {
   transform: translate(0, -200px) scale(3);
 }
 
-/* setup-assistant/scss/4-setup-done.scss */
-body.setup-done #bg svg {
-  transform: rotate(0deg) translate(0, 0px);
+/* setup-assistant/scss/4-api-token.scss */
+body.api-token .screen::after {
+  opacity: 1;
+  transition: opacity calc(var(--time) + 5s) cubic-bezier(0.6, 0, 0.7, 1);
 }
-body.setup-done #bg svg g {
-  transform: translate(0, 200px) scale(1, 8);
+body.api-token #bg svg {
+  transform: rotate(0deg) translate(0, 0);
+}
+body.api-token #bg svg .a {
+  transform: translate(-390px, -720px) scale(0.5, 0.25);
+}
+body.api-token #bg svg .b {
+  transform: translate(360px, 660px) scale(0.5, 1);
+  fill: rgba(255, 0, 255, 0.3333333333);
+}
+body.api-token #bg svg .c {
+  transform: translate(-160px, -810px) scale(0.5, 0.25);
+  fill: rgba(0, 255, 0, 0.3333333333);
 }
 
-#setup-done h1 {
-  font-size: 10em;
+#api-token {
+  font-family: "LBSLato";
 }
-#setup-done h3 {
-  font-size: 1.2em;
-  margin: 7em 0 1em;
+#api-token h1, #api-token p, #api-token a, #api-token setup-button {
+  color: white;
+  mix-blend-mode: normal;
+}
+#api-token .field {
+  width: 28em;
+  height: 48px;
+  font-size: 1.1em;
+  font-family: monospace;
+  text-align: center;
+  word-break: break-all;
+  color: black;
+  background: white;
+  box-shadow: none;
+}
+#api-token setup-button {
+  border: none;
+  padding: 0.6em 0.8em;
+  background-color: var(--bg-xl);
+}
+#api-token [next-button] {
+  display: none;
+  color: black;
+  background-color: var(--yellow);
+}
+
+/* setup-assistant/scss/5-setup-done.scss */
+@media (prefers-color-scheme: dark) {
+  body.setup-done {
+    background-color: black;
+  }
+}
+body.setup-done #bg svg {
+  transform: rotate(0deg) translate(0, 0);
+}
+body.setup-done #bg svg g {
+  transform: translate(0, -500px) scale(0.25, 0.25);
+  transition: transform calc(var(--time) - 1s) cubic-bezier(0.5, 0, 0, 1), fill calc(var(--time) - 1s) linear;
+}
+body.setup-done #setup-done gear-view {
+  opacity: 1;
+  transition: opacity 3s calc(var(--time) - 1.5s) linear;
+}
+body.setup-done #setup-done gear-view span {
+  transform: scale(1) rotate(700deg);
+  transition: transform 3.2s calc(var(--time) - 1.5s) cubic-bezier(0, 1, 0.5, 1);
+}
+
+#setup-done .screen::after {
+  transition: opacity calc(var(--time) - 0.5s) cubic-bezier(0.2, 0, 0.2, 1);
+}
+#setup-done gear-view {
+  top: 0.5em;
+  font-size: 1.8em;
+  mix-blend-mode: normal;
+  filter: none;
+}
+#setup-done gear-view div {
+  background-image: var(--white-gear);
+  animation: gear-spin 41s infinite cubic-bezier(0.8, -0.05, 0.2, 1.05) alternate;
+}
+#setup-done [next-button] {
+  margin-top: 19em;
 }
 
 [env-mac=true] #setup-done h1 {
-  mix-blend-mode: overlay;
+  color: #555;
+  mix-blend-mode: color-dodge;
+}
+@media (prefers-color-scheme: dark) {
+  [env-mac=true] #setup-done h1 {
+    color: #aaa;
+  }
 }
 
 /* setup-assistant/scss/a.scss */
@@ -92,6 +201,7 @@ a {
 body {
   text-align: center;
   -webkit-app-region: drag;
+  transition: background-color calc(var(--time)) linear;
 }
 body .ui, body setup-button, body a, body input {
   -webkit-app-region: no-drag;
@@ -121,20 +231,25 @@ body[env-mac=false] {
 
 /* setup-assistant/scss/field.scss */
 .field {
+  width: auto;
+  max-width: 100%;
   margin-top: 0.3em;
-  margin-bottom: 0.7em;
+  margin-bottom: 1.5em;
   opacity: 0;
+  --page-bg: white;
 }
-
-[env-mac=false] .field {
-  color: var(--text-color);
+@media (prefers-color-scheme: dark) {
+  .field {
+    --page-bg: black;
+  }
 }
 
 /* setup-assistant/scss/gear-view.scss */
 gear-view {
+  position: absolute;
+  left: calc(50% - 7em);
   width: 14em;
   height: 14em;
-  margin: 1em 0 0.3em;
   animation: outer-spin 31s infinite linear;
   opacity: 0;
 }
@@ -149,7 +264,7 @@ gear-view span {
 
 [env-mac=true] gear-view {
   mix-blend-mode: plus-lighter;
-  filter: drop-shadow(0px 0px 12px #AAA);
+  filter: drop-shadow(0px 0px 32px #AAA);
 }
 @media (prefers-color-scheme: dark) {
   [env-mac=true] gear-view div {
@@ -169,7 +284,7 @@ gear-view span {
 h1 {
   position: absolute;
   left: 0;
-  top: 5rem;
+  top: 6rem;
   width: 100%;
   font-size: 3em;
   font-weight: 900;
@@ -178,11 +293,12 @@ h1 {
 
 [env-mac=true] h1 {
   color: #333;
-  mix-blend-mode: color-dodge;
+  mix-blend-mode: color-burn;
 }
 @media (prefers-color-scheme: dark) {
   [env-mac=true] h1 {
     color: #bbb;
+    mix-blend-mode: color-dodge;
   }
 }
 
@@ -219,6 +335,7 @@ rainbow-clouds {
   left: 50%;
   transform: translate(-50%, -50%);
   filter: blur(32px) saturate(150%);
+  z-index: -3;
 }
 [env-mac=true] rainbow-clouds svg {
   will-change: transform;
@@ -279,12 +396,24 @@ rainbow-clouds {
   justify-content: center;
   align-items: center;
   flex-flow: column;
-  padding: 1em;
+  padding: 3em 1em 1em;
   pointer-events: none;
+}
+.screen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(50% - 600px);
+  width: 1200px;
+  height: 100%;
+  background-image: linear-gradient(to right, hsl(227deg, 45%, 40%), hsl(220deg, 50%, 50%), hsl(227deg, 45%, 40%));
+  z-index: -5;
+  opacity: 0;
 }
 
 /* setup-assistant/scss/setup-button.scss */
 setup-button {
+  display: inline-block;
   margin: 0 0.4em;
   padding: 0.4em 0.6em;
   border-radius: 4px;
@@ -292,17 +421,11 @@ setup-button {
   user-select: none;
   cursor: default;
   opacity: 0;
-}
-
-[env-mac=true] setup-button {
   color: var(--button-text);
+  background: var(--page-bg);
 }
-[env-mac=true] setup-button:active:hover {
-  background-color: rgba(153, 153, 153, 0.0666666667);
-}
-
-[env-mac=false] setup-button:active:hover {
-  background-color: rgba(255, 255, 255, 0.1333333333);
+setup-button:active:hover {
+  background-color: var(--meta-bg);
 }
 
 /* setup-assistant/scss/transitions.scss */
@@ -310,12 +433,16 @@ setup-button {
   --time: 3.0s;
 }
 
+#bg svg {
+  transition: transform calc(var(--time) + 2s) cubic-bezier(0.6, 0, 0.7, 1);
+}
+
 #bg g {
   transition: transform calc(var(--time) + 2s) cubic-bezier(0.2, 0, 0.2, 1), fill calc(var(--time) - 1s) linear;
 }
 
-#bg svg {
-  transition: transform calc(var(--time) + 2s) cubic-bezier(0.6, 0, 0.7, 1);
+.screen::after {
+  transition: opacity calc(var(--time) + 1s) cubic-bezier(0.2, 0, 0.2, 1);
 }
 
 .screen gear-view span {
@@ -386,13 +513,4 @@ setup-button {
 }
 .screen[is-showing] a[back-button] {
   transition: opacity 0.6s calc(var(--time) - 0s) linear;
-}
-
-[env-mac=true] .screen[is-showing] gear-view {
-  opacity: 0.4;
-}
-@media (prefers-color-scheme: dark) {
-  [env-mac=true] .screen[is-showing] gear-view {
-    opacity: 0.7;
-  }
 }

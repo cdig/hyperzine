@@ -1,4 +1,4 @@
-Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Paths", "PubSub", "Read", "State", "Validations", "Write"], (DB, DOOM, HoldToRun, IPC, Log, EditableField, OnScreen, Paths, {Pub}, Read, State, Validations, Write)->
+Take ["DB", "DOOM", "HoldToRun", "IPC", "Log", "OnScreen", "Paths", "PubSub", "Read", "State", "Validations", "Write"], (DB, DOOM, HoldToRun, IPC, Log, OnScreen, Paths, {Pub}, Read, State, Validations, Write)->
 
   Make.async "FileThumbnail", (parent, file)->
     elm = DOOM.create "div", parent,

@@ -1,3 +1,5 @@
+{ shell } = require "electron"
+
 Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read"], (DOOM, Env, IPC, Log, Memory, Read)->
 
   previousInputValue = null
@@ -8,6 +10,7 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read"], (DOOM, Env, IPC, Log, Memo
     pathReason: q "[path-reason]"
     dataFolder: q "[data-folder]"
     localName: q "[local-name]"
+    apiToken: q "[api-token]"
     existingAssets: q "[existing-assets]"
 
   inputs = []
@@ -134,10 +137,40 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read"], (DOOM, Env, IPC, Log, Memo
     return unless v.length and localNameValid()
     # TODO: check whether any assets already exist using the local name. If so, show a warning. Otherwise...
     Memory.change "localName", v
+    do to "api-token"
+
+  # API Token
+  click "#api-token [back-button]", to "local-name"
+
+  fieldHint = "Paste API Token Here"
+
+  apiTokenValid = ()->
+    v = elms.apiToken.textContent.trim()
+    v isnt "" and v isnt fieldHint
+
+  updateApiTokenButtons = (e)->
+    valid = apiTokenValid()
+    DOOM q("#api-token [get-a-token]"), display: if valid then "none" else "block"
+    DOOM q("#api-token [next-button]"), display: if valid then "block" else "none"
+
+  elms.apiToken.addEventListener "focus", ()-> elms.apiToken.textContent = "" unless apiTokenValid()
+  elms.apiToken.addEventListener "blur", ()-> elms.apiToken.textContent = fieldHint unless apiTokenValid()
+  elms.apiToken.addEventListener "input", updateApiTokenButtons
+  elms.apiToken.addEventListener "change", updateApiTokenButtons
+
+  Memory.subscribe "apiToken", true, (v)->
+    elms.apiToken.textContent = v or fieldHint
+    updateApiTokenButtons()
+
+  click "#api-token [get-a-token]", ()->
+    shell.openExternal("https://www.lunchboxsessions.com/admin/api-tokens")
+
+  click "#api-token [next-button]", ()->
+    Memory.change "apiToken", elms.apiToken.textContent.trim()
     do to "setup-done"
 
   # Setup Done
-  click "#setup-done [back-button]", to "local-name"
+  click "#setup-done [back-button]", to "api-token"
   click "#setup-done [next-button]", ()->
     Memory.change "setupDone", true
     IPC.send "config-ready"

@@ -2102,7 +2102,7 @@ Take(["DOOM"], function(DOOM) {
     setValue = function() {
       validate();
       if (elm._valid) {
-        return cb(elm.textContent);
+        return typeof cb === "function" ? cb(elm.textContent) : void 0;
       }
     };
     validate = function() {
@@ -2131,10 +2131,10 @@ Take(["DOOM"], function(DOOM) {
     });
     return elm.addEventListener("keydown", function(e) {
       switch (e.keyCode) {
-        case 13:
+        case 13: // return
           e.preventDefault();
           return elm.blur();
-        case 27:
+        case 27: // esc
           elm.textContent = startValue;
           e.preventDefault();
           return elm.blur();
@@ -2173,16 +2173,21 @@ Take(["IPC", "PubSub"], function(IPC, {Pub, Sub}) {
 // common/gear-view.coffee
 Take(["DOOM"], function(DOOM) {
   return Make("GearView", function(depth = 30, offset = -10, attrs = {}) {
-    var gearElm, gearsElm, i, m, ref;
-    gearsElm = document.querySelector("gear-view");
-    gearElm = gearsElm;
-    for (i = m = 0, ref = depth; (0 <= ref ? m <= ref : m >= ref); i = 0 <= ref ? ++m : --m) {
-      gearElm = DOOM.create("span", gearElm); // For special effects
-      gearElm = DOOM.create("div", gearElm, {
-        style: `animation-delay: ${offset}s`
-      });
+    var gearElm, gearsElm, i, len1, m, q, ref, ref1, results1;
+    ref = document.querySelectorAll("gear-view");
+    results1 = [];
+    for (m = 0, len1 = ref.length; m < len1; m++) {
+      gearsElm = ref[m];
+      gearElm = gearsElm;
+      for (i = q = 0, ref1 = depth; (0 <= ref1 ? q <= ref1 : q >= ref1); i = 0 <= ref1 ? ++q : --q) {
+        gearElm = DOOM.create("span", gearElm); // For special effects
+        gearElm = DOOM.create("div", gearElm, {
+          style: `animation-delay: ${offset}s`
+        });
+      }
+      results1.push(DOOM(gearsElm, attrs));
     }
-    return DOOM(gearsElm, attrs);
+    return results1;
   });
 });
 
@@ -2774,13 +2779,25 @@ Take(["Memory"], function(Memory) {
   };
 });
 
+// common/user-name.coffee
+Take(["Memory"], function(Memory) {
+  var elm;
+  elm = document.querySelector("user-name");
+  if (elm == null) {
+    return;
+  }
+  return Memory.subscribe("user", function(v) {
+    return elm.textContent = (v != null ? v.name : void 0) || "Not Logged In";
+  });
+});
+
 // common/validations.coffee
 Take([], function() {
   var Validations;
   return Make("Validations", Validations = {
     asset: {
       name: function(v) {
-        return -1 === v.search(/[.:\/\\]/);
+        return -1 === v.search(/[:\/\\]/) && v[0] !== ".";
       }
     },
     file: function(v) {

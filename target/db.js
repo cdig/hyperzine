@@ -294,6 +294,7 @@ Take(["ADSR", "Env", "Log", "Memory", "Read", "Write"], function(ADSR, Env, Log,
   var applyConfig, configData, save, setupSubscribers, updateAndSave;
   // This lists all the keys we'll persist in the config file, with their default values
   configData = {
+    apiToken: null,
     assetThumbnailSize: 0.5,
     browserThumbnailSize: 1,
     dataFolder: Env.defaultDataFolder,
@@ -349,7 +350,7 @@ Take(["ADSR", "Env", "Log", "Memory", "Read", "Write"], function(ADSR, Env, Log,
         setupSubscribers();
         // Loaded successfully — return true to launch normally, or false to run Setup Assistant
         return Boolean(configData.setupDone);
-      } catch (error) {
+      } catch (error1) {
         return null; // Fatal error
       }
     });
@@ -407,7 +408,7 @@ Take(["ADSR", "Env", "Log", "Read", "Write"], function(ADSR, Env, Log, Read, Wri
           }
         }
         return results;
-      } catch (error) {}
+      } catch (error1) {}
     });
   };
 });
@@ -676,6 +677,36 @@ Take(["LoadAssets", "Log", "Memory", "Read", "Write"], function(LoadAssets, Log,
       return LoadAssets();
     }
   });
+});
+
+// db/subscriptions/lbs-authentication.coffee
+Take(["Log", "Memory"], function(Log, Memory) {
+  var error;
+  Memory.subscribe("apiToken", function(v) {
+    if (v != null) {
+      return fetch("https://www.lunchboxsessions.com/hyperzine/api/login", {
+        headers: {
+          "X-LBS-API-TOKEN": v
+        }
+      }).then(function(res) {
+        if (res.ok) {
+          return res.json();
+        } else {
+          return error();
+        }
+      }).then(function(data) {
+        Log(`Logged in as ${data.name}`, {
+          color: "hsl(153, 80%, 41%)" // mint
+        });
+        return Memory.change("user", data);
+      }).catch(function(err) {
+        return error();
+      });
+    }
+  });
+  return error = function() {
+    return Log.err("Login failed");
+  };
 });
 
 // db/subscriptions/next-asset-number.coffee
@@ -1041,8 +1072,8 @@ Take(["Env", "IPC", "Job", "Log", "Memory", "Paths", "Read", "Write"], function(
         buf = image.toJPEG(91);
         Write.sync.file(dest, buf); // TODO: Should be async
         return resolve(dest);
-      } catch (error) {
-        err = error;
+      } catch (error1) {
+        err = error1;
         handleErr(subpath, err);
         return resolve(null);
       }

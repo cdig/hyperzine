@@ -1,9 +1,7 @@
-Take ["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList", "Validations"], (DB, ADSR, DOOM, Memory, MemoryField, MetaTools, Paths, State, TagList, Validations)->
+Take ["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Notes", "Paths", "State", "TagList", "Validations"], (DB, ADSR, DOOM, Memory, MemoryField, MetaTools, Notes, Paths, State, TagList, Validations)->
   metaPane = document.querySelector "meta-pane"
   assetThumbnail = metaPane.querySelector "asset-thumbnail"
   assetName = metaPane.querySelector "asset-name"
-  addNote = metaPane.querySelector "[add-note]"
-  assetHistory = metaPane.querySelector "[asset-history]"
   tagList = metaPane.querySelector "tag-list"
 
   removeTag = (tag)->
@@ -17,6 +15,7 @@ Take ["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "Stat
   Make "MetaPane", MetaPane =
     render: ()->
       asset = State "asset"
+      Notes.render()
       tagList.replaceChildren TagList asset, removeFn: removeTag
       MemoryField "assets.#{asset.id}.name", assetName,
         validate: Validations.asset.name

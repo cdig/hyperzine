@@ -6,9 +6,10 @@
   border-radius: 8px;
   text-align: left;
   font-weight: bold;
-  max-width: 100%;
+  width: 100%;
   word-wrap: break-word;
   background: var(--page-bg);
+  box-shadow: 0 .5em 1.25em -.25em var(--page-bg);
 
   &[contenteditable] {
     border: 2px solid #7771;
@@ -19,9 +20,4 @@
       border-color: var(--rainbow-focus);
     }
   }
-}
-
-[env-mac="true"] .field {
-  box-shadow: 0 .5em 1.25em -.25em var(--page-bg);
-  mix-blend-mode: hard-light;
 }

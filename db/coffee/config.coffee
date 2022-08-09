@@ -6,6 +6,7 @@ Take ["ADSR", "Env", "Log", "Memory", "Read", "Write"], (ADSR, Env, Log, Memory,
 
   # This lists all the keys we'll persist in the config file, with their default values
   configData =
+    apiToken: null
     assetThumbnailSize: 0.5
     browserThumbnailSize: 1
     dataFolder: Env.defaultDataFolder

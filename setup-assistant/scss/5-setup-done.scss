@@ -1,0 +1,55 @@
+body.setup-done {
+
+  @media(prefers-color-scheme: dark) {
+    background-color: black;
+  }
+
+  #bg svg {
+    transform: rotate(0deg) translate(0, 0);
+
+    g {
+      transform: translate(0, -500px) scale(.25, .25);
+      transition: transform calc(var(--time) - 1s) cubic-bezier(.5,0,0,1), fill calc(var(--time) - 1s) linear;
+    }
+  }
+
+  #setup-done {
+    gear-view {
+      opacity: 1;
+      transition: opacity   3.0s calc(var(--time) - 1.5s) linear;
+    }
+    gear-view span {
+      transform: scale(1) rotate(700deg);
+      transition: transform 3.2s calc(var(--time) - 1.5s) cubic-bezier(0, 1, 0.5, 1);
+    }
+  }
+}
+
+#setup-done {
+
+  .screen::after { transition: opacity calc(var(--time) - 0.5s) cubic-bezier(.2,0,.2,1); }
+
+  gear-view {
+    top: .5em;
+    font-size: 1.8em;
+    mix-blend-mode: normal;
+    filter: none;
+    div {
+      background-image: var(--white-gear);
+      animation: gear-spin 41s infinite cubic-bezier(.8, -0.05, .2, 1.05) alternate;
+    }
+  }
+
+  [next-button] {
+    margin-top: 19em;
+  }
+
+}
+
+[env-mac="true"] #setup-done h1 {
+  color: #555;
+  mix-blend-mode: color-dodge;
+  @media (prefers-color-scheme: dark) {
+    color: #aaa;
+  }
+}

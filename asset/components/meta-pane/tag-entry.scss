@@ -3,12 +3,6 @@ tag-entry {
   display: block;
   margin-top: .4em;
 
-  input {
-    position: relative;
-    width: 100%;
-    z-index: 2;
-  }
-
   &:after {
     content: "";
     display: block;
@@ -54,11 +48,11 @@ tag-entry {
       }
 
       .hint {
-        display: inline-block;
         position: absolute;
         left: 0;
         top: 0;
-        padding: 1.6em .4em .2em;
+        width: 100%;
+        padding: 1.8em .4em .2em;
         background: var(--meta-bg);
         z-index: 3;
       }

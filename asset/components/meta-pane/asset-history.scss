@@ -1,0 +1,25 @@
+asset-history {
+  display: block;
+
+  .note {
+    margin: .5em 0;
+    padding: .2em;
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      margin: .5em 0 0;
+      font-size: 0.85em;
+      color: var(--meta-text);
+
+      .date {
+        display: inline-block;
+        margin-left: 1em;
+      }
+    }
+
+    .text {
+
+    }
+  }
+}

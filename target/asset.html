@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.lunchboxsessions.com http://localhost:* ws://localhost:* data: 'unsafe-inline' 'unsafe-eval'">
   <link href="common.css" rel="stylesheet">
   <link href="asset.css" rel="stylesheet">
   <script src="d3-color.min.js" defer></script>
@@ -62,10 +62,10 @@
           <input type="text" placeholder="Add Tag" autocomplete="off" autocorrect="off" autocapitalize="off">
           <suggestion-list></suggestion-list>
         </tag-entry>
-      </div>
 
-      <add-note>Notes Coming Soon</add-note>
-      <asset-history></asset-history>
+        <input add-note type="text" placeholder="Add Note" autocomplete="off" autocorrect="off" autocapitalize="off">
+        <asset-history></asset-history>
+      </div>
     </meta-pane>
   </main>
   <no-data>

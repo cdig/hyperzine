@@ -9,6 +9,7 @@ rainbow-clouds {
   left: 50%;
   transform: translate(-50%, -50%);
   filter: blur(32px) saturate(150%);
+  z-index: -3;
 
   svg {
     will-change: transform;

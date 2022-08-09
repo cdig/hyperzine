@@ -2,4 +2,15 @@ meta-pane {
   display: block;
   padding-top: calc(86px + .5em);
   overflow: hidden;
+  overflow-y: scroll;
+
+  input {
+    position: relative;
+    width: 100%;
+
+    &:focus {
+      z-index: 2;
+    }
+  }
+
 }

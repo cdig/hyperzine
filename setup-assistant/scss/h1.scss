@@ -1,7 +1,7 @@
 h1 {
   position: absolute;
   left: 0;
-  top: 5rem;
+  top: 6rem;
   width: 100%;
   font-size: 3em;
   font-weight: 900;
@@ -10,8 +10,10 @@ h1 {
 
 [env-mac="true"] h1 {
   color: #333;
-  mix-blend-mode: color-dodge;
+  mix-blend-mode: color-burn;
+
   @media (prefers-color-scheme: dark) {
     color: #bbb;
+    mix-blend-mode: color-dodge;
   }
 }

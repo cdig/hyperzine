@@ -12,6 +12,7 @@ Take ["Env", "MainState"], (Env, MainState)->
     webPreferences:
       contextIsolation: false
       nodeIntegration: true
+      sandbox: false
       scrollBounce: true
       backgroundThrottling: false
       nativeWindowOpen: false # This is changing to true by default in Electron 15

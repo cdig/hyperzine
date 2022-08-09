@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-inline' 'unsafe-eval'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.lunchboxsessions.com http://localhost:* ws://localhost:* data: 'unsafe-inline' 'unsafe-eval'">
   <link href="common.css" rel="stylesheet">
   <link href="db.css" rel="stylesheet">
   <script src="d3-color.min.js" defer></script>
@@ -21,6 +21,7 @@
     <window-top-rainbow rainbow-before></window-top-rainbow>
     <title-bar>
       Debug Log
+      <div>LBS User: <user-name></user-name></div>
       <adsr-status></adsr-status>
       <job-status><div></div><div></div></job-status>
       <windows-menu class="ui">

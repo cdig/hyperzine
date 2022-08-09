@@ -224,7 +224,7 @@ Take(["DOOM", "File", "State"], function(DOOM, File, State) {
 });
 
 // asset/components/files-pane/file-thumbnail.coffee
-Take(["DB", "DOOM", "HoldToRun", "IPC", "Log", "EditableField", "OnScreen", "Paths", "PubSub", "Read", "State", "Validations", "Write"], function(DB, DOOM, HoldToRun, IPC, Log, EditableField, OnScreen, Paths, {Pub}, Read, State, Validations, Write) {
+Take(["DB", "DOOM", "HoldToRun", "IPC", "Log", "OnScreen", "Paths", "PubSub", "Read", "State", "Validations", "Write"], function(DB, DOOM, HoldToRun, IPC, Log, OnScreen, Paths, {Pub}, Read, State, Validations, Write) {
   var makeErrorGraphic, makeFolderGraphic, makeIconGraphic, makeImageGraphic, makeVideoGraphic, onscreen;
   Make.async("FileThumbnail", function(parent, file) {
     var elm;
@@ -366,13 +366,11 @@ Take(["DOOM", "FileInfo", "FileThumbnail", "Log"], function(DOOM, FileInfo, File
 });
 
 // asset/components/meta-pane/meta-pane.coffee
-Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "State", "TagList", "Validations"], function(DB, ADSR, DOOM, Memory, MemoryField, MetaTools, Paths, State, TagList, Validations) {
-  var MetaPane, addNote, assetHistory, assetName, assetThumbnail, metaPane, removeTag, renameAsset, tagList;
+Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Notes", "Paths", "State", "TagList", "Validations"], function(DB, ADSR, DOOM, Memory, MemoryField, MetaTools, Notes, Paths, State, TagList, Validations) {
+  var MetaPane, assetName, assetThumbnail, metaPane, removeTag, renameAsset, tagList;
   metaPane = document.querySelector("meta-pane");
   assetThumbnail = metaPane.querySelector("asset-thumbnail");
   assetName = metaPane.querySelector("asset-name");
-  addNote = metaPane.querySelector("[add-note]");
-  assetHistory = metaPane.querySelector("[asset-history]");
   tagList = metaPane.querySelector("tag-list");
   removeTag = function(tag) {
     var asset;
@@ -388,6 +386,7 @@ Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "Stat
     render: function() {
       var asset, img;
       asset = State("asset");
+      Notes.render();
       tagList.replaceChildren(TagList(asset, {
         removeFn: removeTag
       }));
@@ -401,6 +400,128 @@ Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Paths", "Stat
       return img.addEventListener("load", function() {
         return assetThumbnail.replaceChildren(img);
       });
+    }
+  });
+});
+
+// asset/components/meta-pane/notes.coffee
+Take(["DOOM", "EditableField", "Memory", "State"], function(DOOM, EditableField, Memory, State) {
+  var Notes, addNote, assetHistory, cancel, datetimeFormatFar, error, makeNote, noteList, refresh, refreshing, submit;
+  addNote = document.querySelector("[add-note]");
+  assetHistory = document.querySelector("asset-history");
+  addNote.addEventListener("keydown", function(e) {
+    switch (e.keyCode) {
+      case 13: // return
+        return submit(addNote.value.trim());
+      case 27: // esc
+        return cancel();
+    }
+  });
+  error = function() {
+    return DOOM(addNote, {
+      disabled: "",
+      opacity: .5,
+      value: "An error occurred while loading notes."
+    });
+  };
+  cancel = function() {
+    addNote.value = "";
+    return addNote.blur();
+  };
+  submit = function(text) {
+    var asset;
+    if (text === "") {
+      return cancel();
+    }
+    addNote.value = "";
+    asset = State("asset");
+    return fetch("https://www.lunchboxsessions.com/hyperzine/api/notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-LBS-API-TOKEN": Memory("apiToken")
+      },
+      body: JSON.stringify({
+        asset_id: asset.id,
+        text: text
+      })
+    }).then(function(res) {
+      if (res.ok) {
+        return refresh();
+      } else {
+        return error();
+      }
+    }).catch(function(err) {
+      return error();
+    });
+  };
+  noteList = function({notes, users}) {
+    var frag, j, len, noteData;
+    frag = new DocumentFragment();
+    for (j = 0, len = notes.length; j < len; j++) {
+      noteData = notes[j];
+      frag.append(makeNote(noteData, users));
+    }
+    return frag;
+  };
+  datetimeFormatFar = new Intl.DateTimeFormat(void 0, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric"
+  });
+  makeNote = function([noteId, userId, createdAt, noteText], users) {
+    var elm, meta;
+    elm = DOOM.create("div", null, {
+      class: "note",
+      noteId: noteId
+    });
+    DOOM.create("div", elm, {
+      class: "text",
+      textContent: noteText
+    });
+    meta = DOOM.create("div", elm, {
+      class: "meta"
+    });
+    DOOM.create("span", meta, {
+      class: "user",
+      textContent: users[userId]
+    });
+    DOOM.create("span", meta, {
+      class: "date",
+      textContent: datetimeFormatFar.format(Date.parse(createdAt))
+    });
+    return elm;
+  };
+  refreshing = false;
+  refresh = function() {
+    var asset;
+    if (refreshing) {
+      return;
+    }
+    refreshing = true;
+    asset = State("asset");
+    return fetch(`https://www.lunchboxsessions.com/hyperzine/api/notes/${asset.id}`, {
+      headers: {
+        "X-LBS-API-TOKEN": Memory("apiToken")
+      }
+    }).then(function(res) {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return error();
+      }
+    }).then(function(data) {
+      assetHistory.replaceChildren(noteList(data));
+      return refreshing = false;
+    }).catch(function(err) {
+      return error();
+    });
+  };
+  return Make("Notes", Notes = {
+    render: function() {
+      return refresh();
     }
   });
 });

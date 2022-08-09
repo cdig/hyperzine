@@ -5,6 +5,11 @@ body.welcome {
   }
 
   #welcome {
+    gear-view {
+      opacity: .4;
+      @media(prefers-color-scheme: dark) { opacity: .7; }
+    }
+
     gear-view span { transform: scale(1) rotate(0deg); }
   }
 }
@@ -12,9 +17,25 @@ body.welcome {
 #welcome {
   display: block;
 
-  h1 {
-    top: 5.5em;
+  gear-view {
+    top: 1.5em;
   }
 
-  setup-button { font-size: 1.2em; }
+  h1 {
+    top: 16rem;
+    font-size: 3.5em;
+  }
+
+  setup-button {
+    font-size: 1.2em;
+  }
+}
+
+[env-mac="true"] #welcome h1 {
+  color: #333;
+  mix-blend-mode: color-dodge;
+  @media (prefers-color-scheme: dark) {
+    color: #bbb;
+    mix-blend-mode: color-dodge;
+  }
 }

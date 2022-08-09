@@ -15,7 +15,7 @@ Take ["DOOM"], (DOOM)->
 
     setValue = ()->
       validate()
-      cb elm.textContent if elm._valid
+      cb? elm.textContent if elm._valid
 
     validate = ()->
       elm.textContent = elm.textContent.trim()
@@ -38,11 +38,11 @@ Take ["DOOM"], (DOOM)->
 
     elm.addEventListener "keydown", (e)->
       switch e.keyCode
-        when 13
+        when 13 # return
           e.preventDefault()
           elm.blur()
 
-        when 27
+        when 27 # esc
           elm.textContent = startValue
           e.preventDefault()
           elm.blur()
