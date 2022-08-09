@@ -158,7 +158,7 @@ Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read"], function(DOOM, Env, IPC, L
     return elms.localName.textContent = v;
   });
   localNameValid = function() {
-    return -1 === elms.localName.textContent.trim().search(/[^\w ]/);
+    return -1 === elms.localName.textContent.trim().search(/[^\w\d ]/);
   };
   elms.localName.addEventListener("input", function(e) {
     return elms.localName.className = localNameValid() ? "field" : "field invalid";

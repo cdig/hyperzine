@@ -6,7 +6,7 @@ Take [], ()->
 
   validFileName = (v)->
     return false if 0 is v.indexOf "." # Exclude dotfiles
-    return false if -1 isnt v.search /[<>:;,?"*|/\\]/ # Exclude names we won't be able to roundtrip
+    return false if -1 isnt v.search /[<>:?"*|/\\]/ # Exclude names we won't be able to roundtrip
     return true # Everything else is good
 
   validDirentName = (v)->

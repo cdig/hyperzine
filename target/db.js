@@ -787,11 +787,11 @@ Take(["Asset", "ADSR", "Job", "Log", "Memory", "Read"], function(Asset, ADSR, Jo
       });
       prevNewShot = asset.newShot;
       await Asset.loadFields(asset);
-      Log(asset.newShot, {
-        background: "hsl(150, 60%, 60%)"
-      });
       Log(prevNewShot, {
-        background: "hsl(250, 100%, 80%)"
+        background: "hsl(250, 100%, 80%)" // lavender
+      });
+      Log(asset.newShot, {
+        background: "hsl(150, 60%, 60%)" // mint
       });
       if (asset.newShot !== prevNewShot) {
         await Job(1, "Rebuild Asset Thumbnail", asset, true);

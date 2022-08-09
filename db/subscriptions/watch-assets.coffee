@@ -23,8 +23,8 @@ Take ["Asset", "ADSR", "Job", "Log", "Memory", "Read"], (Asset, ADSR, Job, Log, 
       Log "Reloading Asset: #{assetId}", color: "hsl(333, 50%, 50%)"
       prevNewShot = asset.newShot
       await Asset.loadFields asset
-      Log asset.newShot, background: "hsl(150, 60%, 60%)"
-      Log prevNewShot, background: "hsl(250, 100%, 80%)"
+      Log prevNewShot, background: "hsl(250, 100%, 80%)" # lavender
+      Log asset.newShot, background: "hsl(150, 60%, 60%)" # mint
       if asset.newShot isnt prevNewShot
         await Job 1, "Rebuild Asset Thumbnail", asset, true
       await Job 1, "Rebuild File Thumbnails", asset, true

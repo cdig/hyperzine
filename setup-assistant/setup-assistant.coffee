@@ -127,7 +127,7 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read"], (DOOM, Env, IPC, Log, Memo
     elms.localName.textContent = v
 
   localNameValid = ()->
-    return -1 is elms.localName.textContent.trim().search /[^\w ]/
+    return -1 is elms.localName.textContent.trim().search /[^\w\d ]/
 
   elms.localName.addEventListener "input", (e)->
     elms.localName.className = if localNameValid() then "field" else "field invalid"

@@ -4,7 +4,7 @@ Take ["Env", "Log", "Read"], (Env, Log, Read)->
   validPath = (v)->
     valid = true
     v = v.replace /^\\*[A-Z]:/, "" # Ignore the drive letter on Windows
-    valid = false if -1 isnt v.search /[<>:;,?"*|]/ # Exclude names we won't be able to roundtrip
+    valid = false if -1 isnt v.search /[<>:?"*|]/ # Exclude names we won't be able to roundtrip
     valid = false if v.length <= 1
     if not valid then Log.err "#{v} is not a valid file path"
     return valid
