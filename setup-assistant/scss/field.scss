@@ -4,7 +4,15 @@
   margin-top: .3em;
   margin-bottom: 1.5em;
   opacity: 0;
+}
 
+[env-mac="true"] .field {
   --page-bg: white;
   @media(prefers-color-scheme: dark) { --page-bg: black; }
+}
+
+[env-mac="false"] .field {
+  --page-bg: black;
+  color: black;
+  background: white;
 }

@@ -27,7 +27,7 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read"], (DOOM, Env, IPC, Log, Memo
   wait = ()->
     new Promise (resolve)->
       waitTime = parseInt document.documentElement.computedStyleMap().get("--time")[0]
-      setTimeout resolve, waitTime * 1000
+      setTimeout resolve, waitTime * 1000 - 500
 
   to = (n)-> ()->
     document.body.className = n
@@ -148,25 +148,47 @@ Take ["DOOM", "Env", "IPC", "Log", "Memory", "Read"], (DOOM, Env, IPC, Log, Memo
     v = elms.apiToken.textContent.trim()
     v isnt "" and v isnt fieldHint
 
-  updateApiTokenButtons = (e)->
-    valid = apiTokenValid()
-    DOOM q("#api-token [get-a-token]"), display: if valid then "none" else "block"
-    DOOM q("#api-token [next-button]"), display: if valid then "block" else "none"
+  updateApiToken = (e)->
+    if apiTokenValid()
+      Memory.change "apiToken", elms.apiToken.textContent.trim()
+    updateApiTokenUI()
+
+  updateApiTokenUI = (e)->
+    loginStatus = Memory "loginStatus"
+    DOOM q("#api-token [login-status]"), visibility: "hidden", textContent: loginStatus
+    DOOM q("#api-token [next-button]"), visibility: "hidden"
+    switch loginStatus
+      when "Not Logged In"
+        null
+      when "Logging In"
+        DOOM q("#api-token [login-status]"), visibility: "visible"
+      when "Logged In"
+        user = Memory "user"
+        DOOM q("#api-token [login-status]"), visibility: "visible", textContent: "Verified token belonging to #{user.name}"
+        DOOM q("#api-token [next-button]"), visibility: "visible", textContent: "Secret Handshake"
+      when "Failed to verify this API Token"
+        DOOM q("#api-token [login-status]"), visibility: "visible"
+        DOOM q("#api-token [next-button]"), visibility: "visible", textContent: "Skip"
 
   elms.apiToken.addEventListener "focus", ()-> elms.apiToken.textContent = "" unless apiTokenValid()
   elms.apiToken.addEventListener "blur", ()-> elms.apiToken.textContent = fieldHint unless apiTokenValid()
-  elms.apiToken.addEventListener "input", updateApiTokenButtons
-  elms.apiToken.addEventListener "change", updateApiTokenButtons
+  elms.apiToken.addEventListener "input", updateApiToken
+  elms.apiToken.addEventListener "change", updateApiToken
 
   Memory.subscribe "apiToken", true, (v)->
     elms.apiToken.textContent = v or fieldHint
-    updateApiTokenButtons()
+    updateApiToken()
+
+  Memory.subscribe "loginStatus", ()->
+    updateApiToken()
+
+  Memory.subscribe "user", ()->
+    updateApiToken()
 
   click "#api-token [get-a-token]", ()->
     shell.openExternal("https://www.lunchboxsessions.com/admin/api-tokens")
 
   click "#api-token [next-button]", ()->
-    Memory.change "apiToken", elms.apiToken.textContent.trim()
     do to "setup-done"
 
   # Setup Done

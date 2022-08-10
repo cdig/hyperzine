@@ -12,6 +12,10 @@ body.welcome {
 
     gear-view span { transform: scale(1) rotate(0deg); }
   }
+
+  &[env-mac="false"] #welcome gear-view {
+    opacity: 1;
+  }
 }
 
 #welcome {

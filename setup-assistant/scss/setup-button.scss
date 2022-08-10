@@ -7,8 +7,16 @@ setup-button {
   user-select: none;
   cursor: default;
   opacity: 0;
+}
+
+[env-mac="true"] setup-button {
   color: var(--button-text);
   background: var(--page-bg);
-
   &:active:hover { background-color: var(--meta-bg); }
+}
+
+[env-mac="false"] setup-button {
+  color: white;
+  background: none;
+  &:active:hover { background-color: #fff1; }
 }

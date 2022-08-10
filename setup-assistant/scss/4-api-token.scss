@@ -13,6 +13,7 @@ body.api-token {
 }
 
 #api-token {
+  padding-top: 5em;
   font-family: "LBSLato";
 
   h1, p, a, setup-button {
@@ -23,6 +24,7 @@ body.api-token {
   .field {
     width: 28em;
     height: 48px;
+    margin-bottom: .5rem;
     font-size: 1.1em;
     font-family: monospace;
     text-align: center;
@@ -33,14 +35,26 @@ body.api-token {
   }
 
   setup-button {
-    border: none;
+    margin-bottom: 1em;
     padding: .6em .8em;
+    border: none;
     background-color: var(--bg-xl);
+    cursor: pointer;
+    &:hover { background-color: hsl(219, 60%, 54%); }
+  }
+
+  [login-status] {
+    font-weight: 900;
   }
 
   [next-button] {
-    display: none;
+    margin-bottom: 0;
     color: black;
     background-color: var(--yellow);
+    &:hover { background-color: hsl(43, 100%, 47%); }
+  }
+
+  a {
+    cursor: pointer;
   }
 }

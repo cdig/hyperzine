@@ -11,7 +11,7 @@ Take(["GearView"], function(GearView) {
 ({shell} = require("electron"));
 
 Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read"], function(DOOM, Env, IPC, Log, Memory, Read) {
-  var apiTokenValid, clearFocus, click, elm, elms, fieldHint, focus, i, inputIsFocused, inputs, len, localNameValid, n, previousInputValue, q, ref, resetValue, to, updateApiTokenButtons, wait;
+  var apiTokenValid, clearFocus, click, elm, elms, fieldHint, focus, i, inputIsFocused, inputs, len, localNameValid, n, previousInputValue, q, ref, resetValue, to, updateApiToken, updateApiTokenUI, wait;
   previousInputValue = null;
   q = function(k) {
     return document.querySelector(k); // Ugh so repetitive
@@ -40,7 +40,7 @@ Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read"], function(DOOM, Env, IPC, L
     return new Promise(function(resolve) {
       var waitTime;
       waitTime = parseInt(document.documentElement.computedStyleMap().get("--time")[0]);
-      return setTimeout(resolve, waitTime * 1000);
+      return setTimeout(resolve, waitTime * 1000 - 500);
     });
   };
   to = function(n) {
@@ -181,15 +181,48 @@ Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read"], function(DOOM, Env, IPC, L
     v = elms.apiToken.textContent.trim();
     return v !== "" && v !== fieldHint;
   };
-  updateApiTokenButtons = function(e) {
-    var valid;
-    valid = apiTokenValid();
-    DOOM(q("#api-token [get-a-token]"), {
-      display: valid ? "none" : "block"
+  updateApiToken = function(e) {
+    if (apiTokenValid()) {
+      Memory.change("apiToken", elms.apiToken.textContent.trim());
+    }
+    return updateApiTokenUI();
+  };
+  updateApiTokenUI = function(e) {
+    var loginStatus, user;
+    loginStatus = Memory("loginStatus");
+    DOOM(q("#api-token [login-status]"), {
+      visibility: "hidden",
+      textContent: loginStatus
     });
-    return DOOM(q("#api-token [next-button]"), {
-      display: valid ? "block" : "none"
+    DOOM(q("#api-token [next-button]"), {
+      visibility: "hidden"
     });
+    switch (loginStatus) {
+      case "Not Logged In":
+        return null;
+      case "Logging In":
+        return DOOM(q("#api-token [login-status]"), {
+          visibility: "visible"
+        });
+      case "Logged In":
+        user = Memory("user");
+        DOOM(q("#api-token [login-status]"), {
+          visibility: "visible",
+          textContent: `Verified token belonging to ${user.name}`
+        });
+        return DOOM(q("#api-token [next-button]"), {
+          visibility: "visible",
+          textContent: "Secret Handshake"
+        });
+      case "Failed to verify this API Token":
+        DOOM(q("#api-token [login-status]"), {
+          visibility: "visible"
+        });
+        return DOOM(q("#api-token [next-button]"), {
+          visibility: "visible",
+          textContent: "Skip"
+        });
+    }
   };
   elms.apiToken.addEventListener("focus", function() {
     if (!apiTokenValid()) {
@@ -201,17 +234,22 @@ Take(["DOOM", "Env", "IPC", "Log", "Memory", "Read"], function(DOOM, Env, IPC, L
       return elms.apiToken.textContent = fieldHint;
     }
   });
-  elms.apiToken.addEventListener("input", updateApiTokenButtons);
-  elms.apiToken.addEventListener("change", updateApiTokenButtons);
+  elms.apiToken.addEventListener("input", updateApiToken);
+  elms.apiToken.addEventListener("change", updateApiToken);
   Memory.subscribe("apiToken", true, function(v) {
     elms.apiToken.textContent = v || fieldHint;
-    return updateApiTokenButtons();
+    return updateApiToken();
+  });
+  Memory.subscribe("loginStatus", function() {
+    return updateApiToken();
+  });
+  Memory.subscribe("user", function() {
+    return updateApiToken();
   });
   click("#api-token [get-a-token]", function() {
     return shell.openExternal("https://www.lunchboxsessions.com/admin/api-tokens");
   });
   click("#api-token [next-button]", function() {
-    Memory.change("apiToken", elms.apiToken.textContent.trim());
     return to("setup-done")();
   });
   // Setup Done
