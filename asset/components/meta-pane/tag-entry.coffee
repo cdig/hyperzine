@@ -8,11 +8,6 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], (DB, ADSR, DOOM, Memory
   firstIndex = 0
   lastIndex = 7
 
-  tagHints = {
-    "CDIG At Work": "Images of CDIG employees doing their jobs, either in the office or on site."
-    "Cartoon": "Things drawn in cartoon style — i.e. not photos, not drafting-style drawings."
-  }
-
   update = ()->
     hasInput = input.value?.length > 0
 
@@ -59,10 +54,10 @@ Take ["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], (DB, ADSR, DOOM, Memory
         tagElm.addEventListener "mousedown", (e)->
           setValue tag
 
-        if i is highlightIndex and tagHints[tag]
+        if i is highlightIndex and hint = Memory("Tag Descriptions.#{tag}")
           DOOM.create "div", tagElm,
             class: "hint",
-            textContent: tagHints[tag]
+            textContent: hint
             rainbowBefore: ""
 
     suggestionList.replaceChildren frag

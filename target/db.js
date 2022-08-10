@@ -491,14 +491,6 @@ Take(["DOOM", "Ports"], function(DOOM, Ports) {
   return Make("Printer", Printer);
 });
 
-// db/coffee/special-tags.coffee
-Take(["Memory"], function(Memory) {
-  var specialTags;
-  specialTags = {"Archived": "Archived"};
-  Memory.merge("tags", specialTags);
-  return Memory("specialTags", specialTags);
-});
-
 // db/db.coffee
 Take(["Config", "DBState", "IPC", "Log"], function(Config, DBState, IPC, Log) {
   var config;
@@ -909,6 +901,25 @@ Take(["Asset", "ADSR", "Job", "Log", "Memory", "Read"], function(Asset, ADSR, Jo
 
 //   Make "WriteAssets", WriteAssets =
 //     enable: (enable = true)-> enabled = enable
+
+// db/tags/special-tags.coffee
+Take(["Memory"], function(Memory) {
+  var specialTags;
+  specialTags = {"Archived": "Archived"};
+  Memory.merge("tags", specialTags);
+  return Memory("specialTags", specialTags);
+});
+
+// db/tags/tag-descriptions.coffee
+Take(["Log", "Memory", "Read"], function(Log, Memory, Read) {
+  return Memory.subscribe("dataFolder", true, function(dataFolder) {
+    var data, json, systemFolder;
+    if (dataFolder == null) {
+      return;
+    }
+    return systemFolder = (json = Read.file(Read.path(dataFolder, "System", "Tag Descriptions.json"))) ? (data = JSON.parse(json), Memory("Tag Descriptions", data)) : void 0;
+  });
+});
 
 // db/thumbnails/job-rebuild-asset-thumbnail.coffee
 Take(["Job", "Log", "Paths", "Read", "Thumbnail", "Write"], function(Job, Log, Paths, Read, Thumbnail, Write) {

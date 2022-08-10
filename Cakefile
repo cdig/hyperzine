@@ -208,4 +208,4 @@ task "deploy", "Use electron-forge to publish x64 and arm64 builds.", ()->
   execSync "electron-forge publish --arch=x64,arm64"
 
 task "open", "Launch the most recent deploy build of Hyperzine.", ()->
-  execSync "open ./Hyperzine-darwin-arm64/Hyperzine.app"
+  execSync "open ./out/Hyperzine-darwin-arm64/Hyperzine.app"

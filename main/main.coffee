@@ -24,7 +24,7 @@ Take ["Env", "Handlers", "IPC", "Log", "Menu", "MainState", "Updates", "Window"]
       "Node #{Env.versions.node.split(".")[0]}"
     ].join " • "
     version: ""
-    copyright: "Created by Ivan Reese\n© CD Industrial Group Inc."
+    copyright: "© CD Industrial Group Inc."
 
   # While we're waiting for electron to get ready, we can load our persisted main state (if any).
   MainState.init()

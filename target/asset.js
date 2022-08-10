@@ -528,17 +528,13 @@ Take(["DOOM", "EditableField", "Memory", "State"], function(DOOM, EditableField,
 
 // asset/components/meta-pane/tag-entry.coffee
 Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM, Memory, Paths, State) {
-  var fastUpdate, firstIndex, focused, highlightIndex, highlightNext, highlightPrev, input, lastIndex, setValue, slowUpdate, suggestionList, tagHints, update;
+  var fastUpdate, firstIndex, focused, highlightIndex, highlightNext, highlightPrev, input, lastIndex, setValue, slowUpdate, suggestionList, update;
   input = document.querySelector("tag-entry input");
   suggestionList = document.querySelector("tag-entry suggestion-list");
   focused = false;
   highlightIndex = 0;
   firstIndex = 0;
   lastIndex = 7;
-  tagHints = {
-    "CDIG At Work": "Images of CDIG employees doing their jobs, either in the office or on site.",
-    "Cartoon": "Things drawn in cartoon style — i.e. not photos, not drafting-style drawings."
-  };
   update = function() {
     var asset, frag, hasInput, i, j, len, matches, ref, scrollLimit, show, tag, truncateLimit, value;
     hasInput = ((ref = input.value) != null ? ref.length : void 0) > 0;
@@ -574,7 +570,7 @@ Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM
       tag = matches[i];
       if (i >= firstIndex && i <= lastIndex) {
         (function(tag, i) {
-          var rainbowElm, tagElm;
+          var hint, rainbowElm, tagElm;
           tagElm = DOOM.create("div", frag, {
             class: "tag"
           });
@@ -592,10 +588,10 @@ Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM
           tagElm.addEventListener("mousedown", function(e) {
             return setValue(tag);
           });
-          if (i === highlightIndex && tagHints[tag]) {
+          if (i === highlightIndex && (hint = Memory(`Tag Descriptions.${tag}`))) {
             return DOOM.create("div", tagElm, {
               class: "hint",
-              textContent: tagHints[tag],
+              textContent: hint,
               rainbowBefore: ""
             });
           }

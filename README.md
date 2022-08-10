@@ -14,20 +14,16 @@ git submodule update --init --recursive
 # Download from: https://github.com/electron/electron/releases/tag/
 # Then put it on your PATH, eg:
 export ELECTRON_OVERRIDE_DIST_PATH=~/Work/electron/arm64
-# (I just include this in my dotfiles)
 
 # Run:
-yarn start
-
-# And after that's done and begins watching, in another tab run:
-yarn electron
+cake start
 
 # Package
-yarn electron-forge package
-yarn electron-forge package --arch=arm64 # for Apple Silicon
+yarn electron-forge package --arch=x64 # Intel Mac
+yarn electron-forge package --arch=arm64 # Apple Silicon Mac
 
 # Deploy (publish) a new version
-yarn deploy
+cake deploy
 ```
 
 ### Standards
