@@ -3,8 +3,11 @@ Take ["Env"], (Env)->
   sortByName = (a, b)->
     a.name.localeCompare b.name
 
+  sortByDate = (a, b)->
+    b._dateModified - a._dateModified
+
   bail = (assets)->
-    Object.values(assets).sort sortByName
+    Object.values(assets).sort sortByDate
 
   matchesToken = (value, token)-> value?.length > 0 and token?.length > 0 and -1 isnt value.indexOf token
   matchesOp = (ref, op)-> not op? or op is ref

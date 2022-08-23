@@ -25,6 +25,7 @@ Take(["FileTree", "Paths", "Ports", "Memory", "Read"], function(FileTree, Paths,
         tags: [],
         files: FileTree.newEmpty(path, "Files"),
         thumbnails: {},
+        _dateModified: null,
         _loading: false
       };
       asset.search = Asset.load.search(asset);
@@ -74,6 +75,7 @@ Take(["FileTree", "Paths", "Ports", "Memory", "Read"], function(FileTree, Paths,
       asset.files = (await Asset.load.files(asset));
       asset.thumbnails = (await Asset.load.thumbnails(asset));
       asset.search = Asset.load.search(asset);
+      asset._dateModified = (await Asset.load.dateModified(asset));
       return asset;
     },
     load: {
@@ -115,6 +117,11 @@ Take(["FileTree", "Paths", "Ports", "Memory", "Read"], function(FileTree, Paths,
           files: Array.unique(FileTree.flat(asset.files, "basename")).map(searchPrep),
           exts: Array.unique(FileTree.flat(asset.files, "ext")).map(searchPrep)
         };
+      },
+      dateModified: async function(asset) {
+        var stats;
+        stats = (await Read.stat(asset.path));
+        return stats != null ? stats.mtimeMs : void 0;
       }
     }
   });

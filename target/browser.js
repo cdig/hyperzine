@@ -80,12 +80,15 @@ Take(["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Mem
 
 // browser/coffee/search.coffee
 Take(["Env"], function(Env) {
-  var Search, bail, computePoints, matchesOp, matchesToken, sortByName, tokenizeQueryText;
+  var Search, bail, computePoints, matchesOp, matchesToken, sortByDate, sortByName, tokenizeQueryText;
   sortByName = function(a, b) {
     return a.name.localeCompare(b.name);
   };
+  sortByDate = function(a, b) {
+    return b._dateModified - a._dateModified;
+  };
   bail = function(assets) {
-    return Object.values(assets).sort(sortByName);
+    return Object.values(assets).sort(sortByDate);
   };
   matchesToken = function(value, token) {
     return (value != null ? value.length : void 0) > 0 && (token != null ? token.length : void 0) > 0 && -1 !== value.indexOf(token);

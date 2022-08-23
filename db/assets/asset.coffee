@@ -18,6 +18,7 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
         tags: []
         files: FileTree.newEmpty path, "Files"
         thumbnails: {}
+        _dateModified: null
         _loading: false
       asset.search = Asset.load.search asset
       asset
@@ -63,6 +64,7 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
       asset.files = await Asset.load.files asset
       asset.thumbnails = await Asset.load.thumbnails asset
       asset.search = Asset.load.search asset
+      asset._dateModified = await Asset.load.dateModified asset
       asset
 
     load:
@@ -88,3 +90,6 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
         tags: Array.unique(asset.tags).map searchPrep
         files: Array.unique(FileTree.flat(asset.files, "basename")).map searchPrep
         exts: Array.unique(FileTree.flat(asset.files, "ext")).map searchPrep
+      dateModified: (asset)->
+        stats = await Read.stat asset.path
+        stats?.mtimeMs
