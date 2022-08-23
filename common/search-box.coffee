@@ -5,7 +5,7 @@ Take ["ADSR", "PubSub", "State"], (ADSR, {Pub, Sub}, State)->
 
   focused = false
 
-  State "search", tags: [], text: ""
+  State "search", tags: [], text: "", tagCandidate: null
 
   change = ADSR 1, 1, (e)-> State "search.text", elm.value
 

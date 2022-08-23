@@ -2696,7 +2696,8 @@ Take(["ADSR", "PubSub", "State"], function(ADSR, {Pub, Sub}, State) {
   focused = false;
   State("search", {
     tags: [],
-    text: ""
+    text: "",
+    tagCandidate: null
   });
   change = ADSR(1, 1, function(e) {
     return State("search.text", elm.value);
@@ -2738,11 +2739,11 @@ Take(["ADSR", "DOOM"], function(ADSR, DOOM) {
     firstIndex = 0;
     lastIndex = 7;
     update = function() {
-      var frag, i, len1, m, scrollLimit, show, suggestion, suggestions, truncateLimit;
+      var frag, i, len1, m, ref, scrollLimit, show, suggestion, suggestions, truncateLimit;
       suggestions = getSuggestions(input.value);
       frag = new DocumentFragment();
       // highlightIndex = (highlightIndex + suggestions.length) % (suggestions.length)
-      highlightIndex = Math.clip(highlightIndex, minHighlightIndex, suggestions.length);
+      highlightIndex = Math.clip(highlightIndex, minHighlightIndex, suggestions.length - 1);
       truncateLimit = 7; // how many results to show before truncating the list
       scrollLimit = 2; // when truncated, scroll the list if the highlight is this many spaces from the top
       if (highlightIndex + scrollLimit >= lastIndex) {
@@ -2753,6 +2754,9 @@ Take(["ADSR", "DOOM"], function(ADSR, DOOM) {
         firstIndex = Math.max(0, highlightIndex - scrollLimit);
       }
       lastIndex = Math.min(firstIndex + truncateLimit, suggestions.length - 1);
+      if (typeof opts.updateCandidate === "function") {
+        opts.updateCandidate((ref = suggestions[highlightIndex]) != null ? ref.text : void 0);
+      }
       for (i = m = 0, len1 = suggestions.length; m < len1; i = ++m) {
         suggestion = suggestions[i];
         if (i >= firstIndex && i <= lastIndex) {

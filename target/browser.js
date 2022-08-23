@@ -105,9 +105,6 @@ Take(["Env"], function(Env) {
   computePoints = function(asset, queryText, queryTokens, queryTags) {
     var ext, file, frac, j, k, l, len, len1, len2, len3, len4, len5, len6, m, n, o, p, points, queryTag, queryToken, ref1, ref2, ref3, ref4, ref5, tag, tagPart, tagPoints, tokenPoints;
     points = 0;
-    if (asset.id === "ChrisRazer 28") {
-      debugger;
-    }
     if (asset.search.id === queryText) {
       // We'll do any exact-match checking up here
       return 100;
@@ -185,6 +182,9 @@ Take(["Env"], function(Env) {
     queryTags = input.tags.map(function(t) {
       return t.toLowerCase();
     });
+    if (input.tagCandidate != null) {
+      queryTags.push(input.tagCandidate.toLowerCase());
+    }
     if (!(queryTokens.length > 0 || queryTags.length > 0)) {
       return bail(assets);
     }
@@ -533,7 +533,7 @@ Take(["DB", "DOOM", "IPC", "Log", "Memory"], function(DB, DOOM, IPC, Log, Memory
 
 // browser/components/search-box.coffee
 Take(["Memory", "State", "SuggestionList", "TagList"], function(Memory, State, SuggestionList, TagList) {
-  var chooseSuggestion, getSuggestions, input, removeTag, tagList;
+  var chooseSuggestion, getSuggestions, input, removeTag, tagList, updateCandidate;
   getSuggestions = function(value) {
     var hasInput, hint, j, len, ref1, results, suggestion, tag;
     value = value.toLowerCase();
@@ -559,7 +559,17 @@ Take(["Memory", "State", "SuggestionList", "TagList"], function(Memory, State, S
     return State.update("search", function(search) {
       return {
         text: "",
+        tagCandidate: null,
         tags: search.tags.concat(value)
+      };
+    });
+  };
+  updateCandidate = function(value) {
+    return State.update("search", function(search) {
+      return {
+        text: "",
+        tagCandidate: value,
+        tags: search.tags
       };
     });
   };
@@ -574,7 +584,7 @@ Take(["Memory", "State", "SuggestionList", "TagList"], function(Memory, State, S
         }
     }
   });
-  SuggestionList(input, getSuggestions, chooseSuggestion);
+  SuggestionList(input, getSuggestions, chooseSuggestion, {updateCandidate});
   tagList = document.querySelector("search-box tag-list");
   removeTag = function(tag) {
     return State.mutate("search.tags", function(tags) {

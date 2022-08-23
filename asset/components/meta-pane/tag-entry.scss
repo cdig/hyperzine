@@ -1,25 +1,3 @@
 tag-entry {
-  position: relative;
-  display: block;
   margin-top: .4em;
-
-  &:after {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 2px solid var(--rainbow-focus);
-    border-radius: 8px;
-    opacity: 0;
-    transition: opacity .1s;
-    pointer-events: none;
-    z-index: 3;
-  }
-
-  &:focus-within:after {
-    opacity: 1;
-  }
 }

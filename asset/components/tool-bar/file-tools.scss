@@ -1,7 +1,7 @@
 file-tools {
   flex: 1 1 auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   overflow: hidden;
 
@@ -21,6 +21,7 @@ file-tools {
   }
 
   search-box {
+    max-width: 20em;
   }
 
   [add-files] {

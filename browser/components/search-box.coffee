@@ -10,7 +10,10 @@ Take ["Memory", "State", "SuggestionList", "TagList"], (Memory, State, Suggestio
       suggestion
 
   chooseSuggestion = (value)->
-    State.update "search", (search)-> text: "", tags: search.tags.concat value
+    State.update "search", (search)-> text: "", tagCandidate: null, tags: search.tags.concat value
+
+  updateCandidate = (value)->
+    State.update "search", (search)-> text: "", tagCandidate: value, tags: search.tags
 
   input = document.querySelector "search-box input"
 
@@ -20,7 +23,7 @@ Take ["Memory", "State", "SuggestionList", "TagList"], (Memory, State, Suggestio
         if input.value is ""
           State.update "search.tags", (tags)-> Array.butLast tags
 
-  SuggestionList input, getSuggestions, chooseSuggestion
+  SuggestionList input, getSuggestions, chooseSuggestion, {updateCandidate}
 
   tagList = document.querySelector "search-box tag-list"
 

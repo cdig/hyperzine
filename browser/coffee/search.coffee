@@ -19,8 +19,6 @@ Take ["Env"], (Env)->
   computePoints = (asset, queryText, queryTokens, queryTags)->
     points = 0
 
-    debugger if asset.id is "ChrisRazer 28"
-
     # We'll do any exact-match checking up here
     return 100 if asset.search.id is queryText
     return 50 if asset.search.name is queryText
@@ -67,6 +65,7 @@ Take ["Env"], (Env)->
     queryText = input.text.toLowerCase()
     queryTokens = tokenizeQueryText queryText
     queryTags = input.tags.map (t)-> t.toLowerCase()
+    queryTags.push input.tagCandidate.toLowerCase() if input.tagCandidate?
 
     return bail assets unless queryTokens.length > 0 or queryTags.length > 0
 

@@ -14,7 +14,7 @@ Take ["ADSR", "DOOM"], (ADSR, DOOM)->
 
       frag = new DocumentFragment()
       # highlightIndex = (highlightIndex + suggestions.length) % (suggestions.length)
-      highlightIndex = Math.clip highlightIndex, minHighlightIndex, suggestions.length
+      highlightIndex = Math.clip highlightIndex, minHighlightIndex, suggestions.length-1
 
       truncateLimit = 7 # how many results to show before truncating the list
       scrollLimit = 2 # when truncated, scroll the list if the highlight is this many spaces from the top
@@ -27,6 +27,8 @@ Take ["ADSR", "DOOM"], (ADSR, DOOM)->
         firstIndex = Math.max 0, highlightIndex - scrollLimit
 
       lastIndex = Math.min firstIndex + truncateLimit, suggestions.length-1
+
+      opts.updateCandidate? suggestions[highlightIndex]?.text
 
       for suggestion, i in suggestions when i >= firstIndex and i <= lastIndex
         do (suggestion, i)->

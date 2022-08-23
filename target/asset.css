@@ -144,7 +144,6 @@ files-pane {
 
 /* asset/components/meta-pane/add-note.scss */
 add-note {
-  display: block;
   margin: 2em 0 0;
 }
 
@@ -216,27 +215,7 @@ meta-pane input:focus {
 
 /* asset/components/meta-pane/tag-entry.scss */
 tag-entry {
-  position: relative;
-  display: block;
   margin-top: 0.4em;
-}
-tag-entry:after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 2px solid var(--rainbow-focus);
-  border-radius: 8px;
-  opacity: 0;
-  transition: opacity 0.1s;
-  pointer-events: none;
-  z-index: 3;
-}
-tag-entry:focus-within:after {
-  opacity: 1;
 }
 
 /* asset/components/meta-pane/tag-list.scss */
@@ -289,7 +268,7 @@ html.blur title-bar .meta div > * {
 file-tools {
   flex: 1 1 auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   overflow: hidden;
 }
@@ -308,6 +287,9 @@ file-tools [file-count] {
   file-tools [file-count] span {
     display: none;
   }
+}
+file-tools search-box {
+  max-width: 20em;
 }
 file-tools [add-files] {
   flex: 0 0 auto;
