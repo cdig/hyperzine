@@ -570,7 +570,7 @@ Take(["Memory", "State", "SuggestionList", "TagList"], function(Memory, State, S
   updateCandidate = function(value) {
     return State.update("search", function(search) {
       return {
-        text: "",
+        text: search.text,
         tagCandidate: value,
         tags: search.tags
       };

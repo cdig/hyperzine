@@ -13,7 +13,7 @@ Take ["Memory", "State", "SuggestionList", "TagList"], (Memory, State, Suggestio
     State.update "search", (search)-> text: "", tagCandidate: null, tags: search.tags.concat value
 
   updateCandidate = (value)->
-    State.update "search", (search)-> text: "", tagCandidate: value, tags: search.tags
+    State.update "search", (search)-> text: search.text, tagCandidate: value, tags: search.tags
 
   input = document.querySelector "search-box input"
 
