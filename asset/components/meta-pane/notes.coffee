@@ -1,6 +1,6 @@
 Take ["DOOM", "EditableField", "Memory", "State"], (DOOM, EditableField, Memory, State)->
 
-  addNote = document.querySelector "[add-note]"
+  addNote = document.querySelector "add-note input"
   assetHistory = document.querySelector "asset-history"
 
   addNote.addEventListener "keydown", (e)->

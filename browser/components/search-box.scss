@@ -1,0 +1,19 @@
+search-box {
+
+  tag-list, input {
+    position: relative;
+    display: inline-block;
+    z-index: 2;
+  }
+
+  input[type="text"] {
+    padding: .4em .6em;
+    vertical-align: middle;
+  }
+
+  tag-item {
+    margin: .2em;
+    background: var(--scroll-thumb);
+  }
+
+}

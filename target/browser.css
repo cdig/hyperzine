@@ -152,13 +152,13 @@ asset-name:focus-visible {
 }
 
 /* browser/components/meta-list.scss */
-tag-list {
+asset-card tag-list {
   position: relative;
   text-align: center;
   font-size: 0.6em;
 }
-tag-list search-points,
-tag-list file-count {
+asset-card tag-list search-points,
+asset-card tag-list file-count {
   display: inline-block;
   vertical-align: middle;
   margin: 0.1em;
@@ -166,7 +166,7 @@ tag-list file-count {
   line-height: 1em;
 }
 
-[hide-labels] tag-list {
+[hide-labels] asset-card tag-list {
   display: none;
 }
 
@@ -283,4 +283,18 @@ rainbow-clouds .c img {
   to {
     transform: rotate(360deg);
   }
+}
+/* browser/components/search-box.scss */
+search-box tag-list, search-box input {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
+}
+search-box input[type=text] {
+  padding: 0.4em 0.6em;
+  vertical-align: middle;
+}
+search-box tag-item {
+  margin: 0.2em;
+  background: var(--scroll-thumb);
 }

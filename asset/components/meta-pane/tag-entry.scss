@@ -19,53 +19,7 @@ tag-entry {
     z-index: 3;
   }
 
-  &:focus-within {
-    &:after {
-      opacity: 1;
-    }
-  }
-
-  suggestion-list {
-    display: none;
-
-    position: absolute;
-    top: 0em;
-    left: 0em;
-    min-width: calc(100% + 0em);
-    background: var(--meta-bg);
-    border-radius: 8px;
-    padding: 2.4em .4em .4em;
-    z-index: 1;
-
-    .tag {
-      position: relative;
-      .rainbow {
-        padding: .2em .4em;
-      }
-
-      span {
-        position: relative;
-      }
-
-      .hint {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 1.8em .4em .2em;
-        background: var(--meta-bg);
-        z-index: 3;
-      }
-    }
-
-    [rainbow-before] {
-      position: relative;
-      border-radius: 4px;
-      overflow: hidden;
-      z-index: 4;
-      &::before {
-        opacity: .3;
-      }
-    }
+  &:focus-within:after {
+    opacity: 1;
   }
 }

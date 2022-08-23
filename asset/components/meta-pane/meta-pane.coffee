@@ -16,7 +16,7 @@ Take ["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Notes", "Path
     render: ()->
       asset = State "asset"
       Notes.render()
-      tagList.replaceChildren TagList asset, removeFn: removeTag
+      tagList.replaceChildren TagList asset.tags, removeFn: removeTag
       MemoryField "assets.#{asset.id}.name", assetName,
         validate: Validations.asset.name
         update: renameAsset

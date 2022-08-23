@@ -163,22 +163,22 @@ Take(["DOOM", "File", "State"], function(DOOM, File, State) {
   fileElms = {};
   Make.async("FileList", FileList = {
     render: function() {
-      var asset, file, frag, j, len, ref, ref1, search;
+      var asset, file, frag, i, len, ref, ref1, search;
       if (!(asset = State("asset"))) {
         return;
       }
       frag = new DocumentFragment();
-      search = (ref = State("search")) != null ? ref.toLowerCase() : void 0;
+      search = (ref = State("search")) != null ? ref.text.toLowerCase() : void 0;
       ref1 = asset.files.children;
-      for (j = 0, len = ref1.length; j < len; j++) {
-        file = ref1[j];
+      for (i = 0, len = ref1.length; i < len; i++) {
+        file = ref1[i];
         makeTreeElm(asset, file, frag, search);
       }
       return fileList.replaceChildren(frag);
     }
   });
   makeTreeElm = function(asset, tree, parent, search, depth = 0) {
-    var child, childIsVisible, childrenElm, fileElm, hasVisibleContents, isVisible, j, len, matchesSearch, name1, noSearch, ref, treeElm;
+    var child, childIsVisible, childrenElm, fileElm, hasVisibleContents, i, isVisible, len, matchesSearch, name1, noSearch, ref, treeElm;
     treeElm = DOOM.create("div", parent, {
       class: "tree"
     });
@@ -194,8 +194,8 @@ Take(["DOOM", "File", "State"], function(DOOM, File, State) {
         class: "children"
       });
       ref = tree.children;
-      for (j = 0, len = ref.length; j < len; j++) {
-        child = ref[j];
+      for (i = 0, len = ref.length; i < len; i++) {
+        child = ref[i];
         childIsVisible = makeTreeElm(asset, child, childrenElm, search, depth + 1);
         if (childIsVisible) {
           hasVisibleContents = true;
@@ -387,7 +387,7 @@ Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Notes", "Path
       var asset, img;
       asset = State("asset");
       Notes.render();
-      tagList.replaceChildren(TagList(asset, {
+      tagList.replaceChildren(TagList(asset.tags, {
         removeFn: removeTag
       }));
       MemoryField(`assets.${asset.id}.name`, assetName, {
@@ -407,7 +407,7 @@ Take(["DB", "ADSR", "DOOM", "Memory", "MemoryField", "MetaTools", "Notes", "Path
 // asset/components/meta-pane/notes.coffee
 Take(["DOOM", "EditableField", "Memory", "State"], function(DOOM, EditableField, Memory, State) {
   var Notes, addNote, assetHistory, cancel, datetimeFormatFar, error, makeNote, noteList, refresh, refreshing, submit;
-  addNote = document.querySelector("[add-note]");
+  addNote = document.querySelector("add-note input");
   assetHistory = document.querySelector("asset-history");
   addNote.addEventListener("keydown", function(e) {
     switch (e.keyCode) {
@@ -456,10 +456,10 @@ Take(["DOOM", "EditableField", "Memory", "State"], function(DOOM, EditableField,
     });
   };
   noteList = function({notes, users}) {
-    var frag, j, len, noteData;
+    var frag, i, len, noteData;
     frag = new DocumentFragment();
-    for (j = 0, len = notes.length; j < len; j++) {
-      noteData = notes[j];
+    for (i = 0, len = notes.length; i < len; i++) {
+      noteData = notes[i];
       frag.append(makeNote(noteData, users));
     }
     return frag;
@@ -527,140 +527,45 @@ Take(["DOOM", "EditableField", "Memory", "State"], function(DOOM, EditableField,
 });
 
 // asset/components/meta-pane/tag-entry.coffee
-Take(["DB", "ADSR", "DOOM", "Memory", "Paths", "State"], function(DB, ADSR, DOOM, Memory, Paths, State) {
-  var fastUpdate, firstIndex, focused, highlightIndex, highlightNext, highlightPrev, input, lastIndex, setValue, slowUpdate, suggestionList, update;
-  input = document.querySelector("tag-entry input");
-  suggestionList = document.querySelector("tag-entry suggestion-list");
-  focused = false;
-  highlightIndex = 0;
-  firstIndex = 0;
-  lastIndex = 7;
-  update = function() {
-    var asset, frag, hasInput, i, j, len, matches, ref, scrollLimit, show, tag, truncateLimit, value;
-    hasInput = ((ref = input.value) != null ? ref.length : void 0) > 0;
-    matches = [];
+Take(["DB", "Memory", "State", "SuggestionList"], function(DB, Memory, State, SuggestionList) {
+  var chooseSuggestion, getSuggestions, input;
+  getSuggestions = function(value) {
+    var asset, hasInput, hint, i, len, ref, results, suggestion, tag;
     asset = State("asset");
-    value = input.value.toLowerCase();
-    for (tag in Memory("tags")) {
+    value = value.toLowerCase();
+    hasInput = value.length > 0;
+    ref = Array.sortAlphabetic(Object.keys(Memory("tags")));
+    results = [];
+    for (i = 0, len = ref.length; i < len; i++) {
+      tag = ref[i];
       if (hasInput && tag.toLowerCase().indexOf(value) === -1) {
         continue;
       }
       if (indexOf.call(asset.tags, tag) >= 0) {
         continue;
       }
-      matches.push(tag);
-    }
-    matches = Array.sortAlphabetic(matches);
-    frag = new DocumentFragment();
-    highlightIndex = (highlightIndex + matches.length) % matches.length;
-    truncateLimit = 7; // how many results to show before truncating the list
-    scrollLimit = 2; // when truncated, scroll the list if the highlight is this many spaces from the top
-    if (highlightIndex + scrollLimit >= lastIndex) {
-      lastIndex = Math.min(highlightIndex + scrollLimit, matches.length - 1);
-      firstIndex = Math.max(0, lastIndex - truncateLimit);
-    }
-    if (highlightIndex < firstIndex + scrollLimit) {
-      firstIndex = Math.max(0, highlightIndex - scrollLimit);
-    }
-    // lastIndex = Math.min highlightIndex + truncateLimit, matches.length
-
-    // firstIndex = Math.max(0, highlightIndex - scrollLimit)
-    lastIndex = Math.min(firstIndex + truncateLimit, matches.length - 1);
-    for (i = j = 0, len = matches.length; j < len; i = ++j) {
-      tag = matches[i];
-      if (i >= firstIndex && i <= lastIndex) {
-        (function(tag, i) {
-          var hint, rainbowElm, tagElm;
-          tagElm = DOOM.create("div", frag, {
-            class: "tag"
-          });
-          rainbowElm = DOOM.create("div", tagElm, {
-            class: "rainbow",
-            rainbowBefore: i === highlightIndex ? "" : null
-          });
-          DOOM.create("span", rainbowElm, {
-            textContent: tag
-          });
-          tagElm.addEventListener("mousemove", function(e) {
-            highlightIndex = i;
-            return slowUpdate();
-          });
-          tagElm.addEventListener("mousedown", function(e) {
-            return setValue(tag);
-          });
-          if (i === highlightIndex && (hint = Memory(`Tag Descriptions.${tag}`))) {
-            return DOOM.create("div", tagElm, {
-              class: "hint",
-              textContent: hint,
-              rainbowBefore: ""
-            });
-          }
-        })(tag, i);
+      suggestion = {
+        text: tag
+      };
+      if (hint = Memory(`Tag Descriptions.${tag}`)) {
+        suggestion.hint = hint;
       }
+      results.push(suggestion);
     }
-    suggestionList.replaceChildren(frag);
-    show = focused && matches.length > 0;
-    suggestionList.style.display = show ? "block" : "none";
-    if (!show) {
-      return firstIndex = highlightIndex = 0;
-    }
+    return results;
   };
-  fastUpdate = ADSR(10, update);
-  slowUpdate = ADSR(20, 20, update);
-  setValue = function(value) {
+  chooseSuggestion = function(value) {
     var asset;
-    if ((value != null ? value.length : void 0) > 0) {
-      asset = State("asset");
-      DB.send("Add Tag", asset.id, value);
-      Memory(`tags.${value}`, value);
-      return input.value = "";
-    }
+    asset = State("asset");
+    DB.send("Add Tag", asset.id, value);
+    return Memory(`tags.${value}`, value);
   };
-  highlightNext = function() {
-    highlightIndex++;
-    return fastUpdate();
-  };
-  highlightPrev = function() {
-    highlightIndex--;
-    return fastUpdate();
-  };
-  input.addEventListener("focus", function(e) {
-    focused = true;
-    firstIndex = highlightIndex = 0;
-    return fastUpdate();
-  });
-  input.addEventListener("blur", function(e) {
-    focused = false;
-    return fastUpdate();
-  });
-  input.addEventListener("change", fastUpdate);
-  input.addEventListener("input", fastUpdate);
-  return input.addEventListener("keydown", function(e) {
-    var highlighted, value;
-    switch (e.keyCode) {
-      case 13: // return
-        e.preventDefault();
-        value = (highlighted = suggestionList.querySelector("[rainbow-before]")) ? highlighted.textContent : input.value;
-        setValue(value);
-        firstIndex = highlightIndex = 0;
-        return fastUpdate();
-      case 27: // esc
-        firstIndex = highlightIndex = 0;
-        input.value = "";
-        return input.blur();
-      case 38: // up
-        e.preventDefault();
-        return highlightPrev();
-      case 40: // down
-        e.preventDefault();
-        return highlightNext();
-    }
+  input = document.querySelector("tag-entry input");
+  return SuggestionList(input, getSuggestions, chooseSuggestion, {
+    alwaysHighlight: true,
+    allowSubmitWhenNoMatch: true
   });
 });
-
-// else
-//   firstIndex = highlightIndex = 0
-//   fastUpdate()
 
 // asset/components/title-bar/meta.coffee
 Take(["ADSR", "DOOM", "Env", "Memory", "SizeOnDisk", "State"], function(ADSR, DOOM, Env, Memory, SizeOnDisk, State) {

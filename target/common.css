@@ -461,17 +461,22 @@ img {
 }
 
 /* common/input.scss */
-[type=text],
-[type=search] {
+.inputBox {
   display: block;
-  padding: 0.4em 0.8em;
   border: 1px solid var(--ui-border);
   border-radius: 8px;
-  outline: none;
   background: var(--input-bg);
   color: var(--input-text);
   pointer-events: auto;
   user-select: contain;
+}
+
+[type=text] {
+  padding: 0.4em 0.8em;
+  border: none;
+  outline: none;
+  color: inherit;
+  background: none;
 }
 
 [type=range] {
@@ -592,7 +597,9 @@ search-box {
   display: block;
 }
 search-box input {
+  position: relative;
   width: 100%;
+  z-index: 2;
 }
 search-box:after {
   content: "";
@@ -607,9 +614,51 @@ search-box:after {
   opacity: 0;
   transition: opacity 0.1s;
   pointer-events: none;
+  z-index: 3;
 }
 search-box:focus-within:after {
   opacity: 1;
+}
+
+/* common/suggestion-list.scss */
+suggestion-list {
+  display: none;
+  position: absolute;
+  top: 0em;
+  left: 0em;
+  min-width: calc(100% + 0em);
+  background: var(--meta-bg);
+  border-radius: 8px;
+  padding: 2.4em 0.4em 0.4em;
+  z-index: 1;
+}
+suggestion-list .suggestion {
+  position: relative;
+}
+suggestion-list .suggestion .rainbow {
+  padding: 0.2em 0.4em;
+}
+suggestion-list .suggestion span {
+  position: relative;
+}
+suggestion-list .suggestion .hint {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  padding: 1.8em 0.4em 0.2em;
+  background: var(--meta-bg);
+  z-index: 3;
+  pointer-events: none;
+}
+suggestion-list [rainbow-before] {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 4;
+}
+suggestion-list [rainbow-before]::before {
+  opacity: 0.3;
 }
 
 /* common/tag-list.scss */

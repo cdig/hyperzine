@@ -8,7 +8,6 @@ Take ["Log", "Memory"], (Log, Memory)->
       Memory.change "loginStatus", "Logging In"
       res = await fetch "https://www.lunchboxsessions.com/hyperzine/api/login", headers: "X-LBS-API-TOKEN": v
       if res.ok and user = await res.json()
-        console.log user
         Log "Logged in as #{user.name}", color: "hsl(153, 80%, 41%)" # mint
         Memory.change "user", user
         Memory.change "loginStatus", "Logged In"

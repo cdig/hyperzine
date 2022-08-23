@@ -1,14 +1,19 @@
-[type="text"],
-[type="search"] {
+.inputBox {
   display: block;
-  padding: .4em .8em;
   border: 1px solid var(--ui-border);
   border-radius: 8px;
-  outline: none;
   background: var(--input-bg);
   color: var(--input-text);
   pointer-events: auto;
   user-select: contain;
+}
+
+[type="text"] {
+  padding: .4em .8em;
+  border: none;
+  outline: none;
+  color: inherit;
+  background: none;
 }
 
 [type="range"] {

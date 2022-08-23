@@ -8,7 +8,7 @@ Take ["DOOM", "File", "State"], (DOOM, File, State)->
       return unless asset = State "asset"
 
       frag = new DocumentFragment()
-      search = State("search")?.toLowerCase()
+      search = State("search")?.text.toLowerCase()
 
       for file in asset.files.children
         makeTreeElm asset, file, frag, search

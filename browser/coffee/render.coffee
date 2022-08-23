@@ -18,7 +18,7 @@ Take ["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Mem
 
     query = State "search"
 
-    if query isnt lastQuery
+    if Function.notEquivalent query, lastQuery
       lastQuery = query
       elm.scrollTo 0, 0
       AssetCard.unbuildCards()

@@ -111,7 +111,7 @@ Take(["FileTree", "Paths", "Ports", "Memory", "Read"], function(FileTree, Paths,
         return {
           id: searchPrep(asset.id),
           name: searchPrep(asset.name),
-          tags: searchPrep(asset.tags.join(" ")),
+          tags: Array.unique(asset.tags).map(searchPrep),
           files: Array.unique(FileTree.flat(asset.files, "basename")).map(searchPrep),
           exts: Array.unique(FileTree.flat(asset.files, "ext")).map(searchPrep)
         };
@@ -674,30 +674,35 @@ Take(["LoadAssets", "Log", "Memory", "Read", "Write"], function(LoadAssets, Log,
 // db/subscriptions/lbs-authentication.coffee
 Take(["Log", "Memory"], function(Log, Memory) {
   var error;
-  Memory.subscribe("apiToken", function(v) {
+  // Note — the loginStatus strings are used by login in setup-assistant.coffee,
+  // so don't change them unless you update that file too.
+  Memory.subscribe("apiToken", true, async function(v) {
+    var res, user;
     if (v != null) {
-      return fetch("https://www.lunchboxsessions.com/hyperzine/api/login", {
+      Memory.change("loginStatus", "Logging In");
+      res = (await fetch("https://www.lunchboxsessions.com/hyperzine/api/login", {
         headers: {
           "X-LBS-API-TOKEN": v
         }
-      }).then(function(res) {
-        if (res.ok) {
-          return res.json();
-        } else {
-          return error();
-        }
-      }).then(function(data) {
-        Log(`Logged in as ${data.name}`, {
+      }));
+      if (res.ok && (user = (await res.json()))) {
+        Log(`Logged in as ${user.name}`, {
           color: "hsl(153, 80%, 41%)" // mint
         });
-        return Memory.change("user", data);
-      }).catch(function(err) {
+        Memory.change("user", user);
+        return Memory.change("loginStatus", "Logged In");
+      } else {
         return error();
-      });
+      }
+    } else {
+      Memory.change("user", null);
+      return Memory.change("loginStatus", "Not Logged In");
     }
   });
   return error = function() {
-    return Log.err("Login failed");
+    Log.err("Login failed");
+    Memory.change("user", null);
+    return Memory.change("loginStatus", "Failed to verify this API Token");
   };
 });
 

@@ -4,7 +4,9 @@ search-box {
   display: block;
 
   input {
+    position: relative;
     width: 100%;
+    z-index: 2;
   }
 
   &:after {
@@ -20,11 +22,10 @@ search-box {
     opacity: 0;
     transition: opacity .1s;
     pointer-events: none;
+    z-index: 3;
   }
 
-  &:focus-within {
-    &:after {
-      opacity: 1;
-    }
+  &:focus-within:after {
+    opacity: 1;
   }
 }

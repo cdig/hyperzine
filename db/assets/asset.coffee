@@ -85,6 +85,6 @@ Take ["FileTree", "Paths", "Ports", "Memory", "Read"], (FileTree, Paths, Ports, 
       search: (asset)->
         id: searchPrep asset.id
         name: searchPrep asset.name
-        tags: searchPrep asset.tags.join " "
+        tags: Array.unique(asset.tags).map searchPrep
         files: Array.unique(FileTree.flat(asset.files, "basename")).map searchPrep
         exts: Array.unique(FileTree.flat(asset.files, "ext")).map searchPrep

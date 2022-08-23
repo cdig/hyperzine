@@ -56,7 +56,7 @@ Take [], ()->
   # These are useful because it offers a nice syntax for updating existing values in State,
   # with support for async, either mutably or immutably.
   State.update = (path, fn)-> State path, (await fn State path), immutable: true
-  State.mutate = (path, fn)-> State.clone path, (await fn State path), immutable: true
+  State.mutate = (path, fn)-> State path, (await fn State.clone path), immutable: true
 
   # This is a convenience function for reading something from State that is pre-cloned
   # (if necessary) to avoid mutability issues.

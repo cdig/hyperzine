@@ -62,12 +62,13 @@ Take ["DB", "DOOM", "Env", "Frustration", "IPC", "Log", "Memory", "MemoryField",
     fileCount = DOOM.create "file-count", tagList,
       textContent: String.pluralize asset.files.count, "%% File"
 
-    tagList.append TagList asset, click: (tag, elm)->
-      current = State "search"
-      if not current
-        State "search", "tag:#{tag}"
-      else if current.indexOf(tag) is -1
-        State "search", [current, "tag:#{tag}"].join " "
+    tagList.append TagList asset.tags, click: (tag, elm)->
+      console.log "TODO"
+      # current = State "search"
+      # if not current
+      #   State "search", "tag:#{tag}"
+      # else if current.indexOf(tag) is -1
+      #   State "search", [current, "tag:#{tag}"].join " "
 
     card.replaceChildren frag
 

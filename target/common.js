@@ -1771,7 +1771,7 @@ Take([], function() {
     });
   };
   State.mutate = async function(path, fn) {
-    return State.clone(path, (await fn(State(path))), {
+    return State(path, (await fn(State.clone(path))), {
       immutable: true
     });
   };
@@ -2694,10 +2694,14 @@ Take(["ADSR", "PubSub", "State"], function(ADSR, {Pub, Sub}, State) {
     return;
   }
   focused = false;
-  change = ADSR(1, 1, function(e) {
-    return State("search", elm.value);
+  State("search", {
+    tags: [],
+    text: ""
   });
-  State.subscribe("search", false, function(v) {
+  change = ADSR(1, 1, function(e) {
+    return State("search.text", elm.value);
+  });
+  State.subscribe("search.text", false, function(v) {
     if (!focused) {
       return elm.value = v;
     }
@@ -2722,23 +2726,151 @@ Take(["PubSub", "State"], function({Pub}, State) {
   });
 });
 
+// common/suggestion-list.coffee
+Take(["ADSR", "DOOM"], function(ADSR, DOOM) {
+  var SuggestionList;
+  return Make("SuggestionList", SuggestionList = function(input, getSuggestions, chooseSuggestion, opts = {}) {
+    var fastUpdate, firstIndex, focused, highlightIndex, highlightNext, highlightPrev, lastIndex, minHighlightIndex, setValue, slowUpdate, suggestionList, update;
+    suggestionList = DOOM.create("suggestion-list", input.parentElement);
+    focused = false;
+    minHighlightIndex = opts.alwaysHighlight ? 0 : -1;
+    highlightIndex = minHighlightIndex;
+    firstIndex = 0;
+    lastIndex = 7;
+    update = function() {
+      var frag, i, len1, m, scrollLimit, show, suggestion, suggestions, truncateLimit;
+      suggestions = getSuggestions(input.value);
+      frag = new DocumentFragment();
+      // highlightIndex = (highlightIndex + suggestions.length) % (suggestions.length)
+      highlightIndex = Math.clip(highlightIndex, minHighlightIndex, suggestions.length);
+      truncateLimit = 7; // how many results to show before truncating the list
+      scrollLimit = 2; // when truncated, scroll the list if the highlight is this many spaces from the top
+      if (highlightIndex + scrollLimit >= lastIndex) {
+        lastIndex = Math.min(highlightIndex + scrollLimit, suggestions.length - 1);
+        firstIndex = Math.max(0, lastIndex - truncateLimit);
+      }
+      if (highlightIndex < firstIndex + scrollLimit) {
+        firstIndex = Math.max(0, highlightIndex - scrollLimit);
+      }
+      lastIndex = Math.min(firstIndex + truncateLimit, suggestions.length - 1);
+      for (i = m = 0, len1 = suggestions.length; m < len1; i = ++m) {
+        suggestion = suggestions[i];
+        if (i >= firstIndex && i <= lastIndex) {
+          (function(suggestion, i) {
+            var rainbowElm, suggestionElm;
+            suggestionElm = DOOM.create("div", frag, {
+              class: "suggestion"
+            });
+            rainbowElm = DOOM.create("div", suggestionElm, {
+              class: "rainbow",
+              rainbowBefore: i === highlightIndex ? "" : null
+            });
+            DOOM.create("span", rainbowElm, {
+              textContent: suggestion.text
+            });
+            suggestionElm.addEventListener("mousemove", function(e) {
+              highlightIndex = i;
+              return slowUpdate();
+            });
+            suggestionElm.addEventListener("mousedown", function(e) {
+              return setValue(suggestion.text);
+            });
+            if (i === highlightIndex && (suggestion.hint != null)) {
+              return DOOM.create("div", suggestionElm, {
+                class: "hint",
+                textContent: suggestion.hint,
+                rainbowBefore: ""
+              });
+            }
+          })(suggestion, i);
+        }
+      }
+      suggestionList.replaceChildren(frag);
+      show = focused && suggestions.length > 0;
+      suggestionList.style.display = show ? "block" : "none";
+      if (!show) {
+        firstIndex = 0;
+        return highlightIndex = minHighlightIndex;
+      }
+    };
+    fastUpdate = ADSR(10, update);
+    slowUpdate = ADSR(20, 20, update);
+    setValue = function(value) {
+      if ((value != null ? value.length : void 0) > 0) {
+        chooseSuggestion(value);
+        return input.value = "";
+      }
+    };
+    highlightNext = function() {
+      highlightIndex++;
+      return fastUpdate();
+    };
+    highlightPrev = function() {
+      highlightIndex--;
+      return fastUpdate();
+    };
+    input.addEventListener("focus", function(e) {
+      focused = true;
+      firstIndex = 0;
+      highlightIndex = minHighlightIndex;
+      return fastUpdate();
+    });
+    input.addEventListener("blur", function(e) {
+      focused = false;
+      return fastUpdate();
+    });
+    input.addEventListener("change", fastUpdate);
+    input.addEventListener("input", fastUpdate);
+    return input.addEventListener("keydown", function(e) {
+      var highlighted;
+      switch (e.keyCode) {
+        case 13: // return
+          e.preventDefault();
+          if (highlighted = suggestionList.querySelector("[rainbow-before]")) {
+            setValue(highlighted.textContent);
+          } else if (opts.allowSubmitWhenNoMatch) {
+            setValue(input.value);
+          } else {
+            input.blur();
+          }
+          firstIndex = 0;
+          highlightIndex = minHighlightIndex;
+          return fastUpdate();
+        case 27: // esc
+          firstIndex = 0;
+          highlightIndex = minHighlightIndex;
+          input.value = "";
+          return input.blur();
+        case 38: // up
+          e.preventDefault();
+          return highlightPrev();
+        case 40: // down
+          e.preventDefault();
+          return highlightNext();
+      }
+    });
+  });
+});
+
 // common/tag-list.coffee
 Take(["Memory"], function(Memory) {
   var TagList, makeTag;
-  Make.async("TagList", TagList = function(asset, opts = {}) {
-    var frag, len1, len2, m, q, sortedTags, specialTags, tag;
+  Make.async("TagList", TagList = function(tags, opts = {}) {
+    var frag, len1, len2, m, q, specialTags, tag;
     specialTags = Memory("specialTags");
-    sortedTags = Array.sortAlphabetic(asset.tags);
+    if (!opts.noSort) {
+      tags = Array.sortAlphabetic(tags);
+    }
     // Make all the special tags first, so they come at the start of the list
     frag = new DocumentFragment();
-    for (m = 0, len1 = sortedTags.length; m < len1; m++) {
-      tag = sortedTags[m];
+    for (m = 0, len1 = tags.length; m < len1; m++) {
+      tag = tags[m];
       if (specialTags[tag] != null) {
         frag.append(makeTag(tag, opts, true));
       }
     }
-    for (q = 0, len2 = sortedTags.length; q < len2; q++) {
-      tag = sortedTags[q];
+    for (q = 0, len2 = tags.length; q < len2; q++) {
+      tag = tags[q];
       if (specialTags[tag] == null) {
         frag.append(makeTag(tag, opts, false));
       }

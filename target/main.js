@@ -1463,7 +1463,7 @@ Take([], function() {
     });
   };
   State.mutate = async function(path, fn) {
-    return State.clone(path, (await fn(State(path))), {
+    return State(path, (await fn(State.clone(path))), {
       immutable: true
     });
   };

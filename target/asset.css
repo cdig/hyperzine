@@ -143,7 +143,8 @@ files-pane {
 }
 
 /* asset/components/meta-pane/add-note.scss */
-[add-note] {
+add-note {
+  display: block;
   margin: 2em 0 0;
 }
 
@@ -236,44 +237,6 @@ tag-entry:after {
 }
 tag-entry:focus-within:after {
   opacity: 1;
-}
-tag-entry suggestion-list {
-  display: none;
-  position: absolute;
-  top: 0em;
-  left: 0em;
-  min-width: calc(100% + 0em);
-  background: var(--meta-bg);
-  border-radius: 8px;
-  padding: 2.4em 0.4em 0.4em;
-  z-index: 1;
-}
-tag-entry suggestion-list .tag {
-  position: relative;
-}
-tag-entry suggestion-list .tag .rainbow {
-  padding: 0.2em 0.4em;
-}
-tag-entry suggestion-list .tag span {
-  position: relative;
-}
-tag-entry suggestion-list .tag .hint {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  padding: 1.8em 0.4em 0.2em;
-  background: var(--meta-bg);
-  z-index: 3;
-}
-tag-entry suggestion-list [rainbow-before] {
-  position: relative;
-  border-radius: 4px;
-  overflow: hidden;
-  z-index: 4;
-}
-tag-entry suggestion-list [rainbow-before]::before {
-  opacity: 0.3;
 }
 
 /* asset/components/meta-pane/tag-list.scss */

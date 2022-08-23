@@ -26,7 +26,7 @@ Take(["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Mem
     }
     first = false;
     query = State("search");
-    if (query !== lastQuery) {
+    if (Function.notEquivalent(query, lastQuery)) {
       lastQuery = query;
       elm.scrollTo(0, 0);
       AssetCard.unbuildCards();
@@ -80,7 +80,7 @@ Take(["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Mem
 
 // browser/coffee/search.coffee
 Take(["Env"], function(Env) {
-  var Search, bail, computePoints, matchesOp, matchesToken, sortByName, tokenizeQuery;
+  var Search, bail, computePoints, matchesOp, matchesToken, sortByName, tokenizeQueryText;
   sortByName = function(a, b) {
     return a.name.localeCompare(b.name);
   };
@@ -93,137 +93,106 @@ Take(["Env"], function(Env) {
   matchesOp = function(ref, op) {
     return (op == null) || op === ref;
   };
-  tokenizeQuery = function(input) {
-    var j, len, normalizedToken, output, token, tokens;
-    tokens = input.split(" ").map(function(token) {
-      if (token.charAt(0) === "-" || token.indexOf(":-") !== -1) {
-        return token; // negated tokens are not split on common dash-like punctuation
-      } else {
-        return token.split(/[-_]+/g); // positive tokens are split on common dash-like punctuations
-      }
-    }).flat().map(function(t) {
-      return t.replace(/[^\w\d-_:]*/g, "");
+  tokenizeQueryText = function(input) {
+    var tokens;
+    tokens = input.split(/[\- —_:]+/g).map(function(t) { // input is split on typical separator chars
+      return t.replace(/[^\w\d]*/g, ""); // remove special chars
     }).filter(function(t) {
-      return t !== "" && t !== "-";
+      return t !== ""; // remove empty tokens
     });
-    // Remove redundant tokens, including mixed negations
-    output = {};
-    for (j = 0, len = tokens.length; j < len; j++) {
-      token = tokens[j];
-      normalizedToken = token.replace(/^-/, "");
-      if (output[normalizedToken] == null) {
-        output[normalizedToken] = token;
-      }
-    }
-    return Object.values(output);
+    return Array.unique(tokens);
   };
-  computePoints = function(asset, queryTokens, input) {
-    var ext, file, frac, j, k, l, len, len1, len2, len3, len4, m, n, op, points, ref1, ref2, ref3, ref4, token, tokenPoints;
+  computePoints = function(asset, queryText, queryTokens, queryTags) {
+    var ext, file, frac, j, k, l, len, len1, len2, len3, len4, len5, len6, m, n, o, p, points, queryTag, queryToken, ref1, ref2, ref3, ref4, ref5, tag, tagPart, tagPoints, tokenPoints;
     points = 0;
-    if (asset.search.id === input) {
-      // We'll do any exact-match checking up here
-      points += 16;
+    if (asset.id === "ChrisRazer 28") {
+      debugger;
     }
-    if (asset.search.name === input) {
-      points += 16;
+    if (asset.search.id === queryText) {
+      // We'll do any exact-match checking up here
+      return 100;
+    }
+    if (asset.search.name === queryText) {
+      return 50;
     }
     for (j = 0, len = queryTokens.length; j < len; j++) {
-      token = queryTokens[j];
-      if (token.indexOf(":") !== -1) {
-        [op, token] = token.split(":");
+      queryToken = queryTokens[j];
+      tokenPoints = 0;
+      if (matchesToken(asset.search.id, queryToken)) {
+        tokenPoints += 2;
       }
-      if (op === "" || token === "") {
-        // Ignore empty operators
-        continue;
+      if (matchesToken(asset.search.name, queryToken)) {
+        tokenPoints += 2;
       }
-      if ("-" === token.charAt(0) || "-" === (op != null ? op.charAt(0) : void 0)) {
-        token = token.slice(1);
-        if (matchesOp("id", op) && matchesToken(asset.id, token)) {
-          // If the asset matches any negative token, it fails the entire query
-          return 0;
-        }
-        if (matchesOp("name", op) && matchesToken(asset.search.name, token)) {
-          return 0;
-        }
-        if (matchesOp("tag", op) && matchesToken(asset.search.tags, token)) {
-          return 0;
-        }
-        if (matchesOp("file", op)) {
-          ref1 = asset.search.files;
-          for (k = 0, len1 = ref1.length; k < len1; k++) {
-            file = ref1[k];
-            if (matchesToken(file, token)) {
-              return 0;
-            }
+      ref1 = asset.search.tags;
+      for (k = 0, len1 = ref1.length; k < len1; k++) {
+        tag = ref1[k];
+        ref2 = tag.split(" ");
+        for (l = 0, len2 = ref2.length; l < len2; l++) {
+          tagPart = ref2[l];
+          if (matchesToken(tagPart, queryToken)) {
+            tokenPoints += 1;
           }
         }
-        if (matchesOp("ext", op)) {
-          ref2 = asset.search.exts;
-          for (l = 0, len2 = ref2.length; l < len2; l++) {
-            ext = ref2[l];
-            if (matchesToken(ext, token)) {
-              return 0;
-            }
-          }
-        }
-      } else {
-        tokenPoints = 0;
-        if (matchesOp("id", op) && matchesToken(asset.search.id, token)) {
-          tokenPoints += 2;
-        }
-        if (matchesOp("name", op) && matchesToken(asset.search.name, token)) {
-          tokenPoints += 2;
-        }
-        if (matchesOp("tag", op) && matchesToken(asset.search.tags, token)) {
-          tokenPoints += 1;
-        }
-        if (matchesOp("file", op)) {
-          frac = 1 / asset.search.files.length;
-          ref3 = asset.search.files;
-          for (m = 0, len3 = ref3.length; m < len3; m++) {
-            file = ref3[m];
-            if (matchesToken(file, token)) {
-              tokenPoints += frac;
-            }
-          }
-        }
-        if (matchesOp("ext", op)) {
-          frac = 1 / asset.search.exts.length;
-          ref4 = asset.search.exts;
-          for (n = 0, len4 = ref4.length; n < len4; n++) {
-            ext = ref4[n];
-            if (matchesToken(ext, token)) {
-              tokenPoints += frac;
-            }
-          }
-        }
-        if (tokenPoints === 0) {
-          // If the asset doesn't match every positive token, it fails the entire query
-          return 0;
-        }
-        points += tokenPoints;
       }
+      frac = 1 / asset.search.files.length;
+      ref3 = asset.search.files;
+      for (m = 0, len3 = ref3.length; m < len3; m++) {
+        file = ref3[m];
+        if (matchesToken(file, queryToken)) {
+          tokenPoints += frac;
+        }
+      }
+      frac = 1 / asset.search.exts.length;
+      ref4 = asset.search.exts;
+      for (n = 0, len4 = ref4.length; n < len4; n++) {
+        ext = ref4[n];
+        if (matchesToken(ext, queryToken)) {
+          tokenPoints += frac;
+        }
+      }
+      if (tokenPoints === 0) {
+        // If the asset doesn't match every queryToken, it fails the entire query
+        return 0;
+      }
+      points += tokenPoints;
+    }
+    for (o = 0, len5 = queryTags.length; o < len5; o++) {
+      queryTag = queryTags[o];
+      tagPoints = 0;
+      ref5 = asset.search.tags;
+      for (p = 0, len6 = ref5.length; p < len6; p++) {
+        tag = ref5[p];
+        if (matchesToken(tag, queryTag)) {
+          tagPoints += 2;
+        }
+      }
+      if (tagPoints === 0) {
+        // If the asset doesn't match every queryTag, it fails the entire query
+        return 0;
+      }
+      points += tagPoints;
     }
     return points;
   };
   Make("Search", Search = function(assets, input) {
-    var asset, id, j, key, len, points, queryTokens, rankedMatches, ref1, sortedAssets, sortedRank;
+    var asset, id, j, key, len, points, queryTags, queryText, queryTokens, rankedMatches, ref1, sortedAssets, sortedRank;
     if (input == null) {
       return bail(assets);
     }
-    if (input instanceof Array) {
-      input = input.join(" ");
-    }
-    input = input.toLowerCase();
-    queryTokens = tokenizeQuery(input);
-    if (queryTokens.length === 0) {
+    queryText = input.text.toLowerCase();
+    queryTokens = tokenizeQueryText(queryText);
+    queryTags = input.tags.map(function(t) {
+      return t.toLowerCase();
+    });
+    if (!(queryTokens.length > 0 || queryTags.length > 0)) {
       return bail(assets);
     }
     rankedMatches = {};
     for (id in assets) {
       asset = assets[id];
-      points = computePoints(asset, queryTokens, input);
-      if (points > 0) { // asset matched all positive tokens, and no negative tokens
+      points = computePoints(asset, queryText, queryTokens, queryTags);
+      if (points > 0) { // asset matched all tokens
         points = Math.roundTo(points, .1);
         asset._points = points;
         (rankedMatches[points] != null ? rankedMatches[points] : rankedMatches[points] = []).push(asset);
@@ -240,14 +209,12 @@ Take(["Env"], function(Env) {
     }
     return sortedAssets;
   });
+  // TESTS
   if (Env.isDev) {
     return Tests("Search", function() {
-      Test("split queries on spaces, internal dashes, and underscores", ["f00", "BAR", "2baz", "bash"], tokenizeQuery("f00-BAR_2baz bash"));
-      Test("preserve leading dashes", tokenizeQuery("-f00"), ["-f00"]);
-      Test("remove duplicate tokens, including redundant negations", tokenizeQuery("foo -bar foo -bar -foo bar"), ["foo", "-bar"]);
-      Test("remove floating negatives", tokenizeQuery("- foo - -"), ["foo"]);
-      Test("only split leading dashes on space", tokenizeQuery("-f00-BAR_2baz bash"), ["-f00-BAR_2baz", "bash"]);
-      Test("remove punctuation, even when negated", tokenizeQuery("(foo) [bar]!@_#$%-^&*() -[baz]!@_baz#$%^&*()"), ["foo", "bar", "-baz_baz"]);
+      Test("split queries on common separators", ["f00", "BAR", "2baz", "bash"], tokenizeQueryText("-f00-BAR_2baz  -  bash"));
+      Test("remove duplicate tokens", tokenizeQueryText("foo-bar foo -bar foo bar"), ["foo", "bar"]);
+      Test("remove punctuation", tokenizeQueryText("(foo) [bar]!@_#$%-^&*() -[baz]!@_baz#$%^&*()"), ["foo", "bar", "baz"]);
       Test("empty value does not match", matchesToken("", "foo"), false);
       Test("empty token does not match", matchesToken("foo", ""), false);
       Test("different token and value do not match", matchesToken("foo", "bar"), false);
@@ -259,153 +226,85 @@ Take(["Env"], function(Env) {
       Test("different op does not match", matchesOp("foo", "bar"), false);
       Test("zero points for an empty asset", computePoints({
         search: {
-          id: "",
-          name: "",
-          tags: "",
+          id: "X",
+          name: "X",
+          tags: [],
           files: [],
           exts: []
         }
-      }, ["foo"], "foo"), 0);
+      }, "foo", ["foo"], []), 0);
       Test("positive points for a basic match", computePoints({
         search: {
-          id: "",
-          name: "foo bar",
-          tags: "",
+          id: "X",
+          name: "foo",
+          tags: [],
           files: [],
           exts: []
         }
-      }, ["foo"], "foo"), 2);
+      }, "f", ["f"], []), 2);
+      Test("positive points for a tag match", computePoints({
+        search: {
+          id: "X",
+          name: "X",
+          tags: ["baz"],
+          files: [],
+          exts: []
+        }
+      }, "", [], ["baz"]), 2);
+      Test("partial points for a partial tag match", computePoints({
+        search: {
+          id: "X",
+          name: "X",
+          tags: ["bazinga"],
+          files: [],
+          exts: []
+        }
+      }, "baz", ["baz"], []), 1);
       Test("more points for a better match", computePoints({
         search: {
-          id: "",
+          id: "X",
           name: "foo bar",
-          tags: "foo",
+          tags: ["bar"],
           files: ["foo"],
           exts: []
         }
-      }, ["foo"], "foo"), 4);
+      }, "foo", ["foo"], ["bar"]), 5);
       Test("more points for an exact match", computePoints({
         search: {
           id: "exactly 123",
-          name: "",
-          tags: "",
+          name: "X",
+          tags: [],
           files: [],
           exts: []
         }
-      }, ["exactly", "123"], "exactly 123"), 20);
-      Test("zero points for an partial match", computePoints({
+      }, "exactly 123", ["exactly", "123"], []), 100);
+      Test("zero points for a partial match", computePoints({
         search: {
-          id: "",
+          id: "X",
           name: "foo",
-          tags: "foo",
+          tags: [],
           files: ["foo"],
           exts: []
         }
-      }, ["foo", "bar"], "foo bar"), 0);
-      Test("zero points for a negative match", computePoints({
+      }, "foo bar", ["foo", "bar"], []), 0);
+      Test("zero points for a partial match with tags too", computePoints({
         search: {
-          id: "",
+          id: "X",
           name: "foo",
-          tags: "foo",
+          tags: ["bar"],
           files: ["foo"],
           exts: []
         }
-      }, ["-foo"], "-foo"), 0);
-      Test("zero points for a mixed match", computePoints({
+      }, "foo baz", ["foo", "baz"], ["bar"]), 0);
+      return Test("zero points for a partial match with only tags", computePoints({
         search: {
-          id: "",
-          name: "foo",
-          tags: "foo",
-          files: ["bar"],
-          exts: []
-        }
-      }, ["foo", "-bar"], "foo -bar"), 0);
-      Test("positive points for a negative miss", computePoints({
-        search: {
-          id: "",
-          name: "foo",
-          tags: "",
+          id: "X",
+          name: "X",
+          tags: ["foo", "bar"],
           files: [],
           exts: []
         }
-      }, ["foo", "-bar"], "foo -bar"), 2);
-      Test("positive points for a match with an operator", computePoints({
-        search: {
-          id: "",
-          name: "foo",
-          tags: "",
-          files: [],
-          exts: []
-        }
-      }, ["name:foo"], "name:foo"), 2);
-      Test("zero points for a negative match with an operator", computePoints({
-        search: {
-          id: "test",
-          name: "foo",
-          tags: "",
-          files: [],
-          exts: []
-        }
-      }, ["test", "name:-foo"], "test name:-foo"), 0);
-      Test("ignore empty operators when scoring", computePoints({
-        search: {
-          id: "",
-          name: "foo",
-          tags: "",
-          files: [],
-          exts: []
-        }
-      }, ["foo", "name:", ":foo", ":"], "foo name: :foo :"), 2);
-      Test("tags, files, and exts also match once each", computePoints({
-        search: {
-          id: "foo",
-          name: "foo",
-          tags: "",
-          files: ["foo"],
-          exts: ["foo"]
-        }
-      }, ["name:foo", "file:foo", "ext:foo"], "name:foo file:foo ext:foo"), computePoints({
-        search: {
-          id: "foo",
-          name: "foo",
-          tags: "",
-          files: ["bar"],
-          exts: ["baz"]
-        }
-      }, ["name:foo", "file:bar", "ext:baz"], "name:foo file:bar ext:baz"), 4);
-      return Test("zero points for misses with an operator", computePoints({
-        search: {
-          id: "",
-          name: "foo",
-          tags: "",
-          files: [],
-          exts: []
-        }
-      }, ["name:bar"], "name:bar"), computePoints({
-        search: {
-          id: "",
-          name: "foo",
-          tags: "",
-          files: [],
-          exts: []
-        }
-      }, ["file:foo"], "file:foo"), computePoints({
-        search: {
-          id: "",
-          name: "foo",
-          tags: "",
-          files: [],
-          exts: []
-        }
-      }, ["id:foo"], "id:foo"), computePoints({
-        search: {
-          id: "",
-          name: "foo",
-          tags: "",
-          files: [],
-          exts: []
-        }
-      }, ["ext:foo"], "ext:foo"), 0);
+      }, "", [""], ["foo", "baz"]), 0);
     });
   }
 });
@@ -493,17 +392,16 @@ Take(["DB", "DOOM", "Env", "Frustration", "IPC", "Log", "Memory", "MemoryField",
     fileCount = DOOM.create("file-count", tagList, {
       textContent: String.pluralize(asset.files.count, "%% File")
     });
-    tagList.append(TagList(asset, {
+    tagList.append(TagList(asset.tags, {
       click: function(tag, elm) {
-        var current;
-        current = State("search");
-        if (!current) {
-          return State("search", `tag:${tag}`);
-        } else if (current.indexOf(tag) === -1) {
-          return State("search", [current, `tag:${tag}`].join(" "));
-        }
+        return console.log("TODO");
       }
     }));
+    // current = State "search"
+    // if not current
+    //   State "search", "tag:#{tag}"
+    // else if current.indexOf(tag) is -1
+    //   State "search", [current, "tag:#{tag}"].join " "
     return card.replaceChildren(frag);
   };
   unbuild = function(card) {
@@ -631,4 +529,62 @@ Take(["DB", "DOOM", "IPC", "Log", "Memory"], function(DB, DOOM, IPC, Log, Memory
   return elm.onclick = function() {
     return DB.send("New Asset");
   };
+});
+
+// browser/components/search-box.coffee
+Take(["Memory", "State", "SuggestionList", "TagList"], function(Memory, State, SuggestionList, TagList) {
+  var chooseSuggestion, getSuggestions, input, removeTag, tagList;
+  getSuggestions = function(value) {
+    var hasInput, hint, j, len, ref1, results, suggestion, tag;
+    value = value.toLowerCase();
+    hasInput = value.length > 0;
+    ref1 = Array.sortAlphabetic(Object.keys(Memory("tags")));
+    results = [];
+    for (j = 0, len = ref1.length; j < len; j++) {
+      tag = ref1[j];
+      if (hasInput && tag.toLowerCase().indexOf(value) === -1) {
+        continue;
+      }
+      suggestion = {
+        text: tag
+      };
+      if (hint = Memory(`Tag Descriptions.${tag}`)) {
+        suggestion.hint = hint;
+      }
+      results.push(suggestion);
+    }
+    return results;
+  };
+  chooseSuggestion = function(value) {
+    return State.update("search", function(search) {
+      return {
+        text: "",
+        tags: search.tags.concat(value)
+      };
+    });
+  };
+  input = document.querySelector("search-box input");
+  input.addEventListener("keydown", function(e) {
+    switch (e.keyCode) {
+      case 8: // delete
+        if (input.value === "") {
+          return State.update("search.tags", function(tags) {
+            return Array.butLast(tags);
+          });
+        }
+    }
+  });
+  SuggestionList(input, getSuggestions, chooseSuggestion);
+  tagList = document.querySelector("search-box tag-list");
+  removeTag = function(tag) {
+    return State.mutate("search.tags", function(tags) {
+      return Array.pull(tags, tag);
+    });
+  };
+  return State.subscribe("search.tags", function(tags) {
+    return tagList.replaceChildren(TagList(tags, {
+      noSort: true,
+      removeFn: removeTag
+    }));
+  });
 });

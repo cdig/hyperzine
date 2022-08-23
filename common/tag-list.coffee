@@ -1,13 +1,13 @@
 Take ["Memory"], (Memory)->
 
-  Make.async "TagList", TagList = (asset, opts = {})->
+  Make.async "TagList", TagList = (tags, opts = {})->
     specialTags = Memory "specialTags"
-    sortedTags = Array.sortAlphabetic asset.tags
+    tags = Array.sortAlphabetic tags unless opts.noSort
 
     # Make all the special tags first, so they come at the start of the list
     frag = new DocumentFragment()
-    frag.append makeTag tag, opts, true  for tag in sortedTags when specialTags[tag]?
-    frag.append makeTag tag, opts, false for tag in sortedTags when not specialTags[tag]?
+    frag.append makeTag tag, opts, true  for tag in tags when specialTags[tag]?
+    frag.append makeTag tag, opts, false for tag in tags when not specialTags[tag]?
     return frag
 
   makeTag = (tag, opts, special)->

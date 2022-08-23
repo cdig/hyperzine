@@ -5,9 +5,11 @@ Take ["ADSR", "PubSub", "State"], (ADSR, {Pub, Sub}, State)->
 
   focused = false
 
-  change = ADSR 1, 1, (e)-> State "search", elm.value
+  State "search", tags: [], text: ""
 
-  State.subscribe "search", false, (v)->
+  change = ADSR 1, 1, (e)-> State "search.text", elm.value
+
+  State.subscribe "search.text", false, (v)->
     elm.value = v unless focused
 
   elm.addEventListener "change", change

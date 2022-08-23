@@ -1,4 +1,4 @@
-tag-list {
+asset-card tag-list {
   position: relative;
   text-align: center;
   font-size: .6em;
@@ -13,6 +13,6 @@ tag-list {
   }
 }
 
-[hide-labels] tag-list {
+[hide-labels] asset-card tag-list {
   display: none;
 }
