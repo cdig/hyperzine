@@ -9,7 +9,7 @@ Take ["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Mem
   lastQuery = null
   first = true
 
-  Render = ADSR ()->
+  Make.async "Render", Render = ADSR ()->
     assets = Memory "assets"
     return unless assets?
 
@@ -53,6 +53,3 @@ Take ["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Mem
       DOOM.append frag, card
       break unless more()
     DOOM.append elm, frag
-
-
-  Make "Render", Render

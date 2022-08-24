@@ -15,7 +15,7 @@ Take(["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Mem
   assetsToRender = [];
   lastQuery = null;
   first = true;
-  Render = ADSR(function() {
+  Make.async("Render", Render = ADSR(function() {
     var assets, hasResults, query;
     assets = Memory("assets");
     if (assets == null) {
@@ -57,8 +57,8 @@ Take(["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Mem
       });
     }
     return renderCount++;
-  });
-  update = Iterated(5, function(more) {
+  }));
+  return update = Iterated(5, function(more) {
     var asset, card, frag, i, j, len;
     frag = new DocumentFragment();
     for (i = j = 0, len = assetsToRender.length; j < len; i = ++j) {
@@ -75,12 +75,11 @@ Take(["AssetCard", "ADSR", "DOOM", "Env", "Frustration", "Iterated", "Log", "Mem
     }
     return DOOM.append(elm, frag);
   });
-  return Make("Render", Render);
 });
 
 // browser/coffee/search.coffee
 Take(["Env"], function(Env) {
-  var Search, bail, computePoints, matchesOp, matchesToken, sortByDate, sortByName, tokenizeQueryText;
+  var Search, bail, computePoints, matchesToken, sortByDate, sortByName, tokenizeQueryText;
   sortByName = function(a, b) {
     return a.name.localeCompare(b.name);
   };
@@ -93,9 +92,6 @@ Take(["Env"], function(Env) {
   matchesToken = function(value, token) {
     return (value != null ? value.length : void 0) > 0 && (token != null ? token.length : void 0) > 0 && -1 !== value.indexOf(token);
   };
-  matchesOp = function(ref, op) {
-    return (op == null) || op === ref;
-  };
   tokenizeQueryText = function(input) {
     var tokens;
     tokens = input.split(/[\- —_:]+/g).map(function(t) { // input is split on typical separator chars
@@ -106,7 +102,7 @@ Take(["Env"], function(Env) {
     return Array.unique(tokens);
   };
   computePoints = function(asset, queryText, queryTokens, queryTags) {
-    var ext, file, frac, j, k, l, len, len1, len2, len3, len4, len5, len6, m, n, o, p, points, queryTag, queryToken, ref1, ref2, ref3, ref4, ref5, tag, tagPart, tagPoints, tokenPoints;
+    var ext, file, frac, j, k, l, len, len1, len2, len3, len4, len5, len6, m, n, o, p, points, queryTag, queryToken, ref, ref1, ref2, ref3, ref4, tag, tagPart, tagPoints, tokenPoints;
     points = 0;
     if (asset.search.id === queryText) {
       // We'll do any exact-match checking up here
@@ -124,29 +120,29 @@ Take(["Env"], function(Env) {
       if (matchesToken(asset.search.name, queryToken)) {
         tokenPoints += 2;
       }
-      ref1 = asset.search.tags;
-      for (k = 0, len1 = ref1.length; k < len1; k++) {
-        tag = ref1[k];
-        ref2 = tag.split(" ");
-        for (l = 0, len2 = ref2.length; l < len2; l++) {
-          tagPart = ref2[l];
+      ref = asset.search.tags;
+      for (k = 0, len1 = ref.length; k < len1; k++) {
+        tag = ref[k];
+        ref1 = tag.split(" ");
+        for (l = 0, len2 = ref1.length; l < len2; l++) {
+          tagPart = ref1[l];
           if (matchesToken(tagPart, queryToken)) {
             tokenPoints += 1;
           }
         }
       }
       frac = 1 / asset.search.files.length;
-      ref3 = asset.search.files;
-      for (m = 0, len3 = ref3.length; m < len3; m++) {
-        file = ref3[m];
+      ref2 = asset.search.files;
+      for (m = 0, len3 = ref2.length; m < len3; m++) {
+        file = ref2[m];
         if (matchesToken(file, queryToken)) {
           tokenPoints += frac;
         }
       }
       frac = 1 / asset.search.exts.length;
-      ref4 = asset.search.exts;
-      for (n = 0, len4 = ref4.length; n < len4; n++) {
-        ext = ref4[n];
+      ref3 = asset.search.exts;
+      for (n = 0, len4 = ref3.length; n < len4; n++) {
+        ext = ref3[n];
         if (matchesToken(ext, queryToken)) {
           tokenPoints += frac;
         }
@@ -160,9 +156,9 @@ Take(["Env"], function(Env) {
     for (o = 0, len5 = queryTags.length; o < len5; o++) {
       queryTag = queryTags[o];
       tagPoints = 0;
-      ref5 = asset.search.tags;
-      for (p = 0, len6 = ref5.length; p < len6; p++) {
-        tag = ref5[p];
+      ref4 = asset.search.tags;
+      for (p = 0, len6 = ref4.length; p < len6; p++) {
+        tag = ref4[p];
         if (matchesToken(tag, queryTag)) {
           tagPoints += 2;
         }
@@ -176,7 +172,7 @@ Take(["Env"], function(Env) {
     return points;
   };
   Make("Search", Search = function(assets, input) {
-    var asset, id, j, key, len, points, queryTags, queryText, queryTokens, rankedMatches, ref1, sortedAssets, sortedRank;
+    var asset, id, j, key, len, points, queryTags, queryText, queryTokens, rankedMatches, ref, sortedAssets, sortedRank;
     if (input == null) {
       return bail(assets);
     }
@@ -202,11 +198,11 @@ Take(["Env"], function(Env) {
       }
     }
     sortedAssets = [];
-    ref1 = Array.sortNumericDescending(Object.keys(rankedMatches).map(function(v) {
+    ref = Array.sortNumericDescending(Object.keys(rankedMatches).map(function(v) {
       return +v;
     }));
-    for (j = 0, len = ref1.length; j < len; j++) {
-      key = ref1[j];
+    for (j = 0, len = ref.length; j < len; j++) {
+      key = ref[j];
       sortedRank = rankedMatches[key].sort(sortByName);
       sortedAssets = sortedAssets.concat(sortedRank);
     }
@@ -224,9 +220,6 @@ Take(["Env"], function(Env) {
       Test("same token does match", matchesToken("foo", "foo"), true);
       Test("value containing token does match", matchesToken("foo", "f"), true);
       Test("value containing only part of the token does not", matchesToken("f", "foo"), false);
-      Test("null op always matches", matchesOp("foo", null), true);
-      Test("same op does match", matchesOp("foo", "foo"), true);
-      Test("different op does not match", matchesOp("foo", "bar"), false);
       Test("zero points for an empty asset", computePoints({
         search: {
           id: "X",
@@ -317,10 +310,10 @@ Take(["DB", "DOOM", "Env", "Frustration", "IPC", "Log", "Memory", "MemoryField",
   var AssetCard, assetChanged, build, cards, frustration, loadImage, onScreen, rebuildCard, unbuild, unloadImage, update;
   cards = {};
   unloadImage = function(card) {
-    var ref1, ref2;
-    if ((ref1 = card._img) != null) {
-      if ((ref2 = ref1.style) != null) {
-        ref2.display = "none";
+    var ref, ref1;
+    if ((ref = card._img) != null) {
+      if ((ref1 = ref.style) != null) {
+        ref1.display = "none";
       }
     }
     return card._loaded = false;
@@ -538,13 +531,13 @@ Take(["DB", "DOOM", "IPC", "Log", "Memory"], function(DB, DOOM, IPC, Log, Memory
 Take(["Memory", "State", "SuggestionList", "TagList"], function(Memory, State, SuggestionList, TagList) {
   var chooseSuggestion, getSuggestions, input, removeTag, tagList, updateCandidate;
   getSuggestions = function(value) {
-    var hasInput, hint, j, len, ref1, results, suggestion, tag;
+    var hasInput, hint, j, len, ref, results, suggestion, tag;
     value = value.toLowerCase();
     hasInput = value.length > 0;
-    ref1 = Array.sortAlphabetic(Object.keys(Memory("tags")));
+    ref = Array.sortAlphabetic(Object.keys(Memory("tags")));
     results = [];
-    for (j = 0, len = ref1.length; j < len; j++) {
-      tag = ref1[j];
+    for (j = 0, len = ref.length; j < len; j++) {
+      tag = ref[j];
       if (hasInput && tag.toLowerCase().indexOf(value) === -1) {
         continue;
       }

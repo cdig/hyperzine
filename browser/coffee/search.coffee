@@ -10,7 +10,6 @@ Take ["Env"], (Env)->
     Object.values(assets).sort sortByDate
 
   matchesToken = (value, token)-> value?.length > 0 and token?.length > 0 and -1 isnt value.indexOf token
-  matchesOp = (ref, op)-> not op? or op is ref
 
   tokenizeQueryText = (input)->
     tokens = input
@@ -128,18 +127,6 @@ Take ["Env"], (Env)->
 
     Test "value containing only part of the token does not",
       matchesToken "f", "foo"
-      false
-
-    Test "null op always matches",
-      matchesOp "foo", null
-      true
-
-    Test "same op does match",
-      matchesOp "foo", "foo"
-      true
-
-    Test "different op does not match",
-      matchesOp "foo", "bar"
       false
 
     Test "zero points for an empty asset",

@@ -55,10 +55,6 @@ Take ["ADSR", "DOOM"], (ADSR, DOOM)->
 
       show = focused and suggestions.length > 0
       suggestionList.style.display = if show then "block" else "none"
-      unless show
-        firstIndex = 0
-        highlightIndex = minHighlightIndex
-
 
     fastUpdate = ADSR 10, update
     slowUpdate = ADSR 20, 20, update
@@ -67,6 +63,7 @@ Take ["ADSR", "DOOM"], (ADSR, DOOM)->
       if value?.length > 0
         chooseSuggestion value
         input.value = ""
+      reset()
 
     highlightNext = ()->
       highlightIndex++
@@ -76,15 +73,18 @@ Take ["ADSR", "DOOM"], (ADSR, DOOM)->
       highlightIndex--
       fastUpdate()
 
-    input.addEventListener "focus", (e)->
-      focused = true
+    reset = ()->
       firstIndex = 0
       highlightIndex = minHighlightIndex
       fastUpdate()
 
+    input.addEventListener "focus", (e)->
+      focused = true
+      reset()
+
     input.addEventListener "blur", (e)->
       focused = false
-      fastUpdate()
+      reset()
 
     input.addEventListener "change", fastUpdate
     input.addEventListener "input", fastUpdate
@@ -100,14 +100,7 @@ Take ["ADSR", "DOOM"], (ADSR, DOOM)->
           else
             input.blur()
 
-          firstIndex = 0
-          highlightIndex = minHighlightIndex
-          fastUpdate()
-
-
         when 27 # esc
-          firstIndex = 0
-          highlightIndex = minHighlightIndex
           input.value = ""
           input.blur()
 

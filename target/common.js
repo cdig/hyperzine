@@ -2731,7 +2731,7 @@ Take(["PubSub", "State"], function({Pub}, State) {
 Take(["ADSR", "DOOM"], function(ADSR, DOOM) {
   var SuggestionList;
   return Make("SuggestionList", SuggestionList = function(input, getSuggestions, chooseSuggestion, opts = {}) {
-    var fastUpdate, firstIndex, focused, highlightIndex, highlightNext, highlightPrev, lastIndex, minHighlightIndex, setValue, slowUpdate, suggestionList, update;
+    var fastUpdate, firstIndex, focused, highlightIndex, highlightNext, highlightPrev, lastIndex, minHighlightIndex, reset, setValue, slowUpdate, suggestionList, update;
     suggestionList = DOOM.create("suggestion-list", input.parentElement);
     focused = false;
     minHighlightIndex = opts.alwaysHighlight ? 0 : -1;
@@ -2791,19 +2791,16 @@ Take(["ADSR", "DOOM"], function(ADSR, DOOM) {
       }
       suggestionList.replaceChildren(frag);
       show = focused && suggestions.length > 0;
-      suggestionList.style.display = show ? "block" : "none";
-      if (!show) {
-        firstIndex = 0;
-        return highlightIndex = minHighlightIndex;
-      }
+      return suggestionList.style.display = show ? "block" : "none";
     };
     fastUpdate = ADSR(10, update);
     slowUpdate = ADSR(20, 20, update);
     setValue = function(value) {
       if ((value != null ? value.length : void 0) > 0) {
         chooseSuggestion(value);
-        return input.value = "";
+        input.value = "";
       }
+      return reset();
     };
     highlightNext = function() {
       highlightIndex++;
@@ -2813,15 +2810,18 @@ Take(["ADSR", "DOOM"], function(ADSR, DOOM) {
       highlightIndex--;
       return fastUpdate();
     };
-    input.addEventListener("focus", function(e) {
-      focused = true;
+    reset = function() {
       firstIndex = 0;
       highlightIndex = minHighlightIndex;
       return fastUpdate();
+    };
+    input.addEventListener("focus", function(e) {
+      focused = true;
+      return reset();
     });
     input.addEventListener("blur", function(e) {
       focused = false;
-      return fastUpdate();
+      return reset();
     });
     input.addEventListener("change", fastUpdate);
     input.addEventListener("input", fastUpdate);
@@ -2831,18 +2831,14 @@ Take(["ADSR", "DOOM"], function(ADSR, DOOM) {
         case 13: // return
           e.preventDefault();
           if (highlighted = suggestionList.querySelector("[rainbow-before]")) {
-            setValue(highlighted.textContent);
+            return setValue(highlighted.textContent);
           } else if (opts.allowSubmitWhenNoMatch) {
-            setValue(input.value);
+            return setValue(input.value);
           } else {
-            input.blur();
+            return input.blur();
           }
-          firstIndex = 0;
-          highlightIndex = minHighlightIndex;
-          return fastUpdate();
+          break;
         case 27: // esc
-          firstIndex = 0;
-          highlightIndex = minHighlightIndex;
           input.value = "";
           return input.blur();
         case 38: // up

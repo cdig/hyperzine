@@ -23,7 +23,7 @@ yarn electron-forge package --arch=x64 # Intel Mac
 yarn electron-forge package --arch=arm64 # Apple Silicon Mac
 
 # Deploy (publish) a new version
-cake deploy
+yarn electron-forge publish --arch=x64,arm64
 ```
 
 ### Standards
