@@ -3,8 +3,10 @@ Take ["Memory", "State", "SuggestionList", "TagList"], (Memory, State, Suggestio
   getSuggestions = (value)->
     value = value.toLowerCase()
     hasInput = value.length > 0
+    queryTags = State("search.tags")
     for tag in Array.sortAlphabetic Object.keys Memory("tags")
       continue if hasInput and tag.toLowerCase().indexOf(value) is -1
+      continue if tag in queryTags
       suggestion = text: tag
       suggestion.hint = hint if hint = Memory "Tag Descriptions.#{tag}"
       suggestion

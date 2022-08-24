@@ -111,3 +111,12 @@ Take ["ADSR", "DOOM"], (ADSR, DOOM)->
         when 40 # down
           e.preventDefault()
           highlightNext()
+
+        else
+          fastUpdate()
+
+    suggestionList.addEventListener "wheel", (e)->
+      if e.deltaY > 0
+        highlightNext()
+      else if e.deltaY < 0
+        highlightPrev()

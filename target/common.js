@@ -2825,7 +2825,7 @@ Take(["ADSR", "DOOM"], function(ADSR, DOOM) {
     });
     input.addEventListener("change", fastUpdate);
     input.addEventListener("input", fastUpdate);
-    return input.addEventListener("keydown", function(e) {
+    input.addEventListener("keydown", function(e) {
       var highlighted;
       switch (e.keyCode) {
         case 13: // return
@@ -2847,6 +2847,15 @@ Take(["ADSR", "DOOM"], function(ADSR, DOOM) {
         case 40: // down
           e.preventDefault();
           return highlightNext();
+        default:
+          return fastUpdate();
+      }
+    });
+    return suggestionList.addEventListener("wheel", function(e) {
+      if (e.deltaY > 0) {
+        return highlightNext();
+      } else if (e.deltaY < 0) {
+        return highlightPrev();
       }
     });
   });

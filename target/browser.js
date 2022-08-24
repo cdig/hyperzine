@@ -1,4 +1,6 @@
 // browser/browser.coffee
+var indexOf = [].indexOf;
+
 Take(["Log", "Memory", "PubSub", "Render"], function(Log, Memory, {Pub, Sub}, Render) {
   Sub("Render", Render);
   return Memory.subscribe("assets", true, Render);
@@ -531,14 +533,18 @@ Take(["DB", "DOOM", "IPC", "Log", "Memory"], function(DB, DOOM, IPC, Log, Memory
 Take(["Memory", "State", "SuggestionList", "TagList"], function(Memory, State, SuggestionList, TagList) {
   var chooseSuggestion, getSuggestions, input, removeTag, tagList, updateCandidate;
   getSuggestions = function(value) {
-    var hasInput, hint, j, len, ref, results, suggestion, tag;
+    var hasInput, hint, j, len, queryTags, ref, results, suggestion, tag;
     value = value.toLowerCase();
     hasInput = value.length > 0;
+    queryTags = State("search.tags");
     ref = Array.sortAlphabetic(Object.keys(Memory("tags")));
     results = [];
     for (j = 0, len = ref.length; j < len; j++) {
       tag = ref[j];
       if (hasInput && tag.toLowerCase().indexOf(value) === -1) {
+        continue;
+      }
+      if (indexOf.call(queryTags, tag) >= 0) {
         continue;
       }
       suggestion = {
